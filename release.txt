@@ -1,0 +1,5 @@
+1.0-RC1 20100903
+ * First lab release
+
+1.0-beta 20100724
+ * First public beta release

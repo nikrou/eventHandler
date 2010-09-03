@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{tpl:BlogLanguage}}" lang="{{tpl:BlogLanguage}}">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
+  <meta name="ROBOTS" content="{{tpl:BlogMetaRobots}}" />
+  
+  <title>{{tpl:EntryTitle encode_html="1"}} - {{tpl:BlogName encode_html="1"}}</title>
+  <meta name="description" lang="{{tpl:EntryLang}}" content="{{tpl:EntryContent full="1" encode_html="1" remove_html="1" cut_string="180"}}" />
+  <meta name="copyright" content="{{tpl:BlogCopyrightNotice encode_html="1"}}" />
+  <meta name="author" content="{{tpl:EntryAuthorCommonName encode_html="1"}}" />
+  <meta name="date" scheme="W3CDTF" content="{{tpl:EntryDate iso8601="1"}}" />
+  
+  <link rel="schema.dc" href="http://purl.org/dc/elements/1.1/" />
+  <meta name="dc.title" content="{{tpl:EntryTitle encode_html="1"}}" />
+  <meta name="dc.description" lang="{{tpl:EntryLang}}" content="{{tpl:EntryContent full="1" encode_html="1" remove_html="1" cut_string="180"}}" />
+  <meta name="dc.creator" content="{{tpl:EntryAuthorCommonName encode_html="1"}}" />
+  <meta name="dc.language" content="{{tpl:EntryLang}}" />
+  <meta name="dc.publisher" content="{{tpl:BlogEditor encode_html="1"}}" />
+  <meta name="dc.rights" content="{{tpl:BlogCopyrightNotice encode_html="1"}}" />
+  <meta name="dc.date" scheme="W3CDTF" content="{{tpl:EntryDate iso8601="1"}}" />
+  <meta name="dc.type" content="text" />
+  <meta name="dc.format" content="text/html" />
+  
+  <link rel="top" href="{{tpl:BlogURL}}" title="{{tpl:lang Home}}" />
+  <link rel="contents" href="{{tpl:BlogArchiveURL}}" title="{{tpl:lang Archives}}" />
+  
+  <tpl:EntryNext><link rel="next" href="{{tpl:EntryURL}}"
+  title="{{tpl:EntryTitle encode_html="1"}}" /></tpl:EntryNext>
+  
+  <tpl:EntryPrevious><link rel="prev" href="{{tpl:EntryURL}}"
+  title="{{tpl:EntryTitle encode_html="1"}}" /></tpl:EntryPrevious>
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{{tpl:BlogFeedURL type="atom"}}" />
+  
+  <!-- default css for eventHandler -->
+  <style type="text/css" media="screen">
+  @import url({{tpl:BlogQmarkURL}}pf=eventHandler/default-templates/eventhandler.css);
+  </style>
+  
+  {{tpl:include src="_head.html"}}
+    
+  <script type="text/javascript" src="{{tpl:BlogThemeURL}}/../default/js/post.js"></script>
+  <script type="text/javascript">
+  //<![CDATA[
+  var post_remember_str = '{{tpl:lang Remember me on this blog}}';
+  //]]>
+  </script>
+</head>
+
+<body class="dc-post dc-event">
+<div id="page">
+{{tpl:EntryPingData}}
+
+{{tpl:include src="_top.html"}}
+
+<div id="wrapper">
+
+<div id="main">
+  <div id="content">
+    
+    <div class="grid" id="p{{tpl:EntryID}}">
+  <p id="navlinks">
+   <a href="{{tpl:EventsURL}}" title="{{tpl:lang list of events}}">{{tpl:lang All events}}</a>
+  </p>
+      <div id="lead" class="grid-l">
+        <h2 class="post-title">{{tpl:EntryTitle encode_html="1"}}</h2>
+		<p class="event-date">
+		<tpl:EventsEntryIf oneday="0">{{tpl:lang from}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang to}} {{tpl:EventsEntryDate enddt="1"}}, {{tpl:EventsEntryTime enddt="1"}}</tpl:EventsEntryIf>
+		<tpl:EventsEntryIf oneday="1">{{tpl:lang on}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang till}} {{tpl:EventsEntryTime enddt="1"}}</tpl:EventsEntryIf>
+		</p>
+
+      </div>
+      <!-- # meta -->
+      <div id="meta" class="grid-s">
+        <p class="post-date"><span class="post-date">
+          <span class="date-d">{{tpl:EntryDate format="%e"}}</span>
+          <span class="date-m">{{tpl:EntryDate format="%b"}}</span>
+          <span class="date-y">{{tpl:EntryDate format="%Y"}}</span>
+          <span class="date-h"><a href="{{tpl:EntryURL}}" title="{{tpl:lang Permalink}}">{{tpl:EntryDate format="%H:%M"}}</a></span>
+        </span></p>
+		
+        <p class="post-author">{{tpl:lang By}} <strong>{{tpl:EntryAuthorLink}}</strong></p>
+        
+        <tpl:EntryIf has_category="1">
+          <p class="post-category">
+			<a href="{{tpl:EventsEntryCategoryURL}}">{{tpl:EntryCategory encode_html="1"}}</a>
+          </p>
+        </tpl:EntryIf>
+		
+		<ul class="event-info">
+		<tpl:EventsEntryIf has_address="1">
+		<li class="event-address">{{tpl:EventsEntryAddress}}</li>
+		</tpl:EventsEntryIf>
+		<li class="event-duration">{{tpl:lang for a period of}} {{tpl:EventsEntryDuration}}</li>
+		<li class="event-period">{{tpl:lang this event is}} {{tpl:EventsEntryPeriod}}</li>
+		</ul>
+	  
+	  <ul id="eventsfeed" class="syndicate">
+	  <li><a class="event-ical" type="text/calendar" href="{{tpl:SysSelfURI}}/ical.ics" title="{{tpl:lang Add this event to your iCalendar}}">{{tpl:lang iCalendar}}</a></li>
+	  <li><a class="event-hcal" type="text/calendar" href="{{tpl:SysSelfURI}}/hcal.html" title="{{tpl:lang Display this event on hCalendar format}}">{{tpl:lang hCalendar}}</a></li>
+	  </ul>
+		
+        {{tpl:include src="inc_meta.html"}}
+      </div>
+	  
+      <!-- # Entry content -->
+      <div class="grid-l">
+        <!-- # --BEHAVIOR-- publicEntryBeforeContent -->
+        {{tpl:SysBehavior behavior="publicEntryBeforeContent"}}
+        
+        <!-- # Entry with an excerpt -->
+        <tpl:EntryIf extended="1">
+          <div class="b post post-excerpt">{{tpl:EntryExcerpt}}</div>
+        </tpl:EntryIf>
+        
+        <div class="b post post-content">{{tpl:EntryContent}}</div>
+        
+	
+	{{tpl:EventsEntryMap map_info="0"}}
+	<tpl:EventsEntryIf has_geo="1">
+	<ul class="event-info"><li class="event-geo">{{tpl:lang Latitude:}} {{tpl:EventsEntryLatitude}}, {{tpl:lang Longitude:}} {{tpl:EventsEntryLongitude}}</li></ul>
+	</tpl:EventsEntryIf>
+    
+    <!-- # --BEHAVIOR-- publicEntryAfterContent -->
+    {{tpl:SysBehavior behavior="publicEntryAfterContent"}}
+      </div>
+      
+      <!-- # extra -->
+      <div id="extra" class="grid-s widgets">
+        {{tpl:include src="inc_extra.html"}}
+        {{tpl:Widgets type="nav"}}
+      </div>
+      
+    </div>
+  </div>
+</div> <!-- End #main -->
+
+</div> <!-- End #wrapper -->
+
+{{tpl:include src="_footer.html"}}
+</div> <!-- End #page -->
+</body>
+</html>
