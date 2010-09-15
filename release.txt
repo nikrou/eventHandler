@@ -1,3 +1,12 @@
+todo
+ * sort by day,week,month,...
+ * optionnal end date (or day mode)
+ * periodical events
+ * quick add on post entry (copy post content)
+
+1.0 20100915
+ * Fixed some bugs and typo
+
 1.0-RC1 20100903
  * First lab release
 

@@ -65,6 +65,9 @@ class eventHandler
 		}
 		
 		# Columns of table eventhandler
+		if (!isset($params['columns'])) {
+			$params['columns'] = array();
+		}
 		$params['columns'][] = 'event_startdt';
 		$params['columns'][] = 'event_enddt';
 		$params['columns'][] = 'event_address';

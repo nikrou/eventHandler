@@ -11,7 +11,7 @@
 # -- END LICENSE BLOCK ------------------------------------
 
 if (!defined('DC_RC_PATH')){return;}
-if (version_compare(DC_VERSION,'2.2-alpha','<')){return;}
+if (version_compare(str_replace("-r","-p",DC_VERSION),'2.2-alpha','<')){return;}
 
 $core->addBehavior('initWidgets',array('eventHandlerAdminWidgets','events'));
 $core->addBehavior('initWidgets',array('eventHandlerAdminWidgets','eventsOfPost'));
@@ -270,10 +270,10 @@ class eventHandlerPublicWidgets
 			}
 
 			# Format items
-			$fsd = dt::dt2str($w->date_format,$rs->event_startdt,$rs->post_tz);
-			$fst = dt::dt2str($w->time_format,$rs->event_startdt,$rs->post_tz);
-			$fed = dt::dt2str($w->date_format,$rs->event_enddt,$rs->post_tz);
-			$fet = dt::dt2str($w->time_format,$rs->event_enddt,$rs->post_tz);
+			$fsd = dt::dt2str($w->date_format,$rs->event_startdt);
+			$fst = dt::dt2str($w->time_format,$rs->event_startdt);
+			$fed = dt::dt2str($w->date_format,$rs->event_enddt);
+			$fet = dt::dt2str($w->time_format,$rs->event_enddt);
 
 			# Replacement
 			$over = str_replace(
@@ -388,10 +388,10 @@ class eventHandlerPublicWidgets
 			}
 			
 			# Format items
-			$fsd = dt::dt2str($core->blog->settings->system->date_format,$rs->event_startdt,$rs->post_tz);
-			$fst = dt::dt2str($core->blog->settings->system->time_format,$rs->event_startdt,$rs->post_tz);
-			$fed = dt::dt2str($core->blog->settings->system->date_format,$rs->event_enddt,$rs->post_tz);
-			$fet = dt::dt2str($core->blog->settings->system->time_format,$rs->event_enddt,$rs->post_tz);
+			$fsd = dt::dt2str($core->blog->settings->system->date_format,$rs->event_startdt);
+			$fst = dt::dt2str($core->blog->settings->system->time_format,$rs->event_startdt);
+			$fed = dt::dt2str($core->blog->settings->system->date_format,$rs->event_enddt);
+			$fet = dt::dt2str($core->blog->settings->system->time_format,$rs->event_enddt);
 			
 			# Replacement
 			$over = str_replace(

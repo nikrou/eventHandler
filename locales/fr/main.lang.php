@@ -160,7 +160,7 @@ $GLOBALS['__l10n']['Selected'] = 'Sélectionné';
 $GLOBALS['__l10n']['Author'] = 'Auteur';
 
 #_public.php:46
-$GLOBALS['__l10n']['Pusblished date'] = 'Date de publication';
+$GLOBALS['__l10n']['Published date'] = 'Date de publication';
 
 #_public.php:54
 #_widgets.php:299

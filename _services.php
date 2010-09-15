@@ -11,12 +11,14 @@
 # -- END LICENSE BLOCK ------------------------------------
 
 if (!defined('DC_CONTEXT_ADMIN')){return;}
-if (version_compare(DC_VERSION,'2.2-alpha','<')){return;}
+if (version_compare(str_replace("-r","-p",DC_VERSION),'2.2-alpha','<')){return;}
 
 class eventHandlerRestMethods
 {
 	public static function unbindEventOfPost($core,$get)
 	{
+		$core->blog->settings->addNamespace('eventHandler');
+		
 		$post_id = isset($get['postId']) ? $get['postId'] : null;
 		$event_id = isset($get['eventId']) ? $get['eventId'] : null;
 		

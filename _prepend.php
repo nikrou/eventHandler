@@ -11,7 +11,7 @@
 # -- END LICENSE BLOCK ------------------------------------
 
 if (!defined('DC_RC_PATH')){return;}
-if (version_compare(DC_VERSION,'2.2-alpha','<')){return;}
+if (version_compare(str_replace("-r","-p",DC_VERSION),'2.2-alpha','<')){return;}
 
 global $__autoload, $core;
 

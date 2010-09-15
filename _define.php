@@ -16,7 +16,7 @@ $this->registerModule(
 	/* Name */			"Event handler",
 	/* Description*/		"Add period to your posts",
 	/* Author */			"JC Denis",
-	/* Version */			'1.0-RC1',
+	/* Version */			'1.0-RC2',
 	/* Permissions */		'usage,contentadmin',
 	/* Priority */			5000 // Before plugin kUtRL
 );

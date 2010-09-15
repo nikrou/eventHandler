@@ -11,7 +11,10 @@
 # -- END LICENSE BLOCK ------------------------------------
 
 if (!defined('DC_CONTEXT_ADMIN')){return;}
-if (version_compare(DC_VERSION,'2.2-alpha','<')){return;}
+if (version_compare(str_replace("-r","-p",DC_VERSION),'2.2-alpha','<')){return;}
+
+# set ns
+$core->blog->settings->addNamespace('eventHandler');
 
 # Load _wigdets.php
 require dirname(__FILE__).'/_widgets.php';
