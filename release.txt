@@ -3,8 +3,15 @@ todo
  * optionnal end date (or day mode)
  * periodical events
  * quick add on post entry (copy post content)
+ * manage sub categories
 
-1.0 20100915
+1.0-RC4 20110102
+ * Removed priority (useless with new version of plugin kUtRL)
+
+1.0-RC3 20100918
+ * Fixed bug on arrayObject
+
+1.0-RC2 20100915
  * Fixed some bugs and typo
 
 1.0-RC1 20100903

@@ -68,11 +68,14 @@ class eventHandler
 		if (!isset($params['columns'])) {
 			$params['columns'] = array();
 		}
-		$params['columns'][] = 'event_startdt';
-		$params['columns'][] = 'event_enddt';
-		$params['columns'][] = 'event_address';
-		$params['columns'][] = 'event_latitude';
-		$params['columns'][] = 'event_longitude';
+		//Fixed bug on some PHP version
+		$col = (array) $params['columns'];
+		$col[] = 'event_startdt';
+		$col[] = 'event_enddt';
+		$col[] = 'event_address';
+		$col[] = 'event_latitude';
+		$col[] = 'event_longitude';
+		$params['columns'] = $col;
 		
 		# Tables		
 		$params['from'] = 'INNER JOIN '.$this->table.' EH ON  EH.post_id = P.post_id'.$params['from'];

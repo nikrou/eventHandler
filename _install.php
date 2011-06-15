@@ -23,7 +23,7 @@ try
 	# Check DC version
 	if (version_compare(str_replace("-r","-p",DC_VERSION),'2.2-alpha','<'))
 	{
-		throw new Exception('Plugin called eventHandler requires Dotclear 2.2 or higher.');
+		throw new Exception('eventHandler requires Dotclear 2.2');
 	}
 
 	# Database schema
