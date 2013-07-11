@@ -1,17 +1,19 @@
 <?php
 # -- BEGIN LICENSE BLOCK ----------------------------------
+#
 # This file is part of eventHandler, a plugin for Dotclear 2.
 # 
-# Copyright (c) 2009-2010 JC Denis and contributors
-# jcdenis@gdwd.com
+# Copyright (c) 2009-2013 Jean-Christian Denis and contributors
+# contact@jcdenis.fr http://jcd.lv
 # 
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+#
 # -- END LICENSE BLOCK ------------------------------------
 
 if (!defined('DC_RC_PATH')){return;}
-if (version_compare(str_replace("-r","-p",DC_VERSION),'2.2-alpha','<')){return;}
+if (version_compare(str_replace("-r","-p",DC_VERSION),'2.5-alpha','<')){return;}
 
 $core->addBehavior('initWidgets',array('eventHandlerAdminWidgets','events'));
 $core->addBehavior('initWidgets',array('eventHandlerAdminWidgets','eventsOfPost'));
@@ -52,6 +54,11 @@ class eventHandlerAdminWidgets
 			__('Ongoing') => 'ongoing',
 			__('Outgoing') => 'outgoing'
 		);
+		$combo_homeonly = array(
+			__('All pages') => 0,
+			__('Home page only') => 1,
+			__('Except on home page') => 2
+		);
 		
 		$w->create('ehEvents',__('Events'),array('eventHandlerPublicWidgets','events'));
 		$w->ehEvents->setting('title',__('Title:'),__('Next events'),'text');
@@ -65,7 +72,7 @@ class eventHandlerAdminWidgets
 		$w->ehEvents->setting('time_format',__('Time format of events:'),__('%H:%M'),'text');
 		$w->ehEvents->setting('item_showcat',__('Show category'),1,'check');
 		$w->ehEvents->setting('pagelink',__('Add link to events page'),1,'check');
-		$w->ehEvents->setting('homeonly',__('Home page only'),1,'check');
+		$w->ehEvents->setting('homeonly',__('Display on:'),0,'combo',$combo_homeonly);
 	}
 	
 	public static function eventsOfPost($w)
@@ -136,11 +143,17 @@ class eventHandlerAdminWidgets
 	
 	public static function categories($w)
 	{
+		$combo_homeonly = array(
+			__('All pages') => 0,
+			__('Home page only') => 1,
+			__('Except on home page') => 2
+		);
+		
 		$w->create('ehCategories',__('Events categories'),array('eventHandlerPublicWidgets','categories'));
 		$w->ehCategories->setting('title',__('Title:'),__('Events by categories'));
 		$w->ehCategories->setting('postcount',__('With events counts'),0,'check');
 		$w->ehCategories->setting('pagelink',__('Add link to events page'),1,'check');
-		$w->ehCategories->setting('homeonly',__('Home page only'),1,'check');
+		$w->ehCategories->setting('homeonly',__('Display on:'),0,'combo',$combo_homeonly);
 	}
 	
 	public static function map($w)
@@ -155,6 +168,30 @@ class eventHandlerAdminWidgets
 			__('hybrid') => 'HYBRID',
 			__('terrain') => 'TERRAIN'
 		);
+		$combo_sortby = array(
+			__('Date') => 'post_dt',
+			__('Title') => 'post_title',
+			__('Start date') => 'event_startdt',
+			__('End date') => 'event_enddt'
+		);
+		$combo_sort = array(
+			__('Ascending') => 'asc',
+			__('Descending') => 'desc'
+		);
+		$combo_period = array(
+			__('All periods') => '',
+			__('Not started') => 'scheduled',
+			__('Started') => 'started',
+			__('Finished') => 'finished',
+			__('Not finished') => 'notfinished',
+			__('Ongoing') => 'ongoing',
+			__('Outgoing') => 'outgoing'
+		);
+		$combo_homeonly = array(
+			__('All pages') => 0,
+			__('Home page only') => 1,
+			__('Except on home page') => 2
+		);
 		
 		$w->create('ehMap',__('Events map'),array('eventHandlerPublicWidgets','map'));
 		$w->ehMap->setting('title',__('Title:'),__('Events on map'));
@@ -163,17 +200,23 @@ class eventHandlerAdminWidgets
 		$w->ehMap->setting('map_width',__('Width of map: (with unit as % or px)'),'100%');
 		$w->ehMap->setting('map_height',__('Height of map: (with unit as % or px)'),'250px');
 		$w->ehMap->setting('map_info',__('Add tooltips'),0,'check');
+		$w->ehMap->setting('sortby',__('Order by:'),'event_startdt','combo',$combo_sortby);
+		$w->ehMap->setting('sort',__('Sort:'),'asc','combo',$combo_sort);
+		$w->ehMap->setting('period',__('Period:'),'scheduled','combo',$combo_period);
 		$w->ehMap->setting('pagelink',__('Add link to events page'),1,'check');
-		$w->ehMap->setting('homeonly',__('Home page only'),1,'check');
+		$w->ehMap->setting('homeonly',__('Display on:'),0,'combo',$combo_homeonly);
 	}
 
 	public static function calendar($w)
 	{
-		global $core;
-		
 		$combo_weekstart = array(
 			__('Sunday') => '0',
 			__('Monday') => '1'
+		);
+		$combo_homeonly = array(
+			__('All pages') => 0,
+			__('Home page only') => 1,
+			__('Except on home page') => 2
 		);
 		
 		$w->create('ehCalendar',__('Events calendar'),array('eventHandlerPublicWidgets','calendar'));
@@ -181,7 +224,7 @@ class eventHandlerAdminWidgets
 		$w->ehCalendar->setting('weekstart',__('First day of week:'),'0','combo',$combo_weekstart);
 		$w->ehCalendar->setting('startonly',__('Show only start date of events'),1,'check');
 		$w->ehCalendar->setting('pagelink',__('Add link to events page'),1,'check');
-		$w->ehCalendar->setting('homeonly',__('Home page only'),1,'check');
+		$w->ehCalendar->setting('homeonly',__('Display on:'),0,'combo',$combo_homeonly);
 	}
 }
 
@@ -195,7 +238,11 @@ class eventHandlerPublicWidgets
 		# Plugin active
 		if (!$core->blog->settings->eventHandler->active) return;
 		# Home only
-		if ($w->homeonly && $core->url->type != 'default') return;
+		if ($w->homeonly == 1 && $core->url->type != 'default' 
+		||  $w->homeonly == 2 && $core->url->type == 'default')
+		{
+			return;
+		}
 		$params['sql'] = '';
 		# Period
 		if ($w->period)
@@ -483,7 +530,11 @@ class eventHandlerPublicWidgets
 	{
 		global $core, $_ctx;
 		
-		if ($w->homeonly && $core->url->type != 'default') return;
+		if ($w->homeonly == 1 && $core->url->type != 'default' 
+		||  $w->homeonly == 2 && $core->url->type == 'default')
+		{
+			return;
+		}
 		
 		$res =
 		'<div class="eventhandler-categories">'.
@@ -552,13 +603,24 @@ class eventHandlerPublicWidgets
 		global $core;
 
 		# Plugin active
-		if (!$core->blog->settings->eventHandler->active) return;
-		# Home only
-		if ($w->homeonly && $core->url->type != 'default') return;
+		if (!$core->blog->settings->eventHandler->active 
+		 || $w->homeonly == 1 && $core->url->type != 'default' 
+		 || $w->homeonly == 2 && $core->url->type == 'default')
+		{
+			return;
+		}
 		
 		$params['sql'] = '';
-		$params['event_period'] = 'all';
-		$params['order'] = 'event_startdt ASC';
+		# Period
+		if ($w->period)
+		{
+			$params['event_period'] = $w->period;
+		}
+		# Sort field
+		$params['order'] = ($w->sortby && in_array($w->sortby,array('post_title','post_dt','event_startdt','event_enddt'))) ? 
+			$w->sortby.' ' : 'event_startdt ';
+		# Sort order
+		$params['order'] .= $w->sort == 'desc' ? 'desc' : 'asc';
 		$params['limit'] = 10;
 		$params['no_content'] = true;
 		$params['post_type'] = 'eventhandler';
@@ -628,7 +690,11 @@ class eventHandlerPublicWidgets
 	{
 		global $core, $_ctx;
 		
-		if ($w->homeonly && $core->url->type != 'default') return;
+		if ($w->homeonly == 1 && $core->url->type != 'default' 
+		||  $w->homeonly == 2 && $core->url->type == 'default')
+		{
+			return;
+		}
 		
 		$year = date('Y');
 		$month = date('m');

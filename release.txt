@@ -5,6 +5,13 @@ todo
  * quick add on post entry (copy post content)
  * manage sub categories
 
+2013.07.07
+ * Added options to widgets (closes #693)
+ * Added dashboard icon
+ * Fixed admin pages titles and messages
+ * Fixed map on Ductile theme's widget
+ * Fixed typo
+
 1.0-RC4 20110102
  * Removed priority (useless with new version of plugin kUtRL)
 

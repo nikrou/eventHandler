@@ -1,17 +1,19 @@
 <?php
 # -- BEGIN LICENSE BLOCK ----------------------------------
+#
 # This file is part of eventHandler, a plugin for Dotclear 2.
 # 
-# Copyright (c) 2009-2010 JC Denis and contributors
-# jcdenis@gdwd.com
+# Copyright (c) 2009-2013 Jean-Christian Denis and contributors
+# contact@jcdenis.fr http://jcd.lv
 # 
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+#
 # -- END LICENSE BLOCK ------------------------------------
 
 if (!defined('DC_CONTEXT_ADMIN')){return;}
-if (version_compare(str_replace("-r","-p",DC_VERSION),'2.2-alpha','<')){return;}
+if (version_compare(str_replace("-r","-p",DC_VERSION),'2.5-alpha','<')){return;}
 
 # set ns
 $core->blog->settings->addNamespace('eventHandler');
@@ -26,6 +28,10 @@ $_menu['Blog']->addItem(
 	preg_match('/plugin.php\?p=eventHandler(&.*)?$/',$_SERVER['REQUEST_URI']),
 	$core->auth->check('usage,contentadmin',$core->blog->id)
 );
+
+# Admin Dashboard
+$core->addBehavior('adminDashboardIcons',array('adminEventHandler','adminDashboardIcons'));
+$core->addBehavior('adminDashboardFavs',array('adminEventHandler','adminDashboardFavs'));
 
 # Admin behaviors
 if ($core->blog->settings->eventHandler->active)
@@ -43,6 +49,29 @@ if ($core->blog->settings->eventHandler->active)
 
 class adminEventHandler
 {
+	# Dashboard icon
+	public static function adminDashboardIcons($core,$icons)
+	{
+		$icons['eventHandler'] = new ArrayObject(array(
+			__('Event handler'),
+			'plugin.php?p=eventHandler',
+			'index.php?pf=eventHandler/icon.png'
+		));
+	}
+	
+	# Dashboard fav icon
+	public static function adminDashboardFavs($core,$favs)
+	{
+		$favs['eventHandler'] = new ArrayObject(array(
+			'eventHandler',
+			'Event handler',
+			'plugin.php?p=eventHandler',
+			'index.php?pf=eventHandler/icon.png',
+			'index.php?pf=eventHandler/icon-b.png',
+			'usage,contentadmin',null,null
+		));
+	}
+	
 	# post.php
 	# Headers, jQuery features to remove events from a post
 	public static function adminPostHeaders()

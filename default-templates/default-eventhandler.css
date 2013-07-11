@@ -70,6 +70,14 @@ a.event-map {
 	height: 300px;
 	width: 100%;
 }
+/* Fix Ductile mediaqueries.css#320 - space on title */
+#sidebar #blognav div.event-gmap {
+	margin-top: 10px;
+}
+/* Fix Ductile mediaqueries.css#320 - space on map */
+#sidebar #blognav div.event-gmap div {
+	margin-top: 0px;
+}
 .calendar-array table {
 	text-align: center;
 }
