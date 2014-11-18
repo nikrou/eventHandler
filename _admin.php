@@ -2,10 +2,12 @@
 # -- BEGIN LICENSE BLOCK ----------------------------------
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
-# 
+#
+# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+#
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
-# 
+#
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -58,7 +60,7 @@ class adminEventHandler
 			'index.php?pf=eventHandler/icon.png'
 		));
 	}
-	
+
 	# Dashboard fav icon
 	public static function adminDashboardFavs($core,$favs)
 	{
@@ -71,16 +73,16 @@ class adminEventHandler
 			'usage,contentadmin',null,null
 		));
 	}
-	
+
 	# post.php
 	# Headers, jQuery features to remove events from a post
 	public static function adminPostHeaders()
 	{
-		return 
+		return
 		'<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css" />'.
 		dcPage::jsLoad('index.php?pf=eventHandler/js/post.js');
 	}
-	
+
 	# posts.php
 	# Combo of actions on multiple posts
 	public static function adminPostsActionsCombo($args)
@@ -89,15 +91,15 @@ class adminEventHandler
 		$args[0][__('Events')][__('Bind events')] = 'eventhandler_bind_event';
 		$args[0][__('Events')][__('Unbind events')] = 'eventhandler_remove_event';
 	}
-	
+
 	# posts_actions.php
 	# Headers for table of events
 	public static function adminPostsActionsHeaders()
 	{
-		return 
+		return
 		'<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css" />';
 	}
-	
+
 	# posts_actions.php
 	# Action for multiple posts and actions for multiple events
 	public static function adminPostsActions($core,$posts,$action,$redir)
@@ -114,7 +116,7 @@ class adminEventHandler
 				$params['sql'] = 'AND P.post_id IN('.implode(',',$events_id).') ';
 				$eventHandler = new eventHandler($core);
 				$events = $eventHandler->getEvents($params);
-				
+
 				if ($events->isEmpty())
 				{
 					throw new Exception(__('No such event'));
@@ -124,7 +126,7 @@ class adminEventHandler
 				{
 					$meta_ids[] = $events->post_id;
 				}
-				
+
 				while ($posts->fetch())
 				{
 					foreach($meta_ids as $meta_id)
@@ -133,7 +135,7 @@ class adminEventHandler
 						$core->meta->setPostMeta($posts->post_id,'eventhandler',$meta_id);
 					}
 				}
-				
+
 				http::redirect($redir);
 			}
 			catch (Exception $e)
@@ -150,7 +152,7 @@ class adminEventHandler
 				{
 					$core->meta->delMeta($posts->post_id,'eventhandler');
 				}
-				
+
 				http::redirect($redir);
 			}
 			catch (Exception $e)
@@ -159,9 +161,9 @@ class adminEventHandler
 			}
 		}
 	}
-	
+
 	# posts_actions.php
-	# Form for action on multiple posts 
+	# Form for action on multiple posts
 	# (action on one post can be found on index.php?part=events&from_id=xxx)
 	public static function adminPostsActionsContent($core,$action,$hidden_fields)
 	{
@@ -172,21 +174,21 @@ class adminEventHandler
 			try
 			{
 				$eventHandler = new eventHandler($core);
-				
+
 				$params = array();
 				$params['no_content'] = true;
 				$params['order'] = 'event_startdt DESC';
 				$params['period'] = 'notfinished';
-				
+
 				$events = $eventHandler->getEvents($params);
 				$counter = $eventHandler->getEvents($params,true);
 				$list = new adminEventHandlerMiniList($core,$events,$counter->f(0));
-					
+
 				echo $list->display(1,100,
 					'<form action="posts_actions.php" method="post">'.
-					
+
 					'%s'.
-					
+
 					'<p>'.
 					$hidden_fields.
 					$core->formNonce().
@@ -201,21 +203,21 @@ class adminEventHandler
 			}
 		}
 	}
-	
+
 	# post.php
 	# Sidebar list of linked events, menu of events actions for this post
 	public static function adminPostFormSidebar($post)
 	{
 		if ($post === null) return;
-		
+
 		global $core;
-		
+
 		# Get linked events
 		$events = null;
 		$params = array();
 		$params['post_id'] = $post->post_id;
 		$params['no_content'] = true;
-		
+
 		try
 		{
 			$eventHandler = new eventHandler($core);
@@ -229,67 +231,67 @@ class adminEventHandler
 		{
 			$core->error->add($e->getMessage());
 		}
-		
+
 		# Display
-		echo 
+		echo
 		'<div id="eventhandler-form">'.
 		'<h3 id="eventhandler-form-title">'.__('Events:').'</h3>'.
 		'<div id="eventhandler-form-content">';
-		
+
 		# Related events
 		if ($events)
 		{
 			echo
 			'<ul class="event-list">';
-			
+
 			while($events->fetch())
 			{
 				echo
 				'<li class="event-node event-node-'.$events->getPeriod().'"><label title="'.__('Check to unbind').'" class="classic">'.form::checkbox(array('eventhandler_events[]'),$events->post_id,'','event-node-value').html::escapeHTML($events->post_title).'</label></li>';
 			}
-			
+
 			echo
 			'</ul>';
 		}
-		
+
 		# Bind a event to this post
-		echo 
+		echo
 		'<p><a href="plugin.php?p=eventHandler'.
 		'&amp;part=events&amp;from_id='.$post->post_id.
 		'">'.__('Bind events').'</a>';
-		
+
 		# Change post into event publish,contenadmin
 		if($core->auth->check('publish,contentadmin',$core->blog->id))
 		{
-			echo 
+			echo
 			'<br /><a href="plugin.php?p=eventHandler'.
 			'&amp;part=event&amp;from_id='.$post->post_id.
 			'" title="'.__('Change this entry into an event').
 			'">'.__('Change into event').'</a>';
 		}
-		
-		echo 
+
+		echo
 		'</p>'.
 		'</div></div>';
 	}
-	
+
 	# post.php
 	# This delete relation between this post and ckecked related event (without javascript)
 	public static function adminAfterPostSave($cur,$post_id)
 	{
 		if (!$post_id) return;
-		
+
 		if (empty($_POST['eventhandler_events']) || !is_array($_POST['eventhandler_events'])) return;
-		
+
 		global $core;
-		
+
 		try
 		{
 			foreach($_POST['eventhandler_events'] as $event_id)
 			{
 				$event_id = abs((integer) $event_id);
 				if (!$event_id) continue;
-				
+
 				$core->meta->delPostMeta($post_id,'eventhandler',$event_id);
 			}
 		}
@@ -297,17 +299,17 @@ class adminEventHandler
 		{
 			//$core->error->add($e->getMessage());
 		}
-		
+
 	}
-	
+
 	# post.php
 	# This delete relation between this post and all there events
 	public static function adminBeforePostDelete($post_id)
 	{
 		if (!$post_id) return;
-		
+
 		global $core;
-		
+
 		try
 		{
 			$core->meta->delPostMeta($post_id,'eventhandler');
@@ -334,7 +336,7 @@ class adminEventHandlerMiniList extends adminGenericList
 			$pager->html_prev = $this->html_prev;
 			$pager->html_next = $this->html_next;
 			$pager->var_page = 'page';
-			
+
 			$html_block =
 			'<table class="clear"><tr>'.
 			'<th colspan="2">'.__('Title').'</th>'.
@@ -343,28 +345,28 @@ class adminEventHandlerMiniList extends adminGenericList
 			'<th>'.__('End date').'</th>'.
 			'<th>'.__('Status').'</th>'.
 			'</tr>%s</table>';
-			
+
 			if ($enclose_block) {
 				$html_block = sprintf($enclose_block,$html_block);
 			}
-			
+
 			echo '<p>'.__('Page(s)').' : '.$pager->getLinks().'</p>';
-			
+
 			$blocks = explode('%s',$html_block);
-			
+
 			echo $blocks[0];
-			
+
 			while ($this->rs->fetch())
 			{
 				echo $this->postLine();
 			}
-			
+
 			echo $blocks[1];
-			
+
 			echo '<p>'.__('Page(s)').' : '.$pager->getLinks().'</p>';
 		}
 	}
-	
+
 	private function postLine()
 	{
 		$img = '<img alt="%1$s" title="%1$s" src="images/%2$s" />';
@@ -382,22 +384,22 @@ class adminEventHandlerMiniList extends adminGenericList
 				$img_status = sprintf($img,__('pending'),'check-wrn.png');
 				break;
 		}
-		
+
 		$protected = '';
 		if ($this->rs->post_password)
 		{
 			$protected = sprintf($img,__('protected'),'locker.png');
 		}
-		
+
 		$selected = '';
 		if ($this->rs->post_selected)
 		{
 			$selected = sprintf($img,__('selected'),'selected.png');
 		}
-		
+
 		$period = $this->rs->getPeriod();
 		$style = ' eventhandler-'.$period;
-		
+
 		return
 		'<tr class="line'.($this->rs->post_status != 1 ? ' offline' : '').$style.'" id="e'.$this->rs->post_id.'">'.
 		'<td class="nowrap">'.form::checkbox(array('events[]'),$this->rs->post_id,'','','',!$this->rs->isEditable()).'</td>'.
@@ -410,4 +412,3 @@ class adminEventHandlerMiniList extends adminGenericList
 		'</tr>';
 	}
 }
-?>

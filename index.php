@@ -2,10 +2,12 @@
 # -- BEGIN LICENSE BLOCK ----------------------------------
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
-# 
+#
+# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+#
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
-# 
+#
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -33,7 +35,7 @@ $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'eventhandler';
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 # Common page header
-$header = 
+$header =
 '<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css" />'.
 dcPage::jsLoad('index.php?pf=eventHandler/js/settings.js').
 '<script type="text/javascript">'."\n//<![CDATA[\n".
@@ -55,8 +57,8 @@ eventHandler - '.$core->plugins->moduleInfo('eventHandler','version').'&nbsp;
 
 # succes_codes
 $succes = array(
-	'save_settings' => __('Configuration successfully saved'),
-	'del_records' => __('Records succesfully deleted')
+	'save_settings' => __('Configuration saved'),
+	'del_records' => __('Records deleted')
 );
 
 # errors_codes
@@ -78,4 +80,3 @@ if (!file_exists(dirname(__FILE__).'/inc/index.'.$default_part.'.php'))
 }
 define('DC_CONTEXT_EVENTHANDLER',$default_part);
 include dirname(__FILE__).'/inc/index.'.$default_part.'.php';
-?>

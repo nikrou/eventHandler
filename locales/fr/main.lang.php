@@ -1,8 +1,8 @@
 <?php
-// Language: Français 
+// Language: Français
 // Module: eventHandler - 2013.07.10
-// Date: 2013-07-11 06:44:44 
-// Translated with dcTranslater - 2013.05.11 
+// Date: 2013-07-11 06:44:44
+// Translated with dcTranslater - 2013.05.11
 
 #_admin.php:26
 #_admin.php:56
@@ -129,6 +129,7 @@ $GLOBALS['__l10n']['Outgoing'] = 'Pas en cours';
 #_public.php:52
 #_public.php:60
 $GLOBALS['__l10n']['Scheduled'] = 'Programmé';
+$GLOBALS['__l10n']['scheduled'] = 'programmé';
 
 #_public.php:52
 #_public.php:60
@@ -681,5 +682,3 @@ $GLOBALS['__l10n']['%Y-%m-%d'] = '%d/%m/%Y';
 $GLOBALS['__l10n']['at'] = 'à';
 
 $GLOBALS['__l10n']['For a period of'] = 'Pour une durée de';
-
-?>

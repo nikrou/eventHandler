@@ -2,10 +2,12 @@
 # -- BEGIN LICENSE BLOCK ----------------------------------
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
-# 
+#
+# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+#
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
-# 
+#
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -24,7 +26,7 @@ $core->addBehavior('initWidgets',array('eventHandlerAdminWidgets','map'));
 
 # Admin side of widgets
 class eventHandlerAdminWidgets
-{	
+{
 	public static function events($w)
 	{
 		global $core;
@@ -59,7 +61,7 @@ class eventHandlerAdminWidgets
 			__('Home page only') => 1,
 			__('Except on home page') => 2
 		);
-		
+
 		$w->create('ehEvents',__('Events'),array('eventHandlerPublicWidgets','events'));
 		$w->ehEvents->setting('title',__('Title:'),__('Next events'),'text');
 		$w->ehEvents->setting('category',__('Category:'),'','combo',$combo_categories);
@@ -74,11 +76,11 @@ class eventHandlerAdminWidgets
 		$w->ehEvents->setting('pagelink',__('Add link to events page'),1,'check');
 		$w->ehEvents->setting('homeonly',__('Display on:'),0,'combo',$combo_homeonly);
 	}
-	
+
 	public static function eventsOfPost($w)
 	{
 		global $core;
-		
+
 		$rs = $core->blog->getCategories(array('post_type'=>'eventhandler'));
 		$combo_categories = array('&nbsp;' => '', __('Uncategorized') => 'null');
 		while ($rs->fetch()) {
@@ -104,7 +106,7 @@ class eventHandlerAdminWidgets
 			__('Ongoing') => 'ongoing',
 			__('Outgoing') => 'outgoing'
 		);
-		
+
 		$w->create('ehEventsOfPost',__('Events of an entry'),array('eventHandlerPublicWidgets','eventsOfPost'));
 		$w->ehEventsOfPost->setting('title',__('Title:'),__('Related events'),'text');
 		$w->ehEventsOfPost->setting('category',__('Category:'),'','combo',$combo_categories);
@@ -113,11 +115,11 @@ class eventHandlerAdminWidgets
 		$w->ehEventsOfPost->setting('sort',__('Sort:'),'asc','combo',$combo_sort);
 		$w->ehEventsOfPost->setting('period',__('Period:'),'notfinished','combo',$combo_period);
 	}
-	
+
 	public static function postsOfEvent($w)
 	{
 		global $core;
-		
+
 		$rs = $core->blog->getCategories(array('post_type'=>'post'));
 		$combo_categories = array('&nbsp;' => '', __('Uncategorized') => 'null');
 		while ($rs->fetch()) {
@@ -132,7 +134,7 @@ class eventHandlerAdminWidgets
 			__('Ascending') => 'asc',
 			__('Descending') => 'desc'
 		);
-		
+
 		$w->create('ehPostsOfEvent',__('Entries of an event'),array('eventHandlerPublicWidgets','postsOfEvent'));
 		$w->ehPostsOfEvent->setting('title',__('Title:'),__('Related entries'),'text');
 		$w->ehPostsOfEvent->setting('category',__('Category:'),'','combo',$combo_categories);
@@ -140,7 +142,7 @@ class eventHandlerAdminWidgets
 		$w->ehPostsOfEvent->setting('sortby',__('Order by:'),'post_dt','combo',$combo_sortby);
 		$w->ehPostsOfEvent->setting('sort',__('Sort:'),'desc','combo',$combo_sort);
 	}
-	
+
 	public static function categories($w)
 	{
 		$combo_homeonly = array(
@@ -148,14 +150,14 @@ class eventHandlerAdminWidgets
 			__('Home page only') => 1,
 			__('Except on home page') => 2
 		);
-		
+
 		$w->create('ehCategories',__('Events categories'),array('eventHandlerPublicWidgets','categories'));
 		$w->ehCategories->setting('title',__('Title:'),__('Events by categories'));
 		$w->ehCategories->setting('postcount',__('With events counts'),0,'check');
 		$w->ehCategories->setting('pagelink',__('Add link to events page'),1,'check');
 		$w->ehCategories->setting('homeonly',__('Display on:'),0,'combo',$combo_homeonly);
 	}
-	
+
 	public static function map($w)
 	{
 		for($i=3;$i<21;$i++)
@@ -192,7 +194,7 @@ class eventHandlerAdminWidgets
 			__('Home page only') => 1,
 			__('Except on home page') => 2
 		);
-		
+
 		$w->create('ehMap',__('Events map'),array('eventHandlerPublicWidgets','map'));
 		$w->ehMap->setting('title',__('Title:'),__('Events on map'));
 		$w->ehMap->setting('map_zoom',__('Default zoom on map:'),4,'combo',$combo_map_zoom);
@@ -218,7 +220,7 @@ class eventHandlerAdminWidgets
 			__('Home page only') => 1,
 			__('Except on home page') => 2
 		);
-		
+
 		$w->create('ehCalendar',__('Events calendar'),array('eventHandlerPublicWidgets','calendar'));
 		$w->ehCalendar->setting('title',__('Title:'),__('Events calendar'),'text');
 		$w->ehCalendar->setting('weekstart',__('First day of week:'),'0','combo',$combo_weekstart);
@@ -230,7 +232,7 @@ class eventHandlerAdminWidgets
 
 # Public side of widgets
 class eventHandlerPublicWidgets
-{	
+{
 	public static function events($w)
 	{
 		global $core;
@@ -238,7 +240,7 @@ class eventHandlerPublicWidgets
 		# Plugin active
 		if (!$core->blog->settings->eventHandler->active) return;
 		# Home only
-		if ($w->homeonly == 1 && $core->url->type != 'default' 
+		if ($w->homeonly == 1 && $core->url->type != 'default'
 		||  $w->homeonly == 2 && $core->url->type == 'default')
 		{
 			return;
@@ -250,7 +252,7 @@ class eventHandlerPublicWidgets
 			$params['event_period'] = $w->period;
 		}
 		# Sort field
-		$params['order'] = ($w->sortby && in_array($w->sortby,array('post_title','post_dt','event_startdt','event_enddt'))) ? 
+		$params['order'] = ($w->sortby && in_array($w->sortby,array('post_title','post_dt','event_startdt','event_enddt'))) ?
 			$w->sortby.' ' : 'event_startdt ';
 		# Sort order
 		$params['order'] .= $w->sort == 'desc' ? 'desc' : 'asc';
@@ -337,20 +339,20 @@ class eventHandlerPublicWidgets
 			$res .= '<li>'.$title.$cat.'</li>';
 		}
 		$res .= '</ul>';
-		
+
 		if ($w->pagelink)
 		{
-			$res .= 
+			$res .=
 			'<p><strong><a href="'.
 			$core->blog->url.$core->url->getBase('eventhandler_list').
 			'" >'.__('All events').'</a></strong></p>';
 		}
-		
+
 		$res .= '</div>';
 
 		return $res;
 	}
-	
+
 	public static function eventsOfPost($w)
 	{
 		global $core, $_ctx;
@@ -366,7 +368,7 @@ class eventHandlerPublicWidgets
 			$params['event_period'] = $w->period;
 		}
 		# Sort field
-		$params['order'] = ($w->sortby && in_array($w->sortby,array('post_title','post_dt','event_startdt','event_enddt'))) ? 
+		$params['order'] = ($w->sortby && in_array($w->sortby,array('post_title','post_dt','event_startdt','event_enddt'))) ?
 			$w->sortby.' ' : 'event_startdt ';
 		# Sort order
 		$params['order'] .= $w->sort == 'desc' ? 'desc' : 'asc';
@@ -433,13 +435,13 @@ class eventHandlerPublicWidgets
 			{
 				$over_format = __('From %sd, %st to %ed, %et');
 			}
-			
+
 			# Format items
 			$fsd = dt::dt2str($core->blog->settings->system->date_format,$rs->event_startdt);
 			$fst = dt::dt2str($core->blog->settings->system->time_format,$rs->event_startdt);
 			$fed = dt::dt2str($core->blog->settings->system->date_format,$rs->event_enddt);
 			$fet = dt::dt2str($core->blog->settings->system->time_format,$rs->event_enddt);
-			
+
 			# Replacement
 			$over = str_replace(
 				array('%sd','%st','%ed','%et',),
@@ -447,24 +449,24 @@ class eventHandlerPublicWidgets
 				$over_format
 			);
 			$item = html::escapeHTML($rs->post_title);
-			
+
 			$res .= '<li><a href="'.$rs->getURL().'" title="'.$over.'">'.$item.'</a></li>';
 		}
 		$res .= '</ul>';
-		
+
 		if ($w->pagelink)
 		{
-			$res .= 
+			$res .=
 			'<p><strong><a href="'.
 			$core->blog->url.$core->url->getBase('eventhandler_list').
 			'" >'.__('All events').'</a></strong></p>';
 		}
-		
+
 		$res .= '</div>';
 
 		return $res;
 	}
-	
+
 	public static function postsOfEvent($w)
 	{
 		global $core, $_ctx;
@@ -473,10 +475,10 @@ class eventHandlerPublicWidgets
 		if (!$core->blog->settings->eventHandler->active) return;
 		# Event page only
 		if ($core->url->type != 'eventhandler_single') return;
-		
+
 		$params['sql'] = '';
 		# Sort field
-		$params['order'] = ($w->sortby && in_array($w->sortby,array('post_title','post_dt'))) ? 
+		$params['order'] = ($w->sortby && in_array($w->sortby,array('post_title','post_dt'))) ?
 			$w->sortby.' ' : 'post_dt ';
 		# Sort order
 		$params['order'] .= $w->sort == 'asc' ? 'asc' : 'desc';
@@ -515,37 +517,37 @@ class eventHandlerPublicWidgets
 		'<div class="eventhandler-postsofevent">'.
 		($w->title ? '<h2>'.html::escapeHTML($w->title).'</h2>' : '').
 		'<ul>';
-		
+
 		while ($rs->fetch()) {
 			$res .= '<li><a href="'.$rs->getURL().'">'.
 			html::escapeHTML($rs->post_title).'</a></li>';
 		}
-		
+
 		$res .= '</ul></div>';
-		
+
 		return $res;
 	}
-	
+
 	public static function categories($w)
 	{
 		global $core, $_ctx;
-		
-		if ($w->homeonly == 1 && $core->url->type != 'default' 
+
+		if ($w->homeonly == 1 && $core->url->type != 'default'
 		||  $w->homeonly == 2 && $core->url->type == 'default')
 		{
 			return;
 		}
-		
+
 		$res =
 		'<div class="eventhandler-categories">'.
 		($w->title ? '<h2>'.html::escapeHTML($w->title).'</h2>' : '');
-		
+
 		$rs = $core->blog->getCategories(array('post_type'=>'eventhandler'));
 		if ($rs->isEmpty())
 		{
 			return;
 		}
-		
+
 		$ref_level = $level = $rs->level-1;
 		while ($rs->fetch())
 		{
@@ -555,7 +557,7 @@ class eventHandlerPublicWidgets
 			{
 				$class = ' class="category-current"';
 			}
-			
+
 			if ($rs->level > $level)
 			{
 				$res .= str_repeat('<ul><li'.$class.'>',$rs->level - $level);
@@ -564,52 +566,52 @@ class eventHandlerPublicWidgets
 			{
 				$res .= str_repeat('</li></ul>',-($rs->level - $level));
 			}
-			
+
 			if ($rs->level <= $level)
 			{
 				$res .= '</li><li'.$class.'>';
 			}
-			
+
 			$res .=
 			'<a href="'.$core->blog->url.$core->url->getBase('eventhandler_list').
 			'/category/'.$rs->cat_url.'">'.
 			html::escapeHTML($rs->cat_title).'</a>'.
 			($w->postcount ? ' ('.$rs->nb_post.')' : '');
-			
-			
+
+
 			$level = $rs->level;
 		}
-		
+
 		if ($ref_level - $level < 0)
 		{
 			$res .= str_repeat('</li></ul>',-($ref_level - $level));
 		}
-		
+
 		if ($w->pagelink)
 		{
-			$res .= 
+			$res .=
 			'<p><strong><a href="'.
 			$core->blog->url.$core->url->getBase('eventhandler_list').
 			'" >'.__('All events').'</a></strong></p>';
 		}
-		
+
 		$res .= '</div>';
-		
+
 		return $res;
 	}
-	
+
 	public static function map($w)
 	{
 		global $core;
 
 		# Plugin active
-		if (!$core->blog->settings->eventHandler->active 
-		 || $w->homeonly == 1 && $core->url->type != 'default' 
+		if (!$core->blog->settings->eventHandler->active
+		 || $w->homeonly == 1 && $core->url->type != 'default'
 		 || $w->homeonly == 2 && $core->url->type == 'default')
 		{
 			return;
 		}
-		
+
 		$params['sql'] = '';
 		# Period
 		if ($w->period)
@@ -617,7 +619,7 @@ class eventHandlerPublicWidgets
 			$params['event_period'] = $w->period;
 		}
 		# Sort field
-		$params['order'] = ($w->sortby && in_array($w->sortby,array('post_title','post_dt','event_startdt','event_enddt'))) ? 
+		$params['order'] = ($w->sortby && in_array($w->sortby,array('post_title','post_dt','event_startdt','event_enddt'))) ?
 			$w->sortby.' ' : 'event_startdt ';
 		# Sort order
 		$params['order'] .= $w->sort == 'desc' ? 'desc' : 'asc';
@@ -626,7 +628,7 @@ class eventHandlerPublicWidgets
 		$params['post_type'] = 'eventhandler';
 		$params['sql'] .= "AND event_latitude != '' ";
 		$params['sql'] .= "AND event_longitude != '' ";
-		
+
 		$public_hidden_categories = @unserialize($core->blog->settings->eventHandler->public_hidden_categories);
 		if (is_array($public_hidden_categories) && !empty($public_hidden_categories))
 		{
@@ -635,7 +637,7 @@ class eventHandlerPublicWidgets
 				$params['sql'] .= " AND P.cat_id != '$cat_id' ";
 			}
 		}
-		
+
 		# Get posts
 		$eventHandler = new eventHandler($core);
 		$rs = $eventHandler->getEvents($params);
@@ -644,20 +646,20 @@ class eventHandlerPublicWidgets
 		{
 			return;
 		}
-		
+
 		$total_lat = $total_lng = 0;
 		$markers = '';
 		while ($rs->fetch())
 		{
 			$total_lat += (float) $rs->event_latitude;
 			$total_lng += (float) $rs->event_longitude;
-			
+
 			$markers .= $rs->getGmapVEVENT();
 		}
-		
+
 		$lat = round($total_lat / $rs->count(), 7);
 		$lng = round($total_lng / $rs->count(), 7);
-		
+
 		# Display
 		$res =
 		'<div class="eventhandler-map">'.
@@ -672,33 +674,33 @@ class eventHandlerPublicWidgets
 			$lng,
 			$markers
 		);
-		
+
 		if ($w->pagelink)
 		{
-			$res .= 
+			$res .=
 			'<p><strong><a href="'.
 			$core->blog->url.$core->url->getBase('eventhandler_list').
 			'" >'.__('All events').'</a></strong></p>';
 		}
-		
+
 		$res .= '</div>';
 
 		return $res;
 	}
-	
+
 	public static function calendar($w)
 	{
 		global $core, $_ctx;
-		
-		if ($w->homeonly == 1 && $core->url->type != 'default' 
+
+		if ($w->homeonly == 1 && $core->url->type != 'default'
 		||  $w->homeonly == 2 && $core->url->type == 'default')
 		{
 			return;
 		}
-		
+
 		$year = date('Y');
 		$month = date('m');
-		
+
 		if ($_ctx->exists('event_params') && !empty($_ctx->event_params['event_start_month']))
 		{
 			$year = $_ctx->event_params['event_start_year'];
@@ -709,11 +711,11 @@ class eventHandlerPublicWidgets
 			$year = date('Y',strtotime($_ctx->event_params['event_startdt']));
 			$month = date('m',strtotime($_ctx->event_params['event_startdt']));
 		}
-		
+
 		# Generic calendar Object
 		$calendar = eventHandlerCalendar::getArray($year,$month,$w->weekstart);
-		
-		return 
+
+		return
 		'<div class="eventhandler-calendar">'.
 		($w->title ? '<h2>'.html::escapeHTML($w->title).'</h2>' : '').
 		# Events calendar
@@ -726,4 +728,3 @@ class eventHandlerPublicWidgets
 		'</div>';
 	}
 }
-?>

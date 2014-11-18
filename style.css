@@ -35,3 +35,7 @@ a.event-unbind {
 a.event-unbind:hover, a.eventUnbind:focus {
 	color : #06c !important;
 }
+
+.datepicker {
+        width: 140px;
+}

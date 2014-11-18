@@ -1,186 +1,334 @@
-# Language: Français
-# Module: eventHandler - 1.1
-
+# eventHandler gettext template.
+# Copyright (C) 2014  Nicolas Roudaire http://www.nikrou.net
+# This file is distributed under the same license as the eventHandler plugin.
+# Nicolas Roudaire <nikrou77@gmail.com>, 2014.
+#
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: eventHandler 1.1\n"
 "Report-Msgid-Bugs-To: nikrou77+l10n@gmail.com\n"
 "POT-Creation-Date: 2014-11-18 18:07+0100\n"
-"PO-Revision-Date: 2013-07-11T06:44:44+00:00\n"
-"Last-Translator: Jean-Christian Denis\n"
-"Language-Team: \n"
-"Language: fr\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: _widgets.php:73
+msgid "%A, %B %e %Y"
+msgstr ""
+
+#: _widgets.php:74
+msgid "%H:%M"
+msgstr ""
+
+#: _admin.php:409 _admin.php:410 inc/index.event.php:121
+#: inc/index.events.php:148 inc/index.events.php:149 inc/index.events.php:151
+msgid "%Y-%m-%d %H:%M"
+msgstr ""
+
+#: _public.php:1112
+msgid "%m %Y"
+msgstr ""
+
+#: _public.php:1093
+msgid "%m %d %Y"
+msgstr ""
 
 #: inc/class.eventhandler.php:441
 #, php-format
 msgid "%s days"
-msgstr "%s jours"
+msgstr ""
 
 #: inc/lib.eventhandler.calendar.php:197
 #, php-format
 msgid "%s events"
-msgstr "%s événements"
+msgstr ""
 
 #: inc/class.eventhandler.php:443
 #, php-format
 msgid "%s hours"
-msgstr "%s heures"
+msgstr ""
 
 #: inc/class.eventhandler.php:445
 #, php-format
 msgid "%s minutes"
-msgstr "%s minutes"
+msgstr ""
 
 #: inc/index.settings.php:112
 msgid "Activation"
-msgstr "Activation"
+msgstr ""
 
 #: _widgets.php:76 _widgets.php:157 _widgets.php:208 _widgets.php:228
 msgid "Add link to events page"
-msgstr "Ajouter le lien vers la page des événements"
+msgstr ""
 
 #: _widgets.php:204
 msgid "Add tooltips"
-msgstr "Ajouter les info-bulles"
+msgstr ""
 
 #: inc/index.settings.php:117
 msgid "Additionnal style sheet:"
-msgstr "Feuille de style additionnelle"
+msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:237 inc/index.event.php:682
 msgid "Address:"
-msgstr "Adresse :"
+msgstr ""
 
 #: _public.php:862 _public.php:1066
 msgid "All"
-msgstr "Tous"
+msgstr ""
 
 #: _widgets.php:348 _widgets.php:462 _widgets.php:595 _widgets.php:683
 #: _widgets.php:726 _public.php:1054
 msgid "All events"
-msgstr "Tous les événements"
+msgstr ""
+
+#: _widgets.php:60 _widgets.php:149 _widgets.php:193 _widgets.php:219
+msgid "All pages"
+msgstr ""
 
 #: _widgets.php:51 _widgets.php:101 _widgets.php:184
 msgid "All periods"
-msgstr "Toutes les périodes"
+msgstr ""
 
 #: inc/lib.eventhandler.pubrest.php:30
 msgid "An error occured"
-msgstr "Erreur"
+msgstr ""
 
 #: _services.php:44
 msgid "An error occured when trying de unbind event"
-msgstr "Il y a eu une erreur en essayant de détacher un événement"
+msgstr ""
+
+#: inc/index.events.php:556
+msgid "Apply filters"
+msgstr ""
+
+#: _widgets.php:47 _widgets.php:97 _widgets.php:134 _widgets.php:180
+#: inc/index.events.php:309
+msgid "Ascending"
+msgstr ""
 
 #: inc/index.events.php:576
 msgid "Attach selected events"
-msgstr "Lier les événements selectionnés"
+msgstr ""
+
+#: inc/index.event.php:547
+msgid "Attachment has been successfully removed."
+msgstr ""
+
+#: inc/index.event.php:40 inc/index.events.php:43 inc/index.events.php:299
+#: _public.php:947
+msgid "Author"
+msgstr ""
+
+#: inc/index.events.php:527
+msgid "Author:"
+msgstr ""
+
+#: inc/index.event.php:206 inc/index.event.php:212
+msgid "Available"
+msgstr ""
 
 #: inc/index.events.php:512
 msgid "Bind an event"
-msgstr "Lier un événement"
+msgstr ""
 
 #: _admin.php:91 _admin.php:261
 msgid "Bind events"
-msgstr "Attacher des événements"
+msgstr ""
 
 #: inc/lib.eventhandler.calendar.php:123
 msgid "Calendar"
-msgstr "Calendrier"
+msgstr ""
+
+#: inc/index.settings.php:139
+msgid "Categories"
+msgstr ""
+
+#: inc/index.event.php:39 inc/index.event.php:615 inc/index.events.php:42
+#: inc/index.events.php:298 inc/index.settings.php:144
+msgid "Category"
+msgstr ""
+
+#: _widgets.php:67 _widgets.php:112 _widgets.php:140
+#: inc/lib.eventhandler.rs.extension.php:245 inc/index.event.php:616
+#: inc/index.events.php:529
+msgid "Category:"
+msgstr ""
+
+#: inc/index.events.php:339 inc/index.events.php:342
+msgid "Change"
+msgstr ""
+
+#: inc/index.events.php:343
+msgid "Change author"
+msgstr ""
+
+#: inc/index.events.php:339
+msgid "Change category"
+msgstr ""
 
 #: inc/index.event.php:277
 msgid "Change entry into event"
-msgstr "Changer un billet en événement"
+msgstr ""
 
 #: _admin.php:270
 msgid "Change into event"
-msgstr "Changer en événement"
+msgstr ""
 
 #: _admin.php:269
 msgid "Change this entry into an event"
-msgstr "Changer ce billet en événement"
+msgstr ""
 
 #: _admin.php:250
 msgid "Check to unbind"
-msgstr "Cocher pour détacher"
+msgstr ""
+
+#: inc/index.event.php:550
+msgid "Comment has been successfully created."
+msgstr ""
 
 #: _public.php:1060
 msgid "Completed events"
-msgstr "Événements terminés"
+msgstr ""
 
 #: index.php:60
-msgid "Configuration saved"
-msgstr "Configuration sauvegardée"
+msgid "Configuration successfully saved"
+msgstr ""
+
+#: inc/index.event.php:715
+msgid "Content:"
+msgstr ""
+
+#: inc/index.event.php:634
+msgid "Convert to XHTML"
+msgstr ""
 
 #: _public.php:1055
 msgid "Current events"
-msgstr "Événements en cours"
+msgstr ""
+
+#: _widgets.php:41 _widgets.php:91 _widgets.php:130 _widgets.php:174
+#: inc/index.event.php:38 inc/index.events.php:41 inc/index.events.php:296
+msgid "Date"
+msgstr ""
 
 #: _widgets.php:73
 msgid "Date format of events:"
-msgstr "Format de date des événements :"
+msgstr ""
 
 #: _widgets.php:201 inc/index.settings.php:191
 msgid "Default type of map:"
-msgstr "Type par défaut de la carte :"
+msgstr ""
 
 #: _widgets.php:200 inc/index.settings.php:187
 msgid "Default zoom on map:"
-msgstr "Zoom par défaut de la carte :"
+msgstr ""
+
+#: inc/index.events.php:347
+msgid "Delete"
+msgstr ""
+
+#: _widgets.php:48 _widgets.php:98 _widgets.php:135 _widgets.php:181
+#: inc/index.events.php:308
+msgid "Descending"
+msgstr ""
 
 #: inc/lib.eventhandler.calendar.php:136
 msgid "Detail"
-msgstr "Détail"
+msgstr ""
 
 #: _public.php:716
 msgid "Directory:"
-msgstr "Répertoire :"
+msgstr ""
+
+#: _widgets.php:77 _widgets.php:158 _widgets.php:209 _widgets.php:229
+msgid "Display on:"
+msgstr ""
+
+#: inc/index.event.php:560
+msgid "Don't forget to validate your XHTML conversion by saving your post."
+msgstr ""
+
+#: inc/index.event.php:649
+msgid "Edit basename"
+msgstr ""
 
 #: inc/index.event.php:287 inc/index.event.php:609
 msgid "Edit event"
-msgstr "Modifier un événement"
+msgstr ""
 
 #: inc/index.settings.php:173
 msgid "Edit this category"
-msgstr "Modifier cette catégorie"
+msgstr ""
 
 #: inc/index.settings.php:115
 msgid "Enable extension"
-msgstr "Activer l'extension"
+msgstr ""
 
 #: _admin.php:345 _widgets.php:44 _widgets.php:94 _widgets.php:177
 #: inc/index.events.php:39 inc/index.events.php:303 _public.php:950
 msgid "End date"
-msgstr "Date de fin"
+msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:234 inc/index.event.php:673
 msgid "End date:"
-msgstr "Date de fin :"
+msgstr ""
+
+#: inc/index.events.php:40 inc/index.events.php:348 inc/index.settings.php:128
+#: inc/index.settings.php:146
+msgid "Entries"
+msgstr ""
+
+#: _widgets.php:68 _widgets.php:113 _widgets.php:141
+msgid "Entries limit:"
+msgstr ""
 
 #: _widgets.php:138
 msgid "Entries of an event"
-msgstr "Billets d'un événement"
+msgstr ""
+
+#: inc/index.events.php:552
+msgid "Entries per page"
+msgstr ""
+
+#: inc/index.event.php:541
+msgid "Entry has been successfully created."
+msgstr ""
+
+#: inc/index.event.php:538
+msgid "Entry has been successfully updated."
+msgstr ""
+
+#: inc/index.event.php:640
+msgid "Entry language"
+msgstr ""
+
+#: inc/index.event.php:620
+msgid "Entry status"
+msgstr ""
 
 #: _admin.php:28 _admin.php:58 inc/index.event.php:520
 #: inc/index.events.php:493 inc/index.events.php:504
 #: inc/index.settings.php:103 index.php:55
 msgid "Event handler"
-msgstr "Gestionnaire d'événements"
+msgstr ""
 
 #: inc/lib.eventhandler.pubrest.php:34
 msgid "Event is disabled on this blog"
-msgstr "L'événement est désactivé sur ce blog"
+msgstr ""
 
 #: _public.php:1056
 msgid "Event not being"
-msgstr "Événements pas en cours"
+msgstr ""
 
 #: _services.php:48
-msgid "Event removed from post"
-msgstr "Événements retirés du billet"
+msgid "Event successfully removed from post"
+msgstr ""
 
 #: _admin.php:91 _admin.php:92 _widgets.php:65 inc/index.event.php:565
 #: inc/index.events.php:493 inc/index.events.php:496 inc/index.events.php:504
@@ -188,475 +336,684 @@ msgstr "Événements retirés du billet"
 #: inc/index.settings.php:121 inc/index.settings.php:147 _public.php:702
 #: _public.php:712 _public.php:757
 msgid "Events"
-msgstr "Événements"
+msgstr ""
 
 #: _widgets.php:155
 msgid "Events by categories"
-msgstr "Événements par catégorie"
+msgstr ""
 
 #: _widgets.php:224 _widgets.php:225
 msgid "Events calendar"
-msgstr "Calendrier des événements"
+msgstr ""
 
 #: _widgets.php:154
 msgid "Events categories"
-msgstr "Catégories d'événements"
+msgstr ""
 
 #: inc/index.settings.php:214
 msgid "Events from eventdata successfully imported"
-msgstr "Événements importés avec succès depuis eventdata"
+msgstr ""
 
 #: _widgets.php:198
 msgid "Events map"
-msgstr "Carte des événements"
+msgstr ""
 
 #: _widgets.php:110
 msgid "Events of an entry"
-msgstr "Événements d'un billet"
+msgstr ""
 
 #: _widgets.php:199
 msgid "Events on map"
-msgstr "Événements sur une carte"
+msgstr ""
 
 #: _admin.php:238
 msgid "Events:"
-msgstr "Événements :"
+msgstr ""
+
+#: _widgets.php:62 _widgets.php:151 _widgets.php:195 _widgets.php:221
+msgid "Except on home page"
+msgstr ""
+
+#: inc/index.event.php:710
+msgid "Excerpt:"
+msgstr ""
 
 #: index.php:67
 #, php-format
 msgid "Failed to delete records: %s"
-msgstr "Impossible de supprimer les enregistrements : %s"
+msgstr ""
 
 #: inc/lib.eventhandler.pubrest.php:60
 msgid "Failed to get calendar"
-msgstr "Impossible de récupérer le calendrier"
+msgstr ""
 
 #: index.php:66
 #, php-format
 msgid "Failed to save configuration: %s"
-msgstr "Impossible de sauver la configuration : %s"
+msgstr ""
 
 #: inc/index.event.php:544
-msgid "File has been attached."
-msgstr "Le fichier a été attaché"
+msgid "File has been successfully attached."
+msgstr ""
 
 #: inc/index.events.php:519 inc/index.events.php:524
 msgid "Filters"
-msgstr "Filtres"
+msgstr ""
 
 #: inc/index.event.php:688
 msgid "Find coordinates on googleMap"
-msgstr "Trouver les coordonnées sur GoogleMaps"
+msgstr ""
 
 #: _widgets.php:54 _widgets.php:104 _widgets.php:187 inc/index.events.php:317
 #: _public.php:868 _public.php:1072
 msgid "Finished"
-msgstr "Fini"
+msgstr ""
 
 #: _widgets.php:226
 msgid "First day of week:"
-msgstr "Premier jour de la semaine :"
+msgstr ""
 
 #: _public.php:1108
 #, php-format
 msgid "For the day of %s"
-msgstr "Pour la journée du %s"
+msgstr ""
 
 #: _public.php:1113
 #, php-format
 msgid "For the month of %s"
-msgstr "Pour le mois de %s"
+msgstr ""
 
 #: _public.php:1127
 #, php-format
 msgid "For the period between %s and %s"
-msgstr "Pour la période entre %s et %s"
+msgstr ""
 
 #: _public.php:1131
 #, php-format
 msgid "For the period through %s and %s"
-msgstr "Pour la période passant entre %s et %s"
+msgstr ""
 
 #: _public.php:1117
 #, php-format
 msgid "For the year of %s"
-msgstr "Pour l'année %s"
+msgstr ""
 
 #: _widgets.php:318 _widgets.php:436
 #, php-format
 msgid "From %sd, %st to %ed, %et"
-msgstr "Du %sd, %st au %ed, %et"
+msgstr ""
 
 #: _widgets.php:203
 #, php-format
 msgid "Height of map: (with unit as % or px)"
-msgstr "Hauteur de la carte : (avec les unités telles que % ou px)"
+msgstr ""
+
+#: inc/index.settings.php:143
+msgid "Hide"
+msgstr ""
+
+#: _widgets.php:61 _widgets.php:150 _widgets.php:194 _widgets.php:220
+msgid "Home page only"
+msgstr ""
 
 #: inc/index.event.php:687
 msgid ""
 "If you want to use maps, you must enter an address as precise as possible "
 "(number, street, city, country)"
 msgstr ""
-"Si vous souhaitez utiliser des cartes, vous devez entrer une adresse aussi "
-"précise que possible (numéro, rue, ville, pays)"
 
 #: inc/index.settings.php:220
 msgid "Import eventdata records"
-msgstr "Importer les enregistrements de eventdata"
+msgstr ""
+
+#: inc/index.events.php:542
+msgid "Lang:"
+msgstr ""
 
 #: inc/index.event.php:691
 msgid "Latitude:"
-msgstr "Latitude :"
+msgstr ""
 
 #: inc/index.settings.php:145
 msgid "Level"
-msgstr "Niveau"
+msgstr ""
 
 #: inc/index.settings.php:165
 msgid "List of entries related to this category"
-msgstr "Liste des billets liés à cette catégorie"
+msgstr ""
 
 #: inc/index.settings.php:158
 msgid "List of events related to this category"
-msgstr "Liste des événements liés à cette catégorie"
+msgstr ""
 
 #: inc/index.events.php:304
 msgid "Localization"
-msgstr "Localisation"
+msgstr ""
 
 #: inc/index.event.php:679
 msgid "Localization:"
-msgstr "Localisation :"
+msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:241
 msgid "Location:"
-msgstr "Lieu :"
+msgstr ""
 
 #: inc/index.event.php:697
 msgid "Longitude:"
-msgstr "Longitude :"
+msgstr ""
 
 #: inc/index.event.php:686 inc/index.settings.php:185
 msgid "Maps"
-msgstr "Cartes"
+msgstr ""
+
+#: inc/index.events.php:335
+msgid "Mark"
+msgstr ""
+
+#: inc/index.events.php:332
+msgid "Mark as pending"
+msgstr ""
+
+#: inc/index.events.php:336
+msgid "Mark as selected"
+msgstr ""
+
+#: inc/index.events.php:337
+msgid "Mark as unselected"
+msgstr ""
 
 #: _widgets.php:216
 msgid "Monday"
-msgstr "Lundi"
+msgstr ""
+
+#: inc/index.events.php:540
+msgid "Month:"
+msgstr ""
+
+#: inc/index.event.php:206 inc/index.event.php:211 inc/index.event.php:216
+msgid "Most used"
+msgstr ""
 
 #: inc/index.event.php:158 inc/index.event.php:584 inc/index.events.php:497
 #: inc/index.events.php:513 inc/index.settings.php:108
 msgid "New event"
-msgstr "Nouvel événement"
+msgstr ""
 
 #: _widgets.php:66
 msgid "Next events"
-msgstr "Événements à venir"
+msgstr ""
+
+#: inc/index.event.php:26
+msgid "No entry"
+msgstr ""
 
 #: _admin.php:331 inc/index.events.php:26
 msgid "No event"
-msgstr "Pas d'événement"
+msgstr ""
 
 #: inc/class.eventhandler.php:380
 msgid "No event end date"
-msgstr "pas de date de fin"
+msgstr ""
 
 #: inc/class.eventhandler.php:375
 msgid "No event start date"
-msgstr "pas de date de début"
+msgstr ""
 
 #: _admin.php:122
 msgid "No such event"
-msgstr "Pas d'événement"
+msgstr ""
 
 #: inc/class.eventhandler.php:311 inc/class.eventhandler.php:355
 #: _services.php:35
 msgid "No such event ID"
-msgstr "Pas de tel événement"
+msgstr ""
+
+#: inc/index.events.php:170 _services.php:31
+msgid "No such post ID"
+msgstr ""
+
+#: inc/index.event.php:83 inc/index.events.php:86 inc/index.events.php:260
+msgid "None"
+msgstr ""
 
 #: _widgets.php:55 _widgets.php:105 _widgets.php:188 inc/index.events.php:318
 #: _public.php:867 _public.php:1071
 msgid "Not finished"
-msgstr "Non fini"
+msgstr ""
 
 #: inc/class.eventhandler.php:391
 msgid "Not full coordinate"
-msgstr "coordonnées incomplètes"
+msgstr ""
 
 #: _widgets.php:52 _widgets.php:102 _widgets.php:185 inc/index.events.php:315
 msgid "Not started"
-msgstr "Non débuté"
+msgstr ""
+
+#: inc/index.event.php:719
+msgid "Notes:"
+msgstr ""
 
 #: _widgets.php:315 _widgets.php:432
 #, php-format
 msgid "On %sd from %st to %et"
-msgstr "Le %sd de %st à %et"
+msgstr ""
 
 #: _widgets.php:56 _widgets.php:106 _widgets.php:189 inc/index.events.php:319
 #: _public.php:863 _public.php:1067
 msgid "Ongoing"
-msgstr "En cours"
+msgstr ""
+
+#: _widgets.php:69 _widgets.php:114 _widgets.php:142 _widgets.php:205
+#: inc/index.events.php:547
+msgid "Order by:"
+msgstr ""
 
 #: _widgets.php:57 _widgets.php:107 _widgets.php:190 inc/index.events.php:320
 #: _public.php:864 _public.php:1068
 msgid "Outgoing"
-msgstr "Pas en cours"
+msgstr ""
+
+#: _admin.php:353 _admin.php:366 inc/index.event.php:49 inc/index.event.php:62
+#: inc/index.events.php:52 inc/index.events.php:65
+msgid "Page(s)"
+msgstr ""
 
 #: _admin.php:343
 msgid "Period"
-msgstr "Période"
+msgstr ""
 
 #: _widgets.php:72 _widgets.php:116 _widgets.php:207 inc/index.events.php:531
 msgid "Period:"
-msgstr "Période :"
+msgstr ""
 
 #: index.php:42 _public.php:127
 msgid "Please wait"
-msgstr "Veuillez patienter"
+msgstr ""
 
 #: inc/class.eventhandler.php:470
 msgid "Please wait, try to create map..."
-msgstr "Veulliez patienter, construction de la carte..."
+msgstr ""
 
 #: inc/index.event.php:579
 msgid "Preview event"
-msgstr "Prévisualier l'événement"
+msgstr ""
+
+#: inc/index.events.php:329
+msgid "Publish"
+msgstr ""
 
 #: _public.php:948
 msgid "Published date"
-msgstr "Date de publication"
+msgstr ""
+
+#: inc/index.event.php:624
+msgid "Published on"
+msgstr ""
+
+#: inc/lib.eventhandler.rs.extension.php:250
+msgid "Read more"
+msgstr ""
 
 #: inc/index.settings.php:217
 msgid "Records of eventdata have been imported for this blog."
-msgstr "Les enregistrements de eventdata ont déjà été importé pour ce blog."
+msgstr ""
 
 #: index.php:61
 msgid "Records succesfully deleted"
-msgstr "Enregistrements effacés avec succès"
+msgstr ""
+
+#: _widgets.php:139 inc/index.event.php:740
+msgid "Related entries"
+msgstr ""
 
 #: _widgets.php:111
 msgid "Related events"
-msgstr "Événements liés"
+msgstr ""
+
+#: inc/index.event.php:706 inc/index.event.php:714
+msgid "Required field"
+msgstr ""
+
+#: inc/index.events.php:331
+msgid "Schedule"
+msgstr ""
+
+#: _public.php:865 _public.php:1069
+msgid "Scheduled"
+msgstr ""
 
 #: _public.php:1057
 msgid "Scheduled events"
-msgstr "Événements programmés"
+msgstr ""
 
 #: _admin.php:172
 msgid "Select events to link to entries"
-msgstr "Sélectionner les événements à lier aux billets"
+msgstr ""
+
+#: inc/index.events.php:301 _public.php:946
+msgid "Selected"
+msgstr ""
+
+#: inc/index.events.php:595
+msgid "Selected entries action:"
+msgstr ""
+
+#: _widgets.php:71
+msgid "Selected entries only"
+msgstr ""
+
+#: inc/index.event.php:638
+msgid "Selected entry"
+msgstr ""
+
+#: inc/index.events.php:538
+msgid "Selected:"
+msgstr ""
+
+#: inc/index.settings.php:103 inc/index.settings.php:107 index.php:51
+msgid "Settings"
+msgstr ""
+
+#: _widgets.php:75
+msgid "Show category"
+msgstr ""
 
 #: _widgets.php:227
 msgid "Show only start date of events"
-msgstr "Afficher seulement la date de début des événements"
+msgstr ""
 
 #: inc/index.settings.php:123
 msgid "Show related entries on event:"
-msgstr "Afficher les billets liés sur un événement :"
+msgstr ""
 
 #: inc/index.settings.php:130
 msgid "Show related events on entry:"
-msgstr "Afficher les événement liés sur un billet :"
+msgstr ""
+
+#: _widgets.php:70 _widgets.php:115 _widgets.php:143 _widgets.php:206
+#: inc/index.events.php:549
+msgid "Sort:"
+msgstr ""
 
 #: _admin.php:344 _widgets.php:43 _widgets.php:93 _widgets.php:176
 #: inc/index.events.php:38 inc/index.events.php:302 _public.php:949
 msgid "Start date"
-msgstr "Date de début"
+msgstr ""
 
 #: inc/class.eventhandler.php:385
 msgid "Start date greater than end date"
-msgstr "date de début plus récente qu la date de fin"
+msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:233 inc/index.event.php:667
 msgid "Start date:"
-msgstr "Date de début :"
+msgstr ""
 
 #: _widgets.php:53 _widgets.php:103 _widgets.php:186 inc/index.events.php:316
 #: _public.php:866 _public.php:1070
 msgid "Started"
-msgstr "Débuté"
+msgstr ""
 
 #: _public.php:1058
 msgid "Started events"
-msgstr "Événements débutés"
+msgstr ""
+
+#: _admin.php:346 inc/index.event.php:41 inc/index.events.php:44
+#: inc/index.events.php:300 inc/index.events.php:328
+msgid "Status"
+msgstr ""
+
+#: inc/index.events.php:536
+msgid "Status:"
+msgstr ""
 
 #: _widgets.php:215
 msgid "Sunday"
-msgstr "Dimanche"
+msgstr ""
+
+#: inc/index.event.php:629
+msgid "Text formatting"
+msgstr ""
 
 #: _public.php:795
 msgid "There's no event at this time."
-msgstr "Il n'y a pas d'événement pour l'instant."
+msgstr ""
+
+#: inc/index.event.php:230
+msgid "This entry does not exist."
+msgstr ""
 
 #: inc/index.event.php:247
 msgid "This event does not exist."
-msgstr "Cette événement n'existe pas"
+msgstr ""
 
 #: _public.php:735
 msgid "This page is powered by Dotclear and eventHandler"
-msgstr "Cette page est propulsée par Dotclear et eventHandler"
+msgstr ""
 
 #: _widgets.php:74
 msgid "Time format of events:"
-msgstr "Format d'heure des événements :"
+msgstr ""
+
+#: _admin.php:342 _widgets.php:42 _widgets.php:92 _widgets.php:131
+#: _widgets.php:175 inc/index.event.php:37 inc/index.events.php:37
+#: inc/index.events.php:297 _public.php:945
+msgid "Title"
+msgstr ""
+
+#: _widgets.php:66 _widgets.php:111 _widgets.php:139 _widgets.php:155
+#: _widgets.php:199 _widgets.php:225 inc/index.event.php:706
+msgid "Title:"
+msgstr ""
 
 #: _admin.php:92
 msgid "Unbind events"
-msgstr "Détacher les événements"
+msgstr ""
 
 #: inc/index.events.php:348
 msgid "Unbind related entries"
-msgstr "Séparer les entrées liées"
+msgstr ""
+
+#: _widgets.php:35 _widgets.php:85 _widgets.php:124
+msgid "Uncategorized"
+msgstr ""
 
 #: _public.php:1059
 msgid "Unfinished events"
-msgstr "Événements non finis"
+msgstr ""
+
+#: inc/index.events.php:330
+msgid "Unpublish"
+msgstr ""
 
 #: inc/index.event.php:570
 msgid "View event"
-msgstr "Voir l'événement"
+msgstr ""
+
+#: inc/index.event.php:653
+msgid ""
+"Warning: If you set the URL manually, it may conflict with another entry."
+msgstr ""
 
 #: inc/index.settings.php:140
 msgid ""
 "When an event has an hidden category, it will only display on its category "
 "page."
 msgstr ""
-"Quand un événement à une catégorie cachée, il ne s'affiche que sur sa page "
-"de catégorie."
 
 #: _widgets.php:202
 #, php-format
 msgid "Width of map: (with unit as % or px)"
-msgstr "Largeur de la carte : (avec les unités telles que % ou px)"
+msgstr ""
 
 #: _widgets.php:156
 msgid "With events counts"
-msgstr "Avec le nombre d'événements"
+msgstr ""
 
 #: inc/class.eventhandler.php:398 inc/class.eventhandler.php:406
 msgid "Wrong format of coordinate"
-msgstr "mauvais format de coordonnée"
+msgstr ""
 
 #: inc/class.eventhandler.php:270
 msgid "You are not allowed to create an event"
-msgstr "Vous n'êtes pas autorisé à créer un événement"
+msgstr ""
 
 #: inc/class.eventhandler.php:348
 msgid "You are not allowed to delete events"
-msgstr "Vous n'êtes pas autorisé à supprimer des événements"
+msgstr ""
 
 #: inc/class.eventhandler.php:304
 msgid "You are not allowed to update events"
-msgstr "Vous n'êtes pas autorisé à mettre à jour les événements"
+msgstr ""
 
 #: inc/index.event.php:745
 msgid "You must save event before adding entries"
-msgstr "Vous devez sauvegarder l'événement avant d'ajouter des billets"
+msgstr ""
 
 #: inc/index.settings.php:70
 msgid "after content"
-msgstr "après le contenu"
+msgstr ""
 
 #: inc/index.settings.php:69
 msgid "before content"
-msgstr "avant le contenu"
+msgstr ""
+
+#: inc/index.event.php:731
+msgid "delete"
+msgstr ""
 
 #: _uninstall.php:35
 #, php-format
 msgid "delete %s plugin files"
-msgstr "supprimer les fichiers du plugin %s"
+msgstr ""
 
 #: _uninstall.php:37
 #, php-format
 msgid "delete %s version number"
-msgstr "supprimer la version %s"
+msgstr ""
 
 #: _uninstall.php:29
 #, php-format
 msgid "delete all %s settings"
-msgstr "supprimer tous les paramètres de %s"
+msgstr ""
 
 #: _uninstall.php:20
 msgid "delete all settings"
-msgstr "supprimer tous les paramètres"
+msgstr ""
 
 #: _uninstall.php:24
 msgid "delete plugin files"
-msgstr "supprimer les fichiers du plugin"
+msgstr ""
 
 #: _uninstall.php:22
 msgid "delete table"
-msgstr "supprimer la table de la base de données"
+msgstr ""
 
 #: _uninstall.php:26
 msgid "delete the version number"
-msgstr "supprimer le numéro de version"
+msgstr ""
 
 #: _public.php:25
 msgid "finished"
-msgstr "terminé"
+msgstr ""
 
 #: _widgets.php:336
 msgid "go to this category"
-msgstr "aller à cette catégorie"
+msgstr ""
+
+#: inc/index.settings.php:68
+msgid "hide"
+msgstr ""
 
 #: _widgets.php:170 inc/index.settings.php:79
 msgid "hybrid"
-msgstr "hybride"
+msgstr ""
 
 #: inc/class.eventhandler.php:447
 msgid "instantaneous"
-msgstr "instantané"
+msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:241
 msgid "latitude:"
-msgstr "latitude :"
+msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:241
 msgid "longitude:"
-msgstr "longitude :"
+msgstr ""
 
 #: inc/index.event.php:295
 msgid "next event"
-msgstr "Événements suivant"
+msgstr ""
 
 #: inc/index.events.php:279
-#, fuzzy
 msgid "not selected"
-msgstr "Non débuté"
+msgstr ""
+
+#: inc/index.events.php:597
+msgid "ok"
+msgstr ""
 
 #: inc/class.eventhandler.php:442
 msgid "one day"
-msgstr "un jour"
+msgstr ""
 
 #: inc/lib.eventhandler.calendar.php:197
 msgid "one event"
-msgstr "un événement"
+msgstr ""
 
 #: inc/class.eventhandler.php:444
 msgid "one hour"
-msgstr "une heure"
+msgstr ""
 
 #: inc/class.eventhandler.php:446
 msgid "one minute"
-msgstr "une minute"
+msgstr ""
 
 #: _public.php:24
 msgid "ongoing"
-msgstr "en cours"
+msgstr ""
+
+#: _admin.php:384 inc/index.event.php:99 inc/index.events.php:102
+msgid "pending"
+msgstr ""
 
 #: inc/index.event.php:303
 msgid "previous event"
-msgstr "Événements précédent"
+msgstr ""
+
+#: _admin.php:391 inc/index.event.php:106 inc/index.events.php:109
+msgid "protected"
+msgstr ""
+
+#: _admin.php:375 inc/index.event.php:90 inc/index.events.php:93
+msgid "published"
+msgstr ""
 
 #: _widgets.php:168 inc/index.settings.php:77
 msgid "road map"
-msgstr "route"
+msgstr ""
 
 #: _widgets.php:169 inc/index.settings.php:78
 msgid "satellite"
-msgstr "satellite"
+msgstr ""
+
+#: _admin.php:196 inc/index.event.php:729 inc/index.settings.php:198
+msgid "save"
+msgstr ""
+
+#: _admin.php:381 inc/index.event.php:96 inc/index.events.php:99
+#: _public.php:23
+msgid "scheduled"
+msgstr ""
+
+#: _admin.php:397 inc/index.event.php:112 inc/index.events.php:115
+#: inc/index.events.php:278
+msgid "selected"
+msgstr ""
 
 #: _widgets.php:171 inc/index.settings.php:80
 msgid "terrain"
-msgstr "terrain"
+msgstr ""
+
+#: _admin.php:378 inc/index.event.php:93 inc/index.events.php:96
+msgid "unpublished"
+msgstr ""

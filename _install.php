@@ -2,10 +2,12 @@
 # -- BEGIN LICENSE BLOCK ----------------------------------
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
-# 
+#
+# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+#
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
-# 
+#
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -37,22 +39,22 @@ try
 		->event_address('text','',true,null)
 		->event_latitude('varchar',25,true,null)
 		->event_longitude('varchar',25,true,null)
-		
+
 		->index('idx_event_post_id','btree','post_id')
 		->index('idx_event_event_start','btree','event_startdt')
 		->index('idx_event_event_end','btree','event_enddt')
 		->reference('fk_event_post','post_id','post','post_id','cascade','cascade');
-	
+
 	# Schema installation
 	$ti = new dbStruct($core->con,$core->prefix);
 	$changes = $ti->synchronize($t);
-	
+
 	# Settings options
 	$core->blog->settings->addNamespace('eventHandler');
 	$s = $core->blog->settings->eventHandler;
-	
+
 	$extra_css = file_get_contents(dirname(__FILE__).'/default-templates/default-eventhandler.css');
-	
+
 	$s->put('active',false,'boolean','Enabled eventHandler extension',false,true);
 	$s->put('public_events_of_post_place','after','string','Display related events on entries',false,true);
 	$s->put('public_posts_of_event_place','after','string','Display related posts on events',false,true);
@@ -61,10 +63,10 @@ try
 	$s->put('public_map_type','ROADMAP','string','Default type of map',false,true);
 	//$s->put('public_disable_css',false,'boolean','Disabled default public CSS of eventHanlder',false,true);
 	$s->put('public_extra_css',$extra_css,'string','Custom CSS',false,true);
-	
+
 	# Set version
 	$core->setVersion('eventHandler',$new_version);
-	
+
 	return true;
 }
 catch (Exception $e)
@@ -72,4 +74,3 @@ catch (Exception $e)
 	$core->error->add($e->getMessage());
 }
 return false;
-?>

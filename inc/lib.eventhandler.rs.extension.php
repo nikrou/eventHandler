@@ -2,10 +2,12 @@
 # -- BEGIN LICENSE BLOCK ----------------------------------
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
-# 
+#
+# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+#
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
-# 
+#
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -21,13 +23,13 @@ class rsExtEventHandlerPublic extends rsExtPost
 	{
 		return dt::dt2str('%Y%j',$rs->event_startdt) == dt::dt2str('%Y%j',$rs->event_enddt);
 	}
-	
+
 	# Duration is less than 24 hours
 	public static function isOnOneDay($rs)
 	{
 		return (strtotime($rs->event_enddt) - strtotime($rs->event_startdt)) < 86401;
 	}
-	
+
 	public static function getEventTS($rs,$type='')
 	{
 		if ($type == 'upddt') {
@@ -42,7 +44,7 @@ class rsExtEventHandlerPublic extends rsExtPost
 			return strtotime($rs->post_dt);
 		}
 	}
-	
+
 	public static function getEventISO8601Date($rs,$type='')
 	{
 		if (in_array($type,array('upddt','creadt'))) {
@@ -51,7 +53,7 @@ class rsExtEventHandlerPublic extends rsExtPost
 			return dt::iso8601($rs->getTS(),$rs->post_tz);
 		}
 	}
-	
+
 	public static function getEventRFC822Date($rs,$type='')
 	{
 		if (in_array($type,array('upddt','creadt'))) {
@@ -60,13 +62,13 @@ class rsExtEventHandlerPublic extends rsExtPost
 			return dt::rfc822($rs->getTS($type),$rs->post_tz);
 		}
 	}
-	
+
 	public static function getEventDate($rs,$format,$type='')
 	{
 		if (!$format) {
 			$format = $rs->core->blog->settings->system->date_format;
 		}
-		
+
 		if ($type == 'upddt') {
 			return dt::dt2str($format,$rs->post_upddt,$rs->post_tz);
 		} elseif ($type == 'creadt') {
@@ -79,13 +81,13 @@ class rsExtEventHandlerPublic extends rsExtPost
 			return dt::dt2str($format,$rs->post_dt);
 		}
 	}
-	
+
 	public static function getEventTime($rs,$format,$type='')
 	{
 		if (!$format) {
 			$format = $rs->core->blog->settings->system->time_format;
 		}
-		
+
 		if ($type == 'upddt') {
 			return dt::dt2str($format,$rs->post_upddt,$rs->post_tz);
 		} elseif ($type == 'creadt') {
@@ -98,11 +100,11 @@ class rsExtEventHandlerPublic extends rsExtPost
 			return dt::dt2str($format,$rs->post_dt);
 		}
 	}
-	
+
 	public static function getPeriod($rs)
 	{
 		$now = date('Y-m-d H:i:s');
-		
+
 		if ($rs->event_startdt > $now)
 		{
 			return 'scheduled';
@@ -116,13 +118,13 @@ class rsExtEventHandlerPublic extends rsExtPost
 			return 'ongoing';
 		}
 	}
-	
+
 	public static function firstEventOfDay($rs,$type='')
 	{
 		if ($rs->isStart()) {
 			return true;
 		}
-		
+
 		if ($type == 'upddt') {
 			$cdate = dt::dt2str('%Y%m%d',$rs->post_upddt,$rs->post_tz);
 		} elseif ($type == 'creadt') {
@@ -135,7 +137,7 @@ class rsExtEventHandlerPublic extends rsExtPost
 			$cdate = $rs->post_dt;
 		}
 		$rs->movePrev();
-		
+
 		if ($type == 'upddt') {
 			$ndate = dt::dt2str('%Y%m%d',$rs->post_upddt,$rs->post_tz);
 		} elseif ($type == 'creadt') {
@@ -148,16 +150,16 @@ class rsExtEventHandlerPublic extends rsExtPost
 			$ndate = $rs->post_dt;
 		}
 		$rs->moveNext();
-		
+
 		return $ndate != $cdate;
 	}
-	
+
 	public static function lastEventOfDay($rs,$type='')
 	{
 		if ($rs->isEnd()) {
 			return true;
 		}
-		
+
 		if ($type == 'upddt') {
 			$cdate = dt::dt2str('%Y%m%d',$rs->post_upddt,$rs->post_tz);
 		} elseif ($type == 'creadt') {
@@ -170,7 +172,7 @@ class rsExtEventHandlerPublic extends rsExtPost
 			$cdate = $rs->post_dt;
 		}
 		$rs->moveNext();
-		
+
 		if ($type == 'upddt') {
 			$ndate = dt::dt2str('%Y%m%d',$rs->post_upddt,$rs->post_tz);
 		} elseif ($type == 'creadt') {
@@ -183,12 +185,12 @@ class rsExtEventHandlerPublic extends rsExtPost
 			$ndate = $rs->post_dt;
 		}
 		$rs->movePrev();
-		
+
 		return $ndate != $cdate;
 	}
-	
+
 	# Not best place for next functions but work fine here!
-	
+
 	public static function getIcalVEVENT($rs)
 	{
 		$l = array();
@@ -213,7 +215,7 @@ class rsExtEventHandlerPublic extends rsExtPost
 			$l[] = "CATEGORIES;CHARSET=UTF-8:".$rs->cat_title;
 		}
 		$l[] = "END:VEVENT";
-	
+
 		$res = '';
 		foreach($l as $k => $line)
 		{
@@ -221,10 +223,10 @@ class rsExtEventHandlerPublic extends rsExtPost
 		}
 		return $res;
 	}
-	
+
 	public static function getHcalVEVENT($rs)
 	{
-		$res = 
+		$res =
 		'<div class="vevent">'."\n".
 		'<h2 class="summary">'.html::escapeHTML($rs->post_title).'</h2>'."\n".
 		'<ul>'."\n".
@@ -242,18 +244,18 @@ class rsExtEventHandlerPublic extends rsExtPost
 		{
 			$res .= '<li>'.__('Category:').' <abbr class="categories">'.html::escapeHTML($rs->cat_title).'</abbr></li>'."\n";
 		}
-		$res .= 
+		$res .=
 		'</ul>'."\n".
 		'<p class="description">'.($rs->isExtended() ? context::global_filter($rs->getExcerpt(),1,1,'250',0,0,'') : context::global_filter($rs->getContent(),1,1,'250',0,0,'')).'</p>'."\n".
 		'<p><a class="url" href="'.$rs->getURL().'">'.__('Read more').'</a> <abbr class="uid">'.$rs->core->blog->id.$rs->post_id.'</abbr></p>'."\n".
 		'</div>';
-		
+
 		return $res;
 	}
-	
+
 	public static function getGmapVEVENT($rs)
 	{
-		return 
+		return
 		'<div style="display:none;" class="event-gmap-marker">'.
 		'<p class="event-gmap-marker-latitude">'.$rs->event_latitude.'</p>'.
 		'<p class="event-gmap-marker-longitude">'.$rs->event_longitude.'</p>'.
@@ -265,4 +267,3 @@ class rsExtEventHandlerPublic extends rsExtPost
 		'</div>';
 	}
 }
-?>

@@ -1,10 +1,11 @@
-todo
- * sort by day,week,month,...
- * optionnal end date (or day mode)
- * periodical events
- * quick add on post entry (copy post content)
- * manage sub categories
+plugin eventHandler 1.1.0 - 2014-11-DD
+======================================
+* Fix javascript issue preventing editor to be displayed.
+* Add some translations.
 
+
+Previous history
+----------------
 2013.07.07
  * Added options to widgets (closes #693)
  * Added dashboard icon
