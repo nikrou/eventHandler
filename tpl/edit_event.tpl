@@ -1,6 +1,7 @@
 <html>
   <head>
     <title><?php echo __('Event handler'), ' - ', $page_title;?></title>
+    <script type=""text/javascript" src = "http://maps.google.com/maps/api/js?sensor=false"></script>
     <?php
        echo
        dcPage::jsDatePicker().
@@ -130,7 +131,7 @@
 	      <div class="fieldset">
 		<h3><?php echo __('Maps');?></h3>
 		<p class="form-note"><?php echo __('If you want to use maps, you must enter an address as precise as possible (number, street, city, country)');?></p>
-		<p id="event-map-link"><a href="http://maps.google.fr/maps"><?php echo __('Find coordinates on googleMap');?></a></p>
+		<p><a id="event-map-link" href="#"><?php echo __('Find coordinates on googleMap');?></a></p>
 		<div class="two-cols clearfix">
 		  <div class="col">
 		    <p><label><?php echo __('Latitude:');?>

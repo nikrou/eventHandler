@@ -13,55 +13,23 @@
  *
  * -- END LICENSE BLOCK ------------------------------------*/
 
-$(function(){
-	var script = document.createElement("script");
-	script.type = "text/javascript";
-	script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=eventGeocoderInit";
-	document.body.appendChild(script);
-});
-
-var geocoder;
-var map;
-
-function eventGeocoderInit(){
-
-	geocoder = new google.maps.Geocoder();
-
-	$('#event-map-link').attr('href','#');
-
-	$('#event-map-link').click(function(){
-		eventCodeAddress();
+$(function() {
+	$('#event-map-link').click(function(e) {
+		var address = $('#event_address').val();
+		if (address==''){
+			return false;
+		}
+		var geocoder = new google.maps.Geocoder();
+		geocoder.geocode({address:address},
+				 function(results, status) {
+					 if (status == google.maps.GeocoderStatus.OK) {
+						 $('#event_latitude').val(results[0].geometry.location.lat());
+						 $('#event_longitude').val(results[0].geometry.location.lng());
+					 } else {
+						 alert("Geocode was not successful for the following reason: " + status);
+					 }
+				 });
+		e.preventDefault();
 		return false;
 	});
-}
-
-function eventCodeAddress() {
-	var address=$('#event_address').val();
-	if (address==''){
-		return false;
-	}
-	if (geocoder) {
-		geocoder.geocode( { 'address': address}, function(results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
-				//split location into readable latlng
-				var latlng = new String(results[0].geometry.location);
-				latlng = latlng.slice(1,-1);
-				loc = latlng.split(', ');
-				if (loc[0]!=undefined && loc[1]!=undefined){
-					$('#event_latitude').val(loc[0]);
-					$('#event_longitude').val(loc[1]);
-				}
-				// rewrite returned address
-				var new_address = results[0].formatted_address;
-				if (new_address!=undefined){
-					$('#event_address').val(new_address);
-				}
-			} else {
-				alert("Geocode was not successful for the following reason: " + status);
-			}
-			return false;
-		});
-		return false;
-	}
-	return false;
-}
+});
