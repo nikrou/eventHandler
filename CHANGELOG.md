@@ -3,7 +3,6 @@ plugin eventHandler 1.1.0 - 2014-11-DD
 * Fix javascript issue preventing editor to be displayed.
 * Add some translations.
 
-
 Previous history
 ----------------
 2013.07.07

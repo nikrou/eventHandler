@@ -14,8 +14,7 @@
 #
 # -- END LICENSE BLOCK ------------------------------------
 
-if (!defined('DC_CONTEXT_ADMIN')){return;}
-if (version_compare(str_replace("-r","-p",DC_VERSION),'2.5-alpha','<')){return;}
+if (!defined('DC_CONTEXT_ADMIN')) { exit; }
 
 dcPage::check('usage,contentadmin');
 

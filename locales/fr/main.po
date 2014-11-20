@@ -75,9 +75,31 @@ msgstr "Erreur"
 msgid "An error occured when trying de unbind event"
 msgstr "Il y a eu une erreur en essayant de détacher un événement"
 
+#: inc/index.events.php:556
+msgid "Apply filters"
+msgstr "Filtres"
+
+#: _widgets.php:47 _widgets.php:97 _widgets.php:134 _widgets.php:180
+#: inc/index.events.php:309
+msgid "Ascending"
+msgstr "Ascendant"
+
 #: inc/index.events.php:576
 msgid "Attach selected events"
 msgstr "Lier les événements selectionnés"
+
+#: inc/index.event.php:40 inc/index.events.php:43 inc/index.events.php:299
+#: _public.php:947
+msgid "Author"
+msgstr "Auteur"
+
+#: inc/index.events.php:527
+msgid "Author:"
+msgstr "Auteur : "
+
+#: inc/index.event.php:206 inc/index.event.php:212
+msgid "Available"
+msgstr "Disponible"
 
 #: inc/index.events.php:512
 msgid "Bind an event"
@@ -90,6 +112,21 @@ msgstr "Attacher des événements"
 #: inc/lib.eventhandler.calendar.php:123
 msgid "Calendar"
 msgstr "Calendrier"
+
+#: inc/index.event.php:39 inc/index.event.php:615 inc/index.events.php:42
+#: inc/index.events.php:298 inc/index.settings.php:144
+msgid "Category"
+msgstr "Catégorie"
+
+#: _widgets.php:67 _widgets.php:112 _widgets.php:140
+#: inc/lib.eventhandler.rs.extension.php:245 inc/index.event.php:616
+#: inc/index.events.php:529
+msgid "Category:"
+msgstr "Catégorie : "
+
+#: inc/index.events.php:339 inc/index.events.php:342
+msgid "Change"
+msgstr "Modifier"
 
 #: inc/index.event.php:277
 msgid "Change entry into event"
@@ -131,6 +168,15 @@ msgstr "Type par défaut de la carte :"
 msgid "Default zoom on map:"
 msgstr "Zoom par défaut de la carte :"
 
+#: inc/index.events.php:347
+msgid "Delete"
+msgstr "Supprimer"
+
+#: _widgets.php:48 _widgets.php:98 _widgets.php:135 _widgets.php:181
+#: inc/index.events.php:308
+msgid "Descending"
+msgstr "Descendant"
+
 #: inc/lib.eventhandler.calendar.php:136
 msgid "Detail"
 msgstr "Détail"
@@ -138,6 +184,10 @@ msgstr "Détail"
 #: _public.php:716
 msgid "Directory:"
 msgstr "Répertoire :"
+
+#: _widgets.php:77 _widgets.php:158 _widgets.php:209 _widgets.php:229
+msgid "Display on:"
+msgstr "Affichage"
 
 #: inc/index.event.php:287 inc/index.event.php:609
 msgid "Edit event"
@@ -163,6 +213,10 @@ msgstr "Date de fin :"
 #: _widgets.php:138
 msgid "Entries of an event"
 msgstr "Billets d'un événement"
+
+#: inc/index.event.php:541
+msgid "Entry has been successfully created."
+msgstr "Événements importés avec succès depuis eventdata"
 
 #: _admin.php:28 _admin.php:58 inc/index.event.php:520
 #: inc/index.events.php:493 inc/index.events.php:504
@@ -235,10 +289,6 @@ msgstr "Impossible de récupérer le calendrier"
 #, php-format
 msgid "Failed to save configuration: %s"
 msgstr "Impossible de sauver la configuration : %s"
-
-#: inc/index.event.php:544
-msgid "File has been attached."
-msgstr "Le fichier a été attaché"
 
 #: inc/index.events.php:519 inc/index.events.php:524
 msgid "Filters"
@@ -344,6 +394,14 @@ msgstr "Cartes"
 msgid "Monday"
 msgstr "Lundi"
 
+#: inc/index.events.php:540
+msgid "Month:"
+msgstr "Mois : "
+
+#: inc/index.event.php:206 inc/index.event.php:211 inc/index.event.php:216
+msgid "Most used"
+msgstr "Plus utilisés"
+
 #: inc/index.event.php:158 inc/index.event.php:584 inc/index.events.php:497
 #: inc/index.events.php:513 inc/index.settings.php:108
 msgid "New event"
@@ -374,6 +432,10 @@ msgstr "Pas d'événement"
 msgid "No such event ID"
 msgstr "Pas de tel événement"
 
+#: inc/index.event.php:83 inc/index.events.php:86 inc/index.events.php:260
+msgid "None"
+msgstr "Aucun"
+
 #: _widgets.php:55 _widgets.php:105 _widgets.php:188 inc/index.events.php:318
 #: _public.php:867 _public.php:1071
 msgid "Not finished"
@@ -396,6 +458,11 @@ msgstr "Le %sd de %st à %et"
 #: _public.php:863 _public.php:1067
 msgid "Ongoing"
 msgstr "En cours"
+
+#: _widgets.php:69 _widgets.php:114 _widgets.php:142 _widgets.php:205
+#: inc/index.events.php:547
+msgid "Order by:"
+msgstr "Trier par : "
 
 #: _widgets.php:57 _widgets.php:107 _widgets.php:190 inc/index.events.php:320
 #: _public.php:864 _public.php:1068
@@ -438,6 +505,13 @@ msgstr "Enregistrements effacés avec succès"
 msgid "Related events"
 msgstr "Événements liés"
 
+msgid "Related entries"
+msgstr "Billets liés"
+
+#: inc/index.events.php:331
+msgid "Schedule"
+msgstr "Événements programmés"
+
 #: _public.php:1057
 msgid "Scheduled events"
 msgstr "Événements programmés"
@@ -457,6 +531,11 @@ msgstr "Afficher les billets liés sur un événement :"
 #: inc/index.settings.php:130
 msgid "Show related events on entry:"
 msgstr "Afficher les événement liés sur un billet :"
+
+#: _widgets.php:70 _widgets.php:115 _widgets.php:143 _widgets.php:206
+#: inc/index.events.php:549
+msgid "Sort:"
+msgstr "Tri"
 
 #: _admin.php:344 _widgets.php:43 _widgets.php:93 _widgets.php:176
 #: inc/index.events.php:38 inc/index.events.php:302 _public.php:949
@@ -621,9 +700,12 @@ msgid "next event"
 msgstr "Événements suivant"
 
 #: inc/index.events.php:279
-#, fuzzy
 msgid "not selected"
 msgstr "Non débuté"
+
+#: inc/index.events.php:279
+msgid "selected"
+msgstr "Débuté"
 
 #: inc/class.eventhandler.php:442
 msgid "one day"
@@ -660,3 +742,6 @@ msgstr "satellite"
 #: _widgets.php:171 inc/index.settings.php:80
 msgid "terrain"
 msgstr "terrain"
+
+msgid "Settings"
+msgstr "Paramètres"

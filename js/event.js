@@ -25,5 +25,10 @@ $(function(){
 		end_dtPick.img_top = '1.5em';
 		end_dtPick.draw();
 	}
-	$('#event-area-title').toggleWithLegend($('#event-area-content'),{cookie:'dcx_eventhandler_admin_options'});
+	$('#event-area-title').toggleWithLegend(
+		$('#event-area-content'),{
+			legend_click: true,
+			cookie:'dcx_eventhandler_admin_options'
+		}
+	);
 });

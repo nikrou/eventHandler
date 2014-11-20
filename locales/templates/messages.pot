@@ -1,14 +1,14 @@
-# eventHandler gettext template.
-# Copyright (C) 2014  Nicolas Roudaire http://www.nikrou.net
-# This file is distributed under the same license as the eventHandler plugin.
-# Nicolas Roudaire <nikrou77@gmail.com>, 2014.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: eventHandler 1.1\n"
 "Report-Msgid-Bugs-To: nikrou77+l10n@gmail.com\n"
-"POT-Creation-Date: 2014-11-18 18:07+0100\n"
+"POT-Creation-Date: 2014-11-19 08:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,11 +30,11 @@ msgstr ""
 msgid "%Y-%m-%d %H:%M"
 msgstr ""
 
-#: _public.php:1112
+#: _public.php:1112 _public.php:1112
 msgid "%m %Y"
 msgstr ""
 
-#: _public.php:1093
+#: _public.php:1093 _public.php:1093
 msgid "%m %d %Y"
 msgstr ""
 
@@ -78,12 +78,12 @@ msgstr ""
 msgid "Address:"
 msgstr ""
 
-#: _public.php:862 _public.php:1066
+#: _public.php:862 _public.php:1066 _public.php:862 _public.php:1066
 msgid "All"
 msgstr ""
 
 #: _widgets.php:348 _widgets.php:462 _widgets.php:595 _widgets.php:683
-#: _widgets.php:726 _public.php:1054
+#: _widgets.php:726 _public.php:1054 _public.php:1054
 msgid "All events"
 msgstr ""
 
@@ -117,11 +117,15 @@ msgid "Attach selected events"
 msgstr ""
 
 #: inc/index.event.php:547
+msgid "Attachment has been removed."
+msgstr ""
+
+#: inc/index.event.php:547
 msgid "Attachment has been successfully removed."
 msgstr ""
 
 #: inc/index.event.php:40 inc/index.events.php:43 inc/index.events.php:299
-#: _public.php:947
+#: _public.php:947 _public.php:947
 msgid "Author"
 msgstr ""
 
@@ -189,11 +193,19 @@ msgid "Check to unbind"
 msgstr ""
 
 #: inc/index.event.php:550
+msgid "Comment has been created."
+msgstr ""
+
+#: inc/index.event.php:550
 msgid "Comment has been successfully created."
 msgstr ""
 
-#: _public.php:1060
+#: _public.php:1060 _public.php:1060
 msgid "Completed events"
+msgstr ""
+
+#: index.php:60
+msgid "Configuration saved"
 msgstr ""
 
 #: index.php:60
@@ -208,7 +220,7 @@ msgstr ""
 msgid "Convert to XHTML"
 msgstr ""
 
-#: _public.php:1055
+#: _public.php:1055 _public.php:1055
 msgid "Current events"
 msgstr ""
 
@@ -242,7 +254,7 @@ msgstr ""
 msgid "Detail"
 msgstr ""
 
-#: _public.php:716
+#: _public.php:716 _public.php:716
 msgid "Directory:"
 msgstr ""
 
@@ -272,6 +284,7 @@ msgstr ""
 
 #: _admin.php:345 _widgets.php:44 _widgets.php:94 _widgets.php:177
 #: inc/index.events.php:39 inc/index.events.php:303 _public.php:950
+#: _public.php:950
 msgid "End date"
 msgstr ""
 
@@ -297,11 +310,19 @@ msgid "Entries per page"
 msgstr ""
 
 #: inc/index.event.php:541
+msgid "Entry has been created."
+msgstr ""
+
+#: inc/index.event.php:541
 msgid "Entry has been successfully created."
 msgstr ""
 
 #: inc/index.event.php:538
 msgid "Entry has been successfully updated."
+msgstr ""
+
+#: inc/index.event.php:538
+msgid "Entry has been updated."
 msgstr ""
 
 #: inc/index.event.php:640
@@ -322,8 +343,12 @@ msgstr ""
 msgid "Event is disabled on this blog"
 msgstr ""
 
-#: _public.php:1056
+#: _public.php:1056 _public.php:1056
 msgid "Event not being"
+msgstr ""
+
+#: _services.php:48
+msgid "Event removed from post"
 msgstr ""
 
 #: _services.php:48
@@ -334,7 +359,8 @@ msgstr ""
 #: inc/index.events.php:493 inc/index.events.php:496 inc/index.events.php:504
 #: inc/index.events.php:512 inc/index.settings.php:106
 #: inc/index.settings.php:121 inc/index.settings.php:147 _public.php:702
-#: _public.php:712 _public.php:757
+#: _public.php:712 _public.php:757 _public.php:702 _public.php:712
+#: _public.php:757
 msgid "Events"
 msgstr ""
 
@@ -393,6 +419,10 @@ msgid "Failed to save configuration: %s"
 msgstr ""
 
 #: inc/index.event.php:544
+msgid "File has been attached."
+msgstr ""
+
+#: inc/index.event.php:544
 msgid "File has been successfully attached."
 msgstr ""
 
@@ -405,7 +435,7 @@ msgid "Find coordinates on googleMap"
 msgstr ""
 
 #: _widgets.php:54 _widgets.php:104 _widgets.php:187 inc/index.events.php:317
-#: _public.php:868 _public.php:1072
+#: _public.php:868 _public.php:1072 _public.php:868 _public.php:1072
 msgid "Finished"
 msgstr ""
 
@@ -413,27 +443,27 @@ msgstr ""
 msgid "First day of week:"
 msgstr ""
 
-#: _public.php:1108
+#: _public.php:1108 _public.php:1108
 #, php-format
 msgid "For the day of %s"
 msgstr ""
 
-#: _public.php:1113
+#: _public.php:1113 _public.php:1113
 #, php-format
 msgid "For the month of %s"
 msgstr ""
 
-#: _public.php:1127
+#: _public.php:1127 _public.php:1127
 #, php-format
 msgid "For the period between %s and %s"
 msgstr ""
 
-#: _public.php:1131
+#: _public.php:1131 _public.php:1131
 #, php-format
 msgid "For the period through %s and %s"
 msgstr ""
 
-#: _public.php:1117
+#: _public.php:1117 _public.php:1117
 #, php-format
 msgid "For the year of %s"
 msgstr ""
@@ -577,7 +607,7 @@ msgid "None"
 msgstr ""
 
 #: _widgets.php:55 _widgets.php:105 _widgets.php:188 inc/index.events.php:318
-#: _public.php:867 _public.php:1071
+#: _public.php:867 _public.php:1071 _public.php:867 _public.php:1071
 msgid "Not finished"
 msgstr ""
 
@@ -599,7 +629,7 @@ msgid "On %sd from %st to %et"
 msgstr ""
 
 #: _widgets.php:56 _widgets.php:106 _widgets.php:189 inc/index.events.php:319
-#: _public.php:863 _public.php:1067
+#: _public.php:863 _public.php:1067 _public.php:863 _public.php:1067
 msgid "Ongoing"
 msgstr ""
 
@@ -609,7 +639,7 @@ msgid "Order by:"
 msgstr ""
 
 #: _widgets.php:57 _widgets.php:107 _widgets.php:190 inc/index.events.php:320
-#: _public.php:864 _public.php:1068
+#: _public.php:864 _public.php:1068 _public.php:864 _public.php:1068
 msgid "Outgoing"
 msgstr ""
 
@@ -626,7 +656,7 @@ msgstr ""
 msgid "Period:"
 msgstr ""
 
-#: index.php:42 _public.php:127
+#: index.php:42 _public.php:127 _public.php:127
 msgid "Please wait"
 msgstr ""
 
@@ -642,7 +672,7 @@ msgstr ""
 msgid "Publish"
 msgstr ""
 
-#: _public.php:948
+#: _public.php:948 _public.php:948
 msgid "Published date"
 msgstr ""
 
@@ -652,6 +682,10 @@ msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:250
 msgid "Read more"
+msgstr ""
+
+#: index.php:61
+msgid "Records deleted"
 msgstr ""
 
 #: inc/index.settings.php:217
@@ -678,11 +712,11 @@ msgstr ""
 msgid "Schedule"
 msgstr ""
 
-#: _public.php:865 _public.php:1069
+#: _public.php:865 _public.php:1069 _public.php:865 _public.php:1069
 msgid "Scheduled"
 msgstr ""
 
-#: _public.php:1057
+#: _public.php:1057 _public.php:1057
 msgid "Scheduled events"
 msgstr ""
 
@@ -690,7 +724,7 @@ msgstr ""
 msgid "Select events to link to entries"
 msgstr ""
 
-#: inc/index.events.php:301 _public.php:946
+#: inc/index.events.php:301 _public.php:946 _public.php:946
 msgid "Selected"
 msgstr ""
 
@@ -737,6 +771,7 @@ msgstr ""
 
 #: _admin.php:344 _widgets.php:43 _widgets.php:93 _widgets.php:176
 #: inc/index.events.php:38 inc/index.events.php:302 _public.php:949
+#: _public.php:949
 msgid "Start date"
 msgstr ""
 
@@ -749,11 +784,11 @@ msgid "Start date:"
 msgstr ""
 
 #: _widgets.php:53 _widgets.php:103 _widgets.php:186 inc/index.events.php:316
-#: _public.php:866 _public.php:1070
+#: _public.php:866 _public.php:1070 _public.php:866 _public.php:1070
 msgid "Started"
 msgstr ""
 
-#: _public.php:1058
+#: _public.php:1058 _public.php:1058
 msgid "Started events"
 msgstr ""
 
@@ -774,7 +809,7 @@ msgstr ""
 msgid "Text formatting"
 msgstr ""
 
-#: _public.php:795
+#: _public.php:795 _public.php:795
 msgid "There's no event at this time."
 msgstr ""
 
@@ -786,7 +821,7 @@ msgstr ""
 msgid "This event does not exist."
 msgstr ""
 
-#: _public.php:735
+#: _public.php:735 _public.php:735
 msgid "This page is powered by Dotclear and eventHandler"
 msgstr ""
 
@@ -796,7 +831,7 @@ msgstr ""
 
 #: _admin.php:342 _widgets.php:42 _widgets.php:92 _widgets.php:131
 #: _widgets.php:175 inc/index.event.php:37 inc/index.events.php:37
-#: inc/index.events.php:297 _public.php:945
+#: inc/index.events.php:297 _public.php:945 _public.php:945
 msgid "Title"
 msgstr ""
 
@@ -817,7 +852,7 @@ msgstr ""
 msgid "Uncategorized"
 msgstr ""
 
-#: _public.php:1059
+#: _public.php:1059 _public.php:1059
 msgid "Unfinished events"
 msgstr ""
 
@@ -912,7 +947,7 @@ msgstr ""
 msgid "delete the version number"
 msgstr ""
 
-#: _public.php:25
+#: _public.php:25 _public.php:25
 msgid "finished"
 msgstr ""
 
@@ -968,7 +1003,7 @@ msgstr ""
 msgid "one minute"
 msgstr ""
 
-#: _public.php:24
+#: _public.php:24 _public.php:24
 msgid "ongoing"
 msgstr ""
 
@@ -1001,7 +1036,7 @@ msgid "save"
 msgstr ""
 
 #: _admin.php:381 inc/index.event.php:96 inc/index.events.php:99
-#: _public.php:23
+#: _public.php:23 _public.php:23
 msgid "scheduled"
 msgstr ""
 

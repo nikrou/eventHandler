@@ -15,7 +15,6 @@
 # -- END LICENSE BLOCK ------------------------------------
 
 if (!defined('DC_RC_PATH')){return;}
-if (version_compare(str_replace("-r","-p",DC_VERSION),'2.5-alpha','<')){return;}
 
 global $__autoload, $core;
 
@@ -25,6 +24,9 @@ $__autoload['rsExtEventHandlerPublic'] = dirname(__FILE__).'/inc/lib.eventhandle
 $__autoload['eventHandlerCalendar'] = dirname(__FILE__).'/inc/lib.eventhandler.calendar.php';
 $__autoload['eventHandlerRestMethods'] = dirname(__FILE__).'/_services.php';
 $__autoload['eventHandlerPublicRest'] = dirname(__FILE__).'/inc/lib.eventhandler.pubrest.php';
+
+$__autoload['adminEventHandlertList'] = dirname(__FILE__).'/inc/admin.event_handler.list.php';
+$__autoload['adminEventHandlertPostsList'] = dirname(__FILE__).'/inc/admin.event_handler.posts.list.php';
 
 # Public page for an event
 $core->url->register('eventhandler_single','day','^day/(.+)$',array('urlEventHandler','eventSingle'));

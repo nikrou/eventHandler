@@ -22,14 +22,7 @@ $old_version = $core->getVersion('eventHandler');
 # Compare versions
 if (version_compare($old_version,$new_version,'>=')) return;
 # Install
-try
-{
-	# Check DC version
-	if (version_compare(str_replace("-r","-p",DC_VERSION),'2.5-alpha','<'))
-	{
-		throw new Exception('eventHandler requires Dotclear 2.5');
-	}
-
+try {
 	# Database schema
 	$t = new dbStruct($core->con,$core->prefix);
 	$t->eventhandler
@@ -61,16 +54,13 @@ try
 	$s->put('public_hidden_categories','','string','List of categories to hide from post content and widgets',false,true);
 	$s->put('public_map_zoom',9,'integer','Default zoom of map',false,true);
 	$s->put('public_map_type','ROADMAP','string','Default type of map',false,true);
-	//$s->put('public_disable_css',false,'boolean','Disabled default public CSS of eventHanlder',false,true);
 	$s->put('public_extra_css',$extra_css,'string','Custom CSS',false,true);
 
 	# Set version
 	$core->setVersion('eventHandler',$new_version);
 
 	return true;
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
 	$core->error->add($e->getMessage());
 }
 return false;
