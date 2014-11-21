@@ -101,6 +101,7 @@
     );
     }
     ?>
+    <?php echo $footer;?>
     <?php echo dcPage::helpBlock('eventHandler');?>
   </body>
 </html>

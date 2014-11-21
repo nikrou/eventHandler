@@ -199,6 +199,7 @@
       <?php endif;?>
     </div>
     <?php endif;?>
+    <?php echo $footer;?>
     <?php dcPage::helpBlock('eventHandler');?>
   </body>
 </html>

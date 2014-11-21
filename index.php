@@ -24,9 +24,11 @@ $p_url 	= 'plugin.php?p=eventHandler';
 $eventHandler = new eventHandler($core);
 
 # Clean REQUESTs
+$is_super_admin = $core->auth->isSuperAdmin();
 $msg = isset($_REQUEST['msg']) ? $_REQUEST['msg'] : '';
 $start_part = $s->active ? 'events' : 'settings';
 $default_part = isset($_REQUEST['part']) ? $_REQUEST['part'] : $start_part;
+$default_tab = $default_part;
 $section = isset($_REQUEST['section']) ? $_REQUEST['section'] : '';
 $tab = isset($_REQUEST['tab']) ? $_REQUEST['tab'] : 'settings';
 $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : '';
@@ -45,8 +47,7 @@ dcPage::jsVar('jcToolsBox.prototype.section',$section).
 # Common page footer
 $footer = '<hr class="clear"/><p class="right">';
 
-if ($core->auth->check('admin',$core->blog->id))
-{
+if ($core->auth->check('admin',$core->blog->id)) {
 	$footer .= '<a class="button" href="'.$p_url.'&amp;part=settings">'.__('Settings').'</a> - ';
 }
 $footer .= '
@@ -67,15 +68,14 @@ $errors = array(
 );
 
 # Messages
-if (isset($succes[$msg]))
-{
+if (isset($succes[$msg])) {
 	$msg = dcPage::message($succes[$msg]);
 }
 
 # Pages
-if (!file_exists(dirname(__FILE__).'/inc/index.'.$default_part.'.php'))
-{
+if (!file_exists(dirname(__FILE__).'/inc/index.'.$default_part.'.php')) {
 	$default_part = 'settings';
 }
+
 define('DC_CONTEXT_EVENTHANDLER',$default_part);
 include dirname(__FILE__).'/inc/index.'.$default_part.'.php';
