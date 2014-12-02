@@ -569,7 +569,7 @@ msgstr "Il n'y a pas d'événement pour l'instant."
 
 #: inc/index.event.php:247
 msgid "This event does not exist."
-msgstr "Cette événement n'existe pas"
+msgstr "Cet événement n'existe pas"
 
 #: _public.php:735
 msgid "This page is powered by Dotclear and eventHandler"
@@ -745,3 +745,72 @@ msgstr "terrain"
 
 msgid "Settings"
 msgstr "Paramètres"
+
+msgid "Selected event"
+msgstr "Événement sélectionné"
+
+msgid "Event status"
+msgstr "Statut de l'événement"
+
+msgid "Event has been updated."
+msgstr "L'événement a été mis à jour."
+
+msgid "Event has been created."
+msgstr "L'événement a été créé."
+
+msgid "scheduled"
+msgstr "programmé"
+
+msgid "Scheduled"
+msgstr "Programmé"
+
+msgid "Period of events:"
+msgstr "Période d'événements : "
+
+msgid "Sort events by:"
+msgstr "Classer par : "
+
+msgid "Atom feed"
+msgstr "Flux Atom"
+
+msgid "These events Atom feed"
+msgstr "Flux Atom des événements"
+
+msgid "Please wait"
+msgstr "Veuillez patienter"
+
+msgid "Add these events to your iCalendar"
+msgstr "Ajouter ces événements à votre iCalendar"
+
+msgid "iCalendar"
+msgstr "iCalender"
+
+msgid "Display these events on hCalendar format"
+msgstr "Afficher ces événements au format hCalendar"
+
+msgid "Display these events on a map"
+msgstr "Afficher ces événements sur un carte"
+
+msgid "for a period of"
+msgstr "pour une durée de"
+
+msgid "Read more"
+msgstr "Lire la suite"
+
+msgid "this event is"
+msgstr "cet événement est"
+
+msgid "Display this event on hCalendar format"
+msgstr "Afficher cet événement au format hCalendar"
+
+msgid "From %sd, %st to %ed, %et"
+msgstr "Du %sd, %st au %ed, %et"
+
+msgid "From"
+msgstr "Du"
+
+msgid "to"
+msgstr "au"
+
+msgid "Add this event to your iCalendar"
+msgstr "Ajouter cet événement à votre iCalendar"

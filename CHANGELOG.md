@@ -1,5 +1,10 @@
-plugin eventHandler 1.1.0 - 2014-11-DD
-======================================
+plugin eventHandler 2014-12-02 - 2014-12-02
+===========================================
+* Add more translations
+* Prepare for new dotclear release (editor)
+
+plugin eventHandler 2014-12-01 - 2014-12-01
+===========================================
 * Fix javascript issue preventing editor to be displayed.
 * Add some translations.
 

@@ -97,11 +97,11 @@ class adminEventHandlertList extends adminGenericList
 
 		$now = time();
 		if (strtotime($this->rs->event_startdt) > $now) {
-			$style = ' eventhandler-scheduled';
+			$event_class = 'eventhandler scheduled';
 		} elseif (strtotime($this->rs->event_enddt) < $now) {
-			$style = ' eventhandler-finished';
+			$event_class = 'eventhandler finished';
 		} else {
-			$style = ' eventhandler-ongoing';
+			$event_class = 'eventhandler ongoing';
 		}
 
 		$entries = $this->rs->eventHandler->getPostsByEvent(array('event_id'=>$this->rs->post_id),true);
@@ -114,13 +114,13 @@ class adminEventHandlertList extends adminGenericList
 		}
 
 		return
-            '<tr class="line'.($this->rs->post_status != 1 ? ' offline' : '').$style.'"'.
+            '<tr class="line'.($this->rs->post_status != 1 ? ' offline' : '').' '.$event_class.'"'.
             ' id="p'.$this->rs->post_id.'">'.
             '<td class="nowrap">'.form::checkbox(array('entries[]'),$this->rs->post_id,'','','',!$this->rs->isEditable()).'</td>'.
             '<td class="maximal"><a href="'.$this->core->getPostAdminURL($this->rs->post_type,$this->rs->post_id).'">'.
             html::escapeHTML($this->rs->post_title).'</a></td>'.
-            '<td class="nowrap'.$style.'">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_startdt).'</td>'.
-            '<td class="nowrap'.$style.'">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_enddt).'</td>'.
+            '<td class="nowrap'.' '.$event_class.'">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_startdt).'</td>'.
+            '<td class="nowrap'.' '.$event_class.'">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_enddt).'</td>'.
             '<td class="nowrap">'.$nb_entries.'</td>'.
             '<td class="nowrap">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->post_dt).'</td>'.
             '<td class="nowrap">'.$cat_title.'</td>'.

@@ -1,6 +1,7 @@
 <html>
   <head>
     <title><?php echo __('Events');?></title>
+    <link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css"/>
     <?php echo dcPage::jsLoad('js/_posts_list.js');?>
     <?php echo dcPage::jsLoad('js/filter-controls.js');?>
     <script type="text/javascript">

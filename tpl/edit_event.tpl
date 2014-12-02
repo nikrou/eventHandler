@@ -8,6 +8,7 @@
        dcPage::jsToolBar().
        dcPage::jsModal().
        dcPage::jsMetaEditor().
+       $admin_post_behavior.
        dcPage::jsLoad('js/_post.js').
        dcPage::jsLoad('index.php?pf=eventHandler/js/event.js').
        dcPage::jsLoad('index.php?pf=eventHandler/js/event-admin-map.js').
@@ -62,7 +63,7 @@
 	  </p>
 	  <div>
 	    <h5 id="label_format"><label for="post_format" class="classic"><?php echo __('Text formatting');?></label></h5>
-	    <p><?php echo form::combo('post_format',$formaters_combo,$post_format,'maximal');?></p>
+	    <p><?php echo form::combo('post_format',$available_formats,$post_format,'maximal');?></p>
 	    <p class="format_control control_no_xhtml">
 	      <a id="convert-xhtml" class="button<?php echo ($post_id && $post_format != 'wiki' ? ' hide' : '');?>" href="post.php?id=<?php echo $post_id;?>&amp;xconv=1"><?php echo __('Convert to XHTML');?></a></p>
 	  </div>

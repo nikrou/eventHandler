@@ -2,7 +2,9 @@ eventHandler
 ============
 
 eventHandler is a dotclear plugin to manage events (meetings, shows,...) on your blog.
-The main developement has been made by Jc Denis <contact@jcdenis.fr> - http://jcd.lv. Many thanks to him for that great plugin. I will try to maintain that plugin so that it can be used in recent dotclear releases.
+
+The main developement has been made by Jc Denis <contact@jcdenis.fr> - http://jcd.lv.
+Many thanks to him for that great plugin. I will try to maintain that plugin so that it can be used in recent dotclear releases.
 
 Requirements
 ------------

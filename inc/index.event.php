@@ -21,6 +21,7 @@ $post_id = '';
 $cat_id = '';
 $post_dt = '';
 $post_format = $core->auth->getOption('post_format');
+$post_editor = $core->auth->getOption('editor');
 $post_password = '';
 $post_url = '';
 $post_lang = $core->auth->getInfo('user_lang');
@@ -82,8 +83,18 @@ foreach ($core->blog->getAllPostStatus() as $k => $v) {
 }
 
 # Formaters combo
-foreach ($core->getFormaters() as $v) {
-	$formaters_combo[$v] = $v;
+if (version_compare(DC_VERSION, '2.7-dev', '>=')) {
+    $core_formaters = $core->getFormaters();
+    $available_formats = array('' => '');
+    foreach ($core_formaters as $editor => $formats) {
+        foreach ($formats as $format) {
+            $available_formats[$format] = $format;
+        }
+    }
+} else {
+    foreach ($core->getFormaters() as $v) {
+        $available_formats[$v] = $v;
+    }
 }
 
 # Languages combo
@@ -359,11 +370,16 @@ if (!empty($_GET['tab'])) {
 	$default_tab = $_GET['tab'];
 }
 
+$admin_post_behavior = '';
+if ($post_editor && !empty($post_editor[$post_format])) {
+	$admin_post_behavior = $core->callBehavior('adminPostEditor', $post_editor[$post_format], 'event');
+}
+
 $message = '';
 if (!empty($_GET['upd'])) {
-	$message = dcPage::message(__('Entry has been updated.'));
+	$message = dcPage::message(__('Event has been updated.'));
 } elseif (!empty($_GET['crea'])) {
-	$message = dcPage::message(__('Entry has been created.'));
+	$message = dcPage::message(__('Event has been created.'));
 } elseif (!empty($_GET['attached'])) {
 	$message = dcPage::message(__('File has been attached.'));
 } elseif (!empty($_GET['rmattach'])) {

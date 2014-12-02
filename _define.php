@@ -14,12 +14,12 @@
 #
 # -- END LICENSE BLOCK ------------------------------------
 
-if (!defined('DC_RC_PATH')){return;}
+if (!defined('DC_RC_PATH')) {return;}
 
 $this->registerModule(
 	/* Name */			"Event handler",
 	/* Description*/		"Add period to your posts",
 	/* Author */			"JC Denis, Nicolas Roudaire",
-	/* Version */			'1.1',
+	/* Version */			'2014.12.02',
 	/* Permissions */		'usage,contentadmin'
 );

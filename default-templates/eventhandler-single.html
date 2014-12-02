@@ -5,13 +5,13 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="MSSmartTagsPreventParsing" content="TRUE" />
   <meta name="ROBOTS" content="{{tpl:BlogMetaRobots}}" />
-  
+
   <title>{{tpl:EntryTitle encode_html="1"}} - {{tpl:BlogName encode_html="1"}}</title>
   <meta name="description" lang="{{tpl:EntryLang}}" content="{{tpl:EntryContent full="1" encode_html="1" remove_html="1" cut_string="180"}}" />
   <meta name="copyright" content="{{tpl:BlogCopyrightNotice encode_html="1"}}" />
   <meta name="author" content="{{tpl:EntryAuthorCommonName encode_html="1"}}" />
   <meta name="date" scheme="W3CDTF" content="{{tpl:EntryDate iso8601="1"}}" />
-  
+
   <link rel="schema.dc" href="http://purl.org/dc/elements/1.1/" />
   <meta name="dc.title" content="{{tpl:EntryTitle encode_html="1"}}" />
   <meta name="dc.description" lang="{{tpl:EntryLang}}" content="{{tpl:EntryContent full="1" encode_html="1" remove_html="1" cut_string="180"}}" />
@@ -22,25 +22,25 @@
   <meta name="dc.date" scheme="W3CDTF" content="{{tpl:EntryDate iso8601="1"}}" />
   <meta name="dc.type" content="text" />
   <meta name="dc.format" content="text/html" />
-  
+
   <link rel="top" href="{{tpl:BlogURL}}" title="{{tpl:lang Home}}" />
   <link rel="contents" href="{{tpl:BlogArchiveURL}}" title="{{tpl:lang Archives}}" />
-  
+
   <tpl:EntryNext><link rel="next" href="{{tpl:EntryURL}}"
   title="{{tpl:EntryTitle encode_html="1"}}" /></tpl:EntryNext>
-  
+
   <tpl:EntryPrevious><link rel="prev" href="{{tpl:EntryURL}}"
   title="{{tpl:EntryTitle encode_html="1"}}" /></tpl:EntryPrevious>
-  
+
   <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{{tpl:BlogFeedURL type="atom"}}" />
-  
+
   {{tpl:include src="_head.html"}}
-  
+
   <!-- default css for eventHandler -->
   <style type="text/css" media="screen">
   @import url({{tpl:BlogQmarkURL}}pf=eventHandler/default-templates/eventhandler.css);
   </style>
-  
+
   <script type="text/javascript" src="{{tpl:BlogThemeURL}}/../default/js/post.js"></script>
   <script type="text/javascript">
   //<![CDATA[
@@ -59,14 +59,14 @@
 
 <div id="main">
   <div id="content">
-  
+
   <p id="navlinks">
    <a href="{{tpl:EventsURL}}" title="{{tpl:lang list of events}}">{{tpl:lang All events}}</a>
   </p>
-  
+
   <div id="p{{tpl:EntryID}}" class="post">
     <h2 class="post-title">{{tpl:EntryTitle encode_html="1"}}</h2>
-    
+
     <p class="post-info">{{tpl:lang By}} {{tpl:EntryAuthorLink}}
     {{tpl:lang on}} {{tpl:EntryDate}}, {{tpl:EntryTime}}
     <tpl:EntryIf has_category="1">
@@ -74,16 +74,16 @@
     </tpl:EntryIf>
     - <a href="{{tpl:EntryURL}}">{{tpl:lang Permalink}}</a>
     </p>
-    
+
     <tpl:EntryTags>
     <tpl:TagsHeader><ul class="post-tags"></tpl:TagsHeader>
     <li><a href="{{tpl:TagURL}}">{{tpl:TagID}}</a></li>
     <tpl:TagsFooter></ul></tpl:TagsFooter>
     </tpl:EntryTags>
-	
+
 	<ul class="event-info">
 	<li class="event-date">
-		<tpl:EventsEntryIf oneday="0">{{tpl:lang from}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang to}} {{tpl:EventsEntryDate enddt="1"}}, {{tpl:EventsEntryTime enddt="1"}}</tpl:EventsEntryIf>
+		<tpl:EventsEntryIf oneday="0">{{tpl:lang From}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang to}} {{tpl:EventsEntryDate enddt="1"}}, {{tpl:EventsEntryTime enddt="1"}}</tpl:EventsEntryIf>
 		<tpl:EventsEntryIf oneday="1">{{tpl:lang on}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang till}} {{tpl:EventsEntryTime enddt="1"}}</tpl:EventsEntryIf>
 	</li>
 	<li class="event-duration">{{tpl:lang for a period of}} {{tpl:EventsEntryDuration}}</li>
@@ -95,26 +95,26 @@
 
     <!-- # --BEHAVIOR-- publicEntryBeforeContent -->
     {{tpl:SysBehavior behavior="publicEntryBeforeContent"}}
-    
+
     <!-- # Entry with an excerpt -->
     <tpl:EntryIf extended="1">
       <div class="post-excerpt">{{tpl:EntryExcerpt}}</div>
     </tpl:EntryIf>
-    
+
     <div class="post-content">{{tpl:EntryContent}}</div>
-	
+
 	{{tpl:EventsEntryMap map_info="0"}}
 	<tpl:EventsEntryIf has_geo="1">
 	<ul class="event-info"><li class="event-geo">{{tpl:lang Latitude:}} {{tpl:EventsEntryLatitude}}, {{tpl:lang Longitude:}} {{tpl:EventsEntryLongitude}}</li></ul>
 	</tpl:EventsEntryIf>
-    
+
     <!-- # --BEHAVIOR-- publicEntryAfterContent -->
     {{tpl:SysBehavior behavior="publicEntryAfterContent"}}
   </div>
-  
+
   <p id="eventsfeed"><a class="event-ical" type="text/calendar" href="{{tpl:SysSelfURI}}/ical.ics" title="{{tpl:lang Add this event to your iCalendar}}">{{tpl:lang iCalendar}}</a><br />
   <a class="event-hcal" type="text/calendar" href="{{tpl:SysSelfURI}}/hcal.html" title="{{tpl:lang Display this event on hCalendar format}}">{{tpl:lang hCalendar}}</a></p>
-  
+
   </div>
 </div> <!-- End #main -->
 
@@ -122,7 +122,7 @@
   <div id="blognav">
     {{tpl:Widgets type="nav"}}
   </div> <!-- End #blognav -->
-  
+
   <div id="blogextra">
     {{tpl:Widgets type="extra"}}
   </div> <!-- End #blogextra -->
