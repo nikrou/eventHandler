@@ -1,3 +1,7 @@
+plugin eventHandler 2014-12-08 - 2014-12-08
+===========================================
+* Fix misspeling in template. Thanks to @franck-tomek.
+
 plugin eventHandler 2014-12-02 - 2014-12-02
 ===========================================
 * Add more translations
