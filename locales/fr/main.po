@@ -1,18 +1,18 @@
 # Language: Français
 # Module: eventHandler - 1.1
-
 msgid ""
 msgstr ""
 "Project-Id-Version: eventHandler 1.1\n"
 "Report-Msgid-Bugs-To: nikrou77+l10n@gmail.com\n"
 "POT-Creation-Date: 2014-11-18 18:07+0100\n"
-"PO-Revision-Date: 2013-07-11T06:44:44+00:00\n"
+"PO-Revision-Date: 2014-12-08 22:20+0100\n"
 "Last-Translator: Jean-Christian Denis\n"
-"Language-Team: \n"
+"Language-Team: franck@ouik.fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: inc/class.eventhandler.php:441
 #, php-format
@@ -86,7 +86,7 @@ msgstr "Ascendant"
 
 #: inc/index.events.php:576
 msgid "Attach selected events"
-msgstr "Lier les événements selectionnés"
+msgstr "Lier les événements sélectionnés"
 
 #: inc/index.event.php:40 inc/index.events.php:43 inc/index.events.php:299
 #: _public.php:947
@@ -301,7 +301,7 @@ msgstr "Trouver les coordonnées sur GoogleMaps"
 #: _widgets.php:54 _widgets.php:104 _widgets.php:187 inc/index.events.php:317
 #: _public.php:868 _public.php:1072
 msgid "Finished"
-msgstr "Fini"
+msgstr "Terminé"
 
 #: _widgets.php:226
 msgid "First day of week:"
@@ -343,12 +343,8 @@ msgid "Height of map: (with unit as % or px)"
 msgstr "Hauteur de la carte : (avec les unités telles que % ou px)"
 
 #: inc/index.event.php:687
-msgid ""
-"If you want to use maps, you must enter an address as precise as possible "
-"(number, street, city, country)"
-msgstr ""
-"Si vous souhaitez utiliser des cartes, vous devez entrer une adresse aussi "
-"précise que possible (numéro, rue, ville, pays)"
+msgid "If you want to use maps, you must enter an address as precise as possible (number, street, city, country)"
+msgstr "Si vous souhaitez utiliser des cartes, vous devez entrer une adresse aussi précise que possible (numéro, rue, ville, pays)"
 
 #: inc/index.settings.php:220
 msgid "Import eventdata records"
@@ -439,7 +435,7 @@ msgstr "Aucun"
 #: _widgets.php:55 _widgets.php:105 _widgets.php:188 inc/index.events.php:318
 #: _public.php:867 _public.php:1071
 msgid "Not finished"
-msgstr "Non fini"
+msgstr "Non terminé"
 
 #: inc/class.eventhandler.php:391
 msgid "Not full coordinate"
@@ -483,11 +479,11 @@ msgstr "Veuillez patienter"
 
 #: inc/class.eventhandler.php:470
 msgid "Please wait, try to create map..."
-msgstr "Veulliez patienter, construction de la carte..."
+msgstr "Veuillez patienter, construction de la carte..."
 
 #: inc/index.event.php:579
 msgid "Preview event"
-msgstr "Prévisualier l'événement"
+msgstr "Prévisualiser l'événement"
 
 #: _public.php:948
 msgid "Published date"
@@ -495,7 +491,7 @@ msgstr "Date de publication"
 
 #: inc/index.settings.php:217
 msgid "Records of eventdata have been imported for this blog."
-msgstr "Les enregistrements de eventdata ont déjà été importé pour ce blog."
+msgstr "Les enregistrements de eventdata ont déjà été importés pour ce blog."
 
 #: index.php:61
 msgid "Records succesfully deleted"
@@ -544,7 +540,7 @@ msgstr "Date de début"
 
 #: inc/class.eventhandler.php:385
 msgid "Start date greater than end date"
-msgstr "date de début plus récente qu la date de fin"
+msgstr "date de début plus récente que la date de fin"
 
 #: inc/lib.eventhandler.rs.extension.php:233 inc/index.event.php:667
 msgid "Start date:"
@@ -569,7 +565,7 @@ msgstr "Il n'y a pas d'événement pour l'instant."
 
 #: inc/index.event.php:247
 msgid "This event does not exist."
-msgstr "Cet événement n'existe pas"
+msgstr "Cet événement n'existe pas."
 
 #: _public.php:735
 msgid "This page is powered by Dotclear and eventHandler"
@@ -589,19 +585,15 @@ msgstr "Séparer les entrées liées"
 
 #: _public.php:1059
 msgid "Unfinished events"
-msgstr "Événements non finis"
+msgstr "Événements non terminés"
 
 #: inc/index.event.php:570
 msgid "View event"
 msgstr "Voir l'événement"
 
 #: inc/index.settings.php:140
-msgid ""
-"When an event has an hidden category, it will only display on its category "
-"page."
-msgstr ""
-"Quand un événement à une catégorie cachée, il ne s'affiche que sur sa page "
-"de catégorie."
+msgid "When an event has an hidden category, it will only display on its category page."
+msgstr "Quand un événement à une catégorie cachée, il ne s'affiche que sur sa page de catégorie."
 
 #: _widgets.php:202
 #, php-format
@@ -614,7 +606,7 @@ msgstr "Avec le nombre d'événements"
 
 #: inc/class.eventhandler.php:398 inc/class.eventhandler.php:406
 msgid "Wrong format of coordinate"
-msgstr "mauvais format de coordonnée"
+msgstr "mauvais format de coordonnées"
 
 #: inc/class.eventhandler.php:270
 msgid "You are not allowed to create an event"
@@ -697,7 +689,7 @@ msgstr "longitude :"
 
 #: inc/index.event.php:295
 msgid "next event"
-msgstr "Événements suivant"
+msgstr "Événement suivant"
 
 #: inc/index.events.php:279
 msgid "not selected"
@@ -729,7 +721,7 @@ msgstr "en cours"
 
 #: inc/index.event.php:303
 msgid "previous event"
-msgstr "Événements précédent"
+msgstr "Événement précédent"
 
 #: _widgets.php:168 inc/index.settings.php:77
 msgid "road map"
@@ -742,6 +734,10 @@ msgstr "satellite"
 #: _widgets.php:171 inc/index.settings.php:80
 msgid "terrain"
 msgstr "terrain"
+
+#: tpl/edit_event.tpl:36
+msgid "Go to this event on the site"
+msgstr "Voir cet événement sur le site"
 
 msgid "Settings"
 msgstr "Paramètres"
@@ -814,3 +810,4 @@ msgstr "au"
 
 msgid "Add this event to your iCalendar"
 msgstr "Ajouter cet événement à votre iCalendar"
+
