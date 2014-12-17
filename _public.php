@@ -675,7 +675,7 @@ class urlEventHandler extends dcUrlHandlers
 
 		$res .= "END:VCALENDAR\r\n";
 
-		header('Content-Type: text/calendar');
+		header('Content-Type: text/calendar; charset=utf-8');
 		header('Content-Length: '.strlen($res));
 		header('Content-Disposition: attachment; filename="events.ics"');
 		echo $res;
