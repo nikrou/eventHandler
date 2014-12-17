@@ -1,3 +1,8 @@
+plugin eventHandler 2014-12-17 - 2014-12-17
+===========================================
+* Fix issue for bulk actions (authors and categories).
+  Thanks to vdanjean for reporting issue.
+
 plugin eventHandler 2014-12-08 - 2014-12-08
 ===========================================
 * Fix misspeling in template. Thanks to @franck-tomek.

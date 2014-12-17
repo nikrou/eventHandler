@@ -69,7 +69,7 @@ $errors = array(
 
 # Messages
 if (isset($succes[$msg])) {
-	$msg = dcPage::message($succes[$msg]);
+	$message = dcPage::message($succes[$msg]);
 }
 
 # Pages

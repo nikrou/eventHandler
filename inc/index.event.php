@@ -372,7 +372,9 @@ if (!empty($_GET['tab'])) {
 
 $admin_post_behavior = '';
 if ($post_editor && !empty($post_editor[$post_format])) {
-	$admin_post_behavior = $core->callBehavior('adminPostEditor', $post_editor[$post_format], 'event');
+	$admin_post_behavior = $core->callBehavior('adminPostEditor', $post_editor[$post_format],
+                                               'event', array('#post_content', '#post_excerpt')
+    );
 }
 
 $message = '';

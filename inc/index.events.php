@@ -21,7 +21,7 @@ $from_id = $from_post = null;
 if (!empty($_REQUEST['from_id'])) {
 	try {
 		$from_id = abs((integer) $_REQUEST['from_id']);
-		$from_post = $core->blog->getPosts(array('post_id'=>$from_id,'post_type'=>''));
+		$from_post = $core->blog->getPosts(array('post_id' => $from_id,'post_type' => ''));
 		if ($from_post->isEmpty()) {
 			$from_id = $from_post = null;
 			throw new Exception(__('No such post ID'));
@@ -64,6 +64,81 @@ if ($action == 'eventhandler_bind_event' && $from_id) {
 		$core->error->add($e->getMessage());
 	}
 }
+
+if (!empty($_POST['entries']) && $action == 'author' && !empty($_POST['new_auth_id'])
+    && $core->auth->check('admin', $core->blog->id)) {
+    if (isset($_POST['redir']) && strpos($_POST['redir'],'://') === false) {
+        $redir = $_POST['redir'];
+    } else {
+        $redir = $p_url.'&part=events';
+    }
+    try {
+		$entries = $_POST['entries'];
+        if ($core->getUser($_POST['new_auth_id'])->isEmpty()) {
+            throw new Exception(__('This user does not exist'));
+        }
+        $cur = $core->con->openCursor($core->prefix.'post');
+        $cur->user_id = $_POST['new_auth_id'];
+        $cur->update('WHERE post_id '.$core->con->in($entries));
+
+        dcPage::addSuccessNotice(sprintf(
+            __(
+                '%d entry has been successfully set to user "%s"',
+                '%d entries have been successfully set to user "%s"',
+                count($entries)
+            ),
+            count($entries),
+            html::escapeHTML($_POST['new_auth_id']))
+        );
+
+		http::redirect($redir);
+    }  catch (Exception $e) {
+		$core->error->add($e->getMessage());
+	}
+} elseif ($action == 'category' &&  (!empty($_POST['new_cat_id']) || !empty($_POST['new_cat_title']))
+          && !empty($_POST['entries']) && $core->auth->check('categories', $core->blog->id)) {
+    if (isset($_POST['redir']) && strpos($_POST['redir'],'://') === false) {
+        $redir = $_POST['redir'];
+    } else {
+        $redir = $p_url.'&part=events';
+    }
+    try {
+		$entries = $_POST['entries'];
+        if (!empty($_POST['new_cat_title'])) {
+            $cur_cat = $core->con->openCursor($core->prefix.'category');
+            $cur_cat->cat_title = $_POST['new_cat_title'];
+            $cur_cat->cat_url = '';
+            $title = $cur_cat->cat_title;
+            $parent_cat = !empty($_POST['new_cat_parent']) ? $_POST['new_cat_parent'] : '';
+            # --BEHAVIOR-- adminBeforeCategoryCreate
+            $core->callBehavior('adminBeforeCategoryCreate', $cur_cat);
+
+            $new_cat_id = $core->blog->addCategory($cur_cat, (integer) $parent_cat);
+
+            # --BEHAVIOR-- adminAfterCategoryCreate
+            $core->callBehavior('adminAfterCategoryCreate', $cur_cat, $new_cat_id);
+        } else {
+            $new_cat_id = $_POST['new_cat_id'];
+        }
+
+        $core->blog->updPostsCategory($entries, $new_cat_id);
+        $title = $core->blog->getCategory($new_cat_id);
+        dcPage::addSuccessNotice(sprintf(
+            __(
+                '%d entry has been successfully moved to category "%s"',
+                '%d entries have been successfully moved to category "%s"',
+                count($entries)
+            ),
+            count($entries),
+            html::escapeHTML($title->cat_title))
+        );
+
+		http::redirect($redir);
+    }  catch (Exception $e) {
+		$core->error->add($e->getMessage());
+	}
+}
+
 
 if (!$core->error->flag()) {
 	try {
