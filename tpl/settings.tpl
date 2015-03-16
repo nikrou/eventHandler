@@ -73,7 +73,6 @@
       </div>
       <?php endif;?>
       <p>
-	<input type="submit" name="save" value="<?php echo __('Save');?>"/>
 	<?php
 	   echo $core->formNonce().
 	form::hidden(array('p'),'eventHandler').
@@ -126,6 +125,13 @@
 	<?php endif;?>
       </div>
       <?php endif;?>
+	  
+	  <?php 
+		/*Add a adminEventHandlerSettings behavior handler to add a custom tab to the eventhander settings page
+		 and add a adminEventHandlerSettingsSave behavior handler to add save your custom settings.*/
+		$core->callBehavior("adminEventHandlerSettings");  ?>
+	  
+	  <input type="submit" name="save" value="<?php echo __('Save');?>"/>
     </form>
 
     <?php if ($active && $core->plugins->moduleExists('eventdata')):?>

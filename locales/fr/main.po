@@ -811,3 +811,19 @@ msgstr "au"
 msgid "Add this event to your iCalendar"
 msgstr "Ajouter cet événement à votre iCalendar"
 
+msgid "%d entry has been successfully bound %s"
+msgstr "%d billet a bien été lié %s"
+
+msgid "%d entries have been successfully bound %s"
+msgstr "%d billets ont bien été liés %s"
+
+msgid "%d post has been successfully unbound from its events"
+msgstr "%d billet a été bien été détaché de ses événements"
+
+msgid "%d posts have been successfully unbound from their events"
+msgstr "%d billets ont été bien été détachés de leurs événements"
+
+msgid "to the selected event"
+msgid-plural "to the selected events"
+msgstr[0] "à l'événement sélectionné"
+msgstr[1] "aux événements sélectionnés"

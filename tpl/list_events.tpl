@@ -47,6 +47,7 @@
 	  <p><label for="lang" class="ib"><?php echo __('Lang:');?></label>
 	    <?php echo form::combo('lang',$lang_combo,$lang);?>
 	  </p>
+	  <?php $core->callBehavior('adminEventHandlerEventsCustomFilterDisplay');?>
 	</div>
 
 	<div class="cell filters-options">
