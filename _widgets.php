@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -197,6 +197,7 @@ class eventHandlerAdminWidgets
 
 		$w->create('ehMap',__('Events map'),array('eventHandlerPublicWidgets','map'));
 		$w->ehMap->setting('title',__('Title:'),__('Events on map'));
+		$w->ehMap->setting('zz_map_zoom',__('ZZZ:'),1,'radio',array(array('Google',1),array('OSM',2)));
 		$w->ehMap->setting('map_zoom',__('Default zoom on map:'),4,'combo',$combo_map_zoom);
 		$w->ehMap->setting('map_type',__('Default type of map:'),'ROADMAP','combo',$combo_map_type);
 		$w->ehMap->setting('map_width',__('Width of map: (with unit as % or px)'),'100%');
