@@ -221,7 +221,7 @@ class eventHandler
 
 		$params['from'] .= ', '.$this->core->prefix.'meta EM ';
 
-		if ($this->con->driver() == 'mysql')
+		if (strpos($this->con->driver(),'mysql')==0)
 		{
 			$params['sql'] .= 'AND EM.meta_id = CAST(P.post_id as char) ';
 		}

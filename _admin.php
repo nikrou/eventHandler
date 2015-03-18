@@ -101,19 +101,23 @@ class adminEventHandler
 	}
 	
 	public static function doBindUnBind($core, dcPostsActionsPage $ap, $post){
+		$action = $ap->getAction();
+		if($action!='eventhandler_bind_event' && $action!='eventhandler_unbind_post')
+			return;
+		
 		$posts_ids = $ap->getIDs();
 		if (empty($posts_ids)) {
 			throw new Exception(__('No entry selected'));
 		}
-		$params['sql'] = 'AND P.post_id IN('.implode(',',$posts_ids).') ';
+		$params['sql'] = ' AND P.post_id '.$core->con->in($posts_ids).' ';
 		$posts = $core->blog->getPosts($params);
 
-		if($ap->getAction() == 'eventhandler_bind_event'){
+		if($action == 'eventhandler_bind_event'){
 			if(isset($post['events'])){
 				foreach ($post['events'] as $k => $v)	{
 					$events_id[$k] = (integer) $v;
 				}
-				$params['sql'] = 'AND P.post_id IN('.implode(',',$events_id).') ';
+				$params['sql'] = 'AND P.post_id '.$core->con->in($events_id).' ';
 				$eventHandler = new eventHandler($core);
 				$events = $eventHandler->getEvents($params);
 				if ($events->isEmpty()) {
@@ -173,7 +177,8 @@ class adminEventHandler
 			}
 		}	
 		# Unbind all posts from selected events
-		if ($ap->getAction() == 'eventhandler_unbind_post')	{
+		if ($action == 'eventhandler_unbind_post')	{
+			if(!$posts->isEmpty()){ //called from posts.php
 				while ($posts->fetch()) {
 					$core->meta->delPostMeta($posts->post_id,'eventhandler');
 				}
@@ -184,6 +189,33 @@ class adminEventHandler
 					count($posts_ids)
 				),
 				count($posts_ids)));
+			}else if(isset($post['entries'])){
+				$eventHandler = new eventHandler($core);
+				foreach ($post['entries'] as $k => $v)	{
+					$params=array('event_id'=>$v);
+					$posts=$eventHandler->getPostsByEvent($params);
+					$event=$eventHandler->getEvents($params);
+					if($posts->isEmpty()){
+						dcPage::addWarningNotice(sprintf(
+						__('Event #%d (%s) has no related post to be unbound from.'),
+						$v,$event->post_title));
+						continue;
+					}
+					while ($posts->fetch()) {
+						$core->meta->delPostMeta($posts->post_id,'eventhandler',$v);
+					}
+					dcPage::addSuccessNotice(sprintf(
+					__(
+						'Event #%d (%s) successfully unbound from %d related post',
+						'Event #%d (%s) successfully unbound from %d related posts',
+						$posts->count()
+					),
+					$v,$event->post_title,$posts->count()));
+				}
+				$ap->redirect(false);			
+			}else{
+				throw new Exception("adminEventhandler::doBindUnBind Should never happen, $action action called with no post nor event specified.");
+			}
 			$ap->redirect(true);			
 		}
 		$ap->redirect(false);
