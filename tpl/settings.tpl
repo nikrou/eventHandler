@@ -1,7 +1,7 @@
 <html>
   <head>
     <title><?php echo __('Event handler').' - '.__('Settings');?></title>
-    <?php echo dcPage::jsPageTabs($default_tab);?>
+    <?php echo dcPage::jsPageTabs($default_tab).dcPage::jsLoad("index.php?pf=eventHandler/js/settings.js");?>
     <?php echo $header;?>
   </head>
   <body>
