@@ -151,6 +151,9 @@ class eventHandler
 			$params['sql'] .= "AND EH.event_address = '".$this->con->escape($params['event_address'])."' ";
 		}
 
+		# --BEHAVIOR-- coreEventHandlerBeforeGetEvents
+		$this->core->callBehavior('coreEventHandlerBeforeGetEvents',$this,array('params'=>&$params));
+
 		$rs = $this->core->blog->getPosts($params,$count_only);
 		$rs->eventHandler = $this;
 		$rs->extend('rsExtEventHandlerPublic');
@@ -174,7 +177,7 @@ class eventHandler
 
 		$params['from'] .= ', '.$this->core->prefix.'meta EM ';
 
-		if ($this->con->driver() == 'mysql') {
+		if (strpos($this->con->driver(),'mysql')!==null) {
 			$params['sql'] .= 'AND EM.meta_id = CAST(P.post_id as char) ';
 		} else {
 			$params['sql'] .= 'AND CAST(EM.meta_id as int) = CAST(P.post_id as int) ';
@@ -223,6 +226,9 @@ class eventHandler
 			# Clean cursor
 			$this->getEventCursor(null,$cur_post,$cur_event);
 
+			# --BEHAVIOR-- coreEventHandlerBeforeEventAdd
+			$this->core->callBehavior("coreEventHandlerBeforeEventAdd",$this,$cur_post,$cur_event);
+			
 			# Adding first part of event record
 			$cur_event->post_id = $this->core->blog->addPost($cur_post);
 
@@ -237,6 +243,8 @@ class eventHandler
 		}
 		$this->con->commit();
 
+		# --BEHAVIOR-- coreEventHandlerAfterEventAdd
+		$this->core->callBehavior("coreEventHandlerAfterEventAdd",$this,$cur_event->post_id,$cur_post,$cur_event);
 		return $cur_event->post_id;
 	}
 
@@ -257,6 +265,8 @@ class eventHandler
 			# Clean cursor
 			$this->getEventCursor($post_id,$cur_post,$cur_event);
 
+			# --BEHAVIOR-- coreEventHandlerBeforeEventUpdate
+			$this->core->callBehavior('coreEventHandlerBeforeEventUpdate',$eh,$post_id,$cur_post,$cur_event);
 			# Update first part of event record
 			$this->core->blog->updPost($post_id,$cur_post);
 
@@ -284,6 +294,9 @@ class eventHandler
 			throw new Exception(__('No such event ID'));
 		}
 
+		# --BEHAVIOR-- coreEventHandlerEventDelete
+		$this->core->callBehavior("coreEventHandlerEventDelete",$this,$post_id);
+		
 		# Delete first part of event record
 		$this->core->blog->delPost($post_id);
 
@@ -341,6 +354,9 @@ class eventHandler
 
 		# unset post_id
 		$cur_event->unsetField('post_id');
+		
+		# --BEHAVIOR-- coreEventHandlerGetEventCursor
+		$this->core->callBehavior('coreEventHandlerGetEventCursor',$this,$post_id,$cur_post,$cur_event);
 	}
 
 	# Get human readable duration from integer

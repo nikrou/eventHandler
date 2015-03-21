@@ -400,4 +400,7 @@ if (!empty($_GET['xconv'])) {
     $message = __('Don\'t forget to validate your XHTML conversion by saving your post.');
 }
 
+# --BEHAVIOR-- adminEventHandlerBeforeEventTpl - to use a custom tpl e.g.
+$core->callBehavior('adminEventHandlerCustomEventTpl');
+
 include(dirname(__FILE__).'/../tpl/edit_event.tpl');
