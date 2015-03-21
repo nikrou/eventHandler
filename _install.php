@@ -14,8 +14,14 @@
 #
 # -- END LICENSE BLOCK ------------------------------------
 
+define('EH_DC_MIN_VERSION','2.6');
 if (!defined('DC_CONTEXT_ADMIN')){return;}
 
+if (version_compare(DC_VERSION,EH_DC_MIN_VERSION,'<')) {
+	$core->error->add(sprintf(__('Dotclear version %s minimum is required. "%s" is deactivated',EH_DC_MIN_VERSION,'eventHandler')));
+	$core->plugins->deactivateModule('eventHandler');
+	return false;
+}
 # Get new version
 $new_version = $core->plugins->moduleInfo('eventHandler','version');
 $old_version = $core->getVersion('eventHandler');

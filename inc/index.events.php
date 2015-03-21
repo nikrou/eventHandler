@@ -139,6 +139,8 @@ if (!empty($_POST['entries']) && $action == 'author' && !empty($_POST['new_auth_
 	}
 }
 
+#--BEHAVIOR-- adminEventHandlerActionsManage
+$core->callBehavior('adminEventHandlerActionsManage',$eventHandler,$action);
 
 if (!$core->error->flag()) {
 	try {
@@ -369,13 +371,26 @@ $redir = $p_url.
 '&amp;page='.$page.
 '&amp;nb='.$nb_per_page;
 
+#behavior to customize different aspects of the events page :
+# params to manage the getEvents (add some db fields...)
+# sortby_combo : add some criterias to the sortby_combo filter
+# show_filters : boolean to tell if the filters must be displayed or not
+# redir : redirection url
+# hidden_fields
+
+$core->callBehavior('adminEventHandlerEventsPageCustomize',array('params'=>&$params,'sortby_combo'=>&$sortby_combo,'show_filters'=>&$show_filters,'redir'=>&$redir,'hidden_fields'=>&$hidden_fields));
+
 # Get events
 try {
 	$posts = $eventHandler->getEvents($params);
 	$counter = $eventHandler->getEvents($params,true);
 	$post_list = new adminEventHandlertList($core,$posts,$counter->f(0));
+	$core->callBehavior('adminEventHandlerEventsListCustom',array($posts,$counter,$post_list));
 } catch (Exception $e) {
 	$core->error->add($e->getMessage());
 }
+
+# --BEHAVIOR-- adminEventHandlerBeforeEventsTpl - to use a custom tpl e.g.
+$core->callBehavior('adminEventHandlerBeforeEventsTpl');
 
 include(dirname(__FILE__).'/../tpl/list_events.tpl');

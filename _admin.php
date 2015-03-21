@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -39,9 +39,7 @@ if ($core->blog->settings->eventHandler->active)
 {
 	$core->addBehavior('adminPostHeaders',array('adminEventHandler','adminPostHeaders'));
 	$core->addBehavior('adminPostsActionsCombo',array('adminEventHandler','adminPostsActionsCombo'));
-	$core->addBehavior('adminPostsActionsHeaders',array('adminEventHandler','adminPostsActionsHeaders'));
-	$core->addBehavior('adminPostsActions',array('adminEventHandler','adminPostsActions'));
-	$core->addBehavior('adminPostsActionsContent',array('adminEventHandler','adminPostsActionsContent'));
+	$core->addBehavior('adminPostsActionsPage',array('adminEventHandler','adminPostsActionsPage'));
 	$core->addBehavior('adminPostFormSidebar',array('adminEventHandler','adminPostFormSidebar'));
 	$core->addBehavior('adminAfterPostCreate',array('adminEventHandler','adminAfterPostSave'));
 	$core->addBehavior('adminAfterPostUpdate',array('adminEventHandler','adminAfterPostSave'));
@@ -91,87 +89,63 @@ class adminEventHandler
 		$args[0][__('Events')][__('Unbind events')] = 'eventhandler_remove_event';
 	}
 
-	# posts_actions.php
-	# Headers for table of events
-	public static function adminPostsActionsHeaders()
-	{
-		return
-		'<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css" />';
+	public static function adminPostsActionsPage($core,dcPostsActionsPage $ap){
+		if ($core->auth->check('publish,contentadmin',$core->blog->id)) {
+			$ap->addAction(array(__('Events') => array(
+					__('Bind events') => 'eventhandler_bind_event',
+					__('Unbind events') => 'eventhandler_unbind_post'
+				)),
+				array('adminEventHandler','doBindUnbind')
+			);
+		}
 	}
+	
+	public static function doBindUnBind($core, dcPostsActionsPage $ap, $post){
+		$action = $ap->getAction();
+		if($action!='eventhandler_bind_event' && $action!='eventhandler_unbind_post')
+			return;
+		
+		$posts_ids = $ap->getIDs();
+		if (empty($posts_ids)) {
+			throw new Exception(__('No entry selected'));
+		}
+		$params['sql'] = ' AND P.post_id '.$core->con->in($posts_ids).' ';
+		$posts = $core->blog->getPosts($params);
 
-	# posts_actions.php
-	# Action for multiple posts and actions for multiple events
-	public static function adminPostsActions($core,$posts,$action,$redir)
-	{
-		# Bind selected events to selected posts
-		if ($action == 'eventhandler_bind_event' && !empty($_POST['events']))
-		{
-			try
-			{
-				foreach ($_POST['events'] as $k => $v)
-				{
+		if($action == 'eventhandler_bind_event'){
+			if(isset($post['events'])){
+				foreach ($post['events'] as $k => $v)	{
 					$events_id[$k] = (integer) $v;
 				}
-				$params['sql'] = 'AND P.post_id IN('.implode(',',$events_id).') ';
+				$params['sql'] = 'AND P.post_id '.$core->con->in($events_id).' ';
 				$eventHandler = new eventHandler($core);
 				$events = $eventHandler->getEvents($params);
-
-				if ($events->isEmpty())
-				{
+				if ($events->isEmpty()) {
 					throw new Exception(__('No such event'));
 				}
 				$meta_ids = array();
-				while ($events->fetch())
-				{
+				while ($events->fetch()) {
 					$meta_ids[] = $events->post_id;
 				}
 
-				while ($posts->fetch())
-				{
-					foreach($meta_ids as $meta_id)
-					{
+				while ($posts->fetch()) {
+					foreach($meta_ids as $meta_id)	{
 						$core->meta->delPostMeta($posts->post_id,'eventhandler',$meta_id);
 						$core->meta->setPostMeta($posts->post_id,'eventhandler',$meta_id);
 					}
 				}
-
-				http::redirect($redir);
-			}
-			catch (Exception $e)
-			{
-				$core->error->add($e->getMessage());
-			}
-		}
-		# Unbind all posts from selected events
-		if ($action == 'eventhandler_unbind_post')
-		{
-			try
-			{
-				while ($posts->fetch())
-				{
-					$core->meta->delMeta($posts->post_id,'eventhandler');
-				}
-
-				http::redirect($redir);
-			}
-			catch (Exception $e)
-			{
-				$core->error->add($e->getMessage());
-			}
-		}
-	}
-
-	# posts_actions.php
-	# Form for action on multiple posts
-	# (action on one post can be found on index.php?part=events&from_id=xxx)
-	public static function adminPostsActionsContent($core,$action,$hidden_fields)
-	{
-		if ($action == 'eventhandler_bind_event')
-		{
-			echo '<h3>'.__('Select events to link to entries').'</h3>';
-
-			try
-			{
+				dcPage::addSuccessNotice(sprintf(
+					__(
+						'%d entry has been successfully bound %s',
+						'%d entries have been successfully bound %s',
+						count($posts_ids)
+					),
+					count($posts_ids),__('to the selected event','to the selected events',$events->count()))
+				);
+				$ap->redirect(true);			
+			}else{
+				$ap->beginPage('','<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css" />');
+				echo '<h3>'.__('Select events to link to entries').'</h3>';
 				$eventHandler = new eventHandler($core);
 
 				$params = array();
@@ -179,6 +153,9 @@ class adminEventHandler
 				$params['order'] = 'event_startdt DESC';
 				$params['period'] = 'notfinished';
 
+				# --BEHAVIOR-- adminEventHandlerMinilistCustomize 
+				$core->callBehavior('adminEventHandlerMinilistCustomize',array('params'=>&$params));
+				
 				$events = $eventHandler->getEvents($params);
 				$counter = $eventHandler->getEvents($params,true);
 				$list = new adminEventHandlerMiniList($core,$events,$counter->f(0));
@@ -189,20 +166,61 @@ class adminEventHandler
 					'%s'.
 
 					'<p>'.
-					$hidden_fields.
+					$ap->getHiddenFields().
+					$ap->getIDsHidden().
 					$core->formNonce().
 					form::hidden(array('action'),'eventhandler_bind_event').
 					'<input type="submit" value="'.__('save').'" /></p>'.
 					'</form>'
 				);
+				$ap->endPage();
 			}
-			catch (Exception $e)
-			{
-				$core->error->add($e->getMessage());
+		}	
+		# Unbind all posts from selected events
+		if ($action == 'eventhandler_unbind_post')	{
+			if(!$posts->isEmpty()){ //called from posts.php
+				while ($posts->fetch()) {
+					$core->meta->delPostMeta($posts->post_id,'eventhandler');
+				}
+			dcPage::addSuccessNotice(sprintf(
+				__(
+					'%d post has been successfully unbound from its events',
+					'%d posts have been successfully unbound from their events',
+					count($posts_ids)
+				),
+				count($posts_ids)));
+			}else if(isset($post['entries'])){
+				$eventHandler = new eventHandler($core);
+				foreach ($post['entries'] as $k => $v)	{
+					$params=array('event_id'=>$v);
+					$posts=$eventHandler->getPostsByEvent($params);
+					$event=$eventHandler->getEvents($params);
+					if($posts->isEmpty()){
+						dcPage::addWarningNotice(sprintf(
+						__('Event #%d (%s) has no related post to be unbound from.'),
+						$v,$event->post_title));
+						continue;
+					}
+					while ($posts->fetch()) {
+						$core->meta->delPostMeta($posts->post_id,'eventhandler',$v);
+					}
+					dcPage::addSuccessNotice(sprintf(
+					__(
+						'Event #%d (%s) successfully unbound from %d related post',
+						'Event #%d (%s) successfully unbound from %d related posts',
+						$posts->count()
+					),
+					$v,$event->post_title,$posts->count()));
+				}
+				$ap->redirect(false);			
+			}else{
+				throw new Exception("adminEventhandler::doBindUnBind Should never happen, $action action called with no post nor event specified.");
 			}
+			$ap->redirect(true);			
 		}
+		$ap->redirect(false);
 	}
-
+	
 	# post.php
 	# Sidebar list of linked events, menu of events actions for this post
 	public static function adminPostFormSidebar($post)
@@ -336,14 +354,18 @@ class adminEventHandlerMiniList extends adminGenericList
 			$pager->html_next = $this->html_next;
 			$pager->var_page = 'page';
 
+			$columns=array('<th colspan="2">'.__('Title').'</th>',
+				'<th>'.__('Period').'</th>',
+                '<th>'.__('Start date').'</th>',
+                '<th>'.__('End date').'</th>',
+                '<th>'.__('Status').'</th>');
+			
+			# --BEHAVIOR-- adminEventHandlerEventsListHeader
+			$this->core->callBehavior('adminEventHandlerEventsListHeaders',array('minicols'=>&$columns));
 			$html_block =
-			'<table class="clear"><tr>'.
-			'<th colspan="2">'.__('Title').'</th>'.
-			'<th>'.__('Period').'</th>'.
-			'<th>'.__('Start date').'</th>'.
-			'<th>'.__('End date').'</th>'.
-			'<th>'.__('Status').'</th>'.
-			'</tr>%s</table>';
+                '<table class="clear"><tr>'.
+   			join('',$columns).
+            '</tr>%s</table>';
 
 			if ($enclose_block) {
 				$html_block = sprintf($enclose_block,$html_block);
@@ -399,15 +421,20 @@ class adminEventHandlerMiniList extends adminGenericList
 		$period = $this->rs->getPeriod();
 		$style = ' eventhandler-'.$period;
 
+		$columns=array('<td class="nowrap">'.form::checkbox(array('events[]'),$this->rs->post_id,'','','',!$this->rs->isEditable()).'</td>'.
+			'<td><a href="'.$this->core->getPostAdminURL($this->rs->post_type,$this->rs->post_id).'" '.
+			'title="'.html::escapeHTML($this->rs->getURL()).'">'.html::escapeHTML($this->rs->post_title).'</a></td>',
+			'<td class="nowrap'.$style.'">'.__($period).'</td>',
+			'<td class="nowrap">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_startdt).'</td>',
+            '<td class="nowrap">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_enddt).'</td>',
+            '<td class="nowrap status">'.$img_status.' '.$selected.' '.$protected.'</td>');
+
+			# --BEHAVIOR-- adminEventHandlerEventsListBody
+			$this->core->callBehavior('adminEventHandlerEventsListBody',array('minicols'=>&$columns),$this->rs);
+
 		return
 		'<tr class="line'.($this->rs->post_status != 1 ? ' offline' : '').$style.'" id="e'.$this->rs->post_id.'">'.
-		'<td class="nowrap">'.form::checkbox(array('events[]'),$this->rs->post_id,'','','',!$this->rs->isEditable()).'</td>'.
-		'<td><a href="'.$this->core->getPostAdminURL($this->rs->post_type,$this->rs->post_id).'" '.
-		'title="'.html::escapeHTML($this->rs->getURL()).'">'.html::escapeHTML($this->rs->post_title).'</a></td>'.
-		'<td class="nowrap'.$style.'">'.__($period).'</td>'.
-		'<td class="nowrap">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_startdt).'</td>'.
-		'<td class="nowrap">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_enddt).'</td>'.
-		'<td class="nowrap status">'.$img_status.' '.$selected.' '.$protected.'</td>'.
+        join("",$columns).
 		'</tr>';
 	}
 }

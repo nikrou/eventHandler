@@ -52,6 +52,9 @@ if ($action == 'savesettings') {
 		$s->put('public_map_type',$public_map_type,'string');
 		$s->put('public_extra_css',$public_extra_css,'string');
 
+		# --BEHAVIOR-- adminEventHandlerSettingsSave
+		$core->callBehavior("adminEventHandlerSettingsSave");
+		
 		$core->blog->triggerBlog();
 
 		http::redirect($p_url.'&part=settings&msg=save_settings&section='.$section);

@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
@@ -23,17 +23,21 @@ class adminEventHandlertList extends adminGenericList
 			$pager->html_next = $this->html_next;
 			$pager->var_page = 'page';
 
+			$columns=array('<th colspan="2">'.__('Title').'</th>',
+                '<th>'.__('Start date').'</th>',
+                '<th>'.__('End date').'</th>',
+                '<th>'.__('Entries').'</th>',
+                '<th>'.__('Date').'</th>',
+                '<th>'.__('Category').'</th>',
+                '<th>'.__('Author').'</th>',
+                '<th>'.__('Status').'</th>');
+			
+			# --BEHAVIOR-- adminEventHandlerEventsListHeaders
+			$this->core->callBehavior('adminEventHandlerEventsListHeaders',array('columns'=>&$columns));
 			$html_block =
                 '<table class="clear"><tr>'.
-                '<th colspan="2">'.__('Title').'</th>'.
-                '<th>'.__('Start date').'</th>'.
-                '<th>'.__('End date').'</th>'.
-                '<th>'.__('Entries').'</th>'.
-                '<th>'.__('Date').'</th>'.
-                '<th>'.__('Category').'</th>'.
-                '<th>'.__('Author').'</th>'.
-                '<th>'.__('Status').'</th>'.
-                '</tr>%s</table>';
+   			join('',$columns).
+            '</tr>%s</table>';
 
 			if ($enclose_block) {
 				$html_block = sprintf($enclose_block,$html_block);
@@ -113,19 +117,24 @@ class adminEventHandlertList extends adminGenericList
             $nb_entries .= '&amp;tab=bind-entries">'.$entries->f(0).'</a>';
 		}
 
+		$columns=array('<td class="nowrap">'.form::checkbox(array('entries[]'),$this->rs->post_id,'','','',!$this->rs->isEditable()).'</td>'.
+            '<td class="maximal"><a href="'.$this->core->getPostAdminURL($this->rs->post_type,$this->rs->post_id).'">'.
+            html::escapeHTML($this->rs->post_title).'</a></td>',
+			'<td class="nowrap'.' '.$event_class.'">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_startdt).'</td>',
+            '<td class="nowrap'.' '.$event_class.'">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_enddt).'</td>',
+            '<td class="nowrap">'.$nb_entries.'</td>',
+            '<td class="nowrap">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->post_dt).'</td>',
+            '<td class="nowrap">'.$cat_title.'</td>',
+            '<td class="nowrap">'.$this->rs->user_id.'</td>',
+            '<td class="nowrap status">'.$img_status.' '.$selected.' '.$protected.'</td>');
+		
+			# --BEHAVIOR-- adminEventHandlerEventsListBody
+			$this->core->callBehavior('adminEventHandlerEventsListBody',array('columns'=>&$columns),$this->rs);
+	
 		return
             '<tr class="line'.($this->rs->post_status != 1 ? ' offline' : '').' '.$event_class.'"'.
             ' id="p'.$this->rs->post_id.'">'.
-            '<td class="nowrap">'.form::checkbox(array('entries[]'),$this->rs->post_id,'','','',!$this->rs->isEditable()).'</td>'.
-            '<td class="maximal"><a href="'.$this->core->getPostAdminURL($this->rs->post_type,$this->rs->post_id).'">'.
-            html::escapeHTML($this->rs->post_title).'</a></td>'.
-            '<td class="nowrap'.' '.$event_class.'">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_startdt).'</td>'.
-            '<td class="nowrap'.' '.$event_class.'">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->event_enddt).'</td>'.
-            '<td class="nowrap">'.$nb_entries.'</td>'.
-            '<td class="nowrap">'.dt::dt2str(__('%Y-%m-%d %H:%M'),$this->rs->post_dt).'</td>'.
-            '<td class="nowrap">'.$cat_title.'</td>'.
-            '<td class="nowrap">'.$this->rs->user_id.'</td>'.
-            '<td class="nowrap status">'.$img_status.' '.$selected.' '.$protected.'</td>'.
+            join("",$columns).
             '</tr>';
 	}
 }

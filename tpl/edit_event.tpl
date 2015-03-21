@@ -1,7 +1,7 @@
 <html>
   <head>
     <title><?php echo __('Event handler'), ' - ', $page_title;?></title>
-    <script type=""text/javascript" src = "http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src = "http://maps.google.com/maps/api/js?sensor=false"></script>
     <?php
        echo
        dcPage::jsDatePicker().
@@ -149,6 +149,10 @@
 		</div>
 	      </div>
 	    </div>
+		<?php
+	       # --BEHAVIOR-- adminEventHandlerForm 
+	       $core->callBehavior('adminEventHandlerForm',isset($post) ? $post : null);
+		?>
 
 	    <p class="col"><label class="required" title="<?php echo __('Required field');?>"><?php echo __('Title:');?>
 		<?php echo form::field('post_title',20,255,html::escapeHTML($post_title),'maximal',2);?>
@@ -167,10 +171,6 @@
 	    <p class="area" id="notes-area"><label><?php echo __('Notes:');?></label>
 	      <?php echo form::textarea('post_notes',50,5,html::escapeHTML($post_notes),'',2);?>
 	    </p>
-	    <?php
-	       # --BEHAVIOR-- adminEventHandlerForm
-	       $core->callBehavior('adminEventHandlerForm',isset($post) ? $post : null);
-	    ?>
 	    <p>
 	      <input type="submit" value="<?php echo __('Save');?> (s)" tabindex="4" accesskey="s" name="save" />
 	      <?php if ($post_id):?>
@@ -199,6 +199,10 @@
       <?php $posts_list->display($page,$nb_per_page,'%s');?>
       <?php endif;?>
     </div>
+	<?php
+	       # --BEHAVIOR-- adminEventHandlerTab 
+	       $core->callBehavior('adminEventHandlerTab',isset($post) ? $post : null);	
+	?>
     <?php endif;?>
     <?php echo $footer;?>
     <?php dcPage::helpBlock('eventHandler');?>
