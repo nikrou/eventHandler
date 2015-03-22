@@ -1,8 +1,12 @@
-/* -- BEGIN LICENSE BLOCK ----------------------------------
+/*
+ * -- BEGIN LICENSE BLOCK ----------------------------------
  *
  * This file is part of eventHandler, a plugin for Dotclear 2.
  *
- * Copyright(c) 2015 Onurb Teva <dev@taktile.fr>
+ * Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+ *
+ * Copyright (c) 2009-2013 Jean-Christian Denis and contributors
+ * contact@jcdenis.fr http://jcd.lv
  *
  * Licensed under the GPL version 2.0 license.
  * A copy of this license is available in LICENSE file or at
@@ -10,7 +14,7 @@
  *
  * -- END LICENSE BLOCK ------------------------------------*/
 
-$(document).ready(function(){
+$(function() {
 	$(window).bind('hashchange onhashchange', function (e) {
 		$("input[name='section']").val('#'+$.pageTabs.getLocationHash());
 	});

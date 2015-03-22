@@ -177,7 +177,7 @@ class eventHandler
 
 		$params['from'] .= ', '.$this->core->prefix.'meta EM ';
 
-		if (strpos($this->con->driver(),'mysql')!==null) {
+		if (strpos($this->con->driver(),'mysql')!==false) {
 			$params['sql'] .= 'AND EM.meta_id = CAST(P.post_id as char) ';
 		} else {
 			$params['sql'] .= 'AND CAST(EM.meta_id as int) = CAST(P.post_id as int) ';
@@ -228,7 +228,7 @@ class eventHandler
 
 			# --BEHAVIOR-- coreEventHandlerBeforeEventAdd
 			$this->core->callBehavior("coreEventHandlerBeforeEventAdd",$this,$cur_post,$cur_event);
-			
+
 			# Adding first part of event record
 			$cur_event->post_id = $this->core->blog->addPost($cur_post);
 
@@ -296,7 +296,7 @@ class eventHandler
 
 		# --BEHAVIOR-- coreEventHandlerEventDelete
 		$this->core->callBehavior("coreEventHandlerEventDelete",$this,$post_id);
-		
+
 		# Delete first part of event record
 		$this->core->blog->delPost($post_id);
 
@@ -354,7 +354,7 @@ class eventHandler
 
 		# unset post_id
 		$cur_event->unsetField('post_id');
-		
+
 		# --BEHAVIOR-- coreEventHandlerGetEventCursor
 		$this->core->callBehavior('coreEventHandlerGetEventCursor',$this,$post_id,$cur_post,$cur_event);
 	}

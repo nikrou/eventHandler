@@ -20,13 +20,16 @@ global $__autoload, $core;
 
 # Main class
 $__autoload['eventHandler'] = dirname(__FILE__).'/inc/class.eventhandler.php';
+$__autoload['adminEventHandlerMiniList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.minilist.php';
+$__autoload['adminEventHandlertList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.list.php';
+$__autoload['adminEventHandlertPostsList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.posts.list.php';
+
+$__autoload['adminEventHandler'] = dirname(__FILE__).'/inc/class.admin.eventhandler.php';
 $__autoload['rsExtEventHandlerPublic'] = dirname(__FILE__).'/inc/lib.eventhandler.rs.extension.php';
 $__autoload['eventHandlerCalendar'] = dirname(__FILE__).'/inc/lib.eventhandler.calendar.php';
 $__autoload['eventHandlerRestMethods'] = dirname(__FILE__).'/_services.php';
 $__autoload['eventHandlerPublicRest'] = dirname(__FILE__).'/inc/lib.eventhandler.pubrest.php';
 
-$__autoload['adminEventHandlertList'] = dirname(__FILE__).'/inc/admin.event_handler.list.php';
-$__autoload['adminEventHandlertPostsList'] = dirname(__FILE__).'/inc/admin.event_handler.posts.list.php';
 
 # Public page for an event
 $core->url->register('eventhandler_single','day','^day/(.+)$',array('urlEventHandler','eventSingle'));
@@ -44,8 +47,7 @@ $core->setPostType('eventhandler','plugin.php?p=eventHandler&part=event&id=%d',$
 # Add sort ability on template
 $core->addBehavior('templateCustomSortByAlias','eventHandlerCustomSortByAlias');
 
-function eventHandlerCustomSortByAlias($alias)
-{
+function eventHandlerCustomSortByAlias($alias) {
 	$alias->eventhandler = array(
 		'title' => 'post_title',
 		'selected' => 'post_selected',

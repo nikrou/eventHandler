@@ -20,6 +20,6 @@ $this->registerModule(
 	/* Name */			"Event handler",
 	/* Description*/		"Add period to your posts",
 	/* Author */			"JC Denis, Nicolas Roudaire",
-	/* Version */			'2015.03.21',
+	/* Version */			'2015.03.22',
 	/* Permissions */		'usage,contentadmin'
 );

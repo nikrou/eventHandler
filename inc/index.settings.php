@@ -29,6 +29,7 @@ $public_extra_css = (string) $s->public_extra_css;
 
 # Action
 if ($action == 'savesettings') {
+    $default_tab = 'settings';
 	try  {
 		$active = !empty($_POST['active']);
 		$public_posts_of_event_place = $_POST['public_posts_of_event_place'];
@@ -54,7 +55,7 @@ if ($action == 'savesettings') {
 
 		# --BEHAVIOR-- adminEventHandlerSettingsSave
 		$core->callBehavior("adminEventHandlerSettingsSave");
-		
+
 		$core->blog->triggerBlog();
 
 		http::redirect($p_url.'&part=settings&msg=save_settings&section='.$section);
@@ -97,5 +98,4 @@ while ($categories->fetch()) {
 }
 
 # Display
-
 include(dirname(__FILE__).'/../tpl/settings.tpl');

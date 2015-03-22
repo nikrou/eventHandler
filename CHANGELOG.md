@@ -1,3 +1,10 @@
+plugin eventHandler 2015-03-22 - 2015-03-22
+===========================================
+* Remove deprecated behaviors (adminPostsActionsCombo, adminPostsActionsHeaders, adminPostsActionsContent)
+* Add severals behaviors to customize admin pages.
+* And many others fixes.
+* A big thanks to Onurb Teva <dev@taktile.fr>.
+
 plugin eventHandler 2014-12-17 - 2014-12-17
 ===========================================
 * Fix issue for bulk actions (authors and categories).

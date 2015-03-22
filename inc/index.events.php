@@ -378,7 +378,14 @@ $redir = $p_url.
 # redir : redirection url
 # hidden_fields
 
-$core->callBehavior('adminEventHandlerEventsPageCustomize',array('params'=>&$params,'sortby_combo'=>&$sortby_combo,'show_filters'=>&$show_filters,'redir'=>&$redir,'hidden_fields'=>&$hidden_fields));
+$core->callBehavior('adminEventHandlerEventsPageCustomize',
+                    array('params' => &$params,
+                          'sortby_combo' => &$sortby_combo,
+                          'show_filters'=> &$show_filters,
+                          'redir' => &$redir,
+                          'hidden_fields' => &$hidden_fields
+                    )
+);
 
 # Get events
 try {
