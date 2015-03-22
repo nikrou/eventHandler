@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -14,8 +14,14 @@
 #
 # -- END LICENSE BLOCK ------------------------------------
 
+define('EH_DC_MIN_VERSION','2.6');
 if (!defined('DC_CONTEXT_ADMIN')){return;}
 
+if (version_compare(DC_VERSION,EH_DC_MIN_VERSION,'<')) {
+	$core->error->add(sprintf(__('Dotclear version %s minimum is required. "%s" is deactivated',EH_DC_MIN_VERSION,'eventHandler')));
+	$core->plugins->deactivateModule('eventHandler');
+	return false;
+}
 # Get new version
 $new_version = $core->plugins->moduleInfo('eventHandler','version');
 $old_version = $core->getVersion('eventHandler');

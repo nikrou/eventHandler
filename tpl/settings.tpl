@@ -1,7 +1,7 @@
 <html>
   <head>
     <title><?php echo __('Event handler').' - '.__('Settings');?></title>
-    <?php echo dcPage::jsPageTabs($default_tab);?>
+    <?php echo dcPage::jsPageTabs($default_tab).dcPage::jsLoad("index.php?pf=eventHandler/js/settings.js");?>
     <?php echo $header;?>
   </head>
   <body>
@@ -73,7 +73,6 @@
       </div>
       <?php endif;?>
       <p>
-	<input type="submit" name="save" value="<?php echo __('Save');?>"/>
 	<?php
 	   echo $core->formNonce().
 	form::hidden(array('p'),'eventHandler').
@@ -126,6 +125,13 @@
 	<?php endif;?>
       </div>
       <?php endif;?>
+	  
+	  <?php 
+		/*Add a adminEventHandlerSettings behavior handler to add a custom tab to the eventhander settings page
+		 and add a adminEventHandlerSettingsSave behavior handler to add save your custom settings.*/
+		$core->callBehavior("adminEventHandlerSettings");  ?>
+	  
+	  <input type="submit" name="save" value="<?php echo __('Save');?>"/>
     </form>
 
     <?php if ($active && $core->plugins->moduleExists('eventdata')):?>
