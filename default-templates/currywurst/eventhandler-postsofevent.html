@@ -1,0 +1,13 @@
+<tpl:PostsOfEvent no_content="1">
+  <tpl:PostsOfEventHeader>
+    <div class="postsofevent"><h3>{{tpl:lang Related entries}}</h3><ul>
+  </tpl:PostsOfEventHeader>
+  <li>
+    <strong><a href="{{tpl:PostOfEventURL}}" title="{{tpl:lang Read this post}}">{{tpl:PostOfEventTitle encode_html="1"}}</a></strong> <br />
+    {{tpl:lang By}} {{tpl:PostOfEventAuthorLink}} {{tpl:lang on}} {{tpl:PostOfEventDate}}, {{tpl:PostOfEventTime}}
+    <tpl:PostOfEventIf has_category="1"> <a href="{{tpl:PostOfEventCategoryURL}}" title="{{tpl:lang Browse this category}}">{{tpl:PostOfEventCategory}}</a></tpl:PostOfEventIf>
+  </li>
+  <tpl:PostsOfEventFooter>
+  </ul></div>
+  </tpl:PostsOfEventFooter>
+</tpl:PostsOfEvent>

@@ -1,0 +1,13 @@
+<tpl:EventsOfPost no_content="1" notfinished="1" sort="startdt" order="asc">
+  <tpl:EventsOfPostHeader>
+    <div class="eventsofpost"><h3>{{tpl:lang Related events}}</h3><ul>
+  </tpl:EventsOfPostHeader>
+  <li class="eventhandler-{{tpl:EventOfPostPeriod strict="1"}}">
+    <strong><a href="{{tpl:EventOfPostURL}}" title="{{tpl:lang By}} {{tpl:EventOfPostAuthorCommonName encode_html="1"}} {{tpl:lang on}} {{tpl:EventOfPostDate}}, {{tpl:EventOfPostTime}}">{{tpl:EventOfPostTitle encode_html="1"}}</a></strong> <br />
+    {{tpl:lang on}} {{tpl:EventOfPostDate startdt="1"}}, {{tpl:EventOfPostTime startdt="1"}}, {{tpl:lang for a period of}} {{tpl:EventOfPostDuration}}
+  </li>
+  <tpl:EventsOfPostFooter>
+  </ul>
+  </div>
+  </tpl:EventsOfPostFooter>
+</tpl:EventsOfPost>

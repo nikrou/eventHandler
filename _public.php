@@ -25,13 +25,13 @@ __('ongoing');
 __('finished');
 
 # Load _wigdets.php
-require dirname(__FILE__).'/_widgets.php';
-
-# Default tpl path
-$core->tpl->setPath($core->tpl->getPath(),dirname(__FILE__).'/default-templates');
+if ($core->blog->settings->eventHandler->active) {
+    include_once(__DIR__.'/_widgets.php');
+}
 
 # Public behaviors
 $core->addBehavior('publicHeadContent',array('publicEventHandler','publicHeadContent'));
+$core->addBehavior('publicBeforeDocument',array('publicEventHandler','publicBeforeDocument'));
 $core->addBehavior('publicEntryBeforeContent',array('publicEventHandler','publicEntryBeforeContent'));
 $core->addBehavior('publicEntryAfterContent',array('publicEventHandler','publicEntryAfterContent'));
 
