@@ -152,7 +152,7 @@ class eventHandler
 		}
 
 		# --BEHAVIOR-- coreEventHandlerBeforeGetEvents
-		$this->core->callBehavior('coreEventHandlerBeforeGetEvents',$this,array('params'=>&$params));
+		$this->core->callBehavior('coreEventHandlerBeforeGetEvents',$this,array('params' => &$params));
 
 		$rs = $this->core->blog->getPosts($params,$count_only);
 		$rs->eventHandler = $this;
