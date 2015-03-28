@@ -38,7 +38,7 @@ class adminEventHandler
 	# Headers, jQuery features to remove events from a post
 	public static function adminPostHeaders() {
 		return
-		'<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css" />'.
+		'<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/style.css" />'.
 		dcPage::jsLoad('index.php?pf=eventHandler/js/post.js');
 	}
 
@@ -106,7 +106,7 @@ class adminEventHandler
 				);
 				$ap->redirect(true);
 			} else {
-				$ap->beginPage('','<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css" />');
+				$ap->beginPage('','<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/style.css" />');
 				echo '<h3>'.__('Select events to link to entries').'</h3>';
 				$eventHandler = new eventHandler($core);
 

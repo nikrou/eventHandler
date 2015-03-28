@@ -52,7 +52,7 @@ try {
 	$core->blog->settings->addNamespace('eventHandler');
 	$s = $core->blog->settings->eventHandler;
 
-	$extra_css = file_get_contents(dirname(__FILE__).'/default-templates/default-eventhandler.css');
+	$extra_css = file_get_contents(__DIR__.'/css/default-eventhandler.css');
 
 	$s->put('active',false,'boolean','Enabled eventHandler extension',false,true);
 	$s->put('public_events_of_post_place','after','string','Display related events on entries',false,true);

@@ -17,18 +17,18 @@
        $core->callBehavior('adminEventHandlerHeaders').
        dcPage::jsPageTabs($default_tab);
     ?>
-    <link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css"/>
+    <link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/style.css"/>
     <?php echo $next_headlink."\n".$prev_headlink;?>
   </head>
   <body>
-    <h2><?php echo html::escapeHTML($core->blog->name);?>
-      &rsaquo; <a href="<?php echo $p_url;?>&amp;part=events"><?php echo __('Events');?></a>
-      &rsaquo; <span class="page-title"><?php echo $page_title;?></span>
-    </h2>
+    <?php
+    echo dcPage::breadcrumb(array(html::escapeHTML($core->blog->name) => '',
+    '<a href="plugin.php?p=eventHandler&amp;part=events">'.__('Events').'</a>
+    &rsaquo; <span class="page-title">'.$page_title.'</span>' => ''
+    ));
+    ?>
 
-    <?php if (!empty($message)):?>
-    <?php echo $message;?>
-    <?php endif;?>
+    <?php echo dcPage::notices();?>
 
     <?php if ($post_id && $post->post_status==1):?>
     <p>

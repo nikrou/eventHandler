@@ -1,0 +1,87 @@
+.postsofevent, .eventsofpost {
+    clear: both;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+ul.event-info {
+    margin: 10px 10px 10px 0;
+}
+ul.event-info li {
+    line-height: 2em;
+    padding-left: 22px;
+}
+li.event-date {
+    background: url('index.php?pf=eventHandler/css/imgs/event-date.png') no-repeat center left;
+}
+li.event-duration {
+    background: url('index.php?pf=eventHandler/css/imgs/event-duration.png') no-repeat center left;
+}
+li.event-period {
+    background: url('index.php?pf=eventHandler/css/imgs/event-period.png') no-repeat center left;
+}
+li.event-address {
+    background: url('index.php?pf=eventHandler/css/imgs/event-address.png') no-repeat center left;
+}
+li.event-geo {
+    background: url('index.php?pf=eventHandler/css/imgs/event-geo.png') no-repeat center left;
+}
+.eventsofpost ul li {
+    background: url('index.php?pf=eventHandler/css/imgs/event-date.png') no-repeat center left;
+    padding-left: 22px;
+}
+#eventhandler-menu-period ul, #eventhandler-menu-sortorder ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#eventhandler-menu-period ul li, #eventhandler-menu-sortorder ul li {
+    display: inline-block;
+    margin-right: 5px;
+}
+#eventhandler-menu-period ul li.nav-active, #eventhandler-menu-sortorder ul li.nav-active {
+    font-weight: bold;
+    text-decoration: none;
+}
+#eventsfeed {
+    margin-top: 20px;
+    line-height: 1.4em;
+}
+a.event-ical {
+    background: transparent url('index.php?pf=eventHandler/css/imgs/event-ical.png') no-repeat 0 0.25em;
+    padding: 5px 0 5px 42px;
+}
+a.event-hcal {
+    background: transparent url('index.php?pf=eventHandler/css/imgs/event-hcal.png') no-repeat 0 0.25em;
+    padding: 5px 0 5px 42px;
+}
+a.event-atom {
+    background: transparent url('index.php?pf=eventHandler/css/imgs/event-atom.png') no-repeat 0 0.25em;
+    padding: 5px 0 5px 42px;
+}
+a.event-map {
+    background: transparent url('index.php?pf=eventHandler/css/imgs/event-gmap.png') no-repeat 0 0.25em;
+    padding: 5px 0 5px 42px;
+}
+.event-gmap-place {
+    font-style: italic;
+    margin-top: 10px;
+}
+#content .event-gmap-place {
+    height: 300px;
+    width: 100%;
+}
+/* Fix Ductile mediaqueries.css#320 - space on title */
+#sidebar #blognav div.event-gmap {
+    margin-top: 10px;
+}
+/* Fix Ductile mediaqueries.css#320 - space on map */
+#sidebar #blognav div.event-gmap div {
+    margin-top: 0px;
+}
+.calendar-array table {
+    text-align: center;
+}
+.eventsday a {
+    font-size: 1.1em;
+    font-weight: bold;
+}
