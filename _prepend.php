@@ -20,11 +20,17 @@ global $__autoload, $core;
 
 # Main class
 $__autoload['eventHandler'] = dirname(__FILE__).'/inc/class.eventhandler.php';
+
+$__autoload['eventHandlerAdminWidgets'] = dirname(__FILE__).'/inc/class.eventhandler.admin.widgets.php';
+$__autoload['eventHandlerPublicWidgets'] = dirname(__FILE__).'/inc/class.eventhandler.public.widgets.php';
 $__autoload['adminEventHandlerMiniList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.minilist.php';
 $__autoload['adminEventHandlertList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.list.php';
 $__autoload['adminEventHandlertPostsList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.posts.list.php';
 
 $__autoload['adminEventHandler'] = dirname(__FILE__).'/inc/class.admin.eventhandler.php';
+$__autoload['publicEventHandler'] = dirname(__FILE__).'/inc/class.public.eventhandler.php';
+$__autoload['tplEventHandler'] = dirname(__FILE__).'/inc/class.tpl.eventhandler.php';
+$__autoload['urlEventHandler'] = dirname(__FILE__).'/inc/class.url.eventhandler.php';
 $__autoload['rsExtEventHandlerPublic'] = dirname(__FILE__).'/inc/lib.eventhandler.rs.extension.php';
 $__autoload['eventHandlerCalendar'] = dirname(__FILE__).'/inc/lib.eventhandler.calendar.php';
 $__autoload['eventHandlerRestMethods'] = dirname(__FILE__).'/_services.php';

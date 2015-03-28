@@ -20,7 +20,9 @@ if (!defined('DC_CONTEXT_ADMIN')){return;}
 $core->blog->settings->addNamespace('eventHandler');
 
 # Load _wigdets.php
-require dirname(__FILE__).'/_widgets.php';
+if ($core->blog->settings->eventHandler->active) {
+    include_once(__DIR__.'/_widgets.php');
+}
 
 # Admin menu
 $_menu['Blog']->addItem(
@@ -31,16 +33,16 @@ $_menu['Blog']->addItem(
 );
 
 # Admin Dashboard
-$core->addBehavior('adminDashboardIcons',array('adminEventHandler','adminDashboardIcons'));
-$core->addBehavior('adminDashboardFavs',array('adminEventHandler','adminDashboardFavs'));
+$core->addBehavior('adminDashboardIcons', array('adminEventHandler', 'adminDashboardIcons'));
+$core->addBehavior('adminDashboardFavs', array('adminEventHandler', 'adminDashboardFavs'));
 
 # Admin behaviors
 if ($core->blog->settings->eventHandler->active) {
-	$core->addBehavior('adminPostHeaders',array('adminEventHandler','adminPostHeaders'));
-	$core->addBehavior('adminPostsActionsCombo',array('adminEventHandler','adminPostsActionsCombo'));
-	$core->addBehavior('adminPostsActionsPage',array('adminEventHandler','adminPostsActionsPage'));
-	$core->addBehavior('adminPostFormSidebar',array('adminEventHandler','adminPostFormSidebar'));
-	$core->addBehavior('adminAfterPostCreate',array('adminEventHandler','adminAfterPostSave'));
-	$core->addBehavior('adminAfterPostUpdate',array('adminEventHandler','adminAfterPostSave'));
-	$core->addBehavior('adminBeforePostDelete',array('adminEventHandler','adminBeforePostDelete'));
+	$core->addBehavior('adminPostHeaders', array('adminEventHandler', 'adminPostHeaders'));
+	$core->addBehavior('adminPostsActionsCombo', array('adminEventHandler', 'adminPostsActionsCombo'));
+	$core->addBehavior('adminPostsActionsPage', array('adminEventHandler', 'adminPostsActionsPage'));
+	$core->addBehavior('adminPostFormItems', array('adminEventHandler', 'adminPostFormItems'));
+	$core->addBehavior('adminAfterPostCreate', array('adminEventHandler', 'adminAfterPostSave'));
+	$core->addBehavior('adminAfterPostUpdate', array('adminEventHandler', 'adminAfterPostSave'));
+	$core->addBehavior('adminBeforePostDelete', array('adminEventHandler', 'adminBeforePostDelete'));
 }

@@ -5,13 +5,13 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="MSSmartTagsPreventParsing" content="TRUE" />
   <meta name="ROBOTS" content="{{tpl:BlogMetaRobots robots="NOINDEX"}}" />
-  
+
   <title>{{tpl:lang Events}} - <tpl:EventsIf has_category="1">{{tpl:CategoryTitle encode_html="1"}} - </tpl:EventsIf>{{tpl:BlogName encode_html="1"}}<tpl:PaginationIf start="0"> - {{tpl:lang page}} {{tpl:PaginationCurrent}}</tpl:PaginationIf></title>
   <meta name="description" lang="{{tpl:BlogLanguage}}" content="<tpl:EventsIf has_category="1">{{tpl:CategoryDescription cut_string="180" remove_html="1"}}</tpl:EventsIf><tpl:EventsIf has_category="0">{{tpl:BlogDescription cut_string="180" remove_html="1"}}</tpl:EventsIf>" />
   <meta name="copyright" content="{{tpl:BlogCopyrightNotice encode_html="1"}}" />
   <meta name="author" content="{{tpl:BlogEditor encode_html="1"}}" />
   <meta name="date" scheme="W3CDTF" content="{{tpl:BlogUpdateDate iso8601="1"}}" />
-  
+
   <link rel="schema.dc" href="http://purl.org/dc/elements/1.1/" />
   <meta name="dc.title" lang="{{tpl:BlogLanguage}}" content="{{tpl:lang Events}} - <tpl:EventsIf has_category="1">{{tpl:CategoryTitle encode_html="1"}} - </tpl:EventsIf>{{tpl:BlogName encode_html="1"}}<tpl:PaginationIf start="0"> - {{tpl:lang page}} {{tpl:PaginationCurrent}}</tpl:PaginationIf>" />
   <meta name="dc.description" lang="{{tpl:BlogLanguage}}" content="<tpl:EventsIf has_category="1">{{tpl:CategoryDescription remove_html="1"}}</tpl:EventsIf><tpl:EventsIf has_category="0">{{tpl:BlogDescription remove_html="1"}}</tpl:EventsIf>" />
@@ -21,35 +21,35 @@
   <meta name="dc.date" scheme="W3CDTF" content="{{tpl:BlogUpdateDate iso8601="1"}}" />
   <meta name="dc.type" content="text" />
   <meta name="dc.format" content="text/html" />
-  
+
   <link rel="top" href="{{tpl:BlogURL}}" title="{{tpl:lang Home}}" />
   <link rel="contents" href="{{tpl:BlogArchiveURL}}" title="{{tpl:lang Archives}}" />
-  
+
   <tpl:EventsEntries no_content="1">
     <tpl:EntriesHeader>
       <tpl:Pagination>
         <tpl:PaginationIf end="0">
         <link rel="prev" title="{{tpl:lang previous entries}}" href="{{tpl:PaginationURL offset="1"}}" />
         </tpl:PaginationIf>
-        
+
         <tpl:PaginationIf start="0">
         <link rel="next" title="{{tpl:lang next entries}}" href="{{tpl:PaginationURL offset="-1"}}" />
         </tpl:PaginationIf>
       </tpl:Pagination>
     </tpl:EntriesHeader>
-    
+
     <link rel="chapter" href="{{tpl:EntryURL}}" title="{{tpl:EntryTitle encode_html="1"}}" />
   </tpl:EventsEntries>
-  
+
   <tpl:EventsIf has_category="1">
    <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{{tpl:EventsFeedURL type="atom"}}" />
   </tpl:EventsIf>
-  
+
   <!-- default css for eventHandler -->
   <style type="text/css" media="screen">
-  @import url({{tpl:BlogQmarkURL}}pf=eventHandler/default-templates/eventhandler.css);
+  @import url({{tpl:BlogQmarkURL}}pf=eventHandler/css/eventhandler.css);
   </style>
-  
+
   {{tpl:include src="_head.html"}}
 </head>
 
@@ -67,7 +67,7 @@
       <div id="lead" class="grid-l">
     <h2><tpl:EventsIf has_category="1">{{tpl:CategoryTitle encode_html="1"}} - </tpl:EventsIf>{{tpl:EventsPeriod fulltext="1"}}</h2>
 	<tpl:EventsIf has_interval="1"><p>{{tpl:EventsInterval}}</p></tpl:EventsIf>
-	
+
       </div>
 
       <!-- # meta -->
@@ -79,7 +79,7 @@
 	 <li><a class="event-hcal" type="text/calendar" href="{{tpl:SysSelfURI}}/hcal.html" title="{{tpl:lang Display these events on hCalendar format}}">{{tpl:lang hCalendar}}</a></li>
 	 <li><a class="event-map" href="{{tpl:SysSelfURI}}/gmap" title="{{tpl:lang Display these events on a map}}">{{tpl:lang GoogleMaps}}</a></li>
 	</ul>
-	<tpl:EventsIf has_interval="0"> 
+	<tpl:EventsIf has_interval="0">
 	<div>
 	<h2>{{tpl:lang Period of events:}}</h2>
     {{tpl:EventsMenuPeriod separator="" menus="all,scheduled,ongoing,finished"}}
@@ -89,16 +89,16 @@
     {{tpl:EventsMenuSortOrder separator="" menus="title,date,startdt,enddt"}}
 	</div>
 	</tpl:EventsIf>
-	
+
         {{tpl:include src="inc_meta.html"}}
   </div>
-      
+
       <!-- # Subcategories and Entries -->
       <div class="grid-l">
-    
+
   <tpl:EventsEntries>
     <div id="p{{tpl:EntryID}}" class="post {{tpl:EntryIfOdd}} {{tpl:EntryIfFirst}}" lang="{{tpl:EntryLang}}" xml:lang="{{tpl:EntryLang}}">
-	
+
     <h2 class="post-title"><a href="{{tpl:EntryURL}}">{{tpl:EntryTitle encode_html="1"}}</a></h2>
 
 	<p class="post-info">
@@ -113,23 +113,23 @@
      <tpl:DateHeader><span class="post-date">{{tpl:EntryDate}}</span></tpl:DateHeader>
 	</tpl:EventsEntryIf>
     </p>
-	
+
 	<ul class="event-info">
 	<li class="event-date">{{tpl:lang on}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang for a period of}} {{tpl:EventsEntryDuration}}</li>
 	</ul>
-    
+
           <div class="b post-content">
             <!-- # Entry with an excerpt -->
             <tpl:EntryIf extended="1">{{tpl:EntryExcerpt}}</tpl:EntryIf>
             <!-- # Entry without excerpt -->
             <tpl:EntryIf extended="0"><p>{{tpl:EntryContent encode_html="1" remove_html="1" cut_string="250"}}</p></tpl:EntryIf>
-            
+
             <p class="read-it"><a href="{{tpl:EntryURL}}"
             title="{{tpl:lang Continue reading}} {{tpl:EntryTitle encode_html="1"}}">{{tpl:lang Continue reading}}</a></p>
           </div>
-    
+
     </div>
-    
+
     <tpl:EntriesFooter>
       <tpl:EventsPagination>
         <p class="pagination"><tpl:PaginationIf end="0"><a href="{{tpl:PaginationURL offset="+1"}}" class="prev">&#171;
@@ -141,14 +141,14 @@
     </tpl:EntriesFooter>
   </tpl:EventsEntries>
       </div>
-      
+
       <!-- # extra -->
       <div id="extra" class="grid-s widgets">
         {{tpl:include src="inc_extra.html"}}
         {{tpl:Widgets type="nav"}}
       </div>
     </div>
-	
+
   </div>
 </div> <!-- End #main -->
 

@@ -71,5 +71,10 @@ if (!file_exists(dirname(__FILE__).'/inc/index.'.$default_part.'.php')) {
 	$default_part = 'settings';
 }
 
-define('DC_CONTEXT_EVENTHANDLER',$default_part);
+if (!empty($_SESSION['eh_tab'])) {
+    $default_tab = $_SESSION['eh_tab'];
+    unset($_SESSION['eh_tab']);
+}
+
+define('DC_CONTEXT_EVENTHANDLER', $default_part);
 include dirname(__FILE__).'/inc/index.'.$default_part.'.php';

@@ -83,7 +83,7 @@ foreach ($core->blog->getAllPostStatus() as $k => $v) {
 }
 
 # Formaters combo
-if (version_compare(DC_VERSION, '2.7-dev', '>=')) {
+if (version_compare(DC_VERSION, '2.7', '>=')) {
     $core_formaters = $core->getFormaters();
     $available_formats = array('' => '');
     foreach ($core_formaters as $editor => $formats) {
@@ -98,7 +98,7 @@ if (version_compare(DC_VERSION, '2.7-dev', '>=')) {
 }
 
 # Languages combo
-$rs = $core->blog->getLangs(array('order'=>'asc'));
+$rs = $core->blog->getLangs(array('order' => 'asc'));
 $all_langs = l10n::getISOcodes(0,1);
 $lang_combo = array('' => '', __('Most used') => array(), __('Available') => l10n::getISOcodes(1,1));
 while ($rs->fetch()) {
@@ -115,7 +115,7 @@ unset($rs);
 # Change a post to an event
 $change = false;
 if (!empty($_REQUEST['from_id'])) {
-	$post = $core->blog->getPosts(array('post_id'=> (integer) $_REQUEST['from_id'],'post_type'=>''));
+	$post = $core->blog->getPosts(array('post_id' => (integer) $_REQUEST['from_id'], 'post_type' => ''));
 
 	if ($post->isEmpty()) {
 		$core->error->add(__('This entry does not exist.'));
@@ -285,14 +285,15 @@ if (!empty($_POST) && !empty($_POST['save']) && $can_edit_post) {
 	if ($post_id) {
 		try {
 			# --BEHAVIOR-- adminBeforeEventHandlerUpdate
-			$core->callBehavior('adminBeforeEventHandlerUpdate',$cur_post,$cur_event,$post_id);
+            $core->callBehavior('adminBeforeEventHandlerUpdate',$cur_post,$cur_event,$post_id);
 
 			$eventHandler->updEvent($post_id,$cur_post,$cur_event);
 
 			# --BEHAVIOR-- adminAfterEventHandlerUpdate
-			$core->callBehavior('adminAfterEventHandlerUpdate',$cur_post,$cur_event,$post_id);
+            $core->callBehavior('adminAfterEventHandlerUpdate',$cur_post,$cur_event,$post_id);
 
-			http::redirect($p_url.'&part=event&id='.$post_id.'&upd=1');
+            dcPage::addSuccessNotice(__('Event has been updated.'));
+			http::redirect($p_url.'&part=event&id='.$post_id);
 		} catch (Exception $e) {
 			$core->error->add($e->getMessage());
 		}
@@ -308,11 +309,21 @@ if (!empty($_POST) && !empty($_POST['save']) && $can_edit_post) {
 			# --BEHAVIOR-- adminAfterEventHandlerCreate
 			$core->callBehavior('adminAfterEventHandlerCreate',$cur_post,$cur_event,$return_id);
 
-			http::redirect($p_url.'&part=event&id='.$return_id.'&crea=1');
+            dcPage::addSuccessNotice(__('Event has been created.'));
+			http::redirect($p_url.'&part=event&id='.$return_id);
 		} catch (Exception $e) {
 			$core->error->add($e->getMessage());
 		}
 	}
+
+    if ($post_id && $post_status==1) {
+        $preview_url = $post->getURL();
+    } else {
+        $preview_url = $core->blog->url.$core->url->getBase('preview').'/';
+        $preview_url .= $core->auth->userID().'/';
+        $preview_url .=http::browserUID(DC_MASTER_KEY.$core->auth->userID().$core->auth->getInfo('user_pwd'));
+        $preview_url .= '/'.$post->post_url;
+    }
 }
 
 if (!empty($_POST['delete']) && $can_delete) {
@@ -325,15 +336,6 @@ if (!empty($_POST['delete']) && $can_delete) {
 	} catch (Exception $e) {
 		$core->error->add($e->getMessage());
 	}
-}
-
-if ($post_id && $post_status==1) {
-    $preview_url = $post->getURL();
-} else {
-    $preview_url = $core->blog->url.$core->url->getBase('preview').'/';
-    $preview_url .= $core->auth->userID().'/';
-    $preview_url .=http::browserUID(DC_MASTER_KEY.$core->auth->userID().$core->auth->getInfo('user_pwd'));
-    $preview_url .= '/'.$post->post_url;
 }
 
 # Get bind entries
@@ -375,20 +377,6 @@ if ($post_editor && !empty($post_editor[$post_format])) {
 	$admin_post_behavior = $core->callBehavior('adminPostEditor', $post_editor[$post_format],
                                                'event', array('#post_content', '#post_excerpt')
     );
-}
-
-$message = '';
-if (!empty($_GET['upd'])) {
-	$message = dcPage::message(__('Event has been updated.'));
-} elseif (!empty($_GET['crea'])) {
-	$message = dcPage::message(__('Event has been created.'));
-} elseif (!empty($_GET['attached'])) {
-	$message = dcPage::message(__('File has been attached.'));
-} elseif (!empty($_GET['rmattach'])) {
-	$message = dcPage::message(__('Attachment has been removed.'));
-}
-if (!empty($_GET['creaco'])) {
-	$message = dcPage::message(__('Comment has been created.'));
 }
 
 # XHTML conversion

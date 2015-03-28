@@ -1,3 +1,15 @@
+plugin eventHandler 2015-03-28 - 2015-03-28
+===========================================
+* Fix breadcrumb and message info
+* Fix widget names "EventHandler: widgetname" + subtitle
+* Add  content_only, class, and offline mode for widgets
+* Fix localization and misspelling
+* Add html5 switch using mustek/currywurst default templates
+* Add options to _define
+  Thanks to Pierre Van Glabeke
+* Split some classes in their own file
+* Fix misspelling, thanks to Onurb Teva <dev@taktile.fr>.
+
 plugin eventHandler 2015-03-22 - 2015-03-22
 ===========================================
 * Remove deprecated behaviors (adminPostsActionsCombo, adminPostsActionsHeaders, adminPostsActionsContent)

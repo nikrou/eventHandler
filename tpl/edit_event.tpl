@@ -65,7 +65,7 @@
 	    <h5 id="label_format"><label for="post_format" class="classic"><?php echo __('Text formatting');?></label></h5>
 	    <p><?php echo form::combo('post_format',$available_formats,$post_format,'maximal');?></p>
 	    <p class="format_control control_no_xhtml">
-	      <a id="convert-xhtml" class="button<?php echo ($post_id && $post_format != 'wiki' ? ' hide' : '');?>" href="post.php?id=<?php echo $post_id;?>&amp;xconv=1"><?php echo __('Convert to XHTML');?></a></p>
+	      <a id="convert-xhtml" class="button<?php echo ($post_id && $post_format != 'wiki' ? ' hide' : '');?>" href="<?php echo $p_url;?>&amp;part=event&amp;id=<?php echo $post_id;?>&amp;xconv=1"><?php echo __('Convert to XHTML');?></a></p>
 	  </div>
 	  <p>
 	    <label>
@@ -122,7 +122,7 @@
 		</p>
 	      </div>
 	    </div>
-	    <p id="event-area-title"><?php echo __('Localization:');?></p>
+	    <p id="event-area-title"><?php echo __('Localization');?></p>
 	    <div id="event-area-content">
 	      <p><label><?php echo __('Address:');?>
 		  <?php echo form::field('event_address',10,255,html::escapeHTML($event_address),'maximal',6);?>
@@ -131,26 +131,21 @@
 
 	      <div class="fieldset">
 		<h3><?php echo __('Maps');?></h3>
-		<p class="form-note"><?php echo __('If you want to use maps, you must enter an address as precise as possible (number, street, city, country)');?></p>
+		<p class="info"><?php echo __('If you want to use maps, you must enter an address as precise as possible (number, street, city, country)');?></p>
 		<p><a id="event-map-link" href="#"><?php echo __('Find coordinates on googleMap');?></a></p>
-		<div class="two-cols clearfix">
-		  <div class="col">
+
 		    <p><label><?php echo __('Latitude:');?>
-			<?php echo form::field('event_latitude',16,16,$event_latitude,'',6);?>
+			<?php echo form::field('event_latitude',30,16,$event_latitude,'',6);?>
 		      </label>
 		    </p>
-		  </div>
-		  <div class="col">
 		    <p><label><?php echo __('Longitude:');?>
-			<?php echo form::field('event_longitude',16,16,$event_longitude,'',6);?>
+			<?php echo form::field('event_longitude',30,16,$event_longitude,'',6);?>
 		      </label>
 		    </p>
-		  </div>
-		</div>
 	      </div>
 	    </div>
 		<?php
-	       # --BEHAVIOR-- adminEventHandlerForm 
+	       # --BEHAVIOR-- adminEventHandlerForm
 	       $core->callBehavior('adminEventHandlerForm',isset($post) ? $post : null);
 		?>
 
@@ -200,8 +195,8 @@
       <?php endif;?>
     </div>
 	<?php
-	       # --BEHAVIOR-- adminEventHandlerTab 
-	       $core->callBehavior('adminEventHandlerTab',isset($post) ? $post : null);	
+	       # --BEHAVIOR-- adminEventHandlerTab
+	       $core->callBehavior('adminEventHandlerTab',isset($post) ? $post : null);
 	?>
     <?php endif;?>
     <?php echo $footer;?>

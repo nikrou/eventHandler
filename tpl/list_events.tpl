@@ -18,6 +18,10 @@
     <?php echo $message;?>
     <?php endif;?>
     <p class="top-add"><a class="button add" href="<?php echo $p_url;?>&amp;part=event"><?php echo __('New event');?></a></p>
+    <?php if ($from_id):?>
+    <p class="info"><?php echo sprintf(__('Attach events to "%s" post.'), $from_post->post_title);?></p>
+    <?php endif;?>
+
     <form action="<?php echo $p_url;?>" method="get" id="filters-form">
       <h3 class="out-of-screen-if-js"><?php echo $form_filter_title;?></h3>
       <div class="table">
@@ -69,9 +73,8 @@
       </p>
     </form>
 
-    <?php
-       if ($from_id) {
-       $post_list->display($page,$nb_per_page,
+    <?php if ($from_id){?>
+    <?php $post_list->display($page,$nb_per_page,
     '<form action="'.$p_url.'" method="post" id="form-entries">'.
       '%s'.
       '<div class="two-cols">'.

@@ -132,7 +132,7 @@ class adminEventHandler
 					$ap->getIDsHidden().
 					$core->formNonce().
 					form::hidden(array('action'),'eventhandler_bind_event').
-					'<input type="submit" value="'.__('save').'" /></p>'.
+					'<input type="submit" value="'.__('Save').'" /></p>'.
 					'</form>'
 				);
 				$ap->endPage();
@@ -182,14 +182,12 @@ class adminEventHandler
 		}
 	}
 
-	# post.php
-	# Sidebar list of linked events, menu of events actions for this post
-	public static function adminPostFormSidebar($post) {
-		if ($post === null) {
+    public static function adminPostFormItems($main_items, $sidebar_items, $post=null) {
+		global $core;
+
+        if ($post === null) {
             return;
         }
-
-		global $core;
 
 		# Get linked events
 		$events = null;
@@ -207,43 +205,38 @@ class adminEventHandler
 			$core->error->add($e->getMessage());
 		}
 
-		# Display
-		echo
-		'<div id="eventhandler-form">'.
-		'<h3 id="eventhandler-form-title">'.__('Events:').'</h3>'.
-		'<div id="eventhandler-form-content">';
+		$res = '<div>';
+        $res .= '<h5 id="eventhandler-form-title">'.__('Events').'</h5>';
+        $res .= '<div id="eventhandler-form-content">';
 
 		# Related events
 		if ($events) {
-			echo '<ul class="event-list">';
+			$res .= '<ul class="event-list">';
 
 			while($events->fetch()) {
-				echo '<li class="event-node event-node-'.$events->getPeriod().'">';
-                echo '<label title="'.__('Check to unbind').'" class="classic">';
-                echo form::checkbox(array('eventhandler_events[]'), $events->post_id,'','event-node-value');
-                echo html::escapeHTML($events->post_title).'</label></li>';
+				$res .= '<li class="event-node event-node-'.$events->getPeriod().'">';
+                $res .= '<label title="'.__('Check to unbind').'" class="classic">';
+                $res .= form::checkbox(array('eventhandler_events[]'), $events->post_id,'','event-node-value');
+                $res .= html::escapeHTML($events->post_title).'</label></li>';
 			}
 
-			echo '</ul>';
+			$res .= '</ul>';
 		}
 
 		# Bind a event to this post
-		echo
-            '<p><a href="plugin.php?p=eventHandler'.
-            '&amp;part=events&amp;from_id='.$post->post_id.
-            '">'.__('Bind events').'</a>';
+		$res .= '<p><a href="plugin.php?p=eventHandler&amp;part=events&amp;from_id='.$post->post_id.'">'.__('Bind events').'</a>';
 
 		# Change post into event publish,contenadmin
 		if($core->auth->check('publish,contentadmin',$core->blog->id)) {
-			echo
-                '<br /><a href="plugin.php?p=eventHandler'.
-                '&amp;part=event&amp;from_id='.$post->post_id.
-                '" title="'.__('Change this entry into an event').
-                '">'.__('Change into event').'</a>';
+            $res .= '<p><a href="plugin.php?p=eventHandler';
+            $res .= '&amp;part=event&amp;from_id='.$post->post_id;
+            $res .= '" title="'.__('Change this entry into an event').'">'.__('Change into event').'</a>';
 		}
 
-		echo '</p></div></div>';
-	}
+		$res .= '</p></div></div>';
+
+        $sidebar_items['metas-box']['items']['eventhandler'] = $res;
+    }
 
 	# post.php
 	# This delete relation between this post and ckecked related event (without javascript)

@@ -17,9 +17,16 @@
 if (!defined('DC_RC_PATH')) {return;}
 
 $this->registerModule(
-	/* Name */			"Event handler",
-	/* Description*/		"Add period to your posts",
-	/* Author */			"JC Denis, Nicolas Roudaire",
-	/* Version */			'2015.03.22',
-	/* Permissions */		'usage,contentadmin'
+	/* Name */			"EventHandler",
+	/* Description*/	"Manage events on your blog",
+	/* Author */		"JC Denis, Nicolas Roudaire",
+	/* Version */		'2015.03.28',
+	/* Properties */
+	array(
+		'permissions' => 'usage,contentadmin',
+		'type' => 'plugin',
+		'dc_min' => '2.6',
+		'support' => 'http://forum.dotclear.org/viewtopic.php?id=43296',
+		'details' => 'http://plugins.dotaddict.org/dc2/details/eventHandler'
+		)
 );

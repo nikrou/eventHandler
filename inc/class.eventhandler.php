@@ -101,8 +101,6 @@ class eventHandler
 
 			if (!empty($params['event_startdt']) && $op[0] != '!') {
 				$params['sql'] .= "EH.event_startdt ".$op[0]." TIMESTAMP '".$this->con->escape($params['event_startdt'])."'";
-
-				//unset($params['event_startdt']);
 			} elseif (empty($params['event_startdt']) && $op[0] != '!') {
 				$params['sql'] .= "EH.event_startdt ".$op[0]." TIMESTAMP '".$now."'";
 			}
@@ -266,7 +264,7 @@ class eventHandler
 			$this->getEventCursor($post_id,$cur_post,$cur_event);
 
 			# --BEHAVIOR-- coreEventHandlerBeforeEventUpdate
-			$this->core->callBehavior('coreEventHandlerBeforeEventUpdate',$eh,$post_id,$cur_post,$cur_event);
+			$this->core->callBehavior('coreEventHandlerBeforeEventUpdate',$this,$post_id,$cur_post,$cur_event);
 			# Update first part of event record
 			$this->core->blog->updPost($post_id,$cur_post);
 

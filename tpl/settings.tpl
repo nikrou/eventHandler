@@ -5,12 +5,13 @@
     <?php echo $header;?>
   </head>
   <body>
-    <h2>
-      <?php echo html::escapeHTML($core->blog->name);?>
-      &rsaquo; <a href="<?php echo $p_url;?>&amp;part=events"><?php echo __('Events');?></a>
-      &rsaquo; <span class="page-title"><?php echo __('Settings');?></span>
-    </h2>
-
+    <?php
+    echo dcPage::breadcrumb(array(html::escapeHTML($core->blog->name) => '',
+    '<a href="plugin.php?p=eventHandler&amp;part=events">'.__('Events').'</a>
+    &rsaquo; <span class="page-title">'.__('Settings').'</span>' => ''
+    ));
+    ?>
+    <?php echo dcPage::notices();?>
     <form id="setting-form" method="post" action="plugin.php">
       <div class="multi-part" id="settings" title="<?php echo  __('Activation');?>">
 	<?php if ($is_super_admin):?>
@@ -18,14 +19,14 @@
 	  <h3><?php echo __('Activation');?></h3>
 	  <p>
 	    <label class="classic">
-	      <?php echo form::checkbox(array('active'),'1',$active).' '.__('Enable extension');?>
+	      <?php echo form::checkbox(array('active'),'1',$active).' '.__('Enable plugin');?>
 	    </label>
 	  </p>
 	</div>
 	<?php endif;?>
       </div>
       <?php if ($active):?>
-      <div class="multi-part" id="conf" title="<?php echo __('Configuration');?>">
+      <div class="multi-part" id="configuration" title="<?php echo __('Configuration');?>">
 	<div class="fieldset">
 	  <h3><?php echo __('Additionnal style sheet:');?></h3>
 	  <p>
@@ -72,25 +73,16 @@
 	</div>
       </div>
       <?php endif;?>
-      <p>
-	<?php
-	   echo $core->formNonce().
-	form::hidden(array('p'),'eventHandler').
-	form::hidden(array('part'),'settings').
-	form::hidden(array('section'),$section).
-	form::hidden(array('action'),'savesettings')
-	?>
-      </p>
 
       <?php if ($active):?>
       <div class="multi-part" id="categories" title="<?php echo  __('Categories');?>">
 	<?php if (count($combo_categories) > 1):?>
 	<h3><?php echo  __('Categories');?></h3>
-	<p><?php echo __('When an event has an hidden category, it will only display on its category page.');?></p>
+	<p class="info"><?php echo __('When an event has an hidden category, it will only display on its category page.');?></p>
 	<table class="clear">
 	<tr>
 	<th><?php echo __('Hide');?></th>
-	<th colspan="2"><?php echo __('Category');?></th>
+	<th><?php echo __('Category');?></th>
 	<th><?php echo __('Level');?></th>
 	<th><?php echo __('Entries');?></th>
 	<th><?php echo __('Events');?></th>
@@ -112,7 +104,6 @@
 	?>
 	<tr class="line">
 	  <td class="nowrap"><?php echo form::checkbox(array('public_hidden_categories[]'),$categories->cat_id,$hidden);?></td>
-	  <td class="nowrap"><?php echo $categories->cat_id;?></td>
 	  <td class="nowrap">
 	    <a href="category.php?id=<?php echo $categories->cat_id;?>" title="<?php echo __('Edit this category');?>"><?php echo html::escapeHTML($categories->cat_title);?></a>
 	  </td>
@@ -131,7 +122,15 @@
 	 and add a adminEventHandlerSettingsSave behavior handler to add save your custom settings.*/
 	 $core->callBehavior("adminEventHandlerSettings");  ?>
 
-      <input type="submit" name="save" value="<?php echo __('Save');?>"/>
+      <p>
+	<?php
+	echo $core->formNonce().
+	form::hidden(array('p'),'eventHandler').
+	form::hidden(array('part'),'settings').
+	form::hidden(array('action'),'savesettings')
+	?>
+	<input type="submit" name="save" value="<?php echo __('Save');?>"/>
+      </p>
     </form>
 
     <?php if ($active && $core->plugins->moduleExists('eventdata')):?>
