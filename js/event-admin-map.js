@@ -25,6 +25,10 @@ $(function() {
 					 if (status == google.maps.GeocoderStatus.OK) {
 						 $('#event_latitude').val(results[0].geometry.location.lat());
 						 $('#event_longitude').val(results[0].geometry.location.lng());
+						 var new_address = results[0].formatted_address;
+						 if (new_address!=undefined){
+							 $('#event_address').val(new_address);
+						 }
 					 } else {
 						 alert("Geocode was not successful for the following reason: " + status);
 					 }

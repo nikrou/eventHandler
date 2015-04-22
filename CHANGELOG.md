@@ -1,3 +1,8 @@
+plugin eventHandler 2015-04-22 - 2015-04-22
+===========================================
+Fixes #23 - Lost automatic address completion from GMaps when entering partial address.
+  Thanks to @franck-tomek for reporting issue.
+
 plugin eventHandler 2015-03-28 - 2015-03-28
 ===========================================
 * Fix breadcrumb and message info
