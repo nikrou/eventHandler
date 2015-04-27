@@ -1,3 +1,36 @@
+plugin eventHandler 2015-04-22 - 2015-04-22
+===========================================
+Fixes #23 - Lost automatic address completion from GMaps when entering partial address.
+  Thanks to @franck-tomek for reporting issue.
+
+plugin eventHandler 2015-03-28 - 2015-03-28
+===========================================
+* Fix breadcrumb and message info
+* Fix widget names "EventHandler: widgetname" + subtitle
+* Add  content_only, class, and offline mode for widgets
+* Fix localization and misspelling
+* Add html5 switch using mustek/currywurst default templates
+* Add options to _define
+  Thanks to Pierre Van Glabeke
+* Split some classes in their own file
+* Fix misspelling, thanks to Onurb Teva <dev@taktile.fr>.
+
+plugin eventHandler 2015-03-22 - 2015-03-22
+===========================================
+* Remove deprecated behaviors (adminPostsActionsCombo, adminPostsActionsHeaders, adminPostsActionsContent)
+* Add severals behaviors to customize admin pages.
+* And many others fixes.
+* A big thanks to Onurb Teva <dev@taktile.fr>.
+
+plugin eventHandler 2014-12-17 - 2014-12-17
+===========================================
+* Fix issue for bulk actions (authors and categories).
+  Thanks to vdanjean for reporting issue.
+
+plugin eventHandler 2014-12-08 - 2014-12-08
+===========================================
+* Fix misspeling in template. Thanks to @franck-tomek.
+
 plugin eventHandler 2014-12-02 - 2014-12-02
 ===========================================
 * Add more translations

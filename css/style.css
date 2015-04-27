@@ -1,0 +1,44 @@
+/* Events table (posts_actions and events page) */
+td.eventhandler.scheduled,
+tr.line.eventhandler.scheduled:hover {
+    background: #ECFFBF;
+}
+td.eventhandler.ongoing,
+tr.line.eventhandler.ongoing:hover {
+    background: #FFF3BF;
+}
+td.eventhandler.finished,
+tr.line.eventhandler.finished:hover {
+    background: #FFD7BF;
+}
+/* Events list (post page) */
+ul.event-list {
+    margin: 0 0 1em 0;
+    padding: 0;
+}
+ul.event-list li {
+    margin: 0;
+    padding: 0 0 0 1.3em;
+    list-style: none;
+    list-style-position: inside;
+}
+.event-node-scheduled {
+    background: transparent url("index.php?pf=eventHandler/css/imgs/event-node-scheduled.png") no-repeat left top;
+}
+.event-node-ongoing {
+    background: transparent url("index.php?pf=eventHandler/css/imgs/event-node-ongoing.png") no-repeat left top;
+}
+.event-node-finished {
+    background: transparent url("index.php?pf=eventHandler/css/imgs/event-node-finished.png") no-repeat left top;
+}
+a.event-unbind {
+    color : #999 !important;
+    border: none;
+}
+a.event-unbind:hover,
+a.eventUnbind:focus {
+    color : #06c !important;
+}
+.datepicker {
+    width: 140px;
+}

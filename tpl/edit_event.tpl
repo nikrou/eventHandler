@@ -1,7 +1,7 @@
 <html>
   <head>
     <title><?php echo __('Event handler'), ' - ', $page_title;?></title>
-    <script type=""text/javascript" src = "http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src = "http://maps.google.com/maps/api/js?sensor=false"></script>
     <?php
        echo
        dcPage::jsDatePicker().
@@ -17,18 +17,18 @@
        $core->callBehavior('adminEventHandlerHeaders').
        dcPage::jsPageTabs($default_tab);
     ?>
-    <link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css"/>
+    <link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/style.css"/>
     <?php echo $next_headlink."\n".$prev_headlink;?>
   </head>
   <body>
-    <h2><?php echo html::escapeHTML($core->blog->name);?>
-      &rsaquo; <a href="<?php echo $p_url;?>&amp;part=events"><?php echo __('Events');?></a>
-      &rsaquo; <span class="page-title"><?php echo $page_title;?></span>
-    </h2>
+    <?php
+    echo dcPage::breadcrumb(array(html::escapeHTML($core->blog->name) => '',
+    '<a href="plugin.php?p=eventHandler&amp;part=events">'.__('Events').'</a>
+    &rsaquo; <span class="page-title">'.$page_title.'</span>' => ''
+    ));
+    ?>
 
-    <?php if (!empty($message)):?>
-    <?php echo $message;?>
-    <?php endif;?>
+    <?php echo dcPage::notices();?>
 
     <?php if ($post_id && $post->post_status==1):?>
     <p>
@@ -65,7 +65,7 @@
 	    <h5 id="label_format"><label for="post_format" class="classic"><?php echo __('Text formatting');?></label></h5>
 	    <p><?php echo form::combo('post_format',$available_formats,$post_format,'maximal');?></p>
 	    <p class="format_control control_no_xhtml">
-	      <a id="convert-xhtml" class="button<?php echo ($post_id && $post_format != 'wiki' ? ' hide' : '');?>" href="post.php?id=<?php echo $post_id;?>&amp;xconv=1"><?php echo __('Convert to XHTML');?></a></p>
+	      <a id="convert-xhtml" class="button<?php echo ($post_id && $post_format != 'wiki' ? ' hide' : '');?>" href="<?php echo $p_url;?>&amp;part=event&amp;id=<?php echo $post_id;?>&amp;xconv=1"><?php echo __('Convert to XHTML');?></a></p>
 	  </div>
 	  <p>
 	    <label>
@@ -122,7 +122,7 @@
 		</p>
 	      </div>
 	    </div>
-	    <p id="event-area-title"><?php echo __('Localization:');?></p>
+	    <p id="event-area-title"><?php echo __('Localization');?></p>
 	    <div id="event-area-content">
 	      <p><label><?php echo __('Address:');?>
 		  <?php echo form::field('event_address',10,255,html::escapeHTML($event_address),'maximal',6);?>
@@ -131,24 +131,23 @@
 
 	      <div class="fieldset">
 		<h3><?php echo __('Maps');?></h3>
-		<p class="form-note"><?php echo __('If you want to use maps, you must enter an address as precise as possible (number, street, city, country)');?></p>
+		<p class="info"><?php echo __('If you want to use maps, you must enter an address as precise as possible (number, street, city, country)');?></p>
 		<p><a id="event-map-link" href="#"><?php echo __('Find coordinates on googleMap');?></a></p>
-		<div class="two-cols clearfix">
-		  <div class="col">
+
 		    <p><label><?php echo __('Latitude:');?>
-			<?php echo form::field('event_latitude',16,16,$event_latitude,'',6);?>
+			<?php echo form::field('event_latitude',30,16,$event_latitude,'',6);?>
 		      </label>
 		    </p>
-		  </div>
-		  <div class="col">
 		    <p><label><?php echo __('Longitude:');?>
-			<?php echo form::field('event_longitude',16,16,$event_longitude,'',6);?>
+			<?php echo form::field('event_longitude',30,16,$event_longitude,'',6);?>
 		      </label>
 		    </p>
-		  </div>
-		</div>
 	      </div>
 	    </div>
+		<?php
+	       # --BEHAVIOR-- adminEventHandlerForm
+	       $core->callBehavior('adminEventHandlerForm',isset($post) ? $post : null);
+		?>
 
 	    <p class="col"><label class="required" title="<?php echo __('Required field');?>"><?php echo __('Title:');?>
 		<?php echo form::field('post_title',20,255,html::escapeHTML($post_title),'maximal',2);?>
@@ -167,10 +166,6 @@
 	    <p class="area" id="notes-area"><label><?php echo __('Notes:');?></label>
 	      <?php echo form::textarea('post_notes',50,5,html::escapeHTML($post_notes),'',2);?>
 	    </p>
-	    <?php
-	       # --BEHAVIOR-- adminEventHandlerForm
-	       $core->callBehavior('adminEventHandlerForm',isset($post) ? $post : null);
-	    ?>
 	    <p>
 	      <input type="submit" value="<?php echo __('Save');?> (s)" tabindex="4" accesskey="s" name="save" />
 	      <?php if ($post_id):?>
@@ -199,6 +194,10 @@
       <?php $posts_list->display($page,$nb_per_page,'%s');?>
       <?php endif;?>
     </div>
+	<?php
+	       # --BEHAVIOR-- adminEventHandlerTab
+	       $core->callBehavior('adminEventHandlerTab',isset($post) ? $post : null);
+	?>
     <?php endif;?>
     <?php echo $footer;?>
     <?php dcPage::helpBlock('eventHandler');?>

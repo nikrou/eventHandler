@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -21,40 +21,61 @@ $active = (boolean) $s->active;
 $public_posts_of_event_place = (string) $s->public_posts_of_event_place;
 $public_events_of_post_place = (string) $s->public_events_of_post_place;
 $public_hidden_categories = @unserialize($s->public_hidden_categories);
-if (!is_array($public_hidden_categories)) $public_hidden_categories = array();
+if (!is_array($public_hidden_categories)) {
+    $public_hidden_categories = array();
+}
 $public_map_zoom = abs((integer) $s->public_map_zoom);
-if (!$public_map_zoom) $public_map_zoom = 9;
+if (!$public_map_zoom) {
+    $public_map_zoom = 9;
+}
 $public_map_type = (string) $s->public_map_type;
 $public_extra_css = (string) $s->public_extra_css;
 
 # Action
 if ($action == 'savesettings') {
+    $default_tab = 'configuration';
 	try  {
 		$active = !empty($_POST['active']);
-		$public_posts_of_event_place = $_POST['public_posts_of_event_place'];
-		$public_events_of_post_place = $_POST['public_events_of_post_place'];
+        if (isset($_POST['public_posts_of_event_place'])) {
+            $public_posts_of_event_place = $_POST['public_posts_of_event_place'];
+        }
+        if (isset($_POST['public_events_of_post_place'])) {
+            $public_events_of_post_place = $_POST['public_events_of_post_place'];
+        }
         if (isset($_POST['public_hidden_categories'])) {
             $public_hidden_categories = $_POST['public_hidden_categories'];
         } else {
             $public_hidden_categories = array();
         }
-		if (!is_array($public_hidden_categories)) $public_hidden_categories = array();
-		$public_map_zoom = abs((integer) $_POST['public_map_zoom']);
-		if (!$public_map_zoom) $public_map_zoom = 9;
-		$public_map_type = $_POST['public_map_type'];
-		$public_extra_css = $_POST['public_extra_css'];
+        if (!empty($_POST['public_map_zoom'])) {
+            $public_map_zoom = abs((integer) $_POST['public_map_zoom']);
+        }
+		if (!$public_map_zoom) {
+            $public_map_zoom = 9;
+        }
+        if (!empty($_POST['public_map_type'])) {
+            $public_map_type = $_POST['public_map_type'];
+        }
+        if (!empty($_POST['public_extra_css'])) {
+            $public_extra_css = $_POST['public_extra_css'];
+        }
 
-		$s->put('active',$active,'boolean');
-		$s->put('public_posts_of_event_place',$public_posts_of_event_place,'string');
-		$s->put('public_events_of_post_place',$public_events_of_post_place,'string');
-		$s->put('public_hidden_categories',serialize($public_hidden_categories),'string');
-		$s->put('public_map_zoom',$public_map_zoom,'integer');
-		$s->put('public_map_type',$public_map_type,'string');
-		$s->put('public_extra_css',$public_extra_css,'string');
+		$s->put('active', $active, 'boolean');
+		$s->put('public_posts_of_event_place', $public_posts_of_event_place, 'string');
+		$s->put('public_events_of_post_place', $public_events_of_post_place, 'string');
+		$s->put('public_hidden_categories', serialize($public_hidden_categories), 'string');
+		$s->put('public_map_zoom', $public_map_zoom, 'integer');
+		$s->put('public_map_type', $public_map_type, 'string');
+		$s->put('public_extra_css', $public_extra_css, 'string');
+
+		# --BEHAVIOR-- adminEventHandlerSettingsSave
+		$core->callBehavior("adminEventHandlerSettingsSave");
+        dcPage::addSuccessNotice(__('Configuration has been updated.'));
 
 		$core->blog->triggerBlog();
 
-		http::redirect($p_url.'&part=settings&msg=save_settings&section='.$section);
+        $_SESSION['eh_tab'] = 'configuration';
+		http::redirect($p_url.'&part=settings');
 	} catch (Exception $e) {
 		$core->error->add($e->getMessage());
 	}
@@ -70,7 +91,7 @@ $combo_place = array(
 	__('after content') => 'after'
 );
 
-for($i=3;$i<21;$i++) {
+for ($i=3;$i<21;$i++) {
 	$combo_map_zoom[$i] = $i;
 }
 $combo_map_type = array(
@@ -94,5 +115,4 @@ while ($categories->fetch()) {
 }
 
 # Display
-
 include(dirname(__FILE__).'/../tpl/settings.tpl');

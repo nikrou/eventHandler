@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -17,9 +17,16 @@
 if (!defined('DC_RC_PATH')) {return;}
 
 $this->registerModule(
-	/* Name */			"Event handler",
-	/* Description*/		"Add period to your posts",
-	/* Author */			"JC Denis, Nicolas Roudaire",
-	/* Version */			'2014.12.02',
-	/* Permissions */		'usage,contentadmin'
+	/* Name */			"EventHandler",
+	/* Description*/	"Manage events on your blog",
+	/* Author */		"JC Denis, Nicolas Roudaire",
+	/* Version */		'2015.04.22',
+	/* Properties */
+	array(
+		'permissions' => 'usage,contentadmin',
+		'type' => 'plugin',
+		'dc_min' => '2.6',
+		'support' => 'http://forum.dotclear.org/viewtopic.php?id=43296',
+		'details' => 'http://plugins.dotaddict.org/dc2/details/eventHandler'
+		)
 );

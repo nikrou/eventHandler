@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -21,7 +21,7 @@ $from_id = $from_post = null;
 if (!empty($_REQUEST['from_id'])) {
 	try {
 		$from_id = abs((integer) $_REQUEST['from_id']);
-		$from_post = $core->blog->getPosts(array('post_id'=>$from_id,'post_type'=>''));
+		$from_post = $core->blog->getPosts(array('post_id' => $from_id,'post_type' => ''));
 		if ($from_post->isEmpty()) {
 			$from_id = $from_post = null;
 			throw new Exception(__('No such post ID'));
@@ -64,6 +64,83 @@ if ($action == 'eventhandler_bind_event' && $from_id) {
 		$core->error->add($e->getMessage());
 	}
 }
+
+if (!empty($_POST['entries']) && $action == 'author' && !empty($_POST['new_auth_id'])
+    && $core->auth->check('admin', $core->blog->id)) {
+    if (isset($_POST['redir']) && strpos($_POST['redir'],'://') === false) {
+        $redir = $_POST['redir'];
+    } else {
+        $redir = $p_url.'&part=events';
+    }
+    try {
+		$entries = $_POST['entries'];
+        if ($core->getUser($_POST['new_auth_id'])->isEmpty()) {
+            throw new Exception(__('This user does not exist'));
+        }
+        $cur = $core->con->openCursor($core->prefix.'post');
+        $cur->user_id = $_POST['new_auth_id'];
+        $cur->update('WHERE post_id '.$core->con->in($entries));
+
+        dcPage::addSuccessNotice(sprintf(
+            __(
+                '%d entry has been successfully set to user "%s"',
+                '%d entries have been successfully set to user "%s"',
+                count($entries)
+            ),
+            count($entries),
+            html::escapeHTML($_POST['new_auth_id']))
+        );
+
+		http::redirect($redir);
+    }  catch (Exception $e) {
+		$core->error->add($e->getMessage());
+	}
+} elseif ($action == 'category' &&  (!empty($_POST['new_cat_id']) || !empty($_POST['new_cat_title']))
+          && !empty($_POST['entries']) && $core->auth->check('categories', $core->blog->id)) {
+    if (isset($_POST['redir']) && strpos($_POST['redir'],'://') === false) {
+        $redir = $_POST['redir'];
+    } else {
+        $redir = $p_url.'&part=events';
+    }
+    try {
+		$entries = $_POST['entries'];
+        if (!empty($_POST['new_cat_title'])) {
+            $cur_cat = $core->con->openCursor($core->prefix.'category');
+            $cur_cat->cat_title = $_POST['new_cat_title'];
+            $cur_cat->cat_url = '';
+            $title = $cur_cat->cat_title;
+            $parent_cat = !empty($_POST['new_cat_parent']) ? $_POST['new_cat_parent'] : '';
+            # --BEHAVIOR-- adminBeforeCategoryCreate
+            $core->callBehavior('adminBeforeCategoryCreate', $cur_cat);
+
+            $new_cat_id = $core->blog->addCategory($cur_cat, (integer) $parent_cat);
+
+            # --BEHAVIOR-- adminAfterCategoryCreate
+            $core->callBehavior('adminAfterCategoryCreate', $cur_cat, $new_cat_id);
+        } else {
+            $new_cat_id = $_POST['new_cat_id'];
+        }
+
+        $core->blog->updPostsCategory($entries, $new_cat_id);
+        $title = $core->blog->getCategory($new_cat_id);
+        dcPage::addSuccessNotice(sprintf(
+            __(
+                '%d entry has been successfully moved to category "%s"',
+                '%d entries have been successfully moved to category "%s"',
+                count($entries)
+            ),
+            count($entries),
+            html::escapeHTML($title->cat_title))
+        );
+
+		http::redirect($redir);
+    }  catch (Exception $e) {
+		$core->error->add($e->getMessage());
+	}
+}
+
+#--BEHAVIOR-- adminEventHandlerActionsManage
+$core->callBehavior('adminEventHandlerActionsManage',$eventHandler,$action);
 
 if (!$core->error->flag()) {
 	try {
@@ -294,13 +371,33 @@ $redir = $p_url.
 '&amp;page='.$page.
 '&amp;nb='.$nb_per_page;
 
+#behavior to customize different aspects of the events page :
+# params to manage the getEvents (add some db fields...)
+# sortby_combo : add some criterias to the sortby_combo filter
+# show_filters : boolean to tell if the filters must be displayed or not
+# redir : redirection url
+# hidden_fields
+
+$core->callBehavior('adminEventHandlerEventsPageCustomize',
+                    array('params' => &$params,
+                          'sortby_combo' => &$sortby_combo,
+                          'show_filters'=> &$show_filters,
+                          'redir' => &$redir,
+                          'hidden_fields' => &$hidden_fields
+                    )
+);
+
 # Get events
 try {
 	$posts = $eventHandler->getEvents($params);
 	$counter = $eventHandler->getEvents($params,true);
 	$post_list = new adminEventHandlertList($core,$posts,$counter->f(0));
+	$core->callBehavior('adminEventHandlerEventsListCustom',array($posts,$counter,$post_list));
 } catch (Exception $e) {
 	$core->error->add($e->getMessage());
 }
+
+# --BEHAVIOR-- adminEventHandlerBeforeEventsTpl - to use a custom tpl e.g.
+$core->callBehavior('adminEventHandlerBeforeEventsTpl');
 
 include(dirname(__FILE__).'/../tpl/list_events.tpl');

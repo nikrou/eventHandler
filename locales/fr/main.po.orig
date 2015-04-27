@@ -1,4 +1,14 @@
 # Language: Français
+<<<<<<< HEAD
+# Module: eventHandler - 1.1
+msgid ""
+msgstr ""
+"Project-Id-Version: eventHandler 1.1\n"
+"Report-Msgid-Bugs-To: nikrou77+l10n@gmail.com\n"
+"POT-Creation-Date: 2014-11-18 18:07+0100\n"
+"PO-Revision-Date: 2015-01-16 10:46+0100\n"
+"Last-Translator: franck@ouik.fr\n"
+=======
 # Module: eventHandler - 2015.03.22
 # Date: 2015-03-24 17:23:51
 # Translated with translater 2015.03.02
@@ -10,6 +20,7 @@ msgstr ""
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2015-03-24T17:23:51+00:00\n"
 "Last-Translator: brol\n"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -118,6 +129,11 @@ msgstr "Date de publication"
 msgid "Start date"
 msgstr "Date de début"
 
+<<<<<<< HEAD
+#: inc/index.events.php:576
+msgid "Attach selected events"
+msgstr "Lier les événements sélectionnés"
+=======
 #: _public.php:950
 #: _widgets.php:44
 #: _widgets.php:99
@@ -127,6 +143,7 @@ msgstr "Date de début"
 #: inc/index.events.php:213
 msgid "End date"
 msgstr "Date de fin"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: _public.php:1054
 #: _widgets.php:384
@@ -362,10 +379,17 @@ msgstr "Ajouter les info-bulles"
 msgid "EventHandler: events calendar"
 msgstr "EventHandler : calendrier des événements"
 
+<<<<<<< HEAD
+#: _widgets.php:54 _widgets.php:104 _widgets.php:187 inc/index.events.php:317
+#: _public.php:868 _public.php:1072
+msgid "Finished"
+msgstr "Terminé"
+=======
 #: _widgets.php:252
 #: _widgets.php:253
 msgid "Events calendar"
 msgstr "Calendrier des événements"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: _widgets.php:254
 msgid "First day of week:"
@@ -385,9 +409,24 @@ msgstr "Le %sd de %st à %et"
 msgid "From %sd, %st to %ed, %et"
 msgstr "Du %sd, %st au %ed, %et"
 
+<<<<<<< HEAD
+#: _widgets.php:203
+#, php-format
+msgid "Height of map: (with unit as % or px)"
+msgstr "Hauteur de la carte : (avec les unités telles que % ou px)"
+
+#: inc/index.event.php:687
+msgid "If you want to use maps, you must enter an address as precise as possible (number, street, city, country)"
+msgstr "Si vous souhaitez utiliser des cartes, vous devez entrer une adresse aussi précise que possible (numéro, rue, ville, pays)"
+
+#: inc/index.settings.php:220
+msgid "Import eventdata records"
+msgstr "Importer les enregistrements de eventdata"
+=======
 #: _widgets.php:372
 msgid "go to this category"
 msgstr "aller à cette catégorie"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: inc/class.admin.eventhandler.list.php:19
 #: inc/class.admin.eventhandler.minilist.php:22
@@ -477,9 +516,16 @@ msgstr "mauvais format de coordonnées"
 msgid "%s days"
 msgstr "%s jours"
 
+<<<<<<< HEAD
+#: _widgets.php:55 _widgets.php:105 _widgets.php:188 inc/index.events.php:318
+#: _public.php:867 _public.php:1071
+msgid "Not finished"
+msgstr "Non terminé"
+=======
 #: inc/class.eventhandler.php:375
 msgid "one day"
 msgstr "un jour"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: inc/class.eventhandler.php:376
 msgid "%s hours"
@@ -517,6 +563,15 @@ msgstr "Cet événement n'existe pas."
 msgid "Change entry into event"
 msgstr "Changer un billet en événement"
 
+<<<<<<< HEAD
+#: inc/class.eventhandler.php:470
+msgid "Please wait, try to create map..."
+msgstr "Veuillez patienter, construction de la carte..."
+
+#: inc/index.event.php:579
+msgid "Preview event"
+msgstr "Prévisualiser l'événement"
+=======
 #: inc/index.event.php:169
 msgid "Edit event"
 msgstr "Modifier un événement"
@@ -524,14 +579,21 @@ msgstr "Modifier un événement"
 #: inc/index.event.php:176
 msgid "next event"
 msgstr "Événement suivant"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: inc/index.event.php:183
 msgid "previous event"
 msgstr "Événement précédent"
 
+<<<<<<< HEAD
+#: inc/index.settings.php:217
+msgid "Records of eventdata have been imported for this blog."
+msgstr "Les enregistrements de eventdata ont déjà été importés pour ce blog."
+=======
 #: inc/index.event.php:382
 msgid "Event has been updated."
 msgstr "L'événement a été mis à jour."
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: inc/index.event.php:384
 msgid "Event has been created."
@@ -577,6 +639,11 @@ msgstr "%s événements"
 msgid "An error occured"
 msgstr "Erreur"
 
+<<<<<<< HEAD
+#: inc/class.eventhandler.php:385
+msgid "Start date greater than end date"
+msgstr "date de début plus récente que la date de fin"
+=======
 #: inc/lib.eventhandler.pubrest.php:34
 msgid "Event is disabled on this blog"
 msgstr "L'événement est désactivé sur ce blog"
@@ -584,6 +651,7 @@ msgstr "L'événement est désactivé sur ce blog"
 #: inc/lib.eventhandler.pubrest.php:60
 msgid "Failed to get calendar"
 msgstr "Impossible de récupérer le calendrier"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: inc/lib.eventhandler.rs.extension.php:233
 msgid "Start date:"
@@ -597,9 +665,15 @@ msgstr "Date de fin :"
 msgid "Address:"
 msgstr "Adresse :"
 
+<<<<<<< HEAD
+#: inc/index.event.php:247
+msgid "This event does not exist."
+msgstr "Cet événement n'existe pas."
+=======
 #: inc/lib.eventhandler.rs.extension.php:241
 msgid "Location:"
 msgstr "Lieu :"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: inc/lib.eventhandler.rs.extension.php:241
 msgid "latitude:"
@@ -617,17 +691,29 @@ msgstr "Lire la suite"
 msgid "Settings"
 msgstr "Paramètres"
 
+<<<<<<< HEAD
+#: _public.php:1059
+msgid "Unfinished events"
+msgstr "Événements non terminés"
+=======
 #: index.php:54
 msgid "Configuration saved"
 msgstr "Configuration sauvegardée"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: index.php:55
 msgid "Records deleted"
 msgstr "Enregistrements supprimés"
 
+<<<<<<< HEAD
+#: inc/index.settings.php:140
+msgid "When an event has an hidden category, it will only display on its category page."
+msgstr "Quand un événement à une catégorie cachée, il ne s'affiche que sur sa page de catégorie."
+=======
 #: index.php:60
 msgid "Failed to save configuration: %s"
 msgstr "Impossible de sauver la configuration : %s"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 #: index.php:61
 msgid "Failed to delete records: %s"
@@ -636,8 +722,14 @@ msgstr "Impossible de supprimer les enregistrements : %s"
 msgid "Manage events on his blog"
 msgstr "Gérer des événements sur son blog"
 
+<<<<<<< HEAD
+#: inc/class.eventhandler.php:398 inc/class.eventhandler.php:406
+msgid "Wrong format of coordinate"
+msgstr "mauvais format de coordonnées"
+=======
 msgid "Additionnal style sheet:"
 msgstr "Feuille de style additionnelle"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 msgid "Apply filters"
 msgstr "Filtres"
@@ -696,8 +788,14 @@ msgstr "Liste des billets liés à cette catégorie"
 msgid "List of events related to this category"
 msgstr "Liste des événements liés à cette catégorie"
 
+<<<<<<< HEAD
+#: inc/index.event.php:295
+msgid "next event"
+msgstr "Événement suivant"
+=======
 msgid "Localization:"
 msgstr "Localisation :"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 msgid "Longitude:"
 msgstr "Longitude :"
@@ -720,8 +818,14 @@ msgstr "Afficher les billets liés sur un événement :"
 msgid "Show related events on entry:"
 msgstr "Afficher les événements liés sur un billet :"
 
+<<<<<<< HEAD
+#: inc/index.event.php:303
+msgid "previous event"
+msgstr "Événement précédent"
+=======
 msgid "View event"
 msgstr "Voir l'événement"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 msgid "When an event has an hidden category, it will only display on its category page."
 msgstr "Quand un événement a une catégorie cachée, il ne s'affiche que sur sa page de catégorie."
@@ -732,8 +836,17 @@ msgstr "Largeur de la carte : (avec les unités telles que % ou px)"
 msgid "You must save event before adding entries"
 msgstr "Vous devez sauvegarder l'événement avant d'ajouter des billets"
 
+<<<<<<< HEAD
+#: tpl/edit_event.tpl:36
 msgid "Go to this event on the site"
 msgstr "Voir cet événement sur le site"
+
+msgid "Settings"
+msgstr "Paramètres"
+=======
+msgid "Go to this event on the site"
+msgstr "Voir cet événement sur le site"
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66
 
 msgid "Selected event"
 msgstr "Événement sélectionné"
@@ -783,6 +896,10 @@ msgstr "au"
 msgid "Add this event to your iCalendar"
 msgstr "Ajouter cet événement à votre iCalendar"
 
+<<<<<<< HEAD
+msgid "till"
+msgstr "jusqu'à"
+=======
 msgid "%d entry has been successfully bound %s"
 msgid_plural "%d entries have been successfully bound %s"
 msgstr[0] "%d billet a bien été lié %s"
@@ -808,3 +925,4 @@ msgstr "L'événement n°%d (%s) n'a pas d'entrées liées."
 
 msgid "Configuration has been updated."
 msgstr "La configuration a été mise à jour."
+>>>>>>> 68fdc173b351820fcd9ba3a0c2cc4dcd24af1e66

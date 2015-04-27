@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="{{tpl:BlogLanguage}}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="ROBOTS" content="{{tpl:BlogMetaRobots}}" />
+
+    <title>{{tpl:EntryTitle encode_html="1"}} - {{tpl:BlogName encode_html="1"}}</title>
+    <meta name="description" lang="{{tpl:EntryLang}}" content="{{tpl:EntryContent full="1" encode_html="1" remove_html="1" cut_string="180"}}" />
+    <meta name="copyright" content="{{tpl:BlogCopyrightNotice encode_html="1"}}" />
+    <meta name="author" content="{{tpl:EntryAuthorCommonName encode_html="1"}}" />
+    <meta name="date" content="{{tpl:EntryDate iso8601="1"}}" />
+
+    <meta property="dc.title" content="{{tpl:EntryTitle encode_html="1"}}" />
+    <meta property="dc.description" lang="{{tpl:EntryLang}}" content="{{tpl:EntryContent full="1" encode_html="1" remove_html="1" cut_string="180"}}" />
+    <meta property="dc.creator" content="{{tpl:EntryAuthorCommonName encode_html="1"}}" />
+    <meta property="dc.language" content="{{tpl:EntryLang}}" />
+    <meta property="dc.publisher" content="{{tpl:BlogEditor encode_html="1"}}" />
+    <meta property="dc.rights" content="{{tpl:BlogCopyrightNotice encode_html="1"}}" />
+    <meta property="dc.date" content="{{tpl:EntryDate iso8601="1"}}" />
+    <meta property="dc.type" content="text" />
+    <meta property="dc.format" content="text/html" />
+
+    <link rel="contents" href="{{tpl:BlogArchiveURL}}" title="{{tpl:lang Archives}}" />
+    <tpl:EntryIf pings_active="1"><link rel="pingback" href="{{tpl:BlogXMLRPCURL}}" /></tpl:EntryIf>
+
+    <tpl:EntryNext><link rel="next" href="{{tpl:EntryURL}}"
+			 title="{{tpl:EntryTitle encode_html="1"}}" /></tpl:EntryNext>
+
+    <tpl:EntryPrevious><link rel="prev" href="{{tpl:EntryURL}}"
+			     title="{{tpl:EntryTitle encode_html="1"}}" /></tpl:EntryPrevious>
+
+    <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{{tpl:BlogFeedURL type="atom"}}" />
+
+    {{tpl:include src="_head.html"}}
+
+    <!-- default css for eventHandler -->
+    <link rel="stylesheet" type="text/css" href="{{tpl:BlogQmarkURL}}pf=eventHandler/css/default-eventhandler.css" media="screen" />
+
+    <script type="text/javascript" src="{{tpl:BlogQmarkURL}}pf=post.js"></script>
+    <script type="text/javascript">
+      //<![CDATA[
+  var post_remember_str = '{{tpl:lang Remember me on this blog}}';
+  //]]>
+    </script>
+  </head>
+
+  <body class="dc-post dc-event">
+    <div id="page">
+      {{tpl:EntryPingData}}
+
+      {{tpl:include src="_top.html"}}
+
+      <div id="wrapper">
+
+	<div id="main" role="main">
+	  <div id="content">
+
+	    <p id="navlinks">
+	      <a href="{{tpl:EventsURL}}" title="{{tpl:lang list of events}}">{{tpl:lang All events}}</a>
+	    </p>
+
+	    <div id="p{{tpl:EntryID}}" class="post" role="article">
+	      <h2 class="post-title">{{tpl:EntryTitle encode_html="1"}}</h2>
+
+	      <p class="post-info">{{tpl:lang By}} {{tpl:EntryAuthorLink}}
+		{{tpl:lang on}} {{tpl:EntryDate}}, {{tpl:EntryTime}}
+		<tpl:EntryIf has_category="1">
+		  - <a href="{{tpl:EventsEntryCategoryURL}}">{{tpl:EntryCategory encode_html="1"}}</a>
+		</tpl:EntryIf>
+		- <a href="{{tpl:EntryURL}}">{{tpl:lang Permalink}}</a>
+	      </p>
+
+	      <tpl:EntryTags>
+		<tpl:TagsHeader><ul class="post-tags"></tpl:TagsHeader>
+		<li><a href="{{tpl:TagURL}}" rel="tag">{{tpl:TagID}}</a></li>
+		<tpl:TagsFooter></ul></tpl:TagsFooter>
+	      </tpl:EntryTags>
+
+	      <ul class="event-info">
+		<li class="event-date">
+		  <tpl:EventsEntryIf oneday="0">{{tpl:lang From}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang to}} {{tpl:EventsEntryDate enddt="1"}}, {{tpl:EventsEntryTime enddt="1"}}</tpl:EventsEntryIf>
+		  <tpl:EventsEntryIf oneday="1">{{tpl:lang on}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang till}} {{tpl:EventsEntryTime enddt="1"}}</tpl:EventsEntryIf>
+		</li>
+		<li class="event-duration">{{tpl:lang for a period of}} {{tpl:EventsEntryDuration}}</li>
+		<tpl:EventsEntryIf has_address="1">
+		  <li class="event-address">{{tpl:EventsEntryAddress}}</li>
+		</tpl:EventsEntryIf>
+		<li class="event-period">{{tpl:lang this event is}} {{tpl:EventsEntryPeriod}}</li>
+	      </ul>
+
+	      <!-- # --BEHAVIOR-- publicEntryBeforeContent -->
+	      {{tpl:SysBehavior behavior="publicEntryBeforeContent"}}
+
+	      <!-- # Entry with an excerpt -->
+	      <tpl:EntryIf extended="1">
+		<div class="post-excerpt">{{tpl:EntryExcerpt}}</div>
+	      </tpl:EntryIf>
+
+	      <div class="post-content">{{tpl:EntryContent}}</div>
+
+	      {{tpl:EventsEntryMap map_info="0"}}
+	      <tpl:EventsEntryIf has_geo="1">
+		<ul class="event-info"><li class="event-geo">{{tpl:lang Latitude:}} {{tpl:EventsEntryLatitude}}, {{tpl:lang Longitude:}} {{tpl:EventsEntryLongitude}}</li></ul>
+	      </tpl:EventsEntryIf>
+
+	      <!-- # --BEHAVIOR-- publicEntryAfterContent -->
+	      {{tpl:SysBehavior behavior="publicEntryAfterContent"}}
+	    </div>
+
+	    <p id="eventsfeed"><a class="event-ical" type="text/calendar" href="{{tpl:SysSelfURI}}/ical.ics" title="{{tpl:lang Add this event to your iCalendar}}">{{tpl:lang iCalendar}}</a><br />
+	      <a class="event-hcal" type="text/calendar" href="{{tpl:SysSelfURI}}/hcal.html" title="{{tpl:lang Display this event on hCalendar format}}">{{tpl:lang hCalendar}}</a></p>
+
+	  </div>
+	</div> <!-- End #main -->
+
+	<div id="sidebar" role="complementary">
+	  <div id="blognav">
+	    {{tpl:Widgets type="nav"}}
+	  </div> <!-- End #blognav -->
+
+	  <div id="blogextra">
+	    {{tpl:Widgets type="extra"}}
+	  </div> <!-- End #blogextra -->
+	</div>
+
+      </div> <!-- End #wrapper -->
+
+      {{tpl:include src="_footer.html"}}
+    </div> <!-- End #page -->
+  </body>
+</html>

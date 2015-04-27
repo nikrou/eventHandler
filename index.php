@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -36,13 +36,7 @@ $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'eventhandler';
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 # Common page header
-$header =
-'<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/style.css" />'.
-dcPage::jsLoad('index.php?pf=eventHandler/js/settings.js').
-'<script type="text/javascript">'."\n//<![CDATA[\n".
-dcPage::jsVar('jcToolsBox.prototype.text_wait',__('Please wait')).
-dcPage::jsVar('jcToolsBox.prototype.section',$section).
-"\n//]]>\n</script>\n";
+$header = '<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/style.css" />';
 
 # Common page footer
 $footer = '<hr class="clear"/><p class="right">';
@@ -69,7 +63,7 @@ $errors = array(
 
 # Messages
 if (isset($succes[$msg])) {
-	$msg = dcPage::message($succes[$msg]);
+	$message = dcPage::message($succes[$msg]);
 }
 
 # Pages
@@ -77,5 +71,10 @@ if (!file_exists(dirname(__FILE__).'/inc/index.'.$default_part.'.php')) {
 	$default_part = 'settings';
 }
 
-define('DC_CONTEXT_EVENTHANDLER',$default_part);
+if (!empty($_SESSION['eh_tab'])) {
+    $default_tab = $_SESSION['eh_tab'];
+    unset($_SESSION['eh_tab']);
+}
+
+define('DC_CONTEXT_EVENTHANDLER', $default_part);
 include dirname(__FILE__).'/inc/index.'.$default_part.'.php';
