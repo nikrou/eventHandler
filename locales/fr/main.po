@@ -2,14 +2,13 @@
 # Module: eventHandler - 2015.03.22
 # Date: 2015-03-24 17:23:51
 # Translated with translater 2015.03.02
-
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: eventHandler 2015.03.22\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-03-24T17:23:51+00:00\n"
-"Last-Translator: brol\n"
+"PO-Revision-Date: 2015-04-28 22:09+0100\n"
+"Last-Translator: Tomek\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -539,7 +538,7 @@ msgstr "L'événement a été créé."
 
 #: inc/index.events.php:191
 msgid "not selected"
-msgstr "Non débuté"
+msgstr "non sélectionné"
 
 #: inc/index.events.php:214
 msgid "Localization"
@@ -763,7 +762,7 @@ msgid "Display these events on hCalendar format"
 msgstr "Afficher ces événements au format hCalendar"
 
 msgid "Display these events on a map"
-msgstr "Afficher ces événements sur un carte"
+msgstr "Afficher ces événements sur une carte"
 
 msgid "for a period of"
 msgstr "pour une durée de"
@@ -803,8 +802,9 @@ msgid_plural "Event #%d (%s) successfully unbound from %d related posts"
 msgstr[0] "L'événement n°%d (%s) a bien été séparé d'%d entrée liée"
 msgstr[1] "L'événement n°%d (%s) a bien été séparé de %d entrées liées"
 
-msgid "Event #%d (%s) has no related post to be unbound from."
-msgstr "L'événement n°%d (%s) n'a pas d'entrées liées."
-
 msgid "Configuration has been updated."
 msgstr "La configuration a été mise à jour."
+
+msgid "Attach events to "%s" post."
+msgstr "Attacher des événements au billet "%s"."
+
