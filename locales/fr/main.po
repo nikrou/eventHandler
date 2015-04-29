@@ -13,6 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: _admin.php:27
 #: inc/class.admin.eventhandler.php:19
@@ -103,6 +104,9 @@ msgstr "Non terminé"
 #: inc/index.events.php:227
 msgid "Finished"
 msgstr "Terminé"
+
+msgid "Scheduled"
+msgstr "Programmé"
 
 #: _public.php:948
 msgid "Published date"
