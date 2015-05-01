@@ -779,6 +779,9 @@ msgstr "Du"
 msgid "to"
 msgstr "au"
 
+msgid "till"
+msgstr "à"
+
 msgid "Add this event to your iCalendar"
 msgstr "Ajouter cet événement à votre iCalendar"
 
