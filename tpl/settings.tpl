@@ -137,7 +137,7 @@
     <form id="setting-form" method="post" action="plugin.php">
       <div>
 	<?php if (isset($eventdata_import) && $eventdata_import === true):?>
-	<p class="message"><?php echo __('Events from eventdata successfully imported');?></p>
+	<p class="message"><?php echo __('Events from eventdata imported');?></p>
 	<?php endif;?>
 
 	<?php if ($s->eventdata_import):?>

@@ -98,8 +98,8 @@ class adminEventHandler
 				}
 				dcPage::addSuccessNotice(sprintf(
 					__(
-						'%d entry has been successfully bound %s',
-						'%d entries have been successfully bound %s',
+						'%d entry has been bound %s',
+						'%d entries have been bound %s',
 						count($posts_ids)
 					),
 					count($posts_ids),__('to the selected event','to the selected events',$events->count()))
@@ -146,8 +146,8 @@ class adminEventHandler
 				}
 			dcPage::addSuccessNotice(sprintf(
 				__(
-					'%d post has been successfully unbound from its events',
-					'%d posts have been successfully unbound from their events',
+					'%d post has been unbound from its events',
+					'%d posts have been unbound from their events',
 					count($posts_ids)
 				),
 				count($posts_ids)));
@@ -168,8 +168,8 @@ class adminEventHandler
 					}
 					dcPage::addSuccessNotice(sprintf(
 					__(
-						'Event #%d (%s) successfully unbound from %d related post',
-						'Event #%d (%s) successfully unbound from %d related posts',
+						'Event #%d (%s) unbound from %d related post',
+						'Event #%d (%s) unbound from %d related posts',
 						$posts->count()
 					),
 					$v,$event->post_title,$posts->count()));

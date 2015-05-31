@@ -50,7 +50,7 @@
 			success:function(data){
 				data=$(data);
 				if(data.find('rsp').attr('status')=='ok'){
-					$(target).find('table').replaceWith($(data).find('calendar').text());
+					$(target).find('table').replaceWith($(data).find('calendar').text().find('table'));
 					$(target).eventHandlerCalendar();
 					return false;
 				}else{

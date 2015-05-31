@@ -83,8 +83,8 @@ if (!empty($_POST['entries']) && $action == 'author' && !empty($_POST['new_auth_
 
         dcPage::addSuccessNotice(sprintf(
             __(
-                '%d entry has been successfully set to user "%s"',
-                '%d entries have been successfully set to user "%s"',
+                '%d entry has been set to user "%s"',
+                '%d entries have been set to user "%s"',
                 count($entries)
             ),
             count($entries),
@@ -125,8 +125,8 @@ if (!empty($_POST['entries']) && $action == 'author' && !empty($_POST['new_auth_
         $title = $core->blog->getCategory($new_cat_id);
         dcPage::addSuccessNotice(sprintf(
             __(
-                '%d entry has been successfully moved to category "%s"',
-                '%d entries have been successfully moved to category "%s"',
+                '%d entry has been moved to category "%s"',
+                '%d entries have been moved to category "%s"',
                 count($entries)
             ),
             count($entries),

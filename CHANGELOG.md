@@ -1,3 +1,8 @@
+plugin eventHandler 2015-05-31
+==============================
+* Update translation. Thanks to @franck-tomek.
+* Fix issue with link on calendar widget. Thanks to Onurb Teva <dev@taktile.fr>.
+
 plugin eventHandler 2015-04-22 - 2015-04-22
 ===========================================
 Fixes #23 - Lost automatic address completion from GMaps when entering partial address.
