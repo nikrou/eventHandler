@@ -50,7 +50,11 @@
 			success:function(data){
 				data=$(data);
 				if(data.find('rsp').attr('status')=='ok'){
+<<<<<<< HEAD
 					$(target).find('table').replaceWith($(data).find('calendar').text().find('table'));
+=======
+					$(target).find('table').replaceWith($($(data).find('calendar').text()).find("table"));
+>>>>>>> * French translations : added "Plural-Forms" headers and a missing translation
 					$(target).eventHandlerCalendar();
 					return false;
 				}else{

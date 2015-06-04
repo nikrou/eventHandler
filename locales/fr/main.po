@@ -82,9 +82,18 @@ msgstr "Erreur"
 msgid "An error occured when trying de unbind event"
 msgstr "Il y a eu une erreur en essayant de détacher un événement"
 
+<<<<<<< HEAD
 #, php-format
 msgid "Attach events to \"%s\" post."
 msgstr "Lier des événement au billet \"%s\"."
+=======
+msgid "Scheduled"
+msgstr "Programmé"
+
+#: _public.php:948
+msgid "Published date"
+msgstr "Date de publication"
+>>>>>>> * French translations : added "Plural-Forms" headers and a missing translation
 
 msgid "Attach selected events"
 msgstr "Lier les événements sélectionnés"
