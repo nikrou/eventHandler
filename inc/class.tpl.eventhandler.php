@@ -67,6 +67,14 @@ class tplEventHandler
 			'notfinished' => __('Not finished'),
 			'finished' => __('Finished')
 		);
+		#Behavior eventsMenuPeriodHelperCustomDefault
+		# use this behavior to modify the default menus for tpl:EventsMenuPeriod
+		# behavior callback params : ArrayObject $ao_default_menu
+		# the behavior callback must return true if the array was modified.
+		$ao_default_menu = new ArrayObject($default_menu);
+		if($core->callBehavior("eventsMenuPeriodHelperCustomDefault",$ao_default_menu)){
+			$default_menu=$ao_default_menu->getArrayCopy();
+		}
 		# Only requested menus
 		$menu = $default_menu;
 		if (!empty($menus)) {
@@ -138,6 +146,16 @@ class tplEventHandler
 			'startdt' => __('Start date'),
 			'enddt' => __('End date')
 		);
+		#Behavior eventsMenuSortOrderHelperCustomDefault
+		# use this behavior to modify the default menus for tpl:EventsMenuSortOrder
+		# behavior callback params : ArrayObject $ao_default_sort_id, ArrayObject $ao_default_sort_text
+		# the behavior callback must return true if the arrays where modified.
+		$ao_default_sort_id = new ArrayObject($default_sort_id);
+		$ao_default_sort_text = new ArrayObject($default_sort_text);
+		if($core->callBehavior("eventsMenuPeriodHelperCustomDefault",$ao_default_sort_id,$ao_default_sort_text)){
+			$default_sort_id=$ao_default_sort_id->getArrayCopy();
+			$default_sort_text=$ao_default_sort_text->getArrayCopy();
+		}
 
 		# Only requested menus
 		$menu = $default_sort_id;
@@ -311,7 +329,12 @@ class tplEventHandler
                 '(!empty($_ctx->event_params["event_period"]) && $_ctx->event_params["event_period"] == "'.addslashes($attr['period']).'" '.
                 '|| empty($_ctx->event_params["event_period"]) && ("" == "'.addslashes($attr['period']).'" || "all" == "'.addslashes($attr['period']).'")))';
 		}
-
+		
+		#Behavior tplIfConditions
+		$ao_if=new ArrayObject($if);
+		$core->callBehavior('tplIfConditions','EventsIf',$attr,$content,$ao_if);
+		$if=$ao_if->getArrayCopy();
+		
 		if (!empty($if)) {
 			return '<?php if('.implode(' '.$operator.' ',$if).') : ?>'.$content.'<?php endif; ?>';
 		} else {
@@ -427,16 +450,20 @@ class tplEventHandler
 			$p .= !empty($age) ? "@\$params['sql'] .= ' AND P.post_dt > \'".$age."\'';\n" : '';
 		}
 
-		return
-            "<?php\n".
-            'if(!isset($eventHandler)) { $eventHandler = new eventHandler($core); } '."\n".
-            '$params = array(); '."\n".
-            $p.
-            '$_ctx->post_params = $params; '."\n".
-            '$_ctx->posts = $eventHandler->getEvents($params); unset($params); '."\n".
-            "?>\n".
-            '<?php while ($_ctx->posts->fetch()) : ?>'.$content.'<?php endwhile; '.
-            '$_ctx->posts = null; $_ctx->post_params = null; ?>';
+		$res = "<?php\n".
+			   'if(!isset($eventHandler)) { $eventHandler = new eventHandler($core); } '."\n".
+               '$params = array(); '."\n";
+		$res .= $p;
+		#Behavior templatePrepareParams
+		$res .= $core->callBehavior("templatePrepareParams",
+			array("tag" => "EventsEntries","method" => "eventHandler::getEvents"),
+			$attr,$content);
+		$res .= '$_ctx->post_params = $params; '."\n".
+				'$_ctx->posts = $eventHandler->getEvents($params); unset($params); '."\n".
+				"?>\n".
+				'<?php while ($_ctx->posts->fetch()) : ?>'.$content.'<?php endwhile; '.
+				'$_ctx->posts = null; $_ctx->post_params = null; ?>';
+		return $res;
 	}
 
 	# Pagination
@@ -517,6 +544,11 @@ class tplEventHandler
 				$if[] = $sign."strstr(\$_ctx->post_params['order'],'".addslashes($orderedby)."')";
 			}
 		}
+		
+		#Behavior tplIfConditions
+		$ao_if=new ArrayObject($if);
+		$core->callBehavior('tplIfConditions','EventsEntryIf',$attr,$content,$ao_if);
+		$if=$ao_if->getArrayCopy();
 
 		if (!empty($if)) {
 			return '<?php if('.implode(' '.$operator.' ',$if).') : ?>'.$content.'<?php endif; ?>';
@@ -745,7 +777,7 @@ class tplEventHandler
 			$p .= !empty($age) ? "@\$params['sql'] .= ' AND P.post_dt > \'".$age."\'';\n" : '';
 		}
 
-		return
+		$res=
             "<?php\n".
             'if(!isset($eventHandler)) { $eventHandler = new eventHandler($core); } '."\n".
             '$params = array(); '."\n".
@@ -758,13 +790,19 @@ class tplEventHandler
             'if ($_ctx->exists("posts") && $_ctx->posts->post_id) { '.
             '$params["post_id"] = $_ctx->posts->post_id; '.
             "} \n".
-            $p.
+            $p;
+		#Behavior templatePrepareParams
+		$res .= $core->callBehavior("templatePrepareParams",
+			array("tag" => "EventsOfPost","method" => "eventHandler::getEventsByPost"),
+			$attr,$content);
+		$res.=
             'if (!empty($params["post_id"])) { '."\n".
             '$_ctx->eventsofpost_params = $params;'."\n".
             '$_ctx->eventsofpost = $eventHandler->getEventsByPost($params); unset($params); '."\n".
             'while ($_ctx->eventsofpost->fetch()) : ?>'.$content.'<?php endwhile; '.
             '} '."\n".
-            '$_ctx->eventsofpost = null; $_ctx->eventsofpost_params = null; ?>';
+            '$_ctx->eventsofpost = null; $_ctx->eventsofpost_params = null; ?>';		
+		return $res;
 	}
 
 	public static function EventsOfPostHeader($attr, $content) {
@@ -833,6 +871,11 @@ class tplEventHandler
 				$if[] = $sign."strstr(\$_ctx->eventsofpost['order'],'".addslashes($orderedby)."')";
 			}
 		}
+		
+		#Behavior tplIfConditions
+		$ao_if=new ArrayObject($if);
+		$core->callBehavior('tplIfConditions','EventsOfPostIf',$attr,$content,$ao_if);
+		$if=$ao_if->getArrayCopy();
 
 		if (!empty($if)) {
 			return '<?php if('.implode(' '.$operator.' ',$if).') : ?>'.$content.'<?php endif; ?>';
@@ -1004,13 +1047,18 @@ class tplEventHandler
 			$p .= !empty($age) ? "@\$params['sql'] .= ' AND P.post_dt > \'".$age."\'';\n" : '';
 		}
 
-		return
+		$res = 
             "<?php\n".
             "\$postsofeventHandler = new eventHandler(\$core); \n".
             'if ($_ctx->exists("posts") && $_ctx->posts->post_id) { '.
             " \$params['event_id'] = \$_ctx->posts->post_id; ".
             "} \n".
-            $p.
+            $p;
+		#Behavior templatePrepareParams
+		$res .= $core->callBehavior("templatePrepareParams",
+			array("tag" => "PostsOfEvent","method" => "eventHandler::getPostsByEvent"),
+			$attr,$content);
+		$res .=
             '$_ctx->postsofevent_params = $params;'."\n".
             '$_ctx->postsofevent = $postsofeventHandler->getPostsByEvent($params); unset($params);'."\n".
             "?>\n".
@@ -1051,6 +1099,11 @@ class tplEventHandler
 			$sign = (boolean) $attr['has_category'] ? '' : '!';
 			$if[] = $sign.'$_ctx->postsofevent->cat_id';
 		}
+
+		#Behavior tplIfConditions
+		$ao_if=new ArrayObject($if);
+		$core->callBehavior('tplIfConditions','PostOfEventIf',$attr,$content,$ao_if);
+		$if=$ao_if->getArrayCopy();
 
 		if (!empty($if)) {
 			return '<?php if('.implode(' '.$operator.' ',$if).') : ?>'.$content.'<?php endif; ?>';
