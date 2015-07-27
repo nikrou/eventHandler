@@ -1,3 +1,7 @@
+plugin eventHandler 2015-07-27
+==============================
+* Fix #28. Thanks for Tomek and ReBoLyF
+
 plugin eventHandler 2015-05-31
 ==============================
 * Update translation. Thanks to @franck-tomek.

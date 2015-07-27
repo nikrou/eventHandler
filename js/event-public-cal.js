@@ -2,7 +2,7 @@
  *
  * This file is part of eventHandler, a plugin for Dotclear 2.
  *
- * Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+ * Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
  *
  * Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  * contact@jcdenis.fr http://jcd.lv
@@ -48,13 +48,12 @@
 				return true;
 			},
 			success:function(data){
-				data=$(data);
-				if(data.find('rsp').attr('status')=='ok'){
-					$(target).find('table').replaceWith($(data).find('calendar').text().find('table'));
+				data = $(data);
+				if (data.find('rsp').attr('status')=='ok') {
+					$(target).replaceWith($(data).find('calendar').text());
 					$(target).eventHandlerCalendar();
 					return false;
-				}else{
-					alert('ici');
+				} else {
 					return true;
 				}
 			}
