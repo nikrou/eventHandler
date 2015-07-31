@@ -39,21 +39,31 @@
 	<div class="fieldset" id="setting-event">
 	  <h3><?php echo  __('Events');?></h3>
 	  <p>
-	    <label class="classic">
-	      <?php
-		 echo __('Show related entries on event:').'<br />'.
-		 form::combo(array('public_posts_of_event_place'),$combo_place,$public_posts_of_event_place);
-		 ?>
-	    </label>
+	    <label for="public_posts_of_event_place"><?php echo __('Show related entries on event:');?></label>
+	    <?php echo form::combo(array('public_posts_of_event_place'),$combo_place,$public_posts_of_event_place);?>
 	  </p>
 
 	  <h3><?php echo  __('Entries');?></h3>
 	  <p>
-	    <label class="classic">
-	      <?php echo __('Show related events on entry:').'<br />'.
-		    form::combo(array('public_events_of_post_place'),$combo_place,$public_events_of_post_place);?>
-	    </label>
+	    <label for="public_events_of_post_place"><?php echo __('Show related events on entry:');?></label>
+	    <?php echo form::combo(array('public_events_of_post_place'),$combo_place,$public_events_of_post_place);?>
 	  </p>
+
+	  <h3><?php echo __('Events list ordering');?></h3>
+	  <div class="one-box">
+	    <div class="box" style="margin-left:0">
+	      <p>
+		<label for="public_events_list_sortby"><?php echo __('Default field');?></label>
+		<?php echo form::combo(array('public_events_list_sortby'),$combo_list_sortby,$public_events_list_sortby);?>
+	      </p>
+	    </div>
+	    <div class="box">
+	      <p>
+		<label for="public_events_list_order"><?php echo __('Default order');?></label>
+		<?php echo form::combo(array('public_events_list_order'),$combo_list_order,$public_events_list_order);?>
+	      </p>
+	    </div>
+	  </div>
 	</div>
 
 	<div class="fieldset">

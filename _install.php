@@ -57,6 +57,8 @@ try {
 	$s->put('active',false,'boolean','Enabled eventHandler extension',false,true);
 	$s->put('public_events_of_post_place','after','string','Display related events on entries',false,true);
 	$s->put('public_posts_of_event_place','after','string','Display related posts on events',false,true);
+	$s->put('public_events_list_sortby','','string','Default field for ordering events list',false,true);
+	$s->put('public_events_list_order','','string','Default order (asc or desc) for events list',false,true);
 	$s->put('public_hidden_categories','','string','List of categories to hide from post content and widgets',false,true);
 	$s->put('public_map_zoom',9,'integer','Default zoom of map',false,true);
 	$s->put('public_map_type','ROADMAP','string','Default type of map',false,true);

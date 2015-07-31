@@ -54,15 +54,10 @@ $core->setPostType('eventhandler','plugin.php?p=eventHandler&part=event&id=%d',$
 $core->addBehavior('templateCustomSortByAlias','eventHandlerCustomSortByAlias');
 
 function eventHandlerCustomSortByAlias($alias) {
-	$alias->eventhandler = array(
-		'title' => 'post_title',
-		'selected' => 'post_selected',
-		'author' => 'user_id',
-		'date' => 'post_dt',
-		'id' => 'post_id',
+	$alias['eventhandler'] = array(
 		'startdt' => 'event_startdt',
 		'enddt' => 'event_enddt'
-	);
+    );
 }
 
 # Admin rest method

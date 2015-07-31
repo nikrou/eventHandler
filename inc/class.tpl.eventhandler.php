@@ -410,9 +410,18 @@ class tplEventHandler
 		}
 
 		if (!empty($attr['order']) || !empty($attr['sortby'])) {
-			$p .=
-                "\$params['order'] = '".$core->tpl->getSortByStr($attr,'eventhandler')."';\n";
-		}
+			$p .= "\$params['order'] = '".$core->tpl->getSortByStr($attr,'eventhandler')."';\n";
+		} else {
+            $special_attr = array();$order = $field = $table = '';
+            if ($core->blog->settings->eventHandler->public_events_list_sortby && strpos($core->blog->settings->eventHandler->public_events_list_sortby,':')!==false) {
+                list($table,$field) = explode(':', $core->blog->settings->eventHandler->public_events_list_sortby);
+            }
+            if ($core->blog->settings->eventHandler->public_events_list_order) {
+                $order = $core->blog->settings->eventHandler->public_events_list_order;
+            }
+            $special_attr = array('order' => $order, 'sortby' => $field);
+            $p .= "\$params['order'] = '".$core->tpl->getSortByStr($special_attr,$table)."';\n";
+        }
 
 		if (isset($attr['no_content']) && $attr['no_content']) {
 			$p .= "\$params['no_content'] = true;\n";
