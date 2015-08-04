@@ -18,4 +18,16 @@ $(function() {
 	$(window).bind('hashchange onhashchange', function (e) {
 		$("input[name='section']").val('#'+$.pageTabs.getLocationHash());
 	});
+
+	var $map_provider = $('#map_provider'), $map_tile_layer = $('.map-tile-layer');
+	if ($map_provider.val()!=='osm') {
+		$map_tile_layer.hide();
+	}
+	$map_provider.change(function() {
+		if ($(this).val()=='osm') {
+			$map_tile_layer.show();
+		} else {
+			$map_tile_layer.hide();
+		}
+	});
 });

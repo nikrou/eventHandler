@@ -70,6 +70,7 @@ class eventHandler
 		$col[] = 'event_address';
 		$col[] = 'event_latitude';
 		$col[] = 'event_longitude';
+		$col[] = 'event_zoom';
 		$params['columns'] = $col;
 
 		# Tables
@@ -298,12 +299,9 @@ class eventHandler
 		# Delete first part of event record
 		$this->core->blog->delPost($post_id);
 
-        //what about reference key?
+		//what about reference key?
 		# Delete second part of event record
-		$this->con->execute(
-			'DELETE FROM '.$this->table.' '.
-			'WHERE post_id = '.$post_id.' '
-		);
+		$this->con->execute('DELETE FROM '.$this->table.' '.'WHERE post_id = '.$post_id.' ');
 	}
 
 	# Clean cursor
@@ -322,7 +320,7 @@ class eventHandler
 		}
 		# Full coordiantes or nothing
 		if(($cur_event->event_latitude != '' && $cur_event->event_longitude == '')
-           || ($cur_event->event_latitude == '' && $cur_event->event_longitude != '')) {
+		   || ($cur_event->event_latitude == '' && $cur_event->event_longitude != '')) {
 			throw new Exception(__('Not full coordinate'));
 		}
 		# Coordinates format
@@ -359,30 +357,32 @@ class eventHandler
 
 	# Get human readable duration from integer
 	public static function getReadableDuration($int,$format='second') {
-	    $int = (integer) $int;
-	    $time = '';
+		$int = (integer) $int;
+		$time = '';
 		//$sec = $min = $hou = $day = 0;
 
-        //todo format
-	    $sec = $int % 60; $int -= $sec; $int /= 60;
-	    $min = $int % 60; $int -= $min; $int /= 60;
-	    $hou = $int % 24; $int -= $hou; $int /= 24;
-	    $day = $int;
+		//todo format
+		$sec = $int % 60; $int -= $sec; $int /= 60;
+		$min = $int % 60; $int -= $min; $int /= 60;
+		$hou = $int % 24; $int -= $hou; $int /= 24;
+		$day = $int;
 
-	    if ($day>1) $time .= sprintf(__('%s days'),$day).' ';
-	    if ($day==1) $time .=__('one day').' ';
-	    if ($hou>1) $time .= sprintf(__('%s hours'),$hou).' ';
-	    if ($hou==1) $time .= __('one hour').' ';
-	    if ($min>1) $time .= sprintf(__('%s minutes'),$min).' ';
-	    if ($min==1) $time .= __('one minute').' ';
-	    if (!$day && !$min && !$day && !$hou) $time .= __('instantaneous');
+		if ($day>1) $time .= sprintf(__('%s days'),$day).' ';
+		if ($day==1) $time .=__('one day').' ';
+		if ($hou>1) $time .= sprintf(__('%s hours'),$hou).' ';
+		if ($hou==1) $time .= __('one hour').' ';
+		if ($min>1) $time .= sprintf(__('%s minutes'),$min).' ';
+		if ($min==1) $time .= __('one minute').' ';
+		if (!$day && !$min && !$day && !$hou) $time .= __('instantaneous');
 
-	    return $time;
+		return $time;
 	}
 
 	# Build HTML content for events maps
-	# markers are in lib.eventhandler.extension.php
-	public static function getGmapContent($width,$height,$type,$zoom,$info,$lat,$lng,$markers) {
+	# markers are in lib.eventhandler.rs.extension.php
+	public static function getMapContent($width,$height,$type,$zoom,$info,$lat,$lng,$markers) {
+		global $core;
+
 		$style = '';
 		if ($width || $height) {
 			$style = 'style="';
@@ -395,17 +395,22 @@ class eventHandler
 			$style .= '" ';
 		}
 
-		return
-            '<div style="display:none;" class="event-gmap">'.
-            '<div '.$style.'class="event-gmap-place"><p>'.__("Please wait, try to create map...").'</p></div>'.
-            '<div style="display:none;" class="event-gmap-info">'.
-            '<p class="event-gmap-info-zoom">'.$zoom.'</p>'.
-            '<p class="event-gmap-info-type">'.$type.'</p>'.
-            '<p class="event-gmap-info-info">'.$info.'</p>'.
-            '<p class="event-gmap-info-lat">'.$lat.'</p>'.
-            '<p class="event-gmap-info-lng">'.$lng.'</p>'.
-            '</div>'.
-            $markers.
-            '</div>';
+		$res = '<div style="display:none;" class="event-map">'."\n";
+		$res .= '<div '.$style.'class="event-map-place"><p>'.__("Please wait, try to create map...").'</p></div>'."\n";
+		$res .= '<div style="display:none;" class="event-map-info">'."\n";
+		$res .= '<p class="event-map-info-zoom">'.$zoom.'</p>'."\n";
+		$res .= '<p class="event-map-info-type">'.$type.'</p>'."\n";
+		$res .= '<p class="event-map-info-info">'.$info.'</p>'."\n";
+		$res .= '<p class="event-map-info-lat">'.$lat.'</p>'."\n";
+		$res .= '<p class="event-map-info-lng">'.$lng.'</p>'."\n";
+
+		if ($core->blog->settings->eventHandler->map_tile_layer) {
+			$res .= '<p class="event-map-info-tile-layer">'.$core->blog->settings->eventHandler->map_tile_layer.'</p>'."\n";
+		}
+		$res .= '</div>'."\n";
+		$res .= $markers."\n";
+		$res .= '</div>';
+
+		return $res;
 	}
 }

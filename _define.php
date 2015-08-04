@@ -20,7 +20,7 @@ $this->registerModule(
 	/* Name */			"EventHandler",
 	/* Description*/	"Manage events on your blog",
 	/* Author */		"JC Denis, Nicolas Roudaire",
-	/* Version */		'2015.07.27',
+	/* Version */		'2015.08.04',
 	/* Properties */
 	array(
 		'permissions' => 'usage,contentadmin',

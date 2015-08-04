@@ -1,3 +1,9 @@
+plugin eventHandler 2015-08-04
+==============================
+* Allow admin to choose betwween googleMaps and OpenStreetMap to display maps.
+* Update icons
+* Update translations.
+
 plugin eventHandler 2015-07-27
 ==============================
 * Fix #28. Thanks for Tomek and ReBoLyF

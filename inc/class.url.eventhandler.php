@@ -21,9 +21,7 @@ class urlEventHandler extends dcUrlHandlers
 	# Call service from public for ajax request
 	public static function eventService($args) {
 		global $core;
-		$core->rest->addFunction('eventHandlerCalendar',
-                                 array('eventHandlerPublicRest','calendar')
-        );
+		$core->rest->addFunction('eventHandlerCalendar', array('eventHandlerPublicRest','calendar'));
 		$core->rest->serve();
 		exit;
 	}
@@ -495,7 +493,7 @@ class urlEventHandler extends dcUrlHandlers
 		'<script type="text/javascript" src="'.$core->blog->settings->system->themes_url.
 		"/".$core->blog->settings->system->theme.'/../default/js/jquery.cookie.js"></script>'."\n".
 		"<script type=\"text/javascript\" src=\"".$core->blog->getQmarkURL().
-		'pf=eventHandler/js/event-public-map.js"></script>'."\n".
+		'pf=eventHandler/js/googlepmaps/event-public-map.js"></script>'."\n".
 		'<style type="text/css">'.
 		'html { height: 100%; } body { height: 100%; margin: 0px; padding: 0px; } '.
 		'.event-gmap, .event-gmap-place { height: 100%; } h2 { margin: 2em;}</style>'."\n".
@@ -508,12 +506,12 @@ class urlEventHandler extends dcUrlHandlers
 			while($rs->fetch()) {
 				$total_lat += (float) $rs->event_latitude;
 				$total_lng += (float) $rs->event_longitude;
-				$markers .= $rs->getGmapVEVENT();
+				$markers .= $rs->getMapVEvent();
 			}
 			$lat = round($total_lat / $rs->count(), 7);
 			$lng = round($total_lng / $rs->count(), 7);
 
-			$res .= eventHandler::getGmapContent(
+			$res .= eventHandler::getMapContent(
 				'',
 				'',
 				$core->blog->settings->eventHandler->public_map_type,

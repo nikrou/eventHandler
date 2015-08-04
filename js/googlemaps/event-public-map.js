@@ -2,7 +2,7 @@
  *
  * This file is part of eventHandler, a plugin for Dotclear 2.
  *
- * Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+ * Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
  *
  * Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  * contact@jcdenis.fr http://jcd.lv
@@ -23,40 +23,39 @@ $(function(){
 function eventMapInit(){
 
 	// find place of map on page
-	$('.event-gmap').each(function(){
-
+	$('.event-map').each(function(){
 		$(this).toggle();
-		var gmapPlace=$(this).children('.event-gmap-place');
+		var gmapPlace = $(this).children('.event-map-place');
 
 		// find map info
-		var gmapInfo_zoom=$(this).children('.event-gmap-info').children('.event-gmap-info-zoom').text();
-		var gmapInfo_type=$(this).children('.event-gmap-info').children('.event-gmap-info-type').text();
-		var gmapInfo_lat=$(this).children('.event-gmap-info').children('.event-gmap-info-lat').text();
-		var gmapInfo_lng=$(this).children('.event-gmap-info').children('.event-gmap-info-lng').text();
-		var gmapInfo_info=$(this).children('.event-gmap-info').children('.event-gmap-info-info').text();
+		var gmapInfo_zoom = $(this).children('.event-map-info').children('.event-map-info-zoom').text();
+		var gmapInfo_type = $(this).children('.event-map-info').children('.event-map-info-type').text();
+		var gmapInfo_lat = $(this).children('.event-map-info').children('.event-map-info-lat').text();
+		var gmapInfo_lng = $(this).children('.event-map-info').children('.event-map-info-lng').text();
+		var gmapInfo_info = $(this).children('.event-map-info').children('.event-map-info-info').text();
 
 		// if geo latlng is set
-		if (gmapInfo_lat!='' && gmapInfo_lng!=''){
+		if (gmapInfo_lat!='' && gmapInfo_lng!='') {
 			// create map
 			var map = new google.maps.Map($(gmapPlace).get(0), {
-				zoom: parseInt(gmapInfo_zoom),
+				zoom: parseInt(gmapInfo_zoom, 10),
 				center: new google.maps.LatLng(gmapInfo_lat, gmapInfo_lng),
 				mapTypeId: eval('google.maps.MapTypeId.'+gmapInfo_type),
 				disableDefaultUI: true,
 				navigationControl: true
 			});
 			// loop through markers
-			$(this).children('.event-gmap-marker').each(function(){
+			$(this).children('.event-map-marker').each(function(){
 				// find event info
-				var gmapMarker_title=$(this).children('.event-gmap-marker-title').text();
-				var gmapMarker_latitude=$(this).children('.event-gmap-marker-latitude').text();
-				var gmapMarker_longitude=$(this).children('.event-gmap-marker-longitude').text();
-				var gmapMarker_address=$(this).children('.event-gmap-marker-address').text();
-				var gmapMarker_startdt=$(this).children('.event-gmap-marker-startdt').text();
-				var gmapMarker_enddt=$(this).children('.event-gmap-marker-enddt').text();
-				var gmapMarker_read_startdt=$(this).children('.event-gmap-marker-startdt').attr('title');
-				var gmapMarker_read_enddt=$(this).children('.event-gmap-marker-enddt').attr('title');
-				var gmapMarker_link=$(this).children('.event-gmap-marker-link').text();
+				var gmapMarker_title=$(this).children('.event-map-marker-title').text();
+				var gmapMarker_latitude=$(this).children('.event-map-marker-latitude').text();
+				var gmapMarker_longitude=$(this).children('.event-map-marker-longitude').text();
+				var gmapMarker_address=$(this).children('.event-map-marker-address').text();
+				var gmapMarker_startdt=$(this).children('.event-map-marker-startdt').text();
+				var gmapMarker_enddt=$(this).children('.event-map-marker-enddt').text();
+				var gmapMarker_read_startdt=$(this).children('.event-map-marker-startdt').attr('title');
+				var gmapMarker_read_enddt=$(this).children('.event-map-marker-enddt').attr('title');
+				var gmapMarker_link=$(this).children('.event-map-marker-link').text();
 
 				// create center point
 				var gmapMarker_LatLng = new google.maps.LatLng(gmapMarker_latitude, gmapMarker_longitude);
@@ -89,13 +88,12 @@ function eventMapInit(){
 				});
 				// add marker
 				curMarker.setMap(map);
-				if (gmapInfo_info=='1'){
+				if (gmapInfo_info=='1') {
 					// add bubble on mouse over
 					google.maps.event.addListener(curMarker, 'click', function() {
 						infowindow.open(map,curMarker);
 					});
-				}
-				else{
+				} else {
 					// open page on click
 					google.maps.event.addListener(curMarker, 'click', function() {
 						window.location=gmapMarker_link;

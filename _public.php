@@ -57,6 +57,7 @@ $core->tpl->addValue('EventsEntryCategoryURL',array('tplEventHandler','EventsEnt
 $core->tpl->addValue('EventsEntryAddress',array('tplEventHandler','EventsEntryAddress'));
 $core->tpl->addValue('EventsEntryLatitude',array('tplEventHandler','EventsEntryLatitude'));
 $core->tpl->addValue('EventsEntryLongitude',array('tplEventHandler','EventsEntryLongitude'));
+$core->tpl->addValue('EventsEntryZoom',array('tplEventHandler','EventsEntryZoom'));
 $core->tpl->addValue('EventsEntryDuration',array('tplEventHandler','EventsEntryDuration'));
 $core->tpl->addValue('EventsEntryPeriod',array('tplEventHandler','EventsEntryPeriod'));
 $core->tpl->addValue('EventsEntryMap',array('tplEventHandler','EventsEntryMap'));

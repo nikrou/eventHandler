@@ -62,20 +62,20 @@ a.event-map {
     background: transparent url('index.php?pf=eventHandler/css/imgs/event-gmap.png') no-repeat 0 0.25em;
     padding: 5px 0 5px 42px;
 }
-.event-gmap-place {
+.event-map-place {
     font-style: italic;
     margin-top: 10px;
 }
-#content .event-gmap-place {
+#content .event-map-place {
     height: 300px;
     width: 100%;
 }
 /* Fix Ductile mediaqueries.css#320 - space on title */
-#sidebar #blognav div.event-gmap {
+#sidebar #blognav div.event-map {
     margin-top: 10px;
 }
 /* Fix Ductile mediaqueries.css#320 - space on map */
-#sidebar #blognav div.event-gmap div {
+#sidebar #blognav div.event-map div {
     margin-top: 0px;
 }
 .calendar-array table {

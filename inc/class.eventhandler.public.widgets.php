@@ -22,15 +22,15 @@ class eventHandlerPublicWidgets
 
 		if ($w->offline) {
 			return;
-        }
+		}
 
 		# Plugin active ?
 		if (!$core->blog->settings->eventHandler->active) {
-            return;
-        }
+			return;
+		}
 		# Home only
 		if ($w->homeonly == 1 && $core->url->type != 'default'
-            ||  $w->homeonly == 2 && $core->url->type == 'default') {
+			||	$w->homeonly == 2 && $core->url->type == 'default') {
 			return;
 		}
 		$params['sql'] = '';
@@ -53,8 +53,8 @@ class eventHandlerPublicWidgets
 		$params['post_type'] = 'eventhandler';
 		# Selected post only
 		if ($w->selectedonly) {
-            $params['post_selected'] = 1;
-        }
+			$params['post_selected'] = 1;
+		}
 		# Category
 		if ($w->category) {
 			if ($w->category == 'null') {
@@ -80,11 +80,11 @@ class eventHandlerPublicWidgets
 			return;
 		}
 
-        # Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-events'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
-            ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
-            # Events events
-            '<ul>';
+		# Display
+		$res = ($w->content_only ? '' : '<div class="widget eventhandler-events'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
+			($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
+			# Events events
+			'<ul>';
 
 		while ($rs->fetch()) {
 			# If same day
@@ -107,24 +107,24 @@ class eventHandlerPublicWidgets
 				$over_format
 			);
 			$title = '<a href="'.$rs->getURL().'" title="'.$over.'">'.html::escapeHTML($rs->post_title).'</a>';
-            $cat = '';
-            if ($w->item_showcat && $rs->cat_id) {
-                $cat = sprintf(' (<a href="%s" title="%s">%s</a>)',
-                               $rs->getCategoryURL(),
-                               __('go to this category'),
-                               html::escapeHTML($rs->cat_title)
-                );
-            }
+			$cat = '';
+			if ($w->item_showcat && $rs->cat_id) {
+				$cat = sprintf(' (<a href="%s" title="%s">%s</a>)',
+							   $rs->getCategoryURL(),
+							   __('go to this category'),
+							   html::escapeHTML($rs->cat_title)
+				);
+			}
 
-            $res .= '<li>'.$title.$cat.'</li>';
+			$res .= '<li>'.$title.$cat.'</li>';
 		}
 		$res .= '</ul>';
 
 		if ($w->pagelink) {
 			$res .=
-                '<p><strong><a href="'.
-                $core->blog->url.$core->url->getBase('eventhandler_list').
-                '" >'.__('All events').'</a></strong></p>';
+				'<p><strong><a href="'.
+				$core->blog->url.$core->url->getBase('eventhandler_list').
+				'" >'.__('All events').'</a></strong></p>';
 		}
 
 		$res .= ($w->content_only ? '' : '</div>');
@@ -137,16 +137,16 @@ class eventHandlerPublicWidgets
 
 		if ($w->offline) {
 			return;
-        }
+		}
 
 		# Plugin active
 		if (!$core->blog->settings->eventHandler->active) {
-            return;
-        }
+			return;
+		}
 		# Post page only
 		if ($core->url->type != 'post') {
-            return;
-        }
+			return;
+		}
 		$params['sql'] = '';
 		# Period
 		if ($w->period) {
@@ -193,10 +193,10 @@ class eventHandlerPublicWidgets
 		}
 
 		# Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-eventsofpost'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
-            ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
-            # Events eventsofpost
-            '<ul>';
+		$res = ($w->content_only ? '' : '<div class="widget eventhandler-eventsofpost'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
+			($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
+			# Events eventsofpost
+			'<ul>';
 		while ($rs->fetch()) {
 			# If same day
 			if ($rs->isOnSameDay()) {
@@ -225,9 +225,9 @@ class eventHandlerPublicWidgets
 
 		if ($w->pagelink) {
 			$res .=
-                '<p><strong><a href="'.
-                $core->blog->url.$core->url->getBase('eventhandler_list').
-                '" >'.__('All events').'</a></strong></p>';
+				'<p><strong><a href="'.
+				$core->blog->url.$core->url->getBase('eventhandler_list').
+				'" >'.__('All events').'</a></strong></p>';
 		}
 
 		$res .= ($w->content_only ? '' : '</div>');
@@ -240,16 +240,16 @@ class eventHandlerPublicWidgets
 
 		if ($w->offline) {
 			return;
-        }
+		}
 
 		# Plugin active
 		if (!$core->blog->settings->eventHandler->active) {
-            return;
-        }
+			return;
+		}
 		# Event page only
 		if ($core->url->type != 'eventhandler_single') {
-            return;
-        }
+			return;
+		}
 
 		$params['sql'] = '';
 		# Sort field
@@ -285,15 +285,15 @@ class eventHandlerPublicWidgets
 			return;
 		}
 
-        # Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-postsofevent'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
-            ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
-            # Events postsofevent
-            '<ul>';
+		# Display
+		$res = ($w->content_only ? '' : '<div class="widget eventhandler-postsofevent'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
+			($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
+			# Events postsofevent
+			'<ul>';
 
 		while ($rs->fetch()) {
 			$res .= '<li><a href="'.$rs->getURL().'">'.
-                html::escapeHTML($rs->post_title).'</a></li>';
+				html::escapeHTML($rs->post_title).'</a></li>';
 		}
 		$res .= '</ul>';
 
@@ -307,22 +307,22 @@ class eventHandlerPublicWidgets
 
 		if ($w->offline) {
 			return;
-        }
+		}
 		# Plugin active ?
 		if (!$core->blog->settings->eventHandler->active) {
-            return;
-        }
-
-		if ($w->homeonly == 1 && $core->url->type != 'default'
-            ||  $w->homeonly == 2 && $core->url->type == 'default') {
 			return;
 		}
 
-        # Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-categories'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
-            ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '');
+		if ($w->homeonly == 1 && $core->url->type != 'default'
+			||	$w->homeonly == 2 && $core->url->type == 'default') {
+			return;
+		}
+
+		# Display
+		$res = ($w->content_only ? '' : '<div class="widget eventhandler-categories'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
+			($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '');
 		# Events categories
-        $rs = $core->blog->getCategories(array('post_type'=>'eventhandler'));
+		$rs = $core->blog->getCategories(array('post_type'=>'eventhandler'));
 		if ($rs->isEmpty()) {
 			return;
 		}
@@ -331,7 +331,7 @@ class eventHandlerPublicWidgets
 		while ($rs->fetch()) {
 			$class = '';
 			if (($core->url->type == 'catevents' && $_ctx->categories instanceof record && $_ctx->categories->cat_id == $rs->cat_id)
-                || ($core->url->type == 'event' && $_ctx->posts instanceof record && $_ctx->posts->cat_id == $rs->cat_id)) {
+				|| ($core->url->type == 'event' && $_ctx->posts instanceof record && $_ctx->posts->cat_id == $rs->cat_id)) {
 				$class = ' class="category-current"';
 			}
 
@@ -346,10 +346,10 @@ class eventHandlerPublicWidgets
 			}
 
 			$res .=
-                '<a href="'.$core->blog->url.$core->url->getBase('eventhandler_list').
-                '/category/'.$rs->cat_url.'">'.
-                html::escapeHTML($rs->cat_title).'</a>'.
-                ($w->postcount ? ' ('.$rs->nb_post.')' : '');
+				'<a href="'.$core->blog->url.$core->url->getBase('eventhandler_list').
+				'/category/'.$rs->cat_url.'">'.
+				html::escapeHTML($rs->cat_title).'</a>'.
+				($w->postcount ? ' ('.$rs->nb_post.')' : '');
 
 
 			$level = $rs->level;
@@ -361,9 +361,9 @@ class eventHandlerPublicWidgets
 
 		if ($w->pagelink) {
 			$res .=
-                '<p><strong><a href="'.
-                $core->blog->url.$core->url->getBase('eventhandler_list').
-                '" >'.__('All events').'</a></strong></p>';
+				'<p><strong><a href="'.
+				$core->blog->url.$core->url->getBase('eventhandler_list').
+				'" >'.__('All events').'</a></strong></p>';
 		}
 
 		$res .= ($w->content_only ? '' : '</div>');
@@ -376,12 +376,12 @@ class eventHandlerPublicWidgets
 
 		if ($w->offline) {
 			return;
-        }
+		}
 
 		# Plugin active
 		if (!$core->blog->settings->eventHandler->active
-            || $w->homeonly == 1 && $core->url->type != 'default'
-            || $w->homeonly == 2 && $core->url->type == 'default') {
+			|| $w->homeonly == 1 && $core->url->type != 'default'
+			|| $w->homeonly == 2 && $core->url->type == 'default') {
 			return;
 		}
 
@@ -422,32 +422,32 @@ class eventHandlerPublicWidgets
 			$total_lat += (float) $rs->event_latitude;
 			$total_lng += (float) $rs->event_longitude;
 
-			$markers .= $rs->getGmapVEVENT();
+			$markers .= $rs->getMapVEvent();
 		}
 
 		$lat = round($total_lat / $rs->count(), 7);
 		$lng = round($total_lng / $rs->count(), 7);
 
 		# Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-map'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
-            ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
-            # Events map
-            eventHandler::getGmapContent(
-                $w->map_width,
-                $w->map_height,
-                $w->map_type,
-                $w->map_zoom,
-                ((integer) $w->map_info),
-                $lat,
-                $lng,
-                $markers
-            );
+		$res = ($w->content_only ? '' : '<div class="widget eventhandler-map'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
+			($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
+			# Events map
+			eventHandler::getMapContent(
+				$w->map_width,
+				$w->map_height,
+				$w->map_type,
+				$w->map_zoom,
+				((integer) $w->map_info),
+				$lat,
+				$lng,
+				$markers
+			);
 
 		if ($w->pagelink) {
 			$res .=
-                '<p><strong><a href="'.
-                $core->blog->url.$core->url->getBase('eventhandler_list').
-                '" >'.__('All events').'</a></strong></p>';
+				'<p><strong><a href="'.
+				$core->blog->url.$core->url->getBase('eventhandler_list').
+				'" >'.__('All events').'</a></strong></p>';
 		}
 
 		$res .= ($w->content_only ? '' : '</div>');
@@ -460,11 +460,11 @@ class eventHandlerPublicWidgets
 
 		if ($w->offline) {
 			return;
-        }
+		}
 
-        if (!$core->blog->settings->eventHandler->active
-            || $w->homeonly == 1 && $core->url->type != 'default'
-            || $w->homeonly == 2 && $core->url->type == 'default') {
+		if (!$core->blog->settings->eventHandler->active
+			|| $w->homeonly == 1 && $core->url->type != 'default'
+			|| $w->homeonly == 2 && $core->url->type == 'default') {
 			return;
 		}
 
@@ -484,16 +484,16 @@ class eventHandlerPublicWidgets
 
 		return
 
-            # Display
-            $res = ($w->content_only ? '' : '<div class="widget eventhandler-calendar'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
-            ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
-            # Events calendar
-            eventHandlerCalendar::parseArray($calendar,$w->weekstart,$w->startonly).
-            ($w->pagelink ?
-             '<p><strong><a href="'.
-             $core->blog->url.$core->url->getBase('eventhandler_list').
-             '" >'.__('All events').'</a></strong></p>' : ''
-            ).
-            ($w->content_only ? '' : '</div>');
+			# Display
+			$res = ($w->content_only ? '' : '<div class="widget eventhandler-calendar'.($w->class ? ' '.html::escapeHTML($w->class) : '').'">').
+			($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '').
+			# Events calendar
+			eventHandlerCalendar::parseArray($calendar,$w->weekstart,$w->startonly).
+			($w->pagelink ?
+			 '<p><strong><a href="'.
+			 $core->blog->url.$core->url->getBase('eventhandler_list').
+			 '" >'.__('All events').'</a></strong></p>' : ''
+			).
+			($w->content_only ? '' : '</div>');
 	}
 }

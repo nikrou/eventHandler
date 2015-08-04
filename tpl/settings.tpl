@@ -18,7 +18,7 @@
 	<div class="fieldset">
 	  <h3><?php echo __('Activation');?></h3>
 	  <p>
-	    <label class="classic">
+	    <label>
 	      <?php echo form::checkbox(array('active'),'1',$active).' '.__('Enable plugin');?>
 	    </label>
 	  </p>
@@ -69,25 +69,32 @@
 	<div class="fieldset">
 	  <h3><?php echo  __('Maps');?></h3>
 	  <p>
-	    <label class="classic">
-	      <?php echo __('Default zoom on map:').'<br />'.
-		    form::combo(array('public_map_zoom'),$combo_map_zoom,$public_map_zoom);?>
-	    </label>
+	    <label><?php echo __('Default zoom on map:');?></label>
+	    <?php echo form::combo(array('public_map_zoom'),$combo_map_zoom,$public_map_zoom);?>
 	  </p>
 	  <p>
-	    <label class="classic">
-	      <?php echo __('Default type of map:').'<br />'.
-		    form::combo(array('public_map_type'),$combo_map_type,$public_map_type);?>
-	    </label>
+	    <label><?php echo __('Default type of map:');?></label>
+	    <?php echo form::combo(array('public_map_type'),$combo_map_type,$public_map_type);?>
+	  </p>
+	  <p>
+	    <label><?php echo __('Map provider:');?></label>
+	    <?php echo form::combo('map_provider',$combo_map_provider,$map_provider);?>
+	  </p>
+	  <p class="map-tile-layer">
+	    <label><?php echo __('Map tile layer:');?></label>
+	    <?php echo form::field(array('map_tile_layer'),100,255,$map_tile_layer);?>
+	  </p>
+	  <p class="map-tile-layer form-note">
+	    <?php echo __('Default map tile layer for OpenStreetMap.');?>
 	  </p>
 	</div>
       </div>
       <?php endif;?>
 
       <?php if ($active):?>
-      <div class="multi-part" id="categories" title="<?php echo  __('Categories');?>">
+      <div class="multi-part" id="categories" title="<?php echo	 __('Categories');?>">
 	<?php if (count($combo_categories) > 1):?>
-	<h3><?php echo  __('Categories');?></h3>
+	<h3><?php echo	__('Categories');?></h3>
 	<p class="info"><?php echo __('When an event has an hidden category, it will only display on its category page.');?></p>
 	<table class="clear">
 	<tr>

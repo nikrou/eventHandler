@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: eventHandler 2015.05.31\n"
+"Project-Id-Version: eventHandler 2015.07.31.2\n"
 "Report-Msgid-Bugs-To: nikrou77+l10n@gmail.com\n"
-"POT-Creation-Date: 2015-05-31 19:55+0200\n"
+"POT-Creation-Date: 2015-08-03 08:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,41 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: inc/class.eventhandler.admin.widgets.php:64
-msgid "%A, %B %e %Y"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:65
-msgid "%H:%M"
-msgstr ""
-
-#: inc/class.admin.eventhandler.minilist.php:98
-#: inc/class.admin.eventhandler.minilist.php:99
-#: inc/class.admin.eventhandler.list.php:125
-#: inc/class.admin.eventhandler.list.php:126
-#: inc/class.admin.eventhandler.list.php:128
-#: inc/class.admin.eventhandler.posts.list.php:101
-msgid "%Y-%m-%d %H:%M"
-msgstr ""
-
 #: inc/class.admin.eventhandler.php:101
 #, php-format
 msgid "%d entry has been bound %s"
 msgid_plural "%d entries have been bound %s"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/index.events.php:128
-#, php-format
-msgid "%d entry has been moved to category \"%s\""
-msgid_plural "%d entries have been moved to category \"%s\""
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/index.events.php:86
-#, php-format
-msgid "%d entry has been set to user \"%s\""
-msgid_plural "%d entries have been set to user \"%s\""
 msgstr[0] ""
 msgstr[1] ""
 
@@ -63,15 +32,7 @@ msgid_plural "%d posts have been unbound from their events"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/class.tpl.eventhandler.php:266
-msgid "%m %Y"
-msgstr ""
-
-#: inc/class.tpl.eventhandler.php:252
-msgid "%m %d %Y"
-msgstr ""
-
-#: inc/class.eventhandler.php:372
+#: inc/class.eventhandler.php:372 inc/class.eventhandler.php:369
 #, php-format
 msgid "%s days"
 msgstr ""
@@ -81,12 +42,12 @@ msgstr ""
 msgid "%s events"
 msgstr ""
 
-#: inc/class.eventhandler.php:374
+#: inc/class.eventhandler.php:374 inc/class.eventhandler.php:371
 #, php-format
 msgid "%s hours"
 msgstr ""
 
-#: inc/class.eventhandler.php:376
+#: inc/class.eventhandler.php:376 inc/class.eventhandler.php:373
 #, php-format
 msgid "%s minutes"
 msgstr ""
@@ -120,11 +81,8 @@ msgid "Additionnal style sheet:"
 msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:237 tpl/edit_event.tpl:127
+#: tpl/edit_event.tpl:129
 msgid "Address:"
-msgstr ""
-
-#: inc/class.tpl.eventhandler.php:62 inc/class.tpl.eventhandler.php:228
-msgid "All"
 msgstr ""
 
 #: inc/class.tpl.eventhandler.php:218
@@ -149,31 +107,8 @@ msgstr ""
 msgid "All periods"
 msgstr ""
 
-#: inc/lib.eventhandler.pubrest.php:30
-msgid "An error occured"
-msgstr ""
-
 #: _services.php:43
 msgid "An error occured when trying de unbind event"
-msgstr ""
-
-#: tpl/list_events.tpl:71
-msgid "Apply filters and display options"
-msgstr ""
-
-#: eventHandler_dummy.php:5
-msgid "Archives"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:36
-#: inc/class.eventhandler.admin.widgets.php:90
-#: inc/class.eventhandler.admin.widgets.php:134
-#: inc/class.eventhandler.admin.widgets.php:193 inc/index.events.php:219
-msgid "Ascending"
-msgstr ""
-
-#: eventHandler_dummy.php:6
-msgid "Atom feed"
 msgstr ""
 
 #: tpl/list_events.tpl:22
@@ -185,31 +120,9 @@ msgstr ""
 msgid "Attach selected events"
 msgstr ""
 
-#: inc/class.tpl.eventhandler.php:136 inc/index.events.php:209
-#: inc/class.admin.eventhandler.list.php:33
-#: inc/class.admin.eventhandler.posts.list.php:31
-msgid "Author"
-msgstr ""
-
-#: tpl/list_events.tpl:30
-msgid "Author:"
-msgstr ""
-
-#: inc/index.event.php:103 inc/index.event.php:107
-msgid "Available"
-msgstr ""
-
 #: inc/class.admin.eventhandler.php:49 inc/class.admin.eventhandler.php:56
 #: inc/class.admin.eventhandler.php:227
 msgid "Bind events"
-msgstr ""
-
-#: eventHandler_dummy.php:7
-msgid "Browse this category"
-msgstr ""
-
-#: eventHandler_dummy.php:8
-msgid "By"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:70
@@ -225,46 +138,7 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-#: tpl/edit_event.tpl:176
-msgid "Cancel"
-msgstr ""
-
-#: tpl/list_events.tpl:11
-msgid "Cancel filters and display options"
-msgstr ""
-
-#: tpl/settings.tpl:78 tpl/settings.tpl:80 tpl/settings.tpl:78
-#: tpl/settings.tpl:80
-msgid "Categories"
-msgstr ""
-
-#: inc/index.events.php:208 inc/class.admin.eventhandler.list.php:32
-#: inc/class.admin.eventhandler.posts.list.php:30 tpl/edit_event.tpl:84
-#: tpl/settings.tpl:85 tpl/settings.tpl:85
-msgid "Category"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:58
-#: inc/class.eventhandler.admin.widgets.php:110
-#: inc/class.eventhandler.admin.widgets.php:145
-#: inc/lib.eventhandler.rs.extension.php:245 tpl/list_events.tpl:33
-#: tpl/edit_event.tpl:85
-msgid "Category:"
-msgstr ""
-
-#: inc/index.events.php:248 inc/index.events.php:250
-msgid "Change"
-msgstr ""
-
-#: inc/index.events.php:251
-msgid "Change author"
-msgstr ""
-
-#: inc/index.events.php:248
-msgid "Change category"
-msgstr ""
-
-#: inc/index.event.php:161
+#: inc/index.event.php:161 inc/index.event.php:164
 msgid "Change entry into event"
 msgstr ""
 
@@ -284,82 +158,45 @@ msgstr ""
 msgid "Completed events"
 msgstr ""
 
-#: tpl/settings.tpl:29 tpl/settings.tpl:29
-msgid "Configuration"
-msgstr ""
-
-#: inc/index.settings.php:73
-msgid "Configuration has been updated."
-msgstr ""
-
 #: index.php:54
 msgid "Configuration saved"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:69
-#: inc/class.eventhandler.admin.widgets.php:115
-#: inc/class.eventhandler.admin.widgets.php:149
-#: inc/class.eventhandler.admin.widgets.php:171
-#: inc/class.eventhandler.admin.widgets.php:228
-#: inc/class.eventhandler.admin.widgets.php:255
-msgid "Content only"
-msgstr ""
-
-#: tpl/edit_event.tpl:161
-msgid "Content:"
-msgstr ""
-
-#: eventHandler_dummy.php:9
-msgid "Continue reading"
-msgstr ""
-
-#: tpl/edit_event.tpl:68
-msgid "Convert to XHTML"
 msgstr ""
 
 #: inc/class.tpl.eventhandler.php:219
 msgid "Current events"
 msgstr ""
 
-#: inc/class.eventhandler.admin.widgets.php:30
-#: inc/class.eventhandler.admin.widgets.php:84
-#: inc/class.eventhandler.admin.widgets.php:130
-#: inc/class.eventhandler.admin.widgets.php:187 inc/index.events.php:206
-#: inc/class.admin.eventhandler.list.php:31
-#: inc/class.admin.eventhandler.posts.list.php:29
-msgid "Date"
-msgstr ""
-
 #: inc/class.eventhandler.admin.widgets.php:64
 msgid "Date format of events:"
 msgstr ""
 
+#: tpl/settings.tpl:56
+msgid "Default field"
+msgstr ""
+
+#: tpl/settings.tpl:72 tpl/settings.tpl:88
+msgid "Default map tile layer for OpenStreetMap."
+msgstr ""
+
+#: tpl/settings.tpl:62
+msgid "Default order"
+msgstr ""
+
 #: inc/class.eventhandler.admin.widgets.php:219 tpl/settings.tpl:69
-#: tpl/settings.tpl:69
+#: tpl/settings.tpl:60 tpl/settings.tpl:76
 msgid "Default type of map:"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:218 tpl/settings.tpl:63
-#: tpl/settings.tpl:63
+#: tpl/settings.tpl:56 tpl/settings.tpl:72
 msgid "Default zoom on map:"
-msgstr ""
-
-#: inc/index.events.php:254 tpl/edit_event.tpl:181
-msgid "Delete"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:37
-#: inc/class.eventhandler.admin.widgets.php:91
-#: inc/class.eventhandler.admin.widgets.php:135
-#: inc/class.eventhandler.admin.widgets.php:194 inc/index.events.php:218
-msgid "Descending"
 msgstr ""
 
 #: inc/lib.eventhandler.calendar.php:136
 msgid "Detail"
 msgstr ""
 
-#: inc/class.url.eventhandler.php:452
+#: inc/class.url.eventhandler.php:452 inc/class.url.eventhandler.php:450
 msgid "Directory:"
 msgstr ""
 
@@ -368,10 +205,6 @@ msgstr ""
 #: inc/class.eventhandler.admin.widgets.php:227
 #: inc/class.eventhandler.admin.widgets.php:254
 msgid "Display on:"
-msgstr ""
-
-#: tpl/list_events.tpl:58
-msgid "Display options"
 msgstr ""
 
 #: eventHandler_dummy.php:10
@@ -386,25 +219,14 @@ msgstr ""
 msgid "Display this event on hCalendar format"
 msgstr ""
 
-#: inc/index.event.php:388
-msgid "Don't forget to validate your XHTML conversion by saving your post."
-msgstr ""
-
 #: _install.php:21
 #, php-format
 msgid "Dotclear version %s minimum is required. \"%s\" is deactivated"
 msgstr ""
 
-#: tpl/edit_event.tpl:94
-msgid "Edit basename"
-msgstr ""
-
 #: inc/index.event.php:169 tpl/edit_event.tpl:51 tpl/edit_event.tpl:109
+#: inc/index.event.php:172 tpl/edit_event.tpl:53 tpl/edit_event.tpl:111
 msgid "Edit event"
-msgstr ""
-
-#: tpl/settings.tpl:108 tpl/settings.tpl:108
-msgid "Edit this category"
 msgstr ""
 
 #: tpl/settings.tpl:22 tpl/settings.tpl:22
@@ -421,23 +243,8 @@ msgid "End date"
 msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:234 tpl/edit_event.tpl:119
+#: tpl/edit_event.tpl:121
 msgid "End date:"
-msgstr ""
-
-#: inc/index.events.php:255 inc/class.admin.eventhandler.list.php:30
-#: tpl/settings.tpl:50 tpl/settings.tpl:87 tpl/settings.tpl:50
-#: tpl/settings.tpl:87
-msgid "Entries"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:59
-#: inc/class.eventhandler.admin.widgets.php:111
-#: inc/class.eventhandler.admin.widgets.php:146
-msgid "Entries limit:"
-msgstr ""
-
-#: tpl/edit_event.tpl:72
-msgid "Entry language"
 msgstr ""
 
 #: inc/class.admin.eventhandler.php:162
@@ -452,16 +259,20 @@ msgid_plural "Event #%d (%s) unbound from %d related posts"
 msgstr[0] ""
 msgstr[1] ""
 
+#: inc/index.settings.php:55
+msgid "Event end date"
+msgstr ""
+
 #: _admin.php:29 inc/class.admin.eventhandler.php:19 index.php:49
 #: tpl/edit_event.tpl:3 tpl/settings.tpl:3 tpl/settings.tpl:3
 msgid "Event handler"
 msgstr ""
 
-#: inc/index.event.php:312
+#: inc/index.event.php:312 inc/index.event.php:315
 msgid "Event has been created."
 msgstr ""
 
-#: inc/index.event.php:295
+#: inc/index.event.php:295 inc/index.event.php:298
 msgid "Event has been updated."
 msgstr ""
 
@@ -477,7 +288,11 @@ msgstr ""
 msgid "Event removed from post"
 msgstr ""
 
-#: tpl/edit_event.tpl:58
+#: inc/index.settings.php:54
+msgid "Event start date"
+msgstr ""
+
+#: tpl/edit_event.tpl:58 tpl/edit_event.tpl:60
 msgid "Event status"
 msgstr ""
 
@@ -511,7 +326,10 @@ msgstr ""
 #: inc/class.admin.eventhandler.php:209 tpl/list_events.tpl:3
 #: tpl/list_events.tpl:16 tpl/edit_event.tpl:26 tpl/settings.tpl:10
 #: tpl/settings.tpl:40 tpl/settings.tpl:88 eventHandler_dummy.php:13
-#: tpl/settings.tpl:10 tpl/settings.tpl:40 tpl/settings.tpl:88
+#: tpl/edit_event.tpl:28 tpl/settings.tpl:89
+#: inc/class.url.eventhandler.php:437 inc/class.url.eventhandler.php:447
+#: inc/class.url.eventhandler.php:489 tpl/settings.tpl:10 tpl/settings.tpl:40
+#: tpl/settings.tpl:105
 msgid "Events"
 msgstr ""
 
@@ -525,8 +343,12 @@ msgstr ""
 msgid "Events calendar"
 msgstr ""
 
-#: tpl/settings.tpl:140 tpl/settings.tpl:140
+#: tpl/settings.tpl:140 tpl/settings.tpl:141 tpl/settings.tpl:157
 msgid "Events from eventdata imported"
+msgstr ""
+
+#: tpl/settings.tpl:52
+msgid "Events list ordering"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:215
@@ -536,17 +358,6 @@ msgstr ""
 
 #: tpl/list_events.tpl:65
 msgid "Events per page"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:51
-#: inc/class.eventhandler.admin.widgets.php:158
-#: inc/class.eventhandler.admin.widgets.php:208
-#: inc/class.eventhandler.admin.widgets.php:241
-msgid "Except on home page"
-msgstr ""
-
-#: tpl/edit_event.tpl:156
-msgid "Excerpt:"
 msgstr ""
 
 #: index.php:61
@@ -563,16 +374,8 @@ msgstr ""
 msgid "Failed to save configuration: %s"
 msgstr ""
 
-#: tpl/edit_event.tpl:77
-msgid "Filing"
-msgstr ""
-
-#: tpl/list_events.tpl:29
-msgid "Filters"
-msgstr ""
-
-#: tpl/edit_event.tpl:135
-msgid "Find coordinates on googleMap"
+#: tpl/edit_event.tpl:137
+msgid "Find coordinates from address"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:43
@@ -612,22 +415,14 @@ msgstr ""
 msgid "For the year of %s"
 msgstr ""
 
-#: eventHandler_dummy.php:15
-msgid "From"
-msgstr ""
-
 #: inc/class.eventhandler.public.widgets.php:94
 #: inc/class.eventhandler.public.widgets.php:205
 #, php-format
 msgid "From %sd, %st to %ed, %et"
 msgstr ""
 
-#: tpl/edit_event.tpl:36
+#: tpl/edit_event.tpl:36 tpl/edit_event.tpl:38
 msgid "Go to this event on the site"
-msgstr ""
-
-#: eventHandler_dummy.php:16
-msgid "GoogleMaps"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:221
@@ -635,46 +430,27 @@ msgstr ""
 msgid "Height of map (with unit as % or px):"
 msgstr ""
 
-#: tpl/settings.tpl:84 tpl/settings.tpl:84
-msgid "Hide"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:50
-#: inc/class.eventhandler.admin.widgets.php:157
-#: inc/class.eventhandler.admin.widgets.php:207
-#: inc/class.eventhandler.admin.widgets.php:240
-msgid "Home page only"
-msgstr ""
-
-#: tpl/edit_event.tpl:134
+#: tpl/edit_event.tpl:134 tpl/edit_event.tpl:136
 msgid "If you want to use maps, you must enter an address as precise as possible (number, street, city, country)"
 msgstr ""
 
-#: tpl/settings.tpl:148 tpl/settings.tpl:148
+#: tpl/settings.tpl:148 tpl/settings.tpl:149 tpl/settings.tpl:165
 msgid "Import eventdata records"
 msgstr ""
 
-#: tpl/list_events.tpl:51
-msgid "Lang:"
-msgstr ""
-
-#: tpl/edit_event.tpl:137 eventHandler_dummy.php:19
+#: tpl/edit_event.tpl:137 eventHandler_dummy.php:19 tpl/edit_event.tpl:139
 msgid "Latitude:"
 msgstr ""
 
-#: tpl/settings.tpl:86 tpl/settings.tpl:86
+#: tpl/settings.tpl:86 tpl/settings.tpl:87 tpl/settings.tpl:103
 msgid "Level"
 msgstr ""
 
-#: tpl/settings.tpl:102 tpl/settings.tpl:102
-msgid "List of entries related to this category"
-msgstr ""
-
-#: tpl/settings.tpl:98 tpl/settings.tpl:98
+#: tpl/settings.tpl:98 tpl/settings.tpl:99 tpl/settings.tpl:115
 msgid "List of events related to this category"
 msgstr ""
 
-#: inc/index.events.php:214 tpl/edit_event.tpl:125
+#: inc/index.events.php:214 tpl/edit_event.tpl:125 tpl/edit_event.tpl:127
 msgid "Localization"
 msgstr ""
 
@@ -682,28 +458,21 @@ msgstr ""
 msgid "Location:"
 msgstr ""
 
-#: tpl/edit_event.tpl:141 eventHandler_dummy.php:21
+#: tpl/edit_event.tpl:141 eventHandler_dummy.php:21 tpl/edit_event.tpl:143
 msgid "Longitude:"
 msgstr ""
 
-#: tpl/edit_event.tpl:133 tpl/settings.tpl:60 tpl/settings.tpl:60
+#: tpl/settings.tpl:64 tpl/settings.tpl:80
+msgid "Map provider:"
+msgstr ""
+
+#: tpl/settings.tpl:68 tpl/settings.tpl:84
+msgid "Map tile layer:"
+msgstr ""
+
+#: tpl/edit_event.tpl:133 tpl/settings.tpl:60 tpl/edit_event.tpl:135
+#: tpl/settings.tpl:54 tpl/settings.tpl:70
 msgid "Maps"
-msgstr ""
-
-#: inc/index.events.php:244
-msgid "Mark"
-msgstr ""
-
-#: inc/index.events.php:241
-msgid "Mark as pending"
-msgstr ""
-
-#: inc/index.events.php:245
-msgid "Mark as selected"
-msgstr ""
-
-#: inc/index.events.php:246
-msgid "Mark as unselected"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:236
@@ -715,6 +484,7 @@ msgid "Month:"
 msgstr ""
 
 #: inc/index.event.php:103 inc/index.event.php:106 inc/index.event.php:109
+#: inc/index.event.php:112
 msgid "Most used"
 msgstr ""
 
@@ -731,20 +501,16 @@ msgstr ""
 msgid "No entry"
 msgstr ""
 
-#: inc/class.admin.eventhandler.php:72
-msgid "No entry selected"
-msgstr ""
-
 #: inc/class.admin.eventhandler.minilist.php:22
 #: inc/class.admin.eventhandler.list.php:19
 msgid "No event"
 msgstr ""
 
-#: inc/class.eventhandler.php:317
+#: inc/class.eventhandler.php:317 inc/class.eventhandler.php:314
 msgid "No event end date"
 msgstr ""
 
-#: inc/class.eventhandler.php:313
+#: inc/class.eventhandler.php:313 inc/class.eventhandler.php:310
 msgid "No event start date"
 msgstr ""
 
@@ -757,15 +523,6 @@ msgstr ""
 msgid "No such event ID"
 msgstr ""
 
-#: inc/index.events.php:27 _services.php:30
-msgid "No such post ID"
-msgstr ""
-
-#: inc/index.events.php:176 inc/class.admin.eventhandler.list.php:73
-#: inc/class.admin.eventhandler.posts.list.php:65
-msgid "None"
-msgstr ""
-
 #: inc/class.eventhandler.admin.widgets.php:44
 #: inc/class.eventhandler.admin.widgets.php:98
 #: inc/class.eventhandler.admin.widgets.php:201
@@ -774,7 +531,7 @@ msgstr ""
 msgid "Not finished"
 msgstr ""
 
-#: inc/class.eventhandler.php:326
+#: inc/class.eventhandler.php:326 inc/class.eventhandler.php:323
 msgid "Not full coordinate"
 msgstr ""
 
@@ -782,19 +539,6 @@ msgstr ""
 #: inc/class.eventhandler.admin.widgets.php:95
 #: inc/class.eventhandler.admin.widgets.php:198 inc/index.events.php:225
 msgid "Not started"
-msgstr ""
-
-#: tpl/edit_event.tpl:166
-msgid "Notes:"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:71
-#: inc/class.eventhandler.admin.widgets.php:117
-#: inc/class.eventhandler.admin.widgets.php:151
-#: inc/class.eventhandler.admin.widgets.php:173
-#: inc/class.eventhandler.admin.widgets.php:230
-#: inc/class.eventhandler.admin.widgets.php:257
-msgid "Offline"
 msgstr ""
 
 #: inc/class.eventhandler.public.widgets.php:92
@@ -811,32 +555,12 @@ msgstr ""
 msgid "Ongoing"
 msgstr ""
 
-#: tpl/edit_event.tpl:91
-msgid "Options"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:60
-#: inc/class.eventhandler.admin.widgets.php:112
-#: inc/class.eventhandler.admin.widgets.php:147
-#: inc/class.eventhandler.admin.widgets.php:223 tpl/list_events.tpl:59
-msgid "Order by:"
-msgstr ""
-
 #: inc/class.eventhandler.admin.widgets.php:46
 #: inc/class.eventhandler.admin.widgets.php:100
 #: inc/class.eventhandler.admin.widgets.php:203
 #: inc/class.tpl.eventhandler.php:64 inc/class.tpl.eventhandler.php:230
 #: inc/index.events.php:230
 msgid "Outgoing"
-msgstr ""
-
-#: inc/class.admin.eventhandler.minilist.php:46
-#: inc/class.admin.eventhandler.minilist.php:59
-#: inc/class.admin.eventhandler.list.php:47
-#: inc/class.admin.eventhandler.list.php:59
-#: inc/class.admin.eventhandler.posts.list.php:39
-#: inc/class.admin.eventhandler.posts.list.php:51
-msgid "Page(s)"
 msgstr ""
 
 #: inc/class.admin.eventhandler.minilist.php:30
@@ -853,31 +577,39 @@ msgstr ""
 msgid "Period:"
 msgstr ""
 
-#: eventHandler_dummy.php:27
-msgid "Permalink"
-msgstr ""
-
-#: inc/class.public.eventhandler.php:49
-msgid "Please wait"
-msgstr ""
-
-#: inc/class.eventhandler.php:400
+#: inc/class.eventhandler.php:400 inc/class.eventhandler.php:398
 msgid "Please wait, try to create map..."
 msgstr ""
 
-#: tpl/edit_event.tpl:173
-msgid "Preview event"
+#: inc/index.settings.php:51
+msgid "Post author"
 msgstr ""
 
-#: inc/index.events.php:238
-msgid "Publish"
+#: inc/index.settings.php:52
+msgid "Post date"
+msgstr ""
+
+#: inc/index.settings.php:53
+msgid "Post id"
+msgstr ""
+
+#: inc/index.settings.php:50
+msgid "Post selected"
+msgstr ""
+
+#: inc/index.settings.php:49
+msgid "Post title"
+msgstr ""
+
+#: tpl/edit_event.tpl:173 tpl/edit_event.tpl:175
+msgid "Preview event"
 msgstr ""
 
 #: inc/class.tpl.eventhandler.php:137
 msgid "Published date"
 msgstr ""
 
-#: tpl/edit_event.tpl:61
+#: tpl/edit_event.tpl:61 tpl/edit_event.tpl:63
 msgid "Published on"
 msgstr ""
 
@@ -885,21 +617,17 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: eventHandler_dummy.php:29
-msgid "Read this post"
-msgstr ""
-
 #: index.php:55
 msgid "Records deleted"
 msgstr ""
 
-#: tpl/settings.tpl:144 tpl/settings.tpl:144
+#: tpl/settings.tpl:144 tpl/settings.tpl:145 tpl/settings.tpl:161
 msgid "Records of eventdata have been imported for this blog."
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:142
 #: inc/class.eventhandler.admin.widgets.php:144 tpl/edit_event.tpl:190
-#: eventHandler_dummy.php:30
+#: eventHandler_dummy.php:30 tpl/edit_event.tpl:192
 msgid "Related entries"
 msgstr ""
 
@@ -912,23 +640,6 @@ msgstr ""
 msgid "Remember me on this blog"
 msgstr ""
 
-#: tpl/edit_event.tpl:152 tpl/edit_event.tpl:160
-msgid "Required field"
-msgstr ""
-
-#: inc/class.admin.eventhandler.php:135 tpl/edit_event.tpl:170
-#: tpl/settings.tpl:132 tpl/settings.tpl:132
-msgid "Save"
-msgstr ""
-
-#: inc/index.events.php:240
-msgid "Schedule"
-msgstr ""
-
-#: inc/class.tpl.eventhandler.php:65 inc/class.tpl.eventhandler.php:231
-msgid "Scheduled"
-msgstr ""
-
 #: inc/class.tpl.eventhandler.php:221
 msgid "Scheduled events"
 msgstr ""
@@ -937,64 +648,32 @@ msgstr ""
 msgid "Select events to link to entries"
 msgstr ""
 
-#: inc/class.tpl.eventhandler.php:135 inc/index.events.php:211
-msgid "Selected"
-msgstr ""
-
-#: tpl/list_events.tpl:97
-msgid "Selected entries action:"
-msgstr ""
-
 #: inc/class.eventhandler.admin.widgets.php:62
 msgid "Selected entries only"
 msgstr ""
 
-#: tpl/edit_event.tpl:80
+#: tpl/edit_event.tpl:80 tpl/edit_event.tpl:82
 msgid "Selected event"
-msgstr ""
-
-#: tpl/list_events.tpl:45
-msgid "Selected:"
-msgstr ""
-
-#: index.php:45 tpl/settings.tpl:3 tpl/settings.tpl:11 tpl/settings.tpl:3
-#: tpl/settings.tpl:11
-msgid "Settings"
-msgstr ""
-
-#: tpl/list_events.tpl:63
-msgid "Show"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:66
 msgid "Show category"
 msgstr ""
 
-#: inc/index.events.php:275
-msgid "Show filters and display options"
-msgstr ""
-
 #: inc/class.eventhandler.admin.widgets.php:252
 msgid "Show only start date of events"
 msgstr ""
 
-#: tpl/settings.tpl:44 tpl/settings.tpl:44
+#: tpl/settings.tpl:44 tpl/settings.tpl:42 tpl/settings.tpl:42
 msgid "Show related entries on event:"
 msgstr ""
 
-#: tpl/settings.tpl:53 tpl/settings.tpl:53
+#: tpl/settings.tpl:53 tpl/settings.tpl:48 tpl/settings.tpl:48
 msgid "Show related events on entry:"
 msgstr ""
 
 #: eventHandler_dummy.php:33
 msgid "Sort events by:"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:61
-#: inc/class.eventhandler.admin.widgets.php:113
-#: inc/class.eventhandler.admin.widgets.php:148
-#: inc/class.eventhandler.admin.widgets.php:224 tpl/list_events.tpl:61
-msgid "Sort:"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:32
@@ -1006,11 +685,12 @@ msgstr ""
 msgid "Start date"
 msgstr ""
 
-#: inc/class.eventhandler.php:321
+#: inc/class.eventhandler.php:321 inc/class.eventhandler.php:318
 msgid "Start date greater than end date"
 msgstr ""
 
 #: inc/lib.eventhandler.rs.extension.php:233 tpl/edit_event.tpl:113
+#: tpl/edit_event.tpl:115
 msgid "Start date:"
 msgstr ""
 
@@ -1026,26 +706,11 @@ msgstr ""
 msgid "Started events"
 msgstr ""
 
-#: inc/index.events.php:210 inc/index.events.php:237
-#: inc/class.admin.eventhandler.minilist.php:33
-#: inc/class.admin.eventhandler.list.php:34
-#: inc/class.admin.eventhandler.posts.list.php:32 tpl/edit_event.tpl:56
-msgid "Status"
-msgstr ""
-
-#: tpl/list_events.tpl:39
-msgid "Status:"
-msgstr ""
-
 #: inc/class.eventhandler.admin.widgets.php:235
 msgid "Sunday"
 msgstr ""
 
-#: tpl/edit_event.tpl:65
-msgid "Text formatting"
-msgstr ""
-
-#: inc/class.url.eventhandler.php:527
+#: inc/class.url.eventhandler.php:527 inc/class.url.eventhandler.php:525
 msgid "There's no event at this time."
 msgstr ""
 
@@ -1053,44 +718,16 @@ msgstr ""
 msgid "These events Atom feed"
 msgstr ""
 
-#: inc/index.event.php:121
-msgid "This entry does not exist."
-msgstr ""
-
-#: inc/index.event.php:134
+#: inc/index.event.php:134 inc/index.event.php:137
 msgid "This event does not exist."
 msgstr ""
 
-#: inc/class.url.eventhandler.php:470
+#: inc/class.url.eventhandler.php:470 inc/class.url.eventhandler.php:468
 msgid "This page is powered by Dotclear and eventHandler"
-msgstr ""
-
-#: inc/index.events.php:78
-msgid "This user does not exist"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:65
 msgid "Time format of events:"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:31
-#: inc/class.eventhandler.admin.widgets.php:85
-#: inc/class.eventhandler.admin.widgets.php:131
-#: inc/class.eventhandler.admin.widgets.php:188
-#: inc/class.tpl.eventhandler.php:134 inc/index.events.php:207
-#: inc/class.admin.eventhandler.minilist.php:29
-#: inc/class.admin.eventhandler.list.php:27
-#: inc/class.admin.eventhandler.posts.list.php:28
-msgid "Title"
-msgstr ""
-
-#: inc/class.eventhandler.admin.widgets.php:57
-#: inc/class.eventhandler.admin.widgets.php:109
-#: inc/class.eventhandler.admin.widgets.php:144
-#: inc/class.eventhandler.admin.widgets.php:167
-#: inc/class.eventhandler.admin.widgets.php:217
-#: inc/class.eventhandler.admin.widgets.php:250 tpl/edit_event.tpl:152
-msgid "Title:"
 msgstr ""
 
 #: inc/class.admin.eventhandler.php:50 inc/class.admin.eventhandler.php:57
@@ -1101,25 +738,11 @@ msgstr ""
 msgid "Unbind related entries"
 msgstr ""
 
-#: inc/class.eventhandler.admin.widgets.php:24
-#: inc/class.eventhandler.admin.widgets.php:78
-#: inc/class.eventhandler.admin.widgets.php:124
-msgid "Uncategorized"
-msgstr ""
-
 #: inc/class.tpl.eventhandler.php:223
 msgid "Unfinished events"
 msgstr ""
 
-#: inc/index.events.php:239
-msgid "Unpublish"
-msgstr ""
-
-#: tpl/edit_event.tpl:97
-msgid "Warning: If you set the URL manually, it may conflict with another entry."
-msgstr ""
-
-#: tpl/settings.tpl:81 tpl/settings.tpl:81
+#: tpl/settings.tpl:81 tpl/settings.tpl:82 tpl/settings.tpl:98
 msgid "When an event has an hidden category, it will only display on its category page."
 msgstr ""
 
@@ -1133,6 +756,7 @@ msgid "With events counts"
 msgstr ""
 
 #: inc/class.eventhandler.php:331 inc/class.eventhandler.php:337
+#: inc/class.eventhandler.php:328 inc/class.eventhandler.php:334
 msgid "Wrong format of coordinate"
 msgstr ""
 
@@ -1148,15 +772,17 @@ msgstr ""
 msgid "You are not allowed to update events"
 msgstr ""
 
-#: tpl/edit_event.tpl:192
+#: tpl/edit_event.tpl:192 tpl/edit_event.tpl:194
 msgid "You must save event before adding entries"
 msgstr ""
 
-#: inc/index.settings.php:91
+#: inc/index.settings.php:91 inc/index.settings.php:41
+#: inc/index.settings.php:43
 msgid "after content"
 msgstr ""
 
-#: inc/index.settings.php:90
+#: inc/index.settings.php:90 inc/index.settings.php:40
+#: inc/index.settings.php:42
 msgid "before content"
 msgstr ""
 
@@ -1203,23 +829,12 @@ msgstr ""
 msgid "go to this category"
 msgstr ""
 
-#: eventHandler_dummy.php:17
-msgid "hCalendar"
-msgstr ""
-
-#: inc/index.settings.php:89
-msgid "hide"
-msgstr ""
-
 #: inc/class.eventhandler.admin.widgets.php:183 inc/index.settings.php:100
+#: inc/index.settings.php:50 inc/index.settings.php:69
 msgid "hybrid"
 msgstr ""
 
-#: eventHandler_dummy.php:18
-msgid "iCalendar"
-msgstr ""
-
-#: inc/class.eventhandler.php:378
+#: inc/class.eventhandler.php:378 inc/class.eventhandler.php:375
 msgid "instantaneous"
 msgstr ""
 
@@ -1235,31 +850,11 @@ msgstr ""
 msgid "longitude:"
 msgstr ""
 
-#: eventHandler_dummy.php:22
-msgid "next entries"
-msgstr ""
-
-#: inc/index.event.php:176
+#: inc/index.event.php:176 inc/index.event.php:179
 msgid "next event"
 msgstr ""
 
-#: inc/index.events.php:191
-msgid "not selected"
-msgstr ""
-
-#: eventHandler_dummy.php:23
-msgid "of"
-msgstr ""
-
-#: tpl/list_events.tpl:99
-msgid "ok"
-msgstr ""
-
-#: eventHandler_dummy.php:24
-msgid "on"
-msgstr ""
-
-#: inc/class.eventhandler.php:373
+#: inc/class.eventhandler.php:373 inc/class.eventhandler.php:370
 msgid "one day"
 msgstr ""
 
@@ -1267,11 +862,11 @@ msgstr ""
 msgid "one event"
 msgstr ""
 
-#: inc/class.eventhandler.php:375
+#: inc/class.eventhandler.php:375 inc/class.eventhandler.php:372
 msgid "one hour"
 msgstr ""
 
-#: inc/class.eventhandler.php:377
+#: inc/class.eventhandler.php:377 inc/class.eventhandler.php:374
 msgid "one minute"
 msgstr ""
 
@@ -1279,57 +874,22 @@ msgstr ""
 msgid "ongoing"
 msgstr ""
 
-#: eventHandler_dummy.php:25
-msgid "page"
-msgstr ""
-
-#: inc/class.admin.eventhandler.minilist.php:76
-#: inc/class.admin.eventhandler.list.php:89
-#: inc/class.admin.eventhandler.posts.list.php:81
-msgid "pending"
-msgstr ""
-
-#: eventHandler_dummy.php:28
-msgid "previous entries"
-msgstr ""
-
-#: inc/index.event.php:183
+#: inc/index.event.php:183 inc/index.event.php:186
 msgid "previous event"
 msgstr ""
 
-#: inc/class.admin.eventhandler.minilist.php:82
-#: inc/class.admin.eventhandler.list.php:95
-#: inc/class.admin.eventhandler.posts.list.php:87
-msgid "protected"
-msgstr ""
-
-#: inc/class.admin.eventhandler.minilist.php:67
-#: inc/class.admin.eventhandler.list.php:80
-#: inc/class.admin.eventhandler.posts.list.php:72
-msgid "published"
-msgstr ""
-
 #: inc/class.eventhandler.admin.widgets.php:181 inc/index.settings.php:98
+#: inc/index.settings.php:48 inc/index.settings.php:67
 msgid "road map"
 msgstr ""
 
 #: inc/class.eventhandler.admin.widgets.php:182 inc/index.settings.php:99
+#: inc/index.settings.php:49 inc/index.settings.php:68
 msgid "satellite"
 msgstr ""
 
-#: inc/class.admin.eventhandler.minilist.php:73
-#: inc/class.admin.eventhandler.list.php:86
-#: inc/class.admin.eventhandler.posts.list.php:78 _public.php:22
-msgid "scheduled"
-msgstr ""
-
-#: inc/index.events.php:190 inc/class.admin.eventhandler.minilist.php:87
-#: inc/class.admin.eventhandler.list.php:100
-#: inc/class.admin.eventhandler.posts.list.php:92
-msgid "selected"
-msgstr ""
-
 #: inc/class.eventhandler.admin.widgets.php:184 inc/index.settings.php:101
+#: inc/index.settings.php:51 inc/index.settings.php:70
 msgid "terrain"
 msgstr ""
 

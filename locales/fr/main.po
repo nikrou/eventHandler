@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventHandler 2015.05.31\n"
 "Report-Msgid-Bugs-To: nikrou77+l10n@gmail.com\n"
-"POT-Creation-Date: 2015-05-31 19:55+0200\n"
-"PO-Revision-Date: 2015-05-31 20:14+0200\n"
+"POT-Creation-Date: 2015-08-03 08:37+0200\n"
+"PO-Revision-Date: 2015-06-03 09:05+0200\n"
 "Last-Translator: Nicolas <nikrou77@gmail.com>\n"
 "Language-Team: Nicolas <nikrou77@gmail.com>\n"
 "Language: fr\n"
@@ -64,9 +64,6 @@ msgstr "Feuille de style additionnelle : "
 msgid "Address:"
 msgstr "Adresse : "
 
-msgid "All"
-msgstr "Tous"
-
 msgid "All events"
 msgstr "Tous les événements"
 
@@ -75,9 +72,6 @@ msgstr "Toutes les pages"
 
 msgid "All periods"
 msgstr "Toutes les périodes"
-
-msgid "An error occured"
-msgstr "Erreur"
 
 msgid "An error occured when trying de unbind event"
 msgstr "Il y a eu une erreur en essayant de détacher un événement"
@@ -89,38 +83,14 @@ msgstr "Lier des événement au billet \"%s\"."
 msgid "Attach selected events"
 msgstr "Lier les événements sélectionnés"
 
-msgid "Author"
-msgstr "Auteur"
-
-msgid "Author:"
-msgstr "Auteur : "
-
-msgid "Available"
-msgstr "Disponible"
-
 msgid "Bind events"
 msgstr "Attacher des événements"
-
-msgid "By"
-msgstr "Par"
 
 msgid "CSS class:"
 msgstr "Classe css : "
 
 msgid "Calendar"
 msgstr "Calendrier"
-
-msgid "Cancel"
-msgstr "Annuler"
-
-msgid "Change"
-msgstr "Changer"
-
-msgid "Change author"
-msgstr "Changer l'auteur"
-
-msgid "Change category"
-msgstr "Changer la catégorie"
 
 msgid "Change entry into event"
 msgstr "Changer un billet en événement"
@@ -137,23 +107,23 @@ msgstr "Cocher pour détacher"
 msgid "Completed events"
 msgstr "Événements terminés"
 
-msgid "Configuration"
-msgstr "Configuration"
-
-msgid "Configuration has been updated."
-msgstr "La configuration a été mise à jour."
-
 msgid "Configuration saved"
 msgstr "Configuration sauvegardée"
 
 msgid "Current events"
 msgstr "Événements en cours"
 
-msgid "Date"
-msgstr "Date"
-
 msgid "Date format of events:"
 msgstr "Format de date des événements : "
+
+msgid "Default field"
+msgstr "Champ par défaut"
+
+msgid "Default map tile layer for OpenStreetMap."
+msgstr "Fournisseur de tuiles pour OpenStreetMap"
+
+msgid "Default order"
+msgstr "Ordre par défaut"
 
 msgid "Default type of map:"
 msgstr "Type par défaut de la carte : "
@@ -180,14 +150,8 @@ msgstr "Afficher cet événement au format hCalendar"
 msgid "Dotclear version %s minimum is required. \"%s\" is deactivated"
 msgstr "La version minimale de Dotclear est %s. Le plugin \"%s\" a été désactivé."
 
-msgid "Edit basename"
-msgstr "Modifier l'URL"
-
 msgid "Edit event"
 msgstr "Modifier un événement"
-
-msgid "Edit this category"
-msgstr "Modifier cette catégorie"
 
 msgid "Enable plugin"
 msgstr "Activer le plugin"
@@ -208,6 +172,9 @@ msgid_plural "Event #%d (%s) unbound from %d related posts"
 msgstr[0] "L'événement n°%d (%s) a bien été séparé de l'entrée liée"
 msgstr[1] "L'événement n°%d (%s) a bien été séparé de %d entrées liées"
 
+msgid "Event end date"
+msgstr "Date de fin de l'événement"
+
 msgid "Event handler"
 msgstr "Gestionnaire d'événements"
 
@@ -225,6 +192,9 @@ msgstr "Événements pas en cours"
 
 msgid "Event removed from post"
 msgstr "Événements retirés du billet"
+
+msgid "Event start date"
+msgstr "Date de début de l'événement"
 
 msgid "Event status"
 msgstr "Statut de l'événement"
@@ -259,6 +229,9 @@ msgstr "Calendrier des événements"
 msgid "Events from eventdata imported"
 msgstr "Événements importés depuis eventdata"
 
+msgid "Events list ordering"
+msgstr "Ordre de tri des événements"
+
 msgid "Events on map"
 msgstr "Événements sur une carte"
 
@@ -276,8 +249,8 @@ msgstr "Impossible de récupérer le calendrier"
 msgid "Failed to save configuration: %s"
 msgstr "Impossible de sauver la configuration : %s"
 
-msgid "Find coordinates on googleMap"
-msgstr "Trouver les coordonnées sur GoogleMaps"
+msgid "Find coordinates from address"
+msgstr "Trouver les coordonnées à partir de l'adresse"
 
 msgid "Finished"
 msgstr "Terminé"
@@ -305,9 +278,6 @@ msgstr "Pour la période passant entre %s et %s"
 msgid "For the year of %s"
 msgstr "Pour l'année %s"
 
-msgid "From"
-msgstr "Du"
-
 #, php-format
 msgid "From %sd, %st to %ed, %et"
 msgstr "Du %sd, %st au %ed, %et"
@@ -331,9 +301,6 @@ msgstr "Latitude :"
 msgid "Level"
 msgstr "Niveau"
 
-msgid "List of entries related to this category"
-msgstr "Liste des billets liés à cette catégorie"
-
 msgid "List of events related to this category"
 msgstr "Liste des événements liés à cette catégorie"
 
@@ -346,11 +313,14 @@ msgstr "Lieu :"
 msgid "Longitude:"
 msgstr "Longitude :"
 
+msgid "Map provider:"
+msgstr "Fournisseur de cartes"
+
+msgid "Map tile layer:"
+msgstr "Format d'URL d'accès aux tuiles"
+
 msgid "Maps"
 msgstr "Cartes"
-
-msgid "Mark"
-msgstr "Marquer"
 
 msgid "Monday"
 msgstr "Lundi"
@@ -404,16 +374,31 @@ msgstr "Période d'événements : "
 msgid "Period:"
 msgstr "Période :"
 
-msgid "Please wait"
-msgstr "Veuillez patienter"
-
 msgid "Please wait, try to create map..."
 msgstr "Veuillez patienter, construction de la carte..."
+
+msgid "Post author"
+msgstr "Auteur du billet"
+
+msgid "Post date"
+msgstr "Date du billet"
+
+msgid "Post id"
+msgstr "Identifiant du billet"
+
+msgid "Post selected"
+msgstr "Billet sélectionné"
+
+msgid "Post title"
+msgstr "Titre du billet"
 
 msgid "Preview event"
 msgstr "Prévisualiser l'événement"
 
 msgid "Published date"
+msgstr "Date de publication"
+
+msgid "Published on"
 msgstr "Date de publication"
 
 msgid "Read more"
@@ -431,17 +416,14 @@ msgstr "Billets liés"
 msgid "Related events"
 msgstr "Événements liés"
 
-msgid "Schedule"
-msgstr "Programmer"
-
-msgid "Scheduled"
-msgstr "programmé"
-
 msgid "Scheduled events"
 msgstr "Événements programmés"
 
 msgid "Select events to link to entries"
 msgstr "Sélectionner les événements à lier aux billets"
+
+msgid "Selected entries only"
+msgstr "Billets séléctionnés uniquement"
 
 msgid "Selected event"
 msgstr "Événement sélectionné"
@@ -499,9 +481,6 @@ msgstr "Détacher les événements"
 
 msgid "Unbind related entries"
 msgstr "Séparer les entrées liées"
-
-msgid "Uncategorized"
-msgstr "Sans catégorie"
 
 msgid "Unfinished events"
 msgstr "Événements non terminés"
@@ -588,9 +567,6 @@ msgstr "longitude :"
 msgid "next event"
 msgstr "Événement suivant"
 
-msgid "of"
-msgstr "de"
-
 msgid "one day"
 msgstr "un jour"
 
@@ -615,9 +591,6 @@ msgstr "route"
 msgid "satellite"
 msgstr "satellite"
 
-msgid "scheduled"
-msgstr "programmé"
-
 msgid "terrain"
 msgstr "terrain"
 
@@ -634,3 +607,10 @@ msgid "to the selected event"
 msgid_plural "to the selected events"
 msgstr[0] "à l'événement sélectionné"
 msgstr[1] "aux événements sélectionnés"
+
+msgid "Zoom for that map:"
+msgstr "Zoom pour cette carte : "
+
+#, php-format
+msgid "If empty, defaut zoom (%d) will be used"
+msgstr "Si le champ est vide, alors la valeur par défaut (%d) sera utilisée"

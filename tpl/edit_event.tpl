@@ -1,7 +1,9 @@
 <html>
   <head>
     <title><?php echo __('Event handler'), ' - ', $page_title;?></title>
+    <?php if ($map_provider=='googlemaps'):?>
     <script type="text/javascript" src = "http://maps.google.com/maps/api/js?sensor=false"></script>
+    <?php endif;?>
     <?php
        echo
        dcPage::jsDatePicker().
@@ -11,7 +13,7 @@
        $admin_post_behavior.
        dcPage::jsLoad('js/_post.js').
        dcPage::jsLoad('index.php?pf=eventHandler/js/event.js').
-       dcPage::jsLoad('index.php?pf=eventHandler/js/event-admin-map.js').
+       dcPage::jsLoad('index.php?pf=eventHandler/js/'.$map_provider.'/event-admin-map.js').
        dcPage::jsConfirmClose('entry-form','comment-form').
        # --BEHAVIOR-- adminEventHandlerHeaders
        $core->callBehavior('adminEventHandlerHeaders').
@@ -116,7 +118,8 @@
 		</p>
 	      </div>
 	      <div class="col">
-		<p class="datepicker"><label class="required"><?php echo __('End date:');?>
+		<p class="datepicker">
+		  <label class="required"><?php echo __('End date:');?>
 		    <?php echo form::field('event_enddt',16,16,$event_enddt,'datepicker',2);?>
 		  </label>
 		</p>
@@ -124,7 +127,8 @@
 	    </div>
 	    <p id="event-area-title"><?php echo __('Localization');?></p>
 	    <div id="event-area-content">
-	      <p><label><?php echo __('Address:');?>
+	      <p>
+		<label><?php echo __('Address:');?>
 		  <?php echo form::field('event_address',10,255,html::escapeHTML($event_address),'maximal',6);?>
 		</label>
 	      </p>
@@ -132,16 +136,23 @@
 	      <div class="fieldset">
 		<h3><?php echo __('Maps');?></h3>
 		<p class="info"><?php echo __('If you want to use maps, you must enter an address as precise as possible (number, street, city, country)');?></p>
-		<p><a id="event-map-link" href="#"><?php echo __('Find coordinates on googleMap');?></a></p>
-
-		    <p><label><?php echo __('Latitude:');?>
-			<?php echo form::field('event_latitude',30,16,$event_latitude,'',6);?>
-		      </label>
-		    </p>
-		    <p><label><?php echo __('Longitude:');?>
-			<?php echo form::field('event_longitude',30,16,$event_longitude,'',6);?>
-		      </label>
-		    </p>
+		<p><a id="event-map-link" href="#"><?php echo __('Find coordinates from address');?></a></p>
+		<p>
+		  <label><?php echo __('Latitude:');?>
+		    <?php echo form::field('event_latitude',30,16,$event_latitude,'',6);?>
+		  </label>
+		</p>
+		<p>
+		  <label><?php echo __('Longitude:');?>
+		    <?php echo form::field('event_longitude',30,16,$event_longitude,'',6);?>
+		  </label>
+		</p>
+		<p>
+		  <label><?php echo __('Zoom for that map:');?>
+		    <?php echo form::field('event_zoom',30,16,$event_zoom,'',6);?>
+		  </label>
+		</p>
+		<p class="form-note"><?php echo sprintf(__('If empty, defaut zoom (%d) will be used'), $events_default_zoom);?></p>
 	      </div>
 	    </div>
 		<?php

@@ -651,6 +651,11 @@ class tplEventHandler
 		return self::tplValue($a,'$_ctx->posts->event_longitude');
 	}
 
+    # Zoom
+	public static function EventsEntryZoom($a) {
+		return self::tplValue($a,'$_ctx->posts->event_zoom');
+	}
+
 	# Duration
 	public static function EventsEntryDuration($a) {
 		$format = !empty($a['format']) ? addslashes($a['format']) : '';
@@ -690,11 +695,15 @@ class tplEventHandler
 
 	# Map
 	public static function EventsEntryMap($attr) {
-		$map_zoom = !empty($attr['map_zoom']) ? abs((integer) $attr['map_zoom']) : '$core->blog->settings->eventHandler->public_map_zoom';
+        if (!empty($attr['map_zoom'])) {
+            $map_zoom =  abs((integer) $attr['map_zoom']);
+        } else {
+            $map_zoom =  '($_ctx->posts->event_zoom)?$_ctx->posts->event_zoom:$core->blog->settings->eventHandler->public_map_zoom';
+        }
 		$map_type = !empty($attr['map_type']) ? '"'.html::escapeHTML($attr['map_type']).'"' : '$core->blog->settings->eventHandler->public_map_type';
 		$map_info = isset($attr['map_info']) && $attr['map_info'] == '0' ? '0' : '1';
 
-		return '<?php echo eventHandler::getGmapContent("","",'.$map_type.','.$map_zoom.','.$map_info.',$_ctx->posts->event_latitude,$_ctx->posts->event_longitude,$_ctx->posts->getGmapVEVENT()); ?>';
+		return '<?php echo eventHandler::getMapContent("","",'.$map_type.','.$map_zoom.','.$map_info.',$_ctx->posts->event_latitude,$_ctx->posts->event_longitude,$_ctx->posts->getMapVEvent()); ?>';
 	}
 
 	#

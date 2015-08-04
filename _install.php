@@ -32,12 +32,13 @@ try {
 	# Database schema
 	$t = new dbStruct($core->con,$core->prefix);
 	$t->eventhandler
-		->post_id ('bigint',0,false)
-		->event_startdt ('timestamp',0,false,'now()')
-		->event_enddt ('timestamp',0,false,'now()')
+		->post_id('bigint',0,false)
+		->event_startdt('timestamp',0,false,'now()')
+		->event_enddt('timestamp',0,false,'now()')
 		->event_address('text','',true,null)
 		->event_latitude('varchar',25,true,null)
 		->event_longitude('varchar',25,true,null)
+		->event_zoom('integer',0,true,null)
 
 		->index('idx_event_post_id','btree','post_id')
 		->index('idx_event_event_start','btree','event_startdt')
@@ -63,6 +64,8 @@ try {
 	$s->put('public_map_zoom',9,'integer','Default zoom of map',false,true);
 	$s->put('public_map_type','ROADMAP','string','Default type of map',false,true);
 	$s->put('public_extra_css',$extra_css,'string','Custom CSS',false,true);
+	$s->put('map_provider','googlemaps','string','Map provider',false,true);
+	$s->put('map_tile_layer','http://{s}.tile.osm.org/{z}/{x}/{y}.png','string','Tile Layer for OSM',false,true);
 
 	# Set version
 	$core->setVersion('eventHandler',$new_version);

@@ -45,6 +45,7 @@ $event_enddt = '';
 $event_address = '';
 $event_latitude = '';
 $event_longitude = '';
+$event_zoom = '';
 
 $page_title = __('New event');
 
@@ -56,6 +57,10 @@ $can_delete = false;
 $post_headlink = '<link rel="%s" title="%s" href="'.$p_url.'&amp;part=event&amp;id=%s" />';
 $post_link = '<a href="'.$p_url.'&amp;part=event&amp;id=%s" title="%s">%s</a>';
 $next_link = $prev_link = $next_headlink = $prev_headlink = null;
+
+# settings
+$events_default_zoom = $core->blog->settings->eventHandler->public_map_zoom;
+$map_provider = $core->blog->settings->eventHandler->map_provider?$core->blog->settings->eventHandler->map_provider:'googlemaps';
 
 $preview_url = '';
 
@@ -165,6 +170,7 @@ if (isset($post)) {
 		$event_address = $post->event_address;
 		$event_latitude = $post->event_latitude;
 		$event_longitude = $post->event_longitude;
+		$event_zoom = $post->event_zoom;
 
 		$page_title = __('Edit event');
 
@@ -247,6 +253,7 @@ if (!empty($_POST) && $can_edit_post) {
 	$event_address = $_POST['event_address'];
 	$event_latitude = $_POST['event_latitude'];
 	$event_longitude = $_POST['event_longitude'];
+	$event_zoom = $_POST['event_zoom'];
 }
 
 # Create or update post
@@ -280,6 +287,7 @@ if (!empty($_POST) && !empty($_POST['save']) && $can_edit_post) {
 	$cur_event->event_address = $event_address;
 	$cur_event->event_latitude = $event_latitude;
 	$cur_event->event_longitude = $event_longitude;
+	$cur_event->event_zoom = $event_zoom;
 
 	# Update post
 	if ($post_id) {

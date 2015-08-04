@@ -253,17 +253,17 @@ class rsExtEventHandlerPublic extends rsExtPost
 		return $res;
 	}
 
-	public static function getGmapVEVENT($rs)
+	public static function getMapVEvent($rs)
 	{
 		return
-		'<div style="display:none;" class="event-gmap-marker">'.
-		'<p class="event-gmap-marker-latitude">'.$rs->event_latitude.'</p>'.
-		'<p class="event-gmap-marker-longitude">'.$rs->event_longitude.'</p>'.
-		'<p class="event-gmap-marker-title">'.html::escapeHTML($rs->post_title).'</p>'.
-		'<p class="event-gmap-marker-startdt" title="'.html::escapeHTML($rs->getEventDate("","startdt").", ".$rs->getEventTime("","startdt")).'">'.$rs->event_startdt.'</p>'.
-		'<p class="event-gmap-marker-enddt" title="'.html::escapeHTML($rs->getEventDate("","enddt").", ".$rs->getEventTime("","enddt")).'">'.$rs->event_enddt.'</p>'.
-		'<p class="event-gmap-marker-address">'.html::escapeHTML($rs->event_address).'</p>'.
-		'<p class="event-gmap-marker-link">'.$rs->getURL().'</p>'.
-		'</div>';
+            '<div style="display:none;" class="event-map-marker">'."\n".
+            '<p class="event-map-marker-latitude">'.$rs->event_latitude.'</p>'."\n".
+            '<p class="event-map-marker-longitude">'.$rs->event_longitude.'</p>'."\n".
+            '<p class="event-map-marker-title">'.html::escapeHTML($rs->post_title).'</p>'."\n".
+            '<p class="event-map-marker-startdt" title="'.html::escapeHTML($rs->getEventDate("","startdt").", ".$rs->getEventTime("","startdt")).'">'.$rs->event_startdt.'</p>'."\n".
+            '<p class="event-map-marker-enddt" title="'.html::escapeHTML($rs->getEventDate("","enddt").", ".$rs->getEventTime("","enddt")).'">'.$rs->event_enddt.'</p>'."\n".
+            '<p class="event-map-marker-address">'.html::escapeHTML($rs->event_address).'</p>'."\n".
+            '<p class="event-map-marker-link">'.$rs->getURL().'</p>'."\n".
+            '</div>';
 	}
 }

@@ -14,7 +14,6 @@
  * -- END LICENSE BLOCK ------------------------------------*/
 
 ;if(window.jQuery) (function($) {
-
 	$.fn.eventHandlerCalendar = function(options) {
 
 		var opts = $.extend({}, $.fn.eventHandlerCalendar.defaults, options);
@@ -25,7 +24,6 @@
 	};
 
 	function eventHandlerForm(target,service_url,service_func,blog_uid,msg_wait) {
-
 		var prev = $(target).find('a.prev');
 		var next = $(target).find('a.next');
 
