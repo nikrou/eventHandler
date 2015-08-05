@@ -614,3 +614,12 @@ msgstr "Zoom pour cette carte : "
 #, php-format
 msgid "If empty, defaut zoom (%d) will be used"
 msgstr "Si le champ est vide, alors la valeur par défaut (%d) sera utilisée"
+
+msgid "scheduled"
+msgstr "programmé"
+
+msgid "Scheduled"
+msgstr "Programmé"
+
+msgid "All"
+msgstr "Tous"

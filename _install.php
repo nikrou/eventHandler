@@ -38,7 +38,7 @@ try {
 		->event_address('text','',true,null)
 		->event_latitude('varchar',25,true,null)
 		->event_longitude('varchar',25,true,null)
-		->event_zoom('integer',0,true,null)
+		->event_zoom('integer',0,true,0)
 
 		->index('idx_event_post_id','btree','post_id')
 		->index('idx_event_event_start','btree','event_startdt')

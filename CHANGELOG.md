@@ -1,3 +1,7 @@
+plugin eventHandler 2015-08-05
+==============================
+* Fix issue with preview
+
 plugin eventHandler 2015-08-04
 ==============================
 * Allow admin to choose betwween googleMaps and OpenStreetMap to display maps.

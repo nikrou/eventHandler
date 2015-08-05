@@ -45,7 +45,7 @@ $event_enddt = '';
 $event_address = '';
 $event_latitude = '';
 $event_longitude = '';
-$event_zoom = '';
+$event_zoom = 0;
 
 $page_title = __('New event');
 
@@ -89,17 +89,17 @@ foreach ($core->blog->getAllPostStatus() as $k => $v) {
 
 # Formaters combo
 if (version_compare(DC_VERSION, '2.7', '>=')) {
-    $core_formaters = $core->getFormaters();
-    $available_formats = array('' => '');
-    foreach ($core_formaters as $editor => $formats) {
-        foreach ($formats as $format) {
-            $available_formats[$format] = $format;
-        }
-    }
+	$core_formaters = $core->getFormaters();
+	$available_formats = array('' => '');
+	foreach ($core_formaters as $editor => $formats) {
+		foreach ($formats as $format) {
+			$available_formats[$format] = $format;
+		}
+	}
 } else {
-    foreach ($core->getFormaters() as $v) {
-        $available_formats[$v] = $v;
-    }
+	foreach ($core->getFormaters() as $v) {
+		$available_formats[$v] = $v;
+	}
 }
 
 # Languages combo
@@ -253,7 +253,7 @@ if (!empty($_POST) && $can_edit_post) {
 	$event_address = $_POST['event_address'];
 	$event_latitude = $_POST['event_latitude'];
 	$event_longitude = $_POST['event_longitude'];
-	$event_zoom = $_POST['event_zoom'];
+	$event_zoom = (int) $_POST['event_zoom'];
 }
 
 # Create or update post
@@ -293,14 +293,14 @@ if (!empty($_POST) && !empty($_POST['save']) && $can_edit_post) {
 	if ($post_id) {
 		try {
 			# --BEHAVIOR-- adminBeforeEventHandlerUpdate
-            $core->callBehavior('adminBeforeEventHandlerUpdate',$cur_post,$cur_event,$post_id);
+			$core->callBehavior('adminBeforeEventHandlerUpdate',$cur_post,$cur_event,$post_id);
 
 			$eventHandler->updEvent($post_id,$cur_post,$cur_event);
 
 			# --BEHAVIOR-- adminAfterEventHandlerUpdate
-            $core->callBehavior('adminAfterEventHandlerUpdate',$cur_post,$cur_event,$post_id);
+			$core->callBehavior('adminAfterEventHandlerUpdate',$cur_post,$cur_event,$post_id);
 
-            dcPage::addSuccessNotice(__('Event has been updated.'));
+			dcPage::addSuccessNotice(__('Event has been updated.'));
 			http::redirect($p_url.'&part=event&id='.$post_id);
 		} catch (Exception $e) {
 			$core->error->add($e->getMessage());
@@ -317,21 +317,22 @@ if (!empty($_POST) && !empty($_POST['save']) && $can_edit_post) {
 			# --BEHAVIOR-- adminAfterEventHandlerCreate
 			$core->callBehavior('adminAfterEventHandlerCreate',$cur_post,$cur_event,$return_id);
 
-            dcPage::addSuccessNotice(__('Event has been created.'));
+			dcPage::addSuccessNotice(__('Event has been created.'));
 			http::redirect($p_url.'&part=event&id='.$return_id);
 		} catch (Exception $e) {
 			$core->error->add($e->getMessage());
 		}
 	}
+}
 
-    if ($post_id && $post_status==1) {
-        $preview_url = $post->getURL();
-    } else {
-        $preview_url = $core->blog->url.$core->url->getBase('preview').'/';
-        $preview_url .= $core->auth->userID().'/';
-        $preview_url .=http::browserUID(DC_MASTER_KEY.$core->auth->userID().$core->auth->getInfo('user_pwd'));
-        $preview_url .= '/'.$post->post_url;
-    }
+if ($post_id) {
+	$preview_url = $core->blog->url.
+		$core->url->getURLFor(
+			'eventhandler_preview',
+			$core->auth->userID().'/'.
+			http::browserUID(DC_MASTER_KEY.$core->auth->userID().$core->auth->getInfo('user_pwd')).
+			'/'.$post->post_url
+		);
 }
 
 if (!empty($_POST['delete']) && $can_delete) {
@@ -349,7 +350,7 @@ if (!empty($_POST['delete']) && $can_delete) {
 # Get bind entries
 if ($post_id && !$change) {
 	$page = !empty($_GET['page']) ? (integer) $_GET['page'] : 1;
-	$nb_per_page =  30;
+	$nb_per_page =	30;
 
 	if (!empty($_GET['nb']) && (integer) $_GET['nb'] > 0) {
 		$nb_per_page = (integer) $_GET['nb'];
@@ -383,17 +384,17 @@ if (!empty($_GET['tab'])) {
 $admin_post_behavior = '';
 if ($post_editor && !empty($post_editor[$post_format])) {
 	$admin_post_behavior = $core->callBehavior('adminPostEditor', $post_editor[$post_format],
-                                               'event', array('#post_content', '#post_excerpt')
-    );
+											   'event', array('#post_content', '#post_excerpt')
+	);
 }
 
 # XHTML conversion
 if (!empty($_GET['xconv'])) {
-    $post_excerpt = $post_excerpt_xhtml;
-    $post_content = $post_content_xhtml;
-    $post_format = 'xhtml';
+	$post_excerpt = $post_excerpt_xhtml;
+	$post_content = $post_content_xhtml;
+	$post_format = 'xhtml';
 
-    $message = __('Don\'t forget to validate your XHTML conversion by saving your post.');
+	$message = __('Don\'t forget to validate your XHTML conversion by saving your post.');
 }
 
 # --BEHAVIOR-- adminEventHandlerBeforeEventTpl - to use a custom tpl e.g.
