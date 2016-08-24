@@ -219,7 +219,6 @@ class eventHandler
 			throw new Exception(__('You are not allowed to create an event'));
 		}
 
-		$this->con->begin();
 		$this->con->writeLock($this->table);
 		try {
 			# Clean cursor
@@ -237,7 +236,6 @@ class eventHandler
 			$this->con->unlock();
 		} catch (Exception $e) {
 			$this->con->unlock();
-			$this->con->rollback();
 			throw $e;
 		}
 		$this->con->commit();
