@@ -219,7 +219,6 @@ class eventHandler
 			throw new Exception(__('You are not allowed to create an event'));
 		}
 
-		$this->con->writeLock($this->table);
 		try {
 			# Clean cursor
 			$this->getEventCursor(null,$cur_post,$cur_event);
@@ -232,13 +231,10 @@ class eventHandler
 
 			# Create second part of event record
 			$cur_event->insert();
-
-			$this->con->unlock();
 		} catch (Exception $e) {
-			$this->con->unlock();
+			$this->con->rollback();
 			throw $e;
 		}
-		$this->con->commit();
 
 		# --BEHAVIOR-- coreEventHandlerAfterEventAdd
 		$this->core->callBehavior("coreEventHandlerAfterEventAdd",$this,$cur_event->post_id,$cur_post,$cur_event);
