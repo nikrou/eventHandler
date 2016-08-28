@@ -98,20 +98,23 @@ class eventHandler
 			}
 			$now = date('Y-m-d H:i:s');
 
+			# sqlite does not understand the TIMESTAMP function but understands the 'Y-m-d H:i:s' format just fine
+			$timestamp = $this->con->driver() == 'sqlite' ? "" : " TIMESTAMP";
+
 			$params['sql'] .= $op[0] != '!' && $op[1] != '!' ? 'AND (' : 'AND ';
 
 			if (!empty($params['event_startdt']) && $op[0] != '!') {
-				$params['sql'] .= "EH.event_startdt ".$op[0]." TIMESTAMP '".$this->con->escape($params['event_startdt'])."'";
+				$params['sql'] .= "EH.event_startdt ".$op[0].$timestamp." '".$this->con->escape($params['event_startdt'])."'";
 			} elseif (empty($params['event_startdt']) && $op[0] != '!') {
-				$params['sql'] .= "EH.event_startdt ".$op[0]." TIMESTAMP '".$now."'";
+				$params['sql'] .= "EH.event_startdt ".$op[0].$timestamp." '".$now."'";
 			}
 
 			$params['sql'] .= $op[0] != '!' && $op[1] != '!' ? ' '.$op[2].' ' : '';
 
 			if (!empty($params['event_enddt']) && $op[1] != '!') {
-				$params['sql'] .= "EH.event_enddt ".$op[1]." TIMESTAMP '".$this->con->escape($params['event_enddt'])."'";
+				$params['sql'] .= "EH.event_enddt ".$op[1].$timestamp." '".$this->con->escape($params['event_enddt'])."'";
 			} elseif (empty($params['event_enddt']) && $op[1] != '!') {
-				$params['sql'] .= "EH.event_enddt ".$op[1]." TIMESTAMP '".$now."'";
+				$params['sql'] .= "EH.event_enddt ".$op[1].$timestamp." '".$now."'";
 			}
 
 			$params['sql'] .= $op[0] != '!' && $op[1] != '!' ? ') ' : ' ';
