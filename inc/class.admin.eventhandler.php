@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2016 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
@@ -33,6 +33,27 @@ class adminEventHandler
 			'usage,contentadmin',null,null
 		));
 	}
+
+    public static function adminPageHTTPHeaderCSP($csp) {
+		global $core;
+
+        if ($core->blog->settings->eventHandler->map_provider==='googlemaps') {
+            $host_map_provider = 'maps.google.com';
+        } else { // osm
+            $host_map_provider = 'nominatim.openstreetmap.org';
+        }
+
+        if (isset($csp['script-src'])) {
+            $csp['script-src'] .= ' ' . $host_map_provider;
+        } else {
+            $csp['script-src'] = $host_map_provider;
+        }
+        if (isset($csp['connect-src'])) {
+            $csp['connect-src'] .= ' ' . $host_map_provider;
+        } else {
+            $csp['connect-src'] = $host_map_provider;
+        }
+    }
 
 	# post.php
 	# Headers, jQuery features to remove events from a post
@@ -241,6 +262,8 @@ class adminEventHandler
 	# post.php
 	# This delete relation between this post and ckecked related event (without javascript)
 	public static function adminAfterPostSave($cur, $post_id) {
+		global $core;
+
 		if (!$post_id) {
             return;
         }
@@ -249,7 +272,6 @@ class adminEventHandler
             return;
         }
 
-		global $core;
 
 		try {
 			foreach($_POST['eventhandler_events'] as $event_id) {

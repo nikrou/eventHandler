@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2016 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -38,6 +38,7 @@ $core->addBehavior('adminDashboardFavs', array('adminEventHandler', 'adminDashbo
 
 # Admin behaviors
 if ($core->blog->settings->eventHandler->active) {
+    $core->addBehavior('adminPageHTTPHeaderCSP', array('adminEventHandler', 'adminPageHTTPHeaderCSP'));
 	$core->addBehavior('adminPostHeaders', array('adminEventHandler', 'adminPostHeaders'));
 	$core->addBehavior('adminPostsActionsCombo', array('adminEventHandler', 'adminPostsActionsCombo'));
 	$core->addBehavior('adminPostsActionsPage', array('adminEventHandler', 'adminPostsActionsPage'));

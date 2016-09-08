@@ -1,3 +1,9 @@
+plugin eventHandler 2016-09-08
+==============================
+* Avoid lock in db transaction because of SQLite. Thanks to @scolin
+* Fix a bug cause by the lack of TIMESTAMP function in sqlite. Thanks to @scolin.
+* Fixes #7 : deals with CSP policy. Add related csp header. Thanks to @franck-tomek for report.
+
 plugin eventHandler 2015-08-05
 ==============================
 * Fix issue with preview
