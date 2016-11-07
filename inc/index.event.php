@@ -61,6 +61,7 @@ $next_link = $prev_link = $next_headlink = $prev_headlink = null;
 # settings
 $events_default_zoom = $core->blog->settings->eventHandler->public_map_zoom;
 $map_provider = $core->blog->settings->eventHandler->map_provider?$core->blog->settings->eventHandler->map_provider:'googlemaps';
+$map_api_key = $core->blog->settings->eventHandler->map_api_key;
 
 $preview_url = '';
 

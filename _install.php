@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2016 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -66,6 +66,7 @@ try {
 	$s->put('public_extra_css',$extra_css,'string','Custom CSS',false,true);
 	$s->put('map_provider','googlemaps','string','Map provider',false,true);
 	$s->put('map_tile_layer','http://{s}.tile.osm.org/{z}/{x}/{y}.png','string','Tile Layer for OSM',false,true);
+	$s->put('map_api_key','','string','Map API Key',false,true);
 
 	# Set version
 	$core->setVersion('eventHandler',$new_version);

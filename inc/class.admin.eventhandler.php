@@ -38,7 +38,12 @@ class adminEventHandler
 		global $core;
 
         if ($core->blog->settings->eventHandler->map_provider==='googlemaps') {
-            $host_map_provider = 'maps.google.com';
+            $host_map_provider = 'csi.gstatic.com maps.google.com maps.googleapis.com';
+            if (isset($csp['img-src'])) {
+                $csp['img-src'] .= ' csi.gstatic.com';
+            } else {
+                $csp['img-src'] = 'csi.gstatic.com';
+            }
         } else { // osm
             $host_map_provider = 'nominatim.openstreetmap.org';
         }

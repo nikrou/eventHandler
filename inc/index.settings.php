@@ -34,6 +34,7 @@ $public_map_type = (string) $s->public_map_type;
 $public_extra_css = (string) $s->public_extra_css;
 
 $map_provider = $s->map_provider;
+$map_api_key = $s->map_api_key;
 $map_tile_layer = $s->map_tile_layer;
 
 # Combos
@@ -128,6 +129,9 @@ if ($action == 'savesettings') {
 		if (!empty($_POST['map_tile_layer'])) {
 			$map_tile_layer = $_POST['map_tile_layer'];
 		}
+		if (!empty($_POST['map_api_key'])) {
+			$map_api_key = $_POST['map_api_key'];
+		}
 
 		$s->put('active', $active, 'boolean');
 		$s->put('public_posts_of_event_place', $public_posts_of_event_place, 'string');
@@ -140,6 +144,7 @@ if ($action == 'savesettings') {
 		$s->put('public_extra_css', $public_extra_css, 'string');
 		$s->put('map_provider', $map_provider, 'string');
 		$s->put('map_tile_layer', $map_tile_layer, 'string');
+		$s->put('map_api_key', $map_api_key, 'string');
 
 		# --BEHAVIOR-- adminEventHandlerSettingsSave
 		$core->callBehavior("adminEventHandlerSettingsSave");

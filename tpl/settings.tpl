@@ -80,6 +80,13 @@
 	    <label><?php echo __('Map provider:');?></label>
 	    <?php echo form::combo('map_provider',$combo_map_provider,$map_provider);?>
 	  </p>
+	  <p class="map-api-key">
+	    <label><?php echo __('API Key:');?></label>
+	    <?php echo form::field(array('map_api_key'),100,255,$map_api_key);?>
+	  </p>
+	  <p class="map-api-key form-note">
+	    <?php echo __('URL to create API Key:');?><a href="https://console.developers.google.com/">https://console.developers.google.com/</a>
+	  </p>
 	  <p class="map-tile-layer">
 	    <label><?php echo __('Map tile layer:');?></label>
 	    <?php echo form::field(array('map_tile_layer'),100,255,$map_tile_layer);?>

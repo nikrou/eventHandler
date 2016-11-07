@@ -1,3 +1,7 @@
+plugin eventHandler 2016-11-07
+==============================
+* Add API Key to allow request to googlemaps API.
+
 plugin eventHandler 2016-09-08
 ==============================
 * Avoid lock in db transaction because of SQLite. Thanks to @scolin

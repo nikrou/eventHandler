@@ -2,7 +2,7 @@
   <head>
     <title><?php echo __('Event handler'), ' - ', $page_title;?></title>
     <?php if ($map_provider=='googlemaps'):?>
-    <script type="text/javascript" src = "http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script async defer type="text/javascript" src="//maps.google.com/maps/api/js?key=<?php echo $map_api_key;?>"></script>
     <?php endif;?>
     <?php
        echo

@@ -319,6 +319,12 @@ msgstr "Fournisseur de cartes"
 msgid "Map tile layer:"
 msgstr "Format d'URL d'accès aux tuiles"
 
+msgid "API Key:"
+msgstr "Clé d'API"
+
+msgid "URL to create API Key:"
+msgstr "URL pour créer la clé d'API : "
+
 msgid "Maps"
 msgstr "Cartes"
 
