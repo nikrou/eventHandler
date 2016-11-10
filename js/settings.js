@@ -15,21 +15,23 @@
  * -- END LICENSE BLOCK ------------------------------------*/
 
 $(function() {
-	$(window).bind('hashchange onhashchange', function (e) {
-	    $("input[name='section']").val('#'+$.pageTabs.getLocationHash());
-	});
+    $(window).bind('hashchange onhashchange', function (e) {
+	$("input[name='section']").val('#'+$.pageTabs.getLocationHash());
+    });
 
     var $map_provider = $('#map_provider'), $map_tile_layer = $('.map-tile-layer'), $map_api_key = $('.map-api-key');
-	if ($map_provider.val()!=='osm') {
+    if ($map_provider.val()==='osm') {
+	$map_api_key.hide();
+    } else {
+	$map_tile_layer.hide();
+    }
+    $map_provider.change(function() {
+	if ($(this).val()=='osm') {
+	    $map_tile_layer.show();
+	    $map_api_key.hide();
+	} else {
 	    $map_tile_layer.hide();
+	    $map_api_key.show();
 	}
-	$map_provider.change(function() {
-	    if ($(this).val()=='osm') {
-		$map_tile_layer.show();
-		$map_api_key.hide();
-	    } else {
-		$map_tile_layer.hide();
-		$map_api_key.show();
-	    }
-	});
+    });
 });

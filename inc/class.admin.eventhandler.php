@@ -44,19 +44,32 @@ class adminEventHandler
             } else {
                 $csp['img-src'] = 'csi.gstatic.com';
             }
+
+            if (isset($csp['img-src'])) {
+                $csp['img-src'] .= ' *.google.com *.gstatic.com *.googleapis.com';
+            } else {
+                $csp['img-src'] = '*.google.com *.gstatic.com *.googleapis.com';
+            }
+
+            if (isset($csp['script-src'])) {
+                $csp['script-src'] .= ' ' . $host_map_provider;
+            } else {
+                $csp['script-src'] = $host_map_provider;
+            }
         } else { // osm
             $host_map_provider = 'nominatim.openstreetmap.org';
+
+            if (isset($csp['img-src'])) {
+                $csp['img-src'] .= ' tile.openstreetmap.org';
+            } else {
+                $csp['img-src'] = 'tile.openstreetmap.org';
+            }
         }
 
-        if (isset($csp['script-src'])) {
-            $csp['script-src'] .= ' ' . $host_map_provider;
-        } else {
-            $csp['script-src'] = $host_map_provider;
-        }
         if (isset($csp['connect-src'])) {
             $csp['connect-src'] .= ' ' . $host_map_provider;
         } else {
-            $csp['connect-src'] = $host_map_provider;
+            $csp['connect-src'] = $csp['default-src'] . ' ' . $host_map_provider;
         }
     }
 

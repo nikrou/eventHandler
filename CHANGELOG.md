@@ -1,3 +1,8 @@
+plugin eventHandler 2016-11-10
+==============================
+* Fix issue with CSP (for maps)
+* Fix issue #35 (CSP for tags).
+
 plugin eventHandler 2016-11-07
 ==============================
 * Add API Key to allow request to googlemaps API.
