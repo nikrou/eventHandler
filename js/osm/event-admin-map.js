@@ -2,7 +2,7 @@
  *
  * This file is part of eventHandler, a plugin for Dotclear 2.
  *
- * Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+ * Copyright(c) 2014-2017 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  * Licensed under the GPL version 2.0 license.
  * A copy of this license is available in LICENSE file or at
@@ -17,7 +17,7 @@ $(function() {
 			return false;
 		}
 
-		var geocode = 'http://nominatim.openstreetmap.org/search.php?format=json&addressdetails=1&limit=5&q=' + encodeURIComponent(address);
+		var geocode = 'https://nominatim.openstreetmap.org/search.php?format=json&addressdetails=1&limit=5&q=' + encodeURIComponent(address);
 
 		// use jQuery to call the API and get the JSON results
 		try {

@@ -2,7 +2,7 @@
  *
  * This file is part of eventHandler, a plugin for Dotclear 2.
  *
- * Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+ * Copyright(c) 2014-2017 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  * Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  * contact@jcdenis.fr http://jcd.lv
@@ -16,7 +16,7 @@
 $(function(){
 	var script = document.createElement("script");
 	script.type = "text/javascript";
-	script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=eventMapInit";
+	script.src = "https://maps.google.com/maps/api/js?sensor=false&callback=eventMapInit";
 	document.body.appendChild(script);
 });
 

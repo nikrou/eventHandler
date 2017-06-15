@@ -1,3 +1,7 @@
+plugin eventHandler 2017-06-15
+==============================
+* Fix issue #37. The same protocol (https) must be used. Thanks to @franck-tomek for report.
+
 plugin eventHandler 2016-11-10
 ==============================
 * Fix issue with CSP (for maps)
