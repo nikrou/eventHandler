@@ -319,6 +319,23 @@ class tplEventHandler
 		}
 	}
 
+    public static function EventsCount($attr, $content) {
+		global $core;
+
+        $if = '';
+
+		if (isset($attr['value'])) {
+            $sign = (boolean) $attr['value'] ? '>' : '==';
+			$if = '$_ctx->nb_posts '.$sign.' 0';
+		}
+
+        if ($if) {
+			return '<?php if('.$if.') : ?>'.$content.'<?php endif; ?>';
+		} else {
+			return $content;
+		}
+    }
+
 	#
 	# Entries (on events page)
 	#
@@ -443,6 +460,7 @@ class tplEventHandler
             $p.
             '$_ctx->post_params = $params; '."\n".
             '$_ctx->posts = $eventHandler->getEvents($params); unset($params); '."\n".
+            '$_ctx->nb_posts = count($_ctx->posts); '."\n".
             "?>\n".
             '<?php while ($_ctx->posts->fetch()) : ?>'.$content.'<?php endwhile; '.
             '$_ctx->posts = null; $_ctx->post_params = null; ?>';

@@ -46,6 +46,7 @@ $core->tpl->addValue('EventsURL',array('tplEventHandler','EventsURL'));
 $core->tpl->addValue('EventsPeriod',array('tplEventHandler','EventsPeriod'));
 $core->tpl->addValue('EventsInterval',array('tplEventHandler','EventsInterval'));
 
+$core->tpl->addBlock('EventsCount',array('tplEventHandler','EventsCount'));
 $core->tpl->addBlock('EventsEntries',array('tplEventHandler','EventsEntries'));
 $core->tpl->addBlock('EventsPagination',array('tplEventHandler','EventsPagination'));
 $core->tpl->addBlock('EventsEntryIf',array('tplEventHandler','EventsEntryIf'));
