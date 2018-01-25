@@ -1,3 +1,8 @@
+plugin eventHandler 2018-01-25
+==============================
+* Fix issue #38. entry content is now wrap in #entry-wrapper
+* Add new template tag (EventsCount) to display special message when there's no events
+
 plugin eventHandler 2017-06-15
 ==============================
 * Fix issue #37. The same protocol (https) must be used. Thanks to @franck-tomek for report.

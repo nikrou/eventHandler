@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2017 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+# Copyright(c) 2014-2018 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -20,7 +20,7 @@ $this->registerModule(
 	/* Name */			"EventHandler",
 	/* Description*/	"Manage events on your blog",
 	/* Author */		"JC Denis, Nicolas Roudaire",
-	/* Version */		'2017.06.15',
+	/* Version */		'2018.01.25',
 	/* Properties */
 	array(
 		'permissions' => 'usage,contentadmin',
