@@ -1,3 +1,8 @@
+plugin eventHandler 2019-02-22
+==============================
+* Fix issue #40. Navigation in widget of events works only for first click.
+  Thanks to @onurb-taktile for report
+
 plugin eventHandler 2018-01-25
 ==============================
 * Fix issue #38. entry content is now wrap in #entry-wrapper

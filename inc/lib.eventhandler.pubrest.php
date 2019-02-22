@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2019 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -53,7 +53,7 @@ class eventHandlerPublicRest
 
 			$calendar = eventHandlerCalendar::getArray($year,$month,$weekstart);
 
-			$table = eventHandlerCalendar::parseArray($calendar,$weekstart,$startonly);
+			$table = eventHandlerCalendar::parseArray($calendar,$weekstart,$startonly,$rest=true);
 
 		}
 		catch (Exception $e) {

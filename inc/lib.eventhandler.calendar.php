@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2019 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -110,7 +110,7 @@ class eventHandlerCalendar
 	}
 
 	# Fill calendar
-	public static function parseArray($calendar,$weekstart,$startonly)
+	public static function parseArray($calendar,$weekstart,$startonly,$rest=false)
 	{
 		global $core;
 
@@ -120,7 +120,11 @@ class eventHandlerCalendar
 		$class = $weekstart ? ' weekstart' : '';
 		$class .= $startonly ? ' startonly' : '';
 
-		$res = "\n<div class=\"calendar-array".$class."\"><table summary=\"".__('Calendar')."\">\n";
+        $res = '';
+        if (!$rest) {
+            $res .= "\n<div class=\"calendar-array".$class."\">";
+        }
+        $res .= "<table summary=\"".__('Calendar')."\">\n";
 
 		# Caption
 		if ($calendar->caption)
@@ -204,7 +208,10 @@ class eventHandlerCalendar
 			}
 			$res .= " </tbody>\n";
 		}
-		$res .= "</table></div>\n";
+		$res .= "</table>";
+        if (!$rest) {
+            $res .= "</div>\n";
+        }
 
 		return $res;
 	}
