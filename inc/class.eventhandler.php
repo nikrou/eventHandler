@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2019 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -157,8 +157,11 @@ class eventHandler
 		$this->core->callBehavior('coreEventHandlerBeforeGetEvents',$this,array('params' => &$params));
 
 		$rs = $this->core->blog->getPosts($params,$count_only);
-		$rs->eventHandler = $this;
-		$rs->extend('rsExtEventHandlerPublic');
+
+        if (empty($params['sql_only'])) {
+            $rs->eventHandler = $this;
+            $rs->extend('rsExtEventHandlerPublic');
+        }
 
 		# --BEHAVIOR-- coreEventHandlerGetEvents
 		$this->core->callBehavior('coreEventHandlerGetEvents',$rs);

@@ -1,3 +1,8 @@
+plugin eventHandler 2019-02-24
+==============================
+* Fix issue #41. Allow sql_only params for getEvents like in core for getPosts()
+  Thanks to @onurb-taktile for report
+
 plugin eventHandler 2019-02-22
 ==============================
 * Fix issue #40. Navigation in widget of events works only for first click.
