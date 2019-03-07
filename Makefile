@@ -14,7 +14,7 @@ config: clean manifest
 dist: config
 	cd $(DIST); \
 	mkdir -p $(TARGET); \
-	zip -v -r9 $(TARGET)/$(PLUGIN_NAME)-$(VERSION).zip $(PLUGIN_NAME)/*; \
+	zip -v -r9 $(TARGET)/plugin-$(PLUGIN_NAME)-$(VERSION).zip $(PLUGIN_NAME)/*; \
 
 manifest:
 	@find ./ -type f|egrep -v '(*~|.git|.gitignore|.dist|vendor|target|modele|Makefile|rsync_exclude)'|sed -e 's/\.\///' -e 's/\(.*\)/$(PLUGIN_NAME)\/&/'> ./MANIFEST

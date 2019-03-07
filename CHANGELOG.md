@@ -1,3 +1,8 @@
+plugin eventHandler 2019-03-07
+==============================
+* Fix issue #42. Archibve plugin name must be prefix by plugin-
+  Thanks to Franck @franck-tomek for report.
+
 plugin eventHandler 2019-02-24
 ==============================
 * Fix issue #41. Allow sql_only params for getEvents like in core for getPosts()
