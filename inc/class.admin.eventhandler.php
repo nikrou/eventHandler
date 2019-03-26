@@ -77,7 +77,7 @@ class adminEventHandler
 	# Headers, jQuery features to remove events from a post
 	public static function adminPostHeaders() {
 		return
-		'<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/style.css" />'.
+		$this::adminCss().
 		dcPage::jsLoad('index.php?pf=eventHandler/js/post.js');
 	}
 
@@ -145,7 +145,7 @@ class adminEventHandler
 				);
 				$ap->redirect(true);
 			} else {
-				$ap->beginPage('','<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/style.css" />');
+				$ap->beginPage('',$this::adminCss());
 				echo '<h3>'.__('Select events to link to entries').'</h3>';
 				$eventHandler = new eventHandler($core);
 
@@ -321,4 +321,14 @@ class adminEventHandler
 			//$core->error->add($e->getMessage());
 		}
 	}
+        
+        # Returns the admin css according to the darkmode setting
+        public static function adminCss(){
+            global $core;
+            $style="style.css";
+            if($core->auth->user_prefs->interface->darkmode==1){
+                $style="dark-style.css";
+            }
+            return '<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/'.$style.'" />'."\n";
+        }
 }
