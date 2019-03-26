@@ -17,9 +17,9 @@
 	dcPage::jsConfirmClose('entry-form','comment-form').
 	# --BEHAVIOR-- adminEventHandlerHeaders
 	$core->callBehavior('adminEventHandlerHeaders').
-	dcPage::jsPageTabs($default_tab);
+	dcPage::jsPageTabs($default_tab).
+        $header;
 	?>
-	<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/style.css"/>
 	<?php echo $next_headlink."\n".$prev_headlink;?>
     </head>
     <body>

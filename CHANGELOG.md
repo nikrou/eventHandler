@@ -1,3 +1,10 @@
+plugin eventHandler 2019.03.26
+==============================
+* Issue : style.css color are not suitable for admin darkmode.
+  Sets an alternative admin css (dark-style.css) when darkmode is enabled
+  - adminEventHandler::adminCss() returns css link according to darkmode user setting
+  - all hardcoded references to css/style.css replaced
+
 plugin eventHandler 2019-03-07
 ==============================
 * Fix issue #42. Archibve plugin name must be prefix by plugin-

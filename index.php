@@ -36,7 +36,7 @@ $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'eventhandler';
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 # Common page header
-$header = '<link rel="stylesheet" type="text/css" href="index.php?pf=eventHandler/css/style.css" />';
+$header = adminEventHandler::adminCss();
 
 # Common page footer
 $footer = '<hr class="clear"/><p class="right">';
