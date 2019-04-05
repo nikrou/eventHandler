@@ -5,19 +5,20 @@ TARGET=../target
 
 config: clean manifest
 	mkdir -p $(DIST)/$(PLUGIN_NAME)
-	cp -pr _*.php BUGS CHANGELOG.md CONTRIBUTING.md LICENSE MANIFEST CHANGELOG.md TODO.md README.md \
+	cp -pr _*.php BUGS CHANGELOG.md CONTRIBUTING.md LICENSE MANIFEST TODO.md README.md \
 	css default-templates exemple-templates inc js locales tpl \
-	icon-b.png inco.png index.php $(DIST)/$(PLUGIN_NAME)/; \
+	icon-b.png icon.png index.php $(DIST)/$(PLUGIN_NAME)/
 	find $(DIST) -name '*~' -exec rm \{\} \;
-
 
 dist: config
 	cd $(DIST); \
 	mkdir -p $(TARGET); \
-	zip -v -r9 $(TARGET)/plugin-$(PLUGIN_NAME)-$(VERSION).zip $(PLUGIN_NAME)/*; \
+	rm -f $(TARGET)/plugin-$(PLUGIN_NAME)-$(VERSION).zip; \
+	zip -v -r9 $(TARGET)/plugin-$(PLUGIN_NAME)-$(VERSION).zip $(PLUGIN_NAME); \
+	cd ..
 
 manifest:
-	@find ./ -type f|egrep -v '(*~|.git|.gitignore|.dist|vendor|target|modele|Makefile|rsync_exclude)'|sed -e 's/\.\///' -e 's/\(.*\)/$(PLUGIN_NAME)\/&/'> ./MANIFEST
+	@find ./ -type f|egrep -v '(*~|.git|.gitignore|.dist|target|modele|Makefile|rsync_exclude)'|sed -e 's/\.\///' -e 's/\(.*\)/$(PLUGIN_NAME)\/&/'> ./MANIFEST
 
 clean:
 	rm -fr $(DIST)

@@ -7,6 +7,7 @@ eventHandler/CONTRIBUTING.md
 eventHandler/_admin.php
 eventHandler/css/leaflet.css
 eventHandler/css/event-hcalendar.css
+eventHandler/css/dark-style.css
 eventHandler/css/imgs/event-node-scheduled.png
 eventHandler/css/imgs/event-node-ongoing.png
 eventHandler/css/imgs/event-geo.png
