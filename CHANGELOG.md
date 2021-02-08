@@ -1,3 +1,7 @@
+plugin eventHandler 2021.02-08
+==============================
+* Add templates for dotty tpl set.
+
 plugin eventHandler 2019.04-05
 ==============================
 * Fix issue creating archive.

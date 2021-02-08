@@ -60,6 +60,8 @@ eventHandler/default-templates/mustek/eventhandler-atom.xml
 eventHandler/default-templates/mustek/eventhandler-rss2.xml
 eventHandler/default-templates/mustek/eventhandler-postsofevent.html
 eventHandler/default-templates/mustek/eventhandler-single.html
+eventHandler/default-templates/dotty/eventhandler-list.html
+eventHandler/default-templates/dotty/eventhandler-single.html
 eventHandler/LICENSE
 eventHandler/locales/templates/messages.pot
 eventHandler/locales/en/help/help.html
