@@ -46,7 +46,7 @@ if ($core->auth->check('admin',$core->blog->id)) {
 }
 $footer .= '
 eventHandler - '.$core->plugins->moduleInfo('eventHandler','version').'&nbsp;
-<img alt="'.__('Event handler').'" src="index.php?pf=eventHandler/icon.png" />
+<img alt="'.__('Event handler').'" src="index.php?pf=eventHandler/icon.svg" width="16px" />
 </p>';
 
 # succes_codes

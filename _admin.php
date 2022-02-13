@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2016 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -27,7 +27,7 @@ if ($core->blog->settings->eventHandler->active) {
 # Admin menu
 $_menu['Blog']->addItem(
 	__('Event handler'),
-	'plugin.php?p=eventHandler','index.php?pf=eventHandler/icon.png',
+	'plugin.php?p=eventHandler',['index.php?pf=eventHandler/icon.svg','index.php?pf=eventHandler/icon-dark.svg'],
 	preg_match('/plugin.php\?p=eventHandler(&.*)?$/',$_SERVER['REQUEST_URI']),
 	$core->auth->check('usage,contentadmin',$core->blog->id)
 );

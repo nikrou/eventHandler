@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2016 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -35,7 +35,7 @@ try {
 		->post_id('bigint',0,false)
 		->event_startdt('timestamp',0,false,'now()')
 		->event_enddt('timestamp',0,false,'now()')
-		->event_address('text','',true,null)
+		->event_address('text',null,true,null)
 		->event_latitude('varchar',25,true,null)
 		->event_longitude('varchar',25,true,null)
 		->event_zoom('integer',0,true,0)

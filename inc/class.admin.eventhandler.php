@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2016 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
@@ -18,20 +18,20 @@ class adminEventHandler
 		$icons['eventHandler'] = new ArrayObject(array(
 			__('Event handler'),
 			'plugin.php?p=eventHandler',
-			'index.php?pf=eventHandler/icon.png'
+			'index.php?pf=eventHandler/icon.svg'
 		));
 	}
 
 	# Dashboard fav icon
 	public static function adminDashboardFavs($core, $favs) {
-		$favs['eventHandler'] = new ArrayObject(array(
-			'eventHandler',
-			'Event handler',
-			'plugin.php?p=eventHandler',
-			'index.php?pf=eventHandler/icon.png',
-			'index.php?pf=eventHandler/icon-b.png',
-			'usage,contentadmin',null,null
-		));
+        $favs['eventHandler'] = new ArrayObject([
+            'eventHandler',
+            'Event handler',
+            'plugin.php?p=eventHandler',
+            [dcPage::getPF('eventHandler/icon.svg'), dcPage::getPF('eventHandler/icon-dark.svg')],
+            [dcPage::getPF('eventHandler/icon.svg'), dcPage::getPF('eventHandler/icon-dark.svg')],
+            'usage,contentadmin',null,null
+	 ]);
 	}
 
     public static function adminPageHTTPHeaderCSP($csp) {

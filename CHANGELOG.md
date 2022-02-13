@@ -1,3 +1,9 @@
+plugin eventHandler 2022.02-13-2
+==============================
+* Fix issue in _install.php  because of incorrect length for field.
+  Thanks to [Franck](https://github.com/franck-tomek) for report.
+  Add SVG icons, thanks to [Franck](https://github.com/franck-paul).
+
 plugin eventHandler 2022.02-13
 ==============================
 * Fix issue in dcBlog::getPosts because of join query.
