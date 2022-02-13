@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2021 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+# Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -20,12 +20,12 @@ $this->registerModule(
 	/* Name */			"EventHandler",
 	/* Description*/	"Manage events on your blog",
 	/* Author */		"JC Denis, Nicolas Roudaire",
-	/* Version */		'2021.02.08',
+	/* Version */		'2022.02.13',
 	/* Properties */
 	array(
 		'permissions' => 'usage,contentadmin',
 		'type' => 'plugin',
-		'dc_min' => '2.6',
+		'dc_min' => '2.21',
 		'support' => 'http://forum.dotclear.org/viewtopic.php?id=43296',
 		'details' => 'http://plugins.dotaddict.org/dc2/details/eventHandler'
 		)

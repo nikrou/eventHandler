@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -24,7 +24,7 @@ $__autoload['eventHandler'] = dirname(__FILE__).'/inc/class.eventhandler.php';
 $__autoload['eventHandlerAdminWidgets'] = dirname(__FILE__).'/inc/class.eventhandler.admin.widgets.php';
 $__autoload['eventHandlerPublicWidgets'] = dirname(__FILE__).'/inc/class.eventhandler.public.widgets.php';
 $__autoload['adminEventHandlerMiniList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.minilist.php';
-$__autoload['adminEventHandlertList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.list.php';
+$__autoload['adminEventHandlerList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.list.php';
 $__autoload['adminEventHandlertPostsList'] = dirname(__FILE__).'/inc/class.admin.eventhandler.posts.list.php';
 
 $__autoload['adminEventHandler'] = dirname(__FILE__).'/inc/class.admin.eventhandler.php';

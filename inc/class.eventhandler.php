@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2019 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+# Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -74,7 +74,13 @@ class eventHandler
 		$params['columns'] = $col;
 
 		# Tables
-		$params['from'] = 'INNER JOIN '.$this->table.' EH ON  EH.post_id = P.post_id'.$params['from'];
+		$sql = new dcSelectStatement($this->core, 'eventHandler');
+		$sql->join((new dcJoinStatement($this->core, 'eventHandler'))
+				   ->type('INNER')
+				   ->from($this->table . ' EH')
+				   ->on('EH.post_id = P.post_id')
+				   ->statement()
+		);
 
 		# Period
 		if (!empty($params['event_period']) && $params['event_period'] != 'all') {
@@ -156,7 +162,7 @@ class eventHandler
 		# --BEHAVIOR-- coreEventHandlerBeforeGetEvents
 		$this->core->callBehavior('coreEventHandlerBeforeGetEvents',$this,array('params' => &$params));
 
-		$rs = $this->core->blog->getPosts($params,$count_only);
+		$rs = $this->core->blog->getPosts($params,$count_only, $sql);
 
         if (empty($params['sql_only'])) {
             $rs->eventHandler = $this;

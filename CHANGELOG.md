@@ -1,3 +1,8 @@
+plugin eventHandler 2022.02-13
+==============================
+* Fix issue in dcBlog::getPosts because of join query.
+  Thanks to [Franck](https://github.com/franck-tomek) for report. Thanks to [Franck](https://github.com/franck-paul) for the way to fix the issue.
+
 plugin eventHandler 2021.02-08
 ==============================
 * Add templates for dotty tpl set.

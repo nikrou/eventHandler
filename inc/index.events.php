@@ -3,7 +3,7 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
+# Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 #
 # Copyright (c) 2009-2013 Jean-Christian Denis and contributors
 # contact@jcdenis.fr http://jcd.lv
@@ -391,7 +391,7 @@ $core->callBehavior('adminEventHandlerEventsPageCustomize',
 try {
 	$posts = $eventHandler->getEvents($params);
 	$counter = $eventHandler->getEvents($params,true);
-	$post_list = new adminEventHandlertList($core,$posts,$counter->f(0));
+	$post_list = new adminEventHandlerList($core,$posts,$counter->f(0));
 	$core->callBehavior('adminEventHandlerEventsListCustom',array($posts,$counter,$post_list));
 } catch (Exception $e) {
 	$core->error->add($e->getMessage());

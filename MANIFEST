@@ -1,3 +1,4 @@
+eventHandler/deploy.mk
 eventHandler/_services.php
 eventHandler/_install.php
 eventHandler/icon.png
@@ -61,6 +62,10 @@ eventHandler/default-templates/mustek/eventhandler-rss2.xml
 eventHandler/default-templates/mustek/eventhandler-postsofevent.html
 eventHandler/default-templates/mustek/eventhandler-single.html
 eventHandler/default-templates/dotty/eventhandler-list.html
+eventHandler/default-templates/dotty/eventhandler-eventsofpost.html
+eventHandler/default-templates/dotty/eventhandler-atom.xml
+eventHandler/default-templates/dotty/eventhandler-rss2.xml
+eventHandler/default-templates/dotty/eventhandler-postsofevent.html
 eventHandler/default-templates/dotty/eventhandler-single.html
 eventHandler/LICENSE
 eventHandler/locales/templates/messages.pot
