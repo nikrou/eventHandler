@@ -1,8 +1,6 @@
 eventHandler/deploy.mk
 eventHandler/_services.php
 eventHandler/_install.php
-eventHandler/icon.png
-eventHandler/icon-b.png
 eventHandler/_uninstall.php
 eventHandler/CONTRIBUTING.md
 eventHandler/_admin.php
@@ -24,6 +22,7 @@ eventHandler/css/imgs/event-gmap.png
 eventHandler/css/style.css
 eventHandler/css/default-eventhandler.css
 eventHandler/_prepend.php
+eventHandler/icon-dark.svg
 eventHandler/_define.php
 eventHandler/CHANGELOG.md
 eventHandler/index.php
@@ -68,6 +67,7 @@ eventHandler/default-templates/dotty/eventhandler-rss2.xml
 eventHandler/default-templates/dotty/eventhandler-postsofevent.html
 eventHandler/default-templates/dotty/eventhandler-single.html
 eventHandler/LICENSE
+eventHandler/icon.svg
 eventHandler/locales/templates/messages.pot
 eventHandler/locales/en/help/help.html
 eventHandler/locales/en/resources.php
