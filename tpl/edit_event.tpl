@@ -6,7 +6,6 @@
 	<?php endif;?>
 	<?php
 	echo
-	dcPage::jsDatePicker().
 	dcPage::jsToolBar().
 	dcPage::jsModal().
 	dcPage::jsMetaEditor().
@@ -35,7 +34,7 @@
 	<?php if ($post_id && $post->post_status==1):?>
 	<p>
 	    <a class="onblog_link outgoing" href="<?php echo $post->getURL();?>" title="<?php echo $post_title;?>">
-		<?php echo __('Go to this event on the site');?> <img src="images/outgoing-blue.png" alt=""/>
+		<?php echo __('Go to this event on the site');?> <img src="images/outgoing-link.svg" alt=""/>
 	    </a>
 	</p>
 	<p>
@@ -60,14 +59,14 @@
 			    <div class="two-cols">
 				<div class="col">
 				    <p class="datepicker"><label class="required"><?php echo __('Start date:');?>
-					<?php echo form::field('event_startdt',16,16,$event_startdt,'datepicker',2);?>
+					<?php echo form::datetime('event_startdt',16,16,$event_startdt,'datepicker',2);?>
 				    </label>
 				    </p>
 				</div>
 				<div class="col">
 				    <p class="datepicker">
 					<label class="required"><?php echo __('End date:');?>
-					    <?php echo form::field('event_enddt',16,16,$event_enddt,'datepicker',2);?>
+					    <?php echo form::datetime('event_enddt',16,16,$event_enddt,'datepicker',2);?>
 					</label>
 				    </p>
 				</div>

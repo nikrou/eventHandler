@@ -3,13 +3,8 @@
 #
 # This file is part of eventHandler, a plugin for Dotclear 2.
 #
-# Copyright(c) 2014-2015 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
-#
-# Copyright (c) 2009-2013 Jean-Christian Denis and contributors
-# contact@jcdenis.fr http://jcd.lv
-#
 # Licensed under the GPL version 2.0 license.
-# A copy of this license is available in LICENSE file or at
+# See LICENSE file or
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 #
 # -- END LICENSE BLOCK ------------------------------------
@@ -166,8 +161,8 @@ if (isset($post)) {
 		$post_type = 'eventhandler';
 		$page_title = __('Change entry into event');
 	} else {
-		$event_startdt = date('Y-m-d H:i',strtotime($post->event_startdt));
-		$event_enddt = date('Y-m-d H:i',strtotime($post->event_enddt));
+		$event_startdt = date('Y-m-d\TH:i',strtotime($post->event_startdt));
+		$event_enddt = date('Y-m-d\TH:i',strtotime($post->event_enddt));
 		$event_address = $post->event_address;
 		$event_latitude = $post->event_latitude;
 		$event_longitude = $post->event_longitude;

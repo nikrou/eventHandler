@@ -1,3 +1,8 @@
+plugin eventHandler 2022.04-09
+==============================
+* Fix issue with datetime field.
+  Thanks to [Franck](https://github.com/franck-tomek) for report.
+
 plugin eventHandler 2022.02-13-2
 ==============================
 * Fix issue in _install.php  because of incorrect length for field.
