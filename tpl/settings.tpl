@@ -118,7 +118,7 @@
 	?>
 	<?php
 	   if ($nb_events) {
-	   $nb_events = '<a href="'.$p_url.'&amp;part=events&amp;cat_id='.$categories->cat_id.'" '.
+	   $nb_events = '<a href="'.dcCore::app()->admin->getPageURL().'&amp;part=events&amp;cat_id='.$categories->cat_id.'" '.
 			    'title="'.__('List of events related to this category').'">'.$nb_events.'</a>';
 	   }
 	   $nb_posts = $categories->nb_post;

@@ -50,7 +50,7 @@
 	<?php endif;?>
 	<?php if ($can_view_page && $can_edit_post):?>
 	<div class="multi-part" title="<?php echo __('Edit event');?>" id="edit-entry">
-	    <form action="<?php echo $p_url;?>&part=event" method="post" id="entry-form">
+	    <form action="<?php echo dcCore::app()->admin->getPageURL();?>&part=event" method="post" id="entry-form">
 		<div id="entry-wrapper">
 		    <div id="entry-content">
 			<div class="constrained">
@@ -130,7 +130,7 @@
 				    <?php echo __('Preview event');?>&nbsp;(p)
 				</a>
 				<?php else:?>
-				<a id="post-cancel" href="<?php echo $p_url;?>" class="button" accesskey="c"><?php echo __('Cancel');?> (c)</a>
+				<a id="post-cancel" href="<?php echo dcCore::app()->admin->getPageURL();?>" class="button" accesskey="c"><?php echo __('Cancel');?> (c)</a>
 				<?php endif;?>
 				<?php
 				echo
@@ -156,7 +156,7 @@
 			    <h5 id="label_format"><label for="post_format" class="classic"><?php echo __('Text formatting');?></label></h5>
 			    <p><?php echo form::combo('post_format',$available_formats,$post_format,'maximal');?></p>
 			    <p class="format_control control_no_xhtml">
-				<a id="convert-xhtml" class="button<?php echo ($post_id && $post_format != 'wiki' ? ' hide' : '');?>" href="<?php echo $p_url;?>&amp;part=event&amp;id=<?php echo $post_id;?>&amp;xconv=1"><?php echo __('Convert to XHTML');?></a></p>
+				<a id="convert-xhtml" class="button<?php echo ($post_id && $post_format != 'wiki' ? ' hide' : '');?>" href="<?php echo dcCore::app()->admin->getPageURL();?>&amp;part=event&amp;id=<?php echo $post_id;?>&amp;xconv=1"><?php echo __('Convert to XHTML');?></a></p>
 			</div>
 			<p>
 			    <label>
