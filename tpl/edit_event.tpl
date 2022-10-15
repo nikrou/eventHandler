@@ -15,7 +15,7 @@
 	dcPage::jsLoad('index.php?pf=eventHandler/js/'.$map_provider.'/event-admin-map.js').
 	dcPage::jsConfirmClose('entry-form','comment-form').
 	# --BEHAVIOR-- adminEventHandlerHeaders
-	$core->callBehavior('adminEventHandlerHeaders').
+	dcCore::app()->callBehavior('adminEventHandlerHeaders').
 	dcPage::jsPageTabs($default_tab).
         $header;
 	?>
@@ -23,7 +23,7 @@
     </head>
     <body>
 	<?php
-	echo dcPage::breadcrumb(array(html::escapeHTML($core->blog->name) => '',
+	echo dcPage::breadcrumb(array(html::escapeHTML(dcCore::app()->blog->name) => '',
 	'<a href="plugin.php?p=eventHandler&amp;part=events">'.__('Events').'</a>
 	&rsaquo; <span class="page-title">'.$page_title.'</span>' => ''
 	));
@@ -44,7 +44,7 @@
 	    if ($next_link) { echo $next_link; }
 
 	    # --BEHAVIOR-- adminEventHandlerNavLinks
-	    $core->callBehavior('adminEventHandlerNavLinks',isset($post) ? $post : null);
+	    dcCore::app()->callBehavior('adminEventHandlerNavLinks',isset($post) ? $post : null);
 	    ?>
 	</p>
 	<?php endif;?>
@@ -103,7 +103,7 @@
 			    </div>
 			    <?php
 			    # --BEHAVIOR-- adminEventHandlerForm
-			    $core->callBehavior('adminEventHandlerForm',isset($post) ? $post : null);
+			    dcCore::app()->callBehavior('adminEventHandlerForm',isset($post) ? $post : null);
 			    ?>
 
 			    <p class="col"><label class="required" title="<?php echo __('Required field');?>"><?php echo __('Title:');?>
@@ -117,7 +117,7 @@
 				<label class="required" title="<?php echo __('Required field');?>" for="post_content">
 				    <?php echo __('Content:');?>
 				</label>
-				<?php echo form::textarea('post_content',50,$core->auth->getOption('edit_size'),html::escapeHTML($post_content),'',2);?>
+				<?php echo form::textarea('post_content',50,dcCore::app()->auth->getOption('edit_size'),html::escapeHTML($post_content),'',2);?>
 			    </p>
 
 			    <p class="area" id="notes-area"><label><?php echo __('Notes:');?></label>
@@ -136,7 +136,7 @@
 				echo
 				($post_id ? form::hidden('id',$post_id) : '').
 				($can_delete ? '<input type="submit" value="'.__('Delete').'" class="delete" name="delete" />' : '').
-				$core->formNonce();
+				dcCore::app()->formNonce();
 				?>
 			    </p>
 			</div>
@@ -191,7 +191,7 @@
 		    </div>
 		    <?php
 		    # --BEHAVIOR-- adminEventHandlerFormSidebar
-		    $core->callBehavior('adminEventHandlerFormSidebar',isset($post) ? $post : null);
+		    dcCore::app()->callBehavior('adminEventHandlerFormSidebar',isset($post) ? $post : null);
 		    ?>
 		</div>
 	    </form>
@@ -206,7 +206,7 @@
 	</div>
 	<?php
 	# --BEHAVIOR-- adminEventHandlerTab
-	$core->callBehavior('adminEventHandlerTab',isset($post) ? $post : null);
+	dcCore::app()->callBehavior('adminEventHandlerTab',isset($post) ? $post : null);
 	?>
 	<?php endif;?>
 	<?php echo $footer;?>

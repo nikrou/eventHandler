@@ -6,7 +6,7 @@
   </head>
   <body>
     <?php
-    echo dcPage::breadcrumb(array(html::escapeHTML($core->blog->name) => '',
+    echo dcPage::breadcrumb(array(html::escapeHTML(dcCore::app()->blog->name) => '',
     '<a href="plugin.php?p=eventHandler&amp;part=events">'.__('Events').'</a>
     &rsaquo; <span class="page-title">'.__('Settings').'</span>' => ''
     ));
@@ -114,7 +114,7 @@
 	<?php while ($categories->fetch()):?>
 	<?php
 	   $hidden = in_array($categories->cat_id,$public_hidden_categories) || in_array($categories->cat_title,$public_hidden_categories);
-	$nb_events = $core->blog->getPosts(array('cat_id'=>$categories->cat_id,'post_type'=>'eventhandler'),true)->f(0);
+	$nb_events = dcCore::app()->blog->getPosts(array('cat_id'=>$categories->cat_id,'post_type'=>'eventhandler'),true)->f(0);
 	?>
 	<?php
 	   if ($nb_events) {
@@ -144,11 +144,11 @@
       <?php
 	 /*Add a adminEventHandlerSettings behavior handler to add a custom tab to the eventhander settings page
 	 and add a adminEventHandlerSettingsSave behavior handler to add save your custom settings.*/
-	 $core->callBehavior("adminEventHandlerSettings");  ?>
+	 dcCore::app()->callBehavior("adminEventHandlerSettings");  ?>
 
       <p>
 	<?php
-	echo $core->formNonce().
+	echo dcCore::app()->formNonce().
 	form::hidden(array('p'),'eventHandler').
 	form::hidden(array('part'),'settings').
 	form::hidden(array('action'),'savesettings')
@@ -156,32 +156,6 @@
 	<input type="submit" name="save" value="<?php echo __('Save');?>"/>
       </p>
     </form>
-
-    <?php if ($active && $core->plugins->moduleExists('eventdata')):?>
-    <form id="setting-form" method="post" action="plugin.php">
-      <div>
-	<?php if (isset($eventdata_import) && $eventdata_import === true):?>
-	<p class="message"><?php echo __('Events from eventdata imported');?></p>
-	<?php endif;?>
-
-	<?php if ($s->eventdata_import):?>
-	<p><?php echo __('Records of eventdata have been imported for this blog.');?></p>
-	<?php endif;?>
-
-	<p>
-	  <input type="submit" name="save" value="<?php echo __('Import eventdata records');?>"/>
-	  <?php
-	     echo
-	  $core->formNonce().
-	  form::hidden(array('p'),'eventHandler').
-	  form::hidden(array('part'),'settings').
-	  form::hidden(array('section'),$section).
-	  form::hidden(array('action'),'importeventdata');
-	  ?>
-	</p>
-      </div>
-    </form>
-    <?php endif;?>
 
     <?php dcPage::helpBlock('eventHandler');?>
   </body>

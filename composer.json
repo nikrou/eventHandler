@@ -1,0 +1,35 @@
+{
+    "name": "nikrou/event-handler",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "Nicolas Roudaire",
+            "email": "nikrou77@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.2",
+        "phpstan/extension-installer": "^1.0",
+        "phpstan/phpstan": "^1.1"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true,
+        "bin-dir": "bin",
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "": "./"
+        }
+    },
+    "scripts": {
+        "phpstan": "phpstan analyse",
+        "psalm": "psalm"
+    }
+}

@@ -1,24 +1,31 @@
-eventHandler
-============
+# eventHandler
+
+![PHPSTan level](https://img.shields.io/badge/PHPStan-level%201-brightgreen.svg?style=flat)
 
 eventHandler is a dotclear plugin to manage events (meetings, shows,...) on your blog.
 
 The main developement has been made by Jc Denis <contact@jcdenis.fr> - http://jcd.lv.
 Many thanks to him for that great plugin. I will try to maintain that plugin so that it can be used in recent dotclear releases.
 
-Requirements
-------------
+## Requirements
 
 Of course, that plugin needs a dotclear blog engine.
 
+## Static code analysis
 
-Contributing
-------------
+Analysis is made using [PHPStan](https://github.com/phpstan/phpstan) :
+
+```
+$ composer phpstan
+```
+
+The analysis is made with level 1 but the idea is to increase that level and fix more and more possible issues.
+
+## Contributing
 
 If you'd like to contribute, please read the [CONTRIBUTING.md file](CONTRIBUTING.md). You can submit
- a pull request, or feel free to use any other way you'd prefer.
+a pull request, or feel free to use any other way you'd prefer.
 
+## Todo
 
-Todo
-----
-* See [TODO file](TODO.md)
+- See [TODO file](TODO.md)

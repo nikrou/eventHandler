@@ -11,18 +11,19 @@
       <?php echo dcPage::jsVar('dotclear.msg.cancel_the_filter',__('Cancel filters and display options'));?>
       //]]>
     </script>
+			<?php echo dcPage::jsJson('filter_reset_url', dcCore::app()->admin->getPageURL());?>
   </head>
   <body>
-    <?php echo dcPage::breadcrumb(array(html::escapeHTML($core->blog->name) => '',__('Events') => '')).dcPage::notices();?>
+    <?php echo dcPage::breadcrumb(array(html::escapeHTML(dcCore::app()->blog->name) => '',__('Events') => '')).dcPage::notices();?>
     <?php if (!empty($message)):?>
     <?php echo $message;?>
     <?php endif;?>
-    <p class="top-add"><a class="button add" href="<?php echo $p_url;?>&amp;part=event"><?php echo __('New event');?></a></p>
+    <p class="top-add"><a class="button add" href="<?php echo dcCore::app()->admin->getPageURL();?>&amp;part=event"><?php echo __('New event');?></a></p>
     <?php if ($from_id):?>
     <p class="info"><?php echo sprintf(__('Attach events to "%s" post.'), $from_post->post_title);?></p>
     <?php endif;?>
 
-    <form action="<?php echo $p_url;?>" method="get" id="filters-form">
+    <form action="<?php echo dcCore::app()->admin->getPageURL();?>" method="get" id="filters-form">
       <h3 class="out-of-screen-if-js"><?php echo $form_filter_title;?></h3>
       <div class="table">
 	<div class="cell">
@@ -51,7 +52,7 @@
 	  <p><label for="lang" class="ib"><?php echo __('Lang:');?></label>
 	    <?php echo form::combo('lang',$lang_combo,$lang);?>
 	  </p>
-	  <?php $core->callBehavior('adminEventHandlerEventsCustomFilterDisplay');?>
+	  <?php dcCore::app()->callBehavior('adminEventHandlerEventsCustomFilterDisplay');?>
 	</div>
 
 	<div class="cell filters-options">
@@ -75,7 +76,7 @@
 
     <?php if ($from_id){?>
     <?php $post_list->display($page,$nb_per_page,
-    '<form action="'.$p_url.'" method="post" id="form-entries">'.
+    '<form action="'.dcCore::app()->admin->getPageURL().'" method="post" id="form-entries">'.
       '%s'.
       '<div class="two-cols">'.
 	'<p class="col checkboxes-helpers"></p>'.

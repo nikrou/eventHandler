@@ -1,0 +1,24 @@
+{
+    "php-cs-fixer.executablePath": "${workspaceFolder}/bin/php-cs-fixer",
+    "php-cs-fixer.config": ".php-cs-fixer.dist.php",
+    "php-cs-fixer.allowRisky": true,
+    "php-cs-fixer.lastDownload": 0,
+    "[php]": {
+        "editor.defaultFormatter": "junstyle.php-cs-fixer",
+        "editor.formatOnSave": true
+    },
+    "php-cs-fixer.onsave": true,
+    "files.exclude": {
+        "**/.dist": true,
+        "**/_data": true,
+        "**/target": true
+    },
+    "files.watcherExclude": {
+        "**/.git/**": true,
+        "**/.dist": true,
+        "**/node_modules/**": true,
+        "**/var/cache/**": true,
+        "**/var/log/**": true
+    },
+    "intelephense.environment.includePaths": ["../dotclear"]
+}

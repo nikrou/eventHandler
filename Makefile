@@ -18,7 +18,7 @@ dist: config
 	cd ..
 
 manifest:
-	@find ./ -type f|egrep -v '(*~|.git|.gitignore|.dist|target|modele|Makefile|rsync_exclude)'|sed -e 's/\.\///' -e 's/\(.*\)/$(PLUGIN_NAME)\/&/'> ./MANIFEST
+	@find ./ -type f|egrep -v '(*~|.git|.gitignore|.dist|target|bin|composer.*|phpstan.*|.vscode|vendor|Makefile|rsync_exclude)'|sed -e 's/\.\///' -e 's/\(.*\)/$(PLUGIN_NAME)\/&/'> ./MANIFEST
 
 clean:
 	rm -fr $(DIST)

@@ -1,0 +1,15 @@
+parameters:
+  level: 1
+
+  bootstrapFiles:
+    - phpstan.bootstrap
+
+  paths:
+    - inc
+
+  scanDirectories:
+    - ../dotclear
+  scanFiles:
+    - ../dotclear/inc/prepend.php
+
+  reportUnmatchedIgnoredErrors: false
