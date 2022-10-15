@@ -6,7 +6,7 @@
     <?php echo dcPage::jsLoad('js/filter-controls.js');?>
     <script type="text/javascript">
       //<![CDATA[
-      <?php echo dcPage::jsVar('dotclear.msg.show_filters', $show_filters ? 'true':'false');?>
+      <?php echo dcPage::jsVar('dotclear.msg.show_filters', $show_filters ? true : false);?>
       <?php echo dcPage::jsVar('dotclear.msg.filter_posts_list',$form_filter_title);?>
       <?php echo dcPage::jsVar('dotclear.msg.cancel_the_filter',__('Cancel filters and display options'));?>
       //]]>
