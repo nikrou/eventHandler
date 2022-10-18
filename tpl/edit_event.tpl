@@ -150,7 +150,7 @@
 			    <?php echo form::combo('post_status',$status_combo,$post_status,'maximal','',!$can_publish);?>
 			</p>
 			<p><label for="post_dt"><?php echo __('Published on');?></label>
-			    <?php echo form::field('post_dt',16,16,$post_dt,'',3);?>
+			    <?php echo form::datetime('post_dt',16,16,$post_dt,'',3);?>
 			</p>
 			<div>
 			    <h5 id="label_format"><label for="post_format" class="classic"><?php echo __('Text formatting');?></label></h5>
