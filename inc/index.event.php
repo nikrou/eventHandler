@@ -238,7 +238,7 @@ if (!empty($_POST) && $can_edit_post) {
         $post_dt = '';
     } else {
         $post_dt = strtotime($_POST['post_dt']);
-        $post_dt = date('Y-m-d H:i', $post_dt);
+        $post_dt = date('Y-m-d\TH:i', $post_dt);
     }
 
     $post_open_comment = false;
