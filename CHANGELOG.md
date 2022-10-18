@@ -1,3 +1,9 @@
+plugin eventHandler 2022.10-18
+==============================
+* Fix issue with datetime field. Publication date
+  Thanks to [Franck](https://github.com/franck-tomek) for report.
+* Fix issue #48.  Open filter on events list only if needed.
+	
 plugin eventHandler 2022.04-09
 ==============================
 * Fix issue with datetime field.
