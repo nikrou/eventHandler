@@ -431,7 +431,6 @@ class tplEventHandler
         if (!empty($attr['order']) || !empty($attr['sortby'])) {
             $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($attr, 'eventhandler') . "';\n";
         } else {
-            $special_attr = [];
             $order = $field = $table = '';
             if (dcCore::app()->blog->settings->eventHandler->public_events_list_sortby && strpos(dcCore::app()->blog->settings->eventHandler->public_events_list_sortby, ':') !== false) {
                 list($table, $field) = explode(':', dcCore::app()->blog->settings->eventHandler->public_events_list_sortby);
@@ -439,7 +438,7 @@ class tplEventHandler
             if (dcCore::app()->blog->settings->eventHandler->public_events_list_order) {
                 $order = dcCore::app()->blog->settings->eventHandler->public_events_list_order;
             }
-            $special_attr = ['order' => $order, 'sortby' => $field];
+            $special_attr = new ArrayObject($special_attr = ['order' => $order, 'sortby' => $field]);
             $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($special_attr, $table) . "';\n";
         }
 
