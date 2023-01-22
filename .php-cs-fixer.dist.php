@@ -4,7 +4,7 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  *  contact@jcdenis.fr http://jcd.lv
@@ -23,7 +23,7 @@ $header = <<<'EOF'
 
  This file is part of eventHandler, a plugin for Dotclear 2.
 
- Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
 
  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  contact@jcdenis.fr http://jcd.lv

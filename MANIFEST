@@ -46,14 +46,9 @@ eventHandler/js/googlemaps/event-public-map.js
 eventHandler/tpl/edit_event.tpl
 eventHandler/tpl/list_events.tpl
 eventHandler/tpl/settings.tpl
+eventHandler/.php-cs-fixer.cache
 eventHandler/_widgets.php
 eventHandler/BUGS
-eventHandler/default-templates/currywurst/eventhandler-list.html
-eventHandler/default-templates/currywurst/eventhandler-eventsofpost.html
-eventHandler/default-templates/currywurst/eventhandler-atom.xml
-eventHandler/default-templates/currywurst/eventhandler-rss2.xml
-eventHandler/default-templates/currywurst/eventhandler-postsofevent.html
-eventHandler/default-templates/currywurst/eventhandler-single.html
 eventHandler/default-templates/mustek/eventhandler-list.html
 eventHandler/default-templates/mustek/eventhandler-eventsofpost.html
 eventHandler/default-templates/mustek/eventhandler-atom.xml
@@ -95,7 +90,6 @@ eventHandler/inc/class.url.eventhandler.php
 eventHandler/inc/index.events.php
 eventHandler/inc/class.admin.eventhandler.list.php
 eventHandler/inc/lib.eventhandler.calendar.php
-eventHandler/inc/patch.eventdata.php
 eventHandler/inc/class.eventhandler.php
 eventHandler/inc/class.admin.eventhandler.minilist.php
 eventHandler/inc/index.settings.php

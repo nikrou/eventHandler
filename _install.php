@@ -4,7 +4,7 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  *  contact@jcdenis.fr http://jcd.lv
@@ -27,7 +27,7 @@ if (version_compare(DC_VERSION, EH_DC_MIN_VERSION, '<')) {
 $new_version = dcCore::app()->plugins->moduleInfo('eventHandler', 'version');
 $old_version = dcCore::app()->getVersion('eventHandler');
 // Compare versions
-if (version_compare($old_version, $new_version, '>=')) {
+if (version_compare((string) $old_version, $new_version, '>=')) {
     return;
 }
 // Install

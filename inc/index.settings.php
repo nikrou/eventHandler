@@ -4,7 +4,7 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  *  contact@jcdenis.fr http://jcd.lv
@@ -96,9 +96,8 @@ $combo_map_provider = [
     'OpenStreetMap' => 'osm'
 ];
 
-// Action
-$action = '';
-if ($action == 'savesettings') {
+/** @phpstan-ignore-next-line ; define in index.php */
+if ($action === 'savesettings') {
     $default_tab = 'configuration';
     try {
         $active = !empty($_POST['active']);
@@ -166,7 +165,9 @@ if ($action == 'savesettings') {
         dcCore::app()->error->add($e->getMessage());
     }
 }
-if ($action == 'importeventdata') {
+
+/** @phpstan-ignore-next-line ; define in index.php */
+if ($action === 'importeventdata') {
     include __DIR__ . '/patch.eventdata.php';
 }
 

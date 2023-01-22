@@ -1,3 +1,8 @@
+# plugin eventHandler 2023.01-22
+
+- Fix installation problem. Thanks to Grégory.
+- Remove currywurst templates
+
 # plugin eventHandler 2022.12-26
 
 - Fix sort parameter in tpl:EventsOfPost. Closes #45
