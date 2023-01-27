@@ -4,7 +4,7 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  *  contact@jcdenis.fr http://jcd.lv
@@ -779,7 +779,11 @@ class tplEventHandler
             $p .= "\$params['post_type'] = preg_split('/\s*,\s*/','" . addslashes($attr['type']) . "',-1,PREG_SPLIT_NO_EMPTY);\n";
         }
 
-        $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($attr, 'post') . "';\n";
+        if (!empty($attr['order']) || !empty($attr['sortby'])) {
+            $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($attr, 'eventhandler') . "';\n";
+        } else {
+            $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($attr, 'post') . "';\n";
+        }
 
         if (isset($attr['no_content']) && $attr['no_content']) {
             $p .= "\$params['no_content'] = true;\n";

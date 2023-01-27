@@ -4,7 +4,7 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  *  contact@jcdenis.fr http://jcd.lv
@@ -21,7 +21,7 @@ class eventHandlerPublicRest
     public static function calendar($get, $post)
     {
         $blog_uid = isset($post['blogId']) ? $post['blogId'] : null;
-        $current_ym = isset($post['curDate']) ? $post['curDate'] : null;
+        $current_ym = isset($post['curDate']) ? $post['curDate'] : '';
         $direction = isset($post['reqDirection']) ? $post['reqDirection'] : 'prev';
         $weekstart = isset($post['weekStart']) ? (boolean) $post['weekStart'] : false;
         $startonly = isset($post['startOnly']) ? (boolean) $post['startOnly'] : true;
@@ -34,8 +34,8 @@ class eventHandlerPublicRest
         }
 
         try {
-            $year = $cyear = substr($current_ym, 0, 4);
-            $month = $cmonth = substr($current_ym, 4, 2);
+            $year = $cyear = (int) substr($current_ym, 0, 4);
+            $month = $cmonth = (int) substr($current_ym, 4, 2);
 
             $prev = date('Y-m-01 00:00:00', mktime(0, 0, 0, $cmonth - 1, 1, $cyear));
             $next = date('Y-m-01 00:00:00', mktime(0, 0, 0, $cmonth + 1, 1, $cyear));

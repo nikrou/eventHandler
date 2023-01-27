@@ -1,3 +1,9 @@
+# plugin eventHandler 2023.01-27
+
+- Fix plugin upgrade problem
+- Fix navigation of calendar widget
+- Fix sorting of events in post page. Fix #45
+
 # plugin eventHandler 2023.01-22
 
 - Fix installation problem. Thanks to Grégory.
