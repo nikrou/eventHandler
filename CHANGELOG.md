@@ -1,3 +1,8 @@
+# plugin eventHandler 2023.02-06
+
+- Fix missing attribute. Closes #50
+- Fix issue for non super admin user. Closes #51
+
 # plugin eventHandler 2023.01-27
 
 - Fix plugin upgrade problem

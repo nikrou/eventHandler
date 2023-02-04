@@ -4,7 +4,7 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  *  contact@jcdenis.fr http://jcd.lv
@@ -18,6 +18,9 @@
 
 class adminEventHandler
 {
+    public const BIND_EVENT_ACTION = 'eventhandler_bind_event';
+    public const UNBIND_POST_ACTION = 'eventhandler_unbind_post';
+
     // Dashboard icon
     public static function adminDashboardIcons($name, $icons)
     {
@@ -88,35 +91,40 @@ class adminEventHandler
     {
         return
         self::adminCss() .
-        dcPage::jsLoad('index.php?pf=eventHandler/js/post.js');
+        dcPage::getPF('eventHandler/js/post.js');
     }
 
     // posts.php
     // Combo of actions on multiple posts
-    public static function adminPostsActionsCombo($args)
+    public static function adminPostsActions(dcPostsActions $ap)
     {
-        // usage, contentadmin
-        $args[0][__('Events')][__('Bind events')] = 'eventhandler_bind_event';
-        $args[0][__('Events')][__('Unbind events')] = 'eventhandler_remove_event';
+        if (dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([
+            dcAuth::PERMISSION_CONTENT_ADMIN, dcAuth::PERMISSION_USAGE
+        ]), dcCore::app()->blog->id)) {
+            $ap->addAction([__('Events') => [__('Bind events') => self::BIND_EVENT_ACTION]], [adminEventHandler::class, 'doBindUnbind']);
+            $ap->addAction([__('Events') => [__('Unbind events') => self::UNBIND_POST_ACTION]], [adminEventHandler::class, 'doBindUnbind']);
+        }
     }
 
     public static function adminPostsActionsPage(dcPostsActionsPage $ap)
     {
-        if (dcCore::app()->auth->check('publish,contentadmin', dcCore::app()->blog->id)) {
+        if (dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([
+            dcAuth::PERMISSION_CONTENT_ADMIN, dcAuth::PERMISSION_USAGE
+        ]), dcCore::app()->blog->id)) {
             $ap->addAction(
                 [__('Events') => [
-                    __('Bind events') => 'eventhandler_bind_event',
-                    __('Unbind events') => 'eventhandler_unbind_post'
+                    __('Bind events') => self::BIND_EVENT_ACTION,
+                    __('Unbind events') => self::UNBIND_POST_ACTION
                 ]],
-                ['adminEventHandler', 'doBindUnbind']
+                [adminEventHandler::class, 'doBindUnbind']
             );
         }
     }
 
-    public static function doBindUnBind(dcPostsActionsPage $ap, $post)
+    public static function doBindUnBind(dcPostsActions $ap, $post)
     {
         $action = $ap->getAction();
-        if ($action != 'eventhandler_bind_event' && $action != 'eventhandler_unbind_post') {
+        if (!in_array($action, [self::BIND_EVENT_ACTION, self::UNBIND_POST_ACTION])) {
             return;
         }
 
@@ -128,7 +136,7 @@ class adminEventHandler
         $posts = dcCore::app()->blog->getPosts($params);
         $events_id = [];
 
-        if ($action == 'eventhandler_bind_event') {
+        if ($action === self::BIND_EVENT_ACTION) {
             if (isset($post['events'])) {
                 foreach ($post['events'] as $k => $v) {
                     $events_id[$k] = (integer) $v;
@@ -163,7 +171,13 @@ class adminEventHandler
                 );
                 $ap->redirect(true);
             } else {
-                $ap->beginPage('', self::adminCss());
+                $ap->beginPage(dcPage::breadcrumb(
+                    [
+                        html::escapeHTML(dcCore::app()->blog->name) => '',
+                        __('Entries') => $ap->getRedirection(true),
+                        __('Select events to link to entries') => '',
+                    ]
+                ), self::adminCss());
                 echo '<h3>' . __('Select events to link to entries') . '</h3>';
                 $eventHandler = new eventHandler();
 
@@ -173,7 +187,7 @@ class adminEventHandler
                 $params['period'] = 'notfinished';
 
                 // --BEHAVIOR-- adminEventHandlerMinilistCustomize
-                dcCore::app()->callBehavior('adminEventHandlerMinilistCustomize', ['params' => &$params]);
+                dcCore::app()->callBehavior('adminEventHandlerMinilistCustomize', ['params' => $params]);
 
                 $events = $eventHandler->getEvents($params);
                 $counter = $eventHandler->getEvents($params, true);
@@ -182,7 +196,7 @@ class adminEventHandler
                 echo $list->display(
                     1,
                     100,
-                    '<form action="posts_actions.php" method="post">' .
+                    '<form action="posts.php" method="post">' .
 
                     '%s' .
 
@@ -190,7 +204,7 @@ class adminEventHandler
                     $ap->getHiddenFields() .
                     $ap->getIDsHidden() .
                     dcCore::app()->formNonce() .
-                    form::hidden(['action'], 'eventhandler_bind_event') .
+                    form::hidden(['action'], self::BIND_EVENT_ACTION) .
                     '<input type="submit" value="' . __('Save') . '" /></p>' .
                     '</form>'
                 );
@@ -198,7 +212,7 @@ class adminEventHandler
             }
         }
         // Unbind all posts from selected events
-        if ($action == 'eventhandler_unbind_post') {
+        if ($action === self::UNBIND_POST_ACTION) {
             if (!$posts->isEmpty()) { //called from posts.php
                 while ($posts->fetch()) {
                     dcCore::app()->meta->delPostMeta($posts->post_id, 'eventhandler');

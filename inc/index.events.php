@@ -4,7 +4,7 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
  *  contact@jcdenis.fr http://jcd.lv
@@ -38,7 +38,7 @@ if (!empty($_REQUEST['from_id'])) {
 /* Actions
 -------------------------------------------------------- */
 $action = isset($_POST['action']) ? $_POST['action'] : '';
-if ($action == 'eventhandler_bind_event' && $from_id) {
+if ($action === adminEventHandler::BIND_EVENT_ACTION && $from_id) {
     $redir = dcCore::app()->getPostAdminURL($from_post->post_type, $from_post->post_id);
     if (isset($_POST['redir']) && strpos($_POST['redir'], '://') === false) {
         $redir = $_POST['redir'];
@@ -69,7 +69,7 @@ if ($action == 'eventhandler_bind_event' && $from_id) {
     }
 }
 
-if (!empty($_POST['entries']) && $action == 'author' && !empty($_POST['new_auth_id'])
+if (!empty($_POST['entries']) && $action === 'author' && !empty($_POST['new_auth_id'])
     && dcCore::app()->auth->check('admin', dcCore::app()->blog->id)) {
     if (isset($_POST['redir']) && strpos($_POST['redir'], '://') === false) {
         $redir = $_POST['redir'];
@@ -101,7 +101,7 @@ if (!empty($_POST['entries']) && $action == 'author' && !empty($_POST['new_auth_
     } catch (Exception $e) {
         dcCore::app()->error->add($e->getMessage());
     }
-} elseif ($action == 'category' && (!empty($_POST['new_cat_id']) || !empty($_POST['new_cat_title']))
+} elseif ($action === 'category' && (!empty($_POST['new_cat_id']) || !empty($_POST['new_cat_title']))
           && !empty($_POST['entries']) && dcCore::app()->auth->check('categories', dcCore::app()->blog->id)) {
     if (isset($_POST['redir']) && strpos($_POST['redir'], '://') === false) {
         $redir = $_POST['redir'];
@@ -276,7 +276,9 @@ if (dcCore::app()->auth->check('admin', dcCore::app()->blog->id)) {
 }
 if (dcCore::app()->auth->check('delete,contentadmin', dcCore::app()->blog->id)) {
     $combo_action[__('Delete')] = [__('Delete') => 'delete'];
-    $combo_action[__('Entries')] = [__('Unbind related entries') => 'eventhandler_unbind_post'];
+    $combo_action[__('Entries')] = [
+        __('Unbind related entries') => adminEventHandler::UNBIND_POST_ACTION,
+    ];
 }
 
 // --BEHAVIOR-- adminEventHandlerActionsCombo

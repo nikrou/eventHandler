@@ -82,7 +82,7 @@
 	'<p class="col checkboxes-helpers"></p>'.
 	'<p class="col right">'.
 	  '<input type="submit" value="'.__('Attach selected events').'" />'.
-	  form::hidden('action','eventhandler_bind_event').
+	  form::hidden('action', adminEventHandler::BIND_EVENT_ACTION).
 	  form::hidden(array('from_id'),$from_id).
 	  $hidden_fields.
 	  '</p>'.
