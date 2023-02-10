@@ -91,7 +91,7 @@ class adminEventHandler
     {
         return
         self::adminCss() .
-        dcPage::getPF('eventHandler/js/post.js');
+        dcPage::jsLoad(dcPage::getPF('eventHandler/js/post.js'));
     }
 
     // posts.php

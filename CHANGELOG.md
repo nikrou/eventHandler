@@ -1,5 +1,9 @@
 # plugin eventHandler 2023.02-04
 
+- Fix incorrect js file insertion in admin
+
+# plugin eventHandler 2023.02-04
+
 - Fix missing attribute. Closes #50
 - Fix issue for non super admin user. Closes #51
 
