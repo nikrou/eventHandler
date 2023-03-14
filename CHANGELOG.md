@@ -1,3 +1,7 @@
+# plugin eventHandler 2023.03-14
+
+- Fix attribute name in mustek template set.
+
 # plugin eventHandler 2023.02-04
 
 - Fix incorrect js file insertion in admin

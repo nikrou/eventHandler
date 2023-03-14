@@ -20,7 +20,7 @@ $this->registerModule(
     "EventHandler", // Name
     "Manage events on your blog", // Description
     "JC Denis, Nicolas Roudaire", // Author
-    '2023.02.10', // Version
+    '2023.03.14', // Version
     // Properties
     [
         'permissions' => dcCore::app()->auth->makePermissions([dcAuth::PERMISSION_CONTENT_ADMIN, dcAuth::PERMISSION_USAGE]),
