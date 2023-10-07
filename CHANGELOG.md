@@ -1,3 +1,7 @@
+# plugin eventHandler 2023.10-07
+
+- Adapt plugin for dotclear 2.27
+
 # plugin eventHandler 2023.03-14
 
 - Fix attribute name in mustek template set.

@@ -4,10 +4,10 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- *  contact@jcdenis.fr http://jcd.lv
+ *  contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  *  Licensed under the GPL version 2.0 license.
  *  A copy of this license is available in LICENSE file or at
@@ -16,13 +16,21 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
-// URL handler
-class urlEventHandler extends dcUrlHandlers
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\eventHandler;
+
+use context;
+use dcCore;
+use dcUrlHandlers;
+use Dotclear\Helper\Html\Html;
+
+class UrlHandler extends dcUrlHandlers
 {
     // Call service from public for ajax request
     public static function eventService($args)
     {
-        dcCore::app()->rest->addFunction('eventHandlerCalendar', ['eventHandlerPublicRest', 'calendar']);
+        dcCore::app()->rest->addFunction('eventHandlerCalendar', [PublicRest::class, 'calendar']);
         dcCore::app()->rest->serve();
         exit;
     }
@@ -32,7 +40,6 @@ class urlEventHandler extends dcUrlHandlers
     {
         if ($args == '' || !dcCore::app()->ctx->preview && !dcCore::app()->blog->settings->eventHandler->active) {
             self::p404();
-            return;
         } else {
             $is_ical = self::isIcalDocument($args);
             $is_hcal = self::isHcalDocument($args);
@@ -40,24 +47,25 @@ class urlEventHandler extends dcUrlHandlers
 
             dcCore::app()->blog->withoutPassword(false);
 
-            $params = new ArrayObject();
+            /** @var array<string, string> $params */
+            $params = new \ArrayObject();
             $params['post_type'] = 'eventhandler';
             $params['post_url'] = $args;
 
-            dcCore::app()->ctx->eventHandler = new eventHandler();
+            dcCore::app()->ctx->eventHandler = new EventHandler();
             dcCore::app()->ctx->posts = dcCore::app()->ctx->eventHandler->getEvents($params);
 
-            dcCore::app()->ctx->comment_preview = new ArrayObject();
-            dcCore::app()->ctx->comment_preview['content'] = '';
-            dcCore::app()->ctx->comment_preview['rawcontent'] = '';
-            dcCore::app()->ctx->comment_preview['name'] = '';
-            dcCore::app()->ctx->comment_preview['mail'] = '';
-            dcCore::app()->ctx->comment_preview['site'] = '';
-            dcCore::app()->ctx->comment_preview['preview'] = false;
-            dcCore::app()->ctx->comment_preview['remember'] = false;
+            dcCore::app()->ctx->comment_preview = [
+                'content' => '',
+                'rawcontent' => '',
+                'name' => '',
+                'mail' => '',
+                'site' => '',
+                'preview' => false,
+                'remember' => false
+            ];
 
             dcCore::app()->blog->withoutPassword(true);
-
 
             if (dcCore::app()->ctx->posts->isEmpty()) {
                 // The specified page does not exist.
@@ -82,7 +90,6 @@ class urlEventHandler extends dcUrlHandlers
                         setcookie('dc_passwd', serialize($pwd_cookie), 0, '/');
                     } else {
                         self::serveDocument('password-form.html', 'text/html', false);
-                        return;
                     }
                 }
 
@@ -97,7 +104,6 @@ class urlEventHandler extends dcUrlHandlers
                 }
             }
         }
-        return;
     }
 
     // Preview single event from admin side
@@ -150,7 +156,7 @@ class urlEventHandler extends dcUrlHandlers
             }
             $params = array_merge($params, dcCore::app()->ctx->event_params);
 
-            $eventHandler = new eventHandler();
+            $eventHandler = new EventHandler();
             $rs = $eventHandler->getEvents($params);
 
             if ($is_ical) {
@@ -163,7 +169,6 @@ class urlEventHandler extends dcUrlHandlers
         } else { // Else serve normal document
             self::serveDocument('eventhandler-list.html');
         }
-        return;
     }
 
     // Classic feed
@@ -185,7 +190,6 @@ class urlEventHandler extends dcUrlHandlers
             if (dcCore::app()->ctx->langs->isEmpty()) {
                 // The specified language does not exist.
                 self::p404();
-                return;
             } else {
                 dcCore::app()->ctx->cur_lang = $m[1];
             }
@@ -194,7 +198,6 @@ class urlEventHandler extends dcUrlHandlers
         if (preg_match('#^rss2/xslt$#', $args, $m)) {
             // RSS XSLT stylesheet
             self::serveDocument('rss2.xsl', 'text/xml');
-            return;
         } elseif (preg_match('#^(?:category/(.+)/)?(atom|rss2)$#', $args, $m)) {
             // All posts or comments feed
             $type = $m[2];
@@ -204,7 +207,6 @@ class urlEventHandler extends dcUrlHandlers
         } else {
             // The specified Feed URL is malformed.
             self::p404();
-            return;
         }
 
         if ($cat_url) {
@@ -215,7 +217,6 @@ class urlEventHandler extends dcUrlHandlers
             if (dcCore::app()->ctx->categories->isEmpty()) {
                 // The specified category does no exist.
                 self::p404();
-                return;
             }
 
             $subtitle = ' - ' . dcCore::app()->ctx->categories->cat_title;
@@ -278,7 +279,6 @@ class urlEventHandler extends dcUrlHandlers
             $m
         )) {
             self::p404();
-            return;
         }
 
         // Get category
@@ -290,7 +290,6 @@ class urlEventHandler extends dcUrlHandlers
             if (dcCore::app()->ctx->categories->isEmpty()) {
                 // The specified category does no exist.
                 self::p404();
-                return;
             }
         }
 
@@ -392,7 +391,6 @@ class urlEventHandler extends dcUrlHandlers
     {
         if ($rs->isEmpty()) {
             self::p404();
-            return;
         }
 
         $res =
@@ -427,7 +425,6 @@ class urlEventHandler extends dcUrlHandlers
     {
         if ($rs->isEmpty()) {
             self::p404();
-            return;
         }
 
         $res =
@@ -436,7 +433,7 @@ class urlEventHandler extends dcUrlHandlers
         '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="' .
         dcCore::app()->blog->settings->system->lang . '" lang="' . dcCore::app()->blog->settings->system->lang . '">' . "\n" .
         '<head>' . "\n" .
-        '<title>' . html::escapeHTML(dcCore::app()->blog->name) . ' - ' . __('Events') . '</title>' . "\n" .
+        '<title>' . Html::escapeHTML(dcCore::app()->blog->name) . ' - ' . __('Events') . '</title>' . "\n" .
         '<style type="text/css" media="screen">' . "\n" .
         '@import url(' . dcCore::app()->blog->getQmarkURL() .
         'pf=eventHandler/css/event-hcalendar.css);' . "\n" .
@@ -445,7 +442,7 @@ class urlEventHandler extends dcUrlHandlers
         '<body>' . "\n" .
         '<div id="page">' . "\n" .
         '<div id="top">' . "\n" .
-        '<h1><a href="' . dcCore::app()->blog->url . '">' . html::escapeHTML(dcCore::app()->blog->name) .
+        '<h1><a href="' . dcCore::app()->blog->url . '">' . Html::escapeHTML(dcCore::app()->blog->name) .
         ' - ' . __('Events') . '</a></h1>' . "\n";
 
         if ($x_dc_folder) {
@@ -487,13 +484,13 @@ class urlEventHandler extends dcUrlHandlers
         '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="' .
         dcCore::app()->blog->settings->system->lang . '" lang="' . dcCore::app()->blog->settings->system->lang . '">' . "\n" .
         '<head>' . "\n" .
-        '<title>' . html::escapeHTML(dcCore::app()->blog->name) . ' - ' . __('Events') . '</title>' . "\n" .
+        '<title>' . Html::escapeHTML(dcCore::app()->blog->name) . ' - ' . __('Events') . '</title>' . "\n" .
         '<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />' . "\n" .
-        '<script type="text/javascript" src="' . dcCore::app()->blog->settings->system->themes_url .
-        "/" . dcCore::app()->blog->settings->system->theme . '/../default/js/jquery.js"></script>' . "\n" .
+        '<script src="' . dcCore::app()->blog->settings->system->themes_url .
+        "/" . dcCore::app()->blog->settings->system->theme . '/../default/js/jquery.js"></script=>' . "\n" .
         '<script type="text/javascript" src="' . dcCore::app()->blog->settings->system->themes_url .
         "/" . dcCore::app()->blog->settings->system->theme . '/../default/js/jquery.cookie.js"></script>' . "\n" .
-        "<script type=\"text/javascript\" src=\"" . dcCore::app()->blog->getQmarkURL() .
+        "<script src=\"" . dcCore::app()->blog->getQmarkURL() .
         'pf=eventHandler/js/googlepmaps/event-public-map.js"></script>' . "\n" .
         '<style type="text/css">' .
         'html { height: 100%; } body { height: 100%; margin: 0px; padding: 0px; } ' .
@@ -512,7 +509,7 @@ class urlEventHandler extends dcUrlHandlers
             $lat = round($total_lat / $rs->count(), 7);
             $lng = round($total_lng / $rs->count(), 7);
 
-            $res .= eventHandler::getMapContent(
+            $res .= EventHandler::getMapContent(
                 '',
                 '',
                 dcCore::app()->blog->settings->eventHandler->public_map_type,

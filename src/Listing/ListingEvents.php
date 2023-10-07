@@ -4,10 +4,10 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- *  contact@jcdenis.fr http://jcd.lv
+ *  contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  *  Licensed under the GPL version 2.0 license.
  *  A copy of this license is available in LICENSE file or at
@@ -16,15 +16,26 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
-// List of events
-class adminEventHandlerList extends adminGenericList
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\eventHandler\Listing;
+
+use Dotclear\Core\Backend\Listing\Listing;
+use Dotclear\Core\Backend\Listing\Pager;
+use Dotclear\Helper\Date;
+use Dotclear\Helper\Html\Html;
+use dcBlog;
+use dcCore;
+use form;
+
+class ListingEvents extends Listing
 {
-    public function display($page, $nb_per_page, $enclose_block = '')
+    public function display(int $page, int $nb_per_page, string $enclose_block = '')
     {
         if ($this->rs->isEmpty()) {
             echo '<p><strong>' . __('No event') . '</strong></p>';
         } else {
-            $pager = new pager($page, $this->rs_count, $nb_per_page, 10);
+            $pager = new Pager($page, $this->rs_count, $nb_per_page, 10);
             $pager->html_prev = $this->html_prev;
             $pager->html_next = $this->html_next;
             $pager->var_page = 'page';
@@ -50,7 +61,7 @@ class adminEventHandlerList extends adminGenericList
                 $html_block = sprintf($enclose_block, $html_block);
             }
 
-            echo '<p>' . __('Page(s)') . ' : ' . $pager->getLinks() . '</p>';
+            echo $pager->getLinks();
 
             $blocks = explode('%s', $html_block);
 
@@ -62,22 +73,33 @@ class adminEventHandlerList extends adminGenericList
 
             echo $blocks[1];
 
-            echo '<p>' . __('Page(s)') . ' : ' . $pager->getLinks() . '</p>';
+            $fmt = fn ($title, $image) => sprintf('<img alt="%1$s" title="%1$s" src="images/%2$s" /> %1$s', $title, $image);
+            echo '<p class="info">' . __('Legend: ') .
+                $fmt(__('Published'), 'check-on.png') . ' - ' .
+                $fmt(__('Unpublished'), 'check-off.png') . ' - ' .
+                $fmt(__('Scheduled'), 'scheduled.png') . ' - ' .
+                $fmt(__('Pending'), 'check-wrn.png') . ' - ' .
+                $fmt(__('Protected'), 'locker.png') . ' - ' .
+                $fmt(__('Selected'), 'selected.png') . ' - ' .
+                $fmt(__('Attachments'), 'attach.png') .
+                '</p>';
+
+            echo $pager->getLinks();
         }
     }
 
     private function postLine()
     {
-        if (dcCore::app()->auth->check('categories', dcCore::app()->blog->id)) {
+        if (dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([dcCore::app()->auth::PERMISSION_CATEGORIES]), dcCore::app()->blog->id)) {
             $cat_link = '<a href="category.php?id=%s">%s</a>';
         } else {
             $cat_link = '%2$s';
         }
 
         if ($this->rs->cat_title) {
-            $cat_title = sprintf($cat_link, $this->rs->cat_id, html::escapeHTML($this->rs->cat_title));
+            $cat_title = sprintf($cat_link, $this->rs->cat_id, Html::escapeHTML($this->rs->cat_title));
         } else {
-            $cat_title = __('None');
+            $cat_title = __('(No cat)');
         }
 
         $img = '<img alt="%1$s" title="%1$s" src="images/%2$s" />';
@@ -129,11 +151,11 @@ class adminEventHandlerList extends adminGenericList
         $columns = [
             '<td class="nowrap">' . form::checkbox(['entries[]'], $this->rs->post_id, '', '', '', !$this->rs->isEditable()) . '</td>' .
             '<td class="maximal"><a href="' . dcCore::app()->getPostAdminURL($this->rs->post_type, $this->rs->post_id) . '">' .
-            html::escapeHTML($this->rs->post_title) . '</a></td>',
-            '<td class="nowrap' . ' ' . $event_class . '">' . dt::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->event_startdt) . '</td>',
-            '<td class="nowrap' . ' ' . $event_class . '">' . dt::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->event_enddt) . '</td>',
+            Html::escapeHTML($this->rs->post_title) . '</a></td>',
+            '<td class="nowrap' . ' ' . $event_class . '">' . Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->event_startdt) . '</td>',
+            '<td class="nowrap' . ' ' . $event_class . '">' . Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->event_enddt) . '</td>',
             '<td class="nowrap">' . $nb_entries . '</td>',
-            '<td class="nowrap">' . dt::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->post_dt) . '</td>',
+            '<td class="nowrap">' . Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->post_dt) . '</td>',
             '<td class="nowrap">' . $cat_title . '</td>',
             '<td class="nowrap">' . $this->rs->user_id . '</td>',
             '<td class="nowrap status">' . $img_status . ' ' . $selected . ' ' . $protected . '</td>'

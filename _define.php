@@ -7,7 +7,7 @@
  *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- *  contact@jcdenis.fr http://jcd.lv
+ *  contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  *  Licensed under the GPL version 2.0 license.
  *  A copy of this license is available in LICENSE file or at
@@ -20,12 +20,13 @@ $this->registerModule(
     "EventHandler", // Name
     "Manage events on your blog", // Description
     "JC Denis, Nicolas Roudaire", // Author
-    '2023.03.14', // Version
+    '2023.10.07', // Version
     // Properties
     [
         'permissions' => dcCore::app()->auth->makePermissions([dcAuth::PERMISSION_CONTENT_ADMIN, dcAuth::PERMISSION_USAGE]),
+        'requires' => [['core', '2.27']],
         'type' => 'plugin',
-        'dc_min' => '2.24',
+        'settings' => ['self' => '&part=settings'],
         'support' => 'http://forum.dotclear.org/viewtopic.php?id=43296',
         'details' => 'http://plugins.dotaddict.org/dc2/details/eventHandler'
     ]

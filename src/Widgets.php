@@ -4,10 +4,10 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- *  contact@jcdenis.fr http://jcd.lv
+ *  contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  *  Licensed under the GPL version 2.0 license.
  *  A copy of this license is available in LICENSE file or at
@@ -16,16 +16,23 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
-// Admin side of widgets
-class eventHandlerAdminWidgets
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\eventHandler;
+
+use dcCore;
+use Dotclear\Helper\Html\Html;
+use Dotclear\Plugin\widgets\WidgetsStack;
+
+class Widgets
 {
-    public static function events($w)
+    public static function events(WidgetsStack $w): void
     {
         $rs = dcCore::app()->blog->getCategories(['post_type' => 'eventhandler']);
         $combo_categories = ['&nbsp;' => '', __('Uncategorized') => 'null'];
         while ($rs->fetch()) {
             $combo_categories[str_repeat('&nbsp;&nbsp;', $rs->level - 1) . '&bull; ' .
-                              html::escapeHTML($rs->cat_title)] = $rs->cat_id;
+                              Html::escapeHTML($rs->cat_title)] = $rs->cat_id;
         }
         $combo_sortby = [
             __('Date') => 'post_dt',
@@ -55,7 +62,7 @@ class eventHandlerAdminWidgets
         $w->create(
             'ehEvents',
             __('EventHandler: events'),
-            ['eventHandlerPublicWidgets', 'events'],
+            [WidgetsTemplate::class, 'events'],
             null,
             __('Next events')
         );
@@ -76,13 +83,13 @@ class eventHandlerAdminWidgets
         $w->ehEvents->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function eventsOfPost($w)
+    public static function eventsOfPost(WidgetsStack $w): void
     {
         $rs = dcCore::app()->blog->getCategories(['post_type' => 'eventhandler']);
         $combo_categories = ['&nbsp;' => '', __('Uncategorized') => 'null'];
         while ($rs->fetch()) {
             $combo_categories[str_repeat('&nbsp;&nbsp;', $rs->level - 1) . '&bull; ' .
-                              html::escapeHTML($rs->cat_title)] = $rs->cat_id;
+                              Html::escapeHTML($rs->cat_title)] = $rs->cat_id;
         }
         $combo_sortby = [
             __('Date') => 'post_dt',
@@ -107,7 +114,7 @@ class eventHandlerAdminWidgets
         $w->create(
             'ehEventsOfPost',
             __('EventHandler: events of an entry'),
-            ['eventHandlerPublicWidgets', 'eventsOfPost'],
+            [WidgetsTemplate::class, 'eventsOfPost'],
             null,
             __('Related events')
         );
@@ -122,13 +129,13 @@ class eventHandlerAdminWidgets
         $w->ehEventsOfPost->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function postsOfEvent($w)
+    public static function postsOfEvent(WidgetsStack $w): void
     {
         $rs = dcCore::app()->blog->getCategories(['post_type' => 'post']);
         $combo_categories = ['&nbsp;' => '', __('Uncategorized') => 'null'];
         while ($rs->fetch()) {
             $combo_categories[str_repeat('&nbsp;&nbsp;', $rs->level - 1) . '&bull; ' .
-                              html::escapeHTML($rs->cat_title)] = $rs->cat_id;
+                              Html::escapeHTML($rs->cat_title)] = $rs->cat_id;
         }
         $combo_sortby = [
             __('Date') => 'post_dt',
@@ -142,7 +149,7 @@ class eventHandlerAdminWidgets
         $w->create(
             'ehPostsOfEvent',
             __('EventHandler: entries of an event'),
-            ['eventHandlerPublicWidgets', 'postsOfEvent'],
+            [WidgetsTemplate::class, 'postsOfEvent'],
             null,
             __('Related entries')
         );
@@ -156,7 +163,7 @@ class eventHandlerAdminWidgets
         $w->ehPostsOfEvent->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function categories($w)
+    public static function categories(WidgetsStack $w): void
     {
         $combo_homeonly = [
             __('All pages') => 0,
@@ -167,7 +174,7 @@ class eventHandlerAdminWidgets
         $w->create(
             'ehCategories',
             __('EventHandler: events categories'),
-            ['eventHandlerPublicWidgets', 'categories'],
+            [WidgetsTemplate::class, 'categories'],
             null,
             __('Events by categories')
         );
@@ -180,7 +187,7 @@ class eventHandlerAdminWidgets
         $w->ehCategories->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function map($w)
+    public static function map(WidgetsStack $w): void
     {
         for ($i = 3;$i < 21;$i++) {
             $combo_map_zoom[$i] = $i;
@@ -219,7 +226,7 @@ class eventHandlerAdminWidgets
         $w->create(
             'ehMap',
             __('EventHandler: events map'),
-            ['eventHandlerPublicWidgets', 'map'],
+            [WidgetsTemplate::class, 'map'],
             null,
             __('Events on map')
         );
@@ -239,7 +246,7 @@ class eventHandlerAdminWidgets
         $w->ehMap->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function calendar($w)
+    public static function calendar(WidgetsStack $w): void
     {
         $combo_weekstart = [
             __('Sunday') => '0',
@@ -254,7 +261,7 @@ class eventHandlerAdminWidgets
         $w->create(
             'ehCalendar',
             __('EventHandler: events calendar'),
-            ['eventHandlerPublicWidgets', 'calendar'],
+            [WidgetsTemplate::class, 'calendar'],
             null,
             __('Events calendar')
         );

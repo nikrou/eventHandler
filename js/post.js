@@ -5,7 +5,7 @@
  * Copyright(c) 2014 Nicolas Roudaire <nikrou77@gmail.com> http://www.nikrou.net
  *
  * Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- * contact@jcdenis.fr http://jcd.lv
+ * contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  * Licensed under the GPL version 2.0 license.
  * A copy of this license is available in LICENSE file or at
@@ -13,34 +13,37 @@
  *
  * -- END LICENSE BLOCK ------------------------------------*/
 
-$(function() {
-	$('#eventhandler-form-title').toggleWithLegend(
-		$('#eventhandler-form-content'),{
-			legend_click: true,
-			cookie:'dcx_eventhandler_admin_form_sidebar'
-		}
+$(function () {
+  $('#eventhandler-form-title').toggleWithLegend(
+    $('#eventhandler-form-content'),
+    {
+      legend_click: true,
+      cookie: 'dcx_eventhandler_admin_form_sidebar',
+    }
+  );
 
-	);
+  $('.event-node').each(function () {
+    var nodeValue = $(this)
+      .children('label')
+      .children('.event-node-value')
+      .attr('value');
+    var nodeText = $(this).children('label').text();
+    var a = $('<a class="event-unbind" href="#">[x]</a>');
 
-	$('.event-node').each(function(){
-		var nodeValue = $(this).children('label').children('.event-node-value').attr('value');
-		var nodeText = $(this).children('label').text();
-		var a = $('<a class="event-unbind" href="#">[x]</a>');
+    $(a).click(function () {
+      dotclear.jsonServicesPost(
+        'unbindEventOfPost',
+        (data) => {
+          alert(data.message);
+          $(a).parent().remove();
+        },
+        { postId: $('#id').val(), eventId: nodeValue }
+      );
 
-		$(a).click(function(){
-			$.get('services.php',{f: 'unbindEventOfPost',postId: $('#id').val(),eventId: nodeValue},
-			function(data){
-				var rsp = $(data).children('rsp')[0];
-				if (rsp.attributes[0].value == 'ok') {
-					$(a).parent().remove();
-				} else {
-					alert($(rsp).find('message').text());
-				}
-			});
-			return false;
-		});
+      return false;
+    });
 
-		$(this).empty();
-		$(this).text(nodeText).append(' ').append(a);
-	});
+    $(this).empty();
+    $(this).text(nodeText).append(' ').append(a);
+  });
 });

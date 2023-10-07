@@ -4,10 +4,10 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- *  contact@jcdenis.fr http://jcd.lv
+ *  contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  *  Licensed under the GPL version 2.0 license.
  *  A copy of this license is available in LICENSE file or at
@@ -16,8 +16,14 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
-// Public behaviors
-class publicEventHandler
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\eventHandler;
+
+use dcCore;
+use Dotclear\Helper\Html\Html;
+
+class PublicBehaviors
 {
     // Add some css and js to page
     public static function publicHeadContent()
@@ -33,22 +39,22 @@ class publicEventHandler
 
         if (dcCore::app()->blog->settings->eventHandler->map_provider == 'osm') {
             echo '<link rel="stylesheet" type="text/css" href="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/css/leaflet.css"/>',"\n";
-            echo '<script type="text/javascript" src="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/js/osm/leaflet-src.js"></script>',"\n";
+            echo '<script src="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/js/osm/leaflet-src.js"></script=>',"\n";
         }
 
-        echo '<script type="text/javascript" src="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/js/' . dcCore::app()->blog->settings->eventHandler->map_provider . '/event-public-map.js"></script>',"\n";
-        echo '<script type="text/javascript" src="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/js/event-public-cal.js"></script>',"\n";
-        echo '<script type="text/javascript">' . "\n" .
+        echo '<script src="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/js/' . dcCore::app()->blog->settings->eventHandler->map_provider . '/event-public-map.js"></script>',"\n";
+        echo '<script src="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/js/event-public-cal.js"></script>',"\n";
+        echo '<script>' . "\n" .
 			"//<![CDATA[\n" .
 			" \$(function(){ \n" .
 			"  \$.fn.eventHandlerCalendar.defaults.service_url = '" .
-			html::escapeJS(dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_pubrest') . '/') . "'; \n" .
+			Html::escapeJS(dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_pubrest') . '/') . "'; \n" .
 			"  \$.fn.eventHandlerCalendar.defaults.service_func = '" .
-			html::escapeJS('eventHandlerCalendar') . "'; \n" .
+			Html::escapeJS('eventHandlerCalendar') . "'; \n" .
 			"  \$.fn.eventHandlerCalendar.defaults.blog_uid = '" .
-			html::escapeJS(dcCore::app()->blog->uid) . "'; \n" .
+			Html::escapeJS(dcCore::app()->blog->uid) . "'; \n" .
 			"  \$.fn.eventHandlerCalendar.defaults.msg_wait = '" .
-			html::escapeJS(__('Please wait...')) . "'; \n" .
+			Html::escapeJS(__('Please wait...')) . "'; \n" .
 			"  \$('.calendar-array').eventHandlerCalendar(); \n" .
 			" })\n" .
 			"//]]>\n" .
@@ -56,7 +62,7 @@ class publicEventHandler
 
         $extra_css = dcCore::app()->blog->settings->eventHandler->public_extra_css;
         if ($extra_css) {
-            echo '<style type="text/css">' . "\n" . html::escapeHTML($extra_css) . "\n" . "\n</style>\n";
+            echo '<style type="text/css">' . "\n" . Html::escapeHTML($extra_css) . "\n" . "\n</style>\n";
         }
     }
 

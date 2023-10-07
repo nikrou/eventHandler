@@ -5,7 +5,7 @@
  * Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  * Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- * contact@jcdenis.fr http://jcd.lv
+ * contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  * Licensed under the GPL version 2.0 license.
  * A copy of this license is available in LICENSE file or at

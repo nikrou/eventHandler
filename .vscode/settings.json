@@ -8,6 +8,9 @@
         "editor.formatOnSave": true
     },
     "php-cs-fixer.onsave": true,
+    "files.associations": {
+        "*.tpl": "php"
+    },
     "files.exclude": {
         "**/.dist": true,
         "**/_data": true,

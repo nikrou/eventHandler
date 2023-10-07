@@ -7,7 +7,7 @@
  *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- *  contact@jcdenis.fr http://jcd.lv
+ *  contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  *  Licensed under the GPL version 2.0 license.
  *  A copy of this license is available in LICENSE file or at
@@ -16,8 +16,15 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
-// Template values
-class tplEventHandler
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\eventHandler;
+
+use dcCore;
+use Dotclear\Helper\Date;
+use Dotclear\Helper\Html\Html;
+
+class Template
 {
 	//
     // Missing values
@@ -57,7 +64,7 @@ class tplEventHandler
         $item = !empty($attr['item']) ? $attr['item'] : '';
         $active_item = !empty($attr['active_item']) ? $attr['active_item'] : '';
 
-        return "<?php echo tplEventHandler::EventsMenuPeriodHelper('" . addslashes($menus) . "','" . addslashes($separator) . "','" . addslashes($list) . "','" . addslashes($item) . "','" . addslashes($active_item) . "'); ?>";
+        return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsMenuPeriodHelper('" . addslashes($menus) . "','" . addslashes($separator) . "','" . addslashes($list) . "','" . addslashes($item) . "','" . addslashes($active_item) . "'); ?>";
     }
 
     // Navigation menu helper
@@ -87,10 +94,10 @@ class tplEventHandler
             }
         }
 
-        $separator = $separator ? html::decodeEntities($separator) : '';
-        $list = $list ? html::decodeEntities($list) : '<ul>%s</ul>';
-        $item = $item ? html::decodeEntities($item) : '<li><a href="%s">%s</a>%s</li>';
-        $active_item = $active_item ? html::decodeEntities($active_item) : '<li class="nav-active"><a href="%s">%s</a>%s</li>';
+        $separator = $separator ? Html::decodeEntities($separator) : '';
+        $list = $list ? Html::decodeEntities($list) : '<ul>%s</ul>';
+        $item = $item ? Html::decodeEntities($item) : '<li><a href="%s">%s</a>%s</li>';
+        $active_item = $active_item ? Html::decodeEntities($active_item) : '<li class="nav-active"><a href="%s">%s</a>%s</li>';
         $url = dcCore::app()->blog->url . dcCore::app()->url->getBase("eventhandler_list") . '/';
         if (dcCore::app()->ctx->exists('categories')) {
             $url .= 'category/' . dcCore::app()->ctx->categories->cat_url . '/';
@@ -121,7 +128,7 @@ class tplEventHandler
         $item = !empty($attr['item']) ? $attr['item'] : '';
         $active_item = !empty($attr['active_item']) ? $attr['active_item'] : '';
 
-        return "<?php echo tplEventHandler::EventsMenuSortOrdertHelper('" . addslashes($menus) . "','" . addslashes($separator) . "','" . addslashes($list) . "','" . addslashes($item) . "','" . addslashes($active_item) . "'); ?>";
+        return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsMenuSortOrdertHelper('" . addslashes($menus) . "','" . addslashes($separator) . "','" . addslashes($list) . "','" . addslashes($item) . "','" . addslashes($active_item) . "'); ?>";
     }
 
     // Sort order menu helper
@@ -159,10 +166,10 @@ class tplEventHandler
             }
         }
 
-        $separator = $separator ? html::decodeEntities($separator) : '';
-        $list = $list ? html::decodeEntities($list) : '<ul>%s</ul>';
-        $item = $item ? html::decodeEntities($item) : '<li><a href="%s">%s</a>%s</li>';
-        $active_item = $active_item ? html::decodeEntities($active_item) : '<li class="nav-active"><a href="%s">%s</a>%s</li>';
+        $separator = $separator ? Html::decodeEntities($separator) : '';
+        $list = $list ? Html::decodeEntities($list) : '<ul>%s</ul>';
+        $item = $item ? Html::decodeEntities($item) : '<li><a href="%s">%s</a>%s</li>';
+        $active_item = $active_item ? Html::decodeEntities($active_item) : '<li class="nav-active"><a href="%s">%s</a>%s</li>';
         $period = !empty(dcCore::app()->ctx->event_params['event_period']) ? dcCore::app()->ctx->event_params['event_period'] : 'all';
         $url = dcCore::app()->blog->url . dcCore::app()->url->getBase("eventhandler_list") . '/';
         if (dcCore::app()->ctx->exists('categories')) {
@@ -212,7 +219,7 @@ class tplEventHandler
             $fulltext = 2;
         }
 
-        return "<?php echo tplEventHandler::EventsPeriodHelper('" . $fulltext . "'); ?>";
+        return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsPeriodHelper('" . $fulltext . "'); ?>";
     }
 
     // Period helper
@@ -257,7 +264,7 @@ class tplEventHandler
     {
         $format = !empty($attr['format']) ? addslashes($attr['format']) : __('%m %d %Y');
 
-        return "<?php echo tplEventHandler::EventsIntervalHelper('" . $format . "'); ?>";
+        return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsIntervalHelper('" . $format . "'); ?>";
     }
 
     // Interval info helper
@@ -265,17 +272,17 @@ class tplEventHandler
     {
         if (!empty(dcCore::app()->ctx->event_params['event_start_year'])) {
             if (!empty(dcCore::app()->ctx->event_params['event_start_day'])) {
-                $dt = dt::str($format, mktime(0, 0, 0, dcCore::app()->ctx->event_params['event_start_month'], dcCore::app()->ctx->event_params['event_start_day'], dcCore::app()->ctx->event_params['event_start_year']));
+                $dt = Date::str($format, mktime(0, 0, 0, dcCore::app()->ctx->event_params['event_start_month'], dcCore::app()->ctx->event_params['event_start_day'], dcCore::app()->ctx->event_params['event_start_year']));
                 return sprintf(__('For the day of %s'), $dt);
             } elseif (!empty(dcCore::app()->ctx->event_params['event_start_month'])) {
-                $dt = dt::str(__('%m %Y'), mktime(0, 0, 0, dcCore::app()->ctx->event_params['event_start_month'], 1, dcCore::app()->ctx->event_params['event_start_year']));
+                $dt = Date::str(__('%m %Y'), mktime(0, 0, 0, dcCore::app()->ctx->event_params['event_start_month'], 1, dcCore::app()->ctx->event_params['event_start_year']));
                 return sprintf(__('For the month of %s'), $dt);
             } elseif (!empty(dcCore::app()->ctx->event_params['event_start_year'])) {
                 return sprintf(__('For the year of %s'), dcCore::app()->ctx->event_params['event_start_year']);
             }
         } else {
-            $start = dt::dt2str($format, dcCore::app()->ctx->event_params['event_startdt']);
-            $end = dt::dt2str($format, dcCore::app()->ctx->event_params['event_enddt']);
+            $start = Date::dt2str($format, dcCore::app()->ctx->event_params['event_startdt']);
+            $end = Date::dt2str($format, dcCore::app()->ctx->event_params['event_enddt']);
 
             if (strtotime(dcCore::app()->ctx->event_params['event_startdt']) < strtotime(dcCore::app()->ctx->event_params['event_enddt'])) {
                 return sprintf(__('For the period between %s and %s'), $start, $end);
@@ -438,7 +445,7 @@ class tplEventHandler
             if (dcCore::app()->blog->settings->eventHandler->public_events_list_order) {
                 $order = dcCore::app()->blog->settings->eventHandler->public_events_list_order;
             }
-            $special_attr = new ArrayObject($special_attr = ['order' => $order, 'sortby' => $field]);
+            $special_attr = new \ArrayObject($special_attr = ['order' => $order, 'sortby' => $field]);
             $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($special_attr, $table) . "';\n";
         }
 
@@ -457,7 +464,7 @@ class tplEventHandler
 
         return
             "<?php\n" .
-            'if(!isset($eventHandler)) { $eventHandler = new eventHandler(); } ' . "\n" .
+            'if(!isset($eventHandler)) { $eventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); } ' . "\n" .
             '$params = array(); ' . "\n" .
             $p .
             'dcCore::app()->ctx->post_params = $params; ' . "\n" .
@@ -473,7 +480,7 @@ class tplEventHandler
     {
         $p =
             "<?php\n" .
-            'if(!isset($eventHandler)) { $eventHandler = new eventHandler(); } ' . "\n" .
+            'if(!isset($eventHandler)) { $eventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); } ' . "\n" .
             '$params = dcCore::app()->ctx->post_params; ' . "\n" .
             'dcCore::app()->ctx->pagination = $eventHandler->getEvents($params,true); unset($params); ' . "\n" .
             "?>\n";
@@ -656,7 +663,7 @@ class tplEventHandler
     // Category url
     public static function EventsEntryCategoryURL($a)
     {
-        return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_list")."/category/".html::sanitizeURL(dcCore::app()->ctx->posts->cat_url)');
+        return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_list")."/category/".Html::sanitizeURL(dcCore::app()->ctx->posts->cat_url)');
     }
 
     // Address
@@ -690,7 +697,7 @@ class tplEventHandler
     {
         $format = !empty($a['format']) ? addslashes($a['format']) : '';
 
-        return self::tplValue($a, "eventHandler::getReadableDuration((strtotime(dcCore::app()->ctx->posts->event_enddt) - strtotime(dcCore::app()->ctx->posts->event_startdt)),'" . $format . "')");
+        return self::tplValue($a, "Dotclear\\Plugin\\eventHandler\\EventHandler::getReadableDuration((strtotime(dcCore::app()->ctx->posts->event_enddt) - strtotime(dcCore::app()->ctx->posts->event_startdt)),'" . $format . "')");
     }
 
     // Period
@@ -714,7 +721,7 @@ class tplEventHandler
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return
-            "<?php \$time = time() + dt::getTimeOffset(dcCore::app()->ctx->posts->post_tz)*2;\n" .
+            "<?php \$time = time() + Dotclear\Helper\Date::getTimeOffset(dcCore::app()->ctx->posts->post_tz)*2;\n" .
             "if (dcCore::app()->ctx->posts->getEventTS('startdt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $scheduled . "'") . "; }\n" .
             "elseif (dcCore::app()->ctx->posts->getEventTS('startdt') < \$time && dcCore::app()->ctx->posts->getEventTS('enddt') > \$time) {\n" .
@@ -732,10 +739,10 @@ class tplEventHandler
         } else {
             $map_zoom = '(dcCore::app()->ctx->posts->event_zoom)?dcCore::app()->ctx->posts->event_zoom:dcCore::app()->blog->settings->eventHandler->public_map_zoom';
         }
-        $map_type = !empty($attr['map_type']) ? '"' . html::escapeHTML($attr['map_type']) . '"' : 'dcCore::app()->blog->settings->eventHandler->public_map_type';
+        $map_type = !empty($attr['map_type']) ? '"' . Html::escapeHTML($attr['map_type']) . '"' : 'dcCore::app()->blog->settings->eventHandler->public_map_type';
         $map_info = isset($attr['map_info']) && $attr['map_info'] == '0' ? '0' : '1';
 
-        return '<?php echo eventHandler::getMapContent("","",' . $map_type . ',' . $map_zoom . ',' . $map_info . ',dcCore::app()->ctx->posts->event_latitude,dcCore::app()->ctx->posts->event_longitude,dcCore::app()->ctx->posts->getMapVEvent()); ?>';
+        return '<?php echo Dotclear\\Plugin\\eventHandler\\EventHandler::getMapContent("","",' . $map_type . ',' . $map_zoom . ',' . $map_info . ',dcCore::app()->ctx->posts->event_latitude,dcCore::app()->ctx->posts->event_longitude,dcCore::app()->ctx->posts->getMapVEvent()); ?>';
     }
 
 	//
@@ -800,7 +807,7 @@ class tplEventHandler
 
         return
             "<?php\n" .
-            'if(!isset($eventHandler)) { $eventHandler = new eventHandler(); } ' . "\n" .
+            'if(!isset($eventHandler)) { $eventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); } ' . "\n" .
             '$params = array(); ' . "\n" .
             '$public_hidden_categories = @unserialize(dcCore::app()->blog->settings->eventHandler->public_hidden_categories); ' .
             'if (is_array($public_hidden_categories)) { ' .
@@ -971,7 +978,7 @@ class tplEventHandler
 
     public static function EventOfPostCategoryURL($a)
     {
-        return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_list")."/category/".html::sanitizeURL(dcCore::app()->ctx->eventsofpost->cat_url)');
+        return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_list")."/category/".Html::sanitizeURL(dcCore::app()->ctx->eventsofpost->cat_url)');
     }
 
     public static function EventOfPostAddress($a)
@@ -983,7 +990,7 @@ class tplEventHandler
     {
         $format = !empty($a['format']) ? addslashes($a['format']) : '';
 
-        return self::tplValue($a, "eventHandler::getReadableDuration((strtotime(dcCore::app()->ctx->eventsofpost->event_enddt) - strtotime(dcCore::app()->ctx->eventsofpost->event_startdt)),'" . $format . "')");
+        return self::tplValue($a, "Dotclear\\Plugin\\eventHandler\\EventHandler::getReadableDuration((strtotime(dcCore::app()->ctx->eventsofpost->event_enddt) - strtotime(dcCore::app()->ctx->eventsofpost->event_startdt)),'" . $format . "')");
     }
 
     public static function EventOfPostPeriod($attr)
@@ -1006,7 +1013,7 @@ class tplEventHandler
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return
-            "<?php \$time = time() + dt::getTimeOffset(dcCore::app()->ctx->eventsofpost->post_tz)*2;\n" .
+            "<?php \$time = time() + Dotclear\Helper\Date::getTimeOffset(dcCore::app()->ctx->eventsofpost->post_tz)*2;\n" .
             "if (dcCore::app()->ctx->eventsofpost->getEventTS('startdt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $scheduled . "'") . "; }\n" .
             "elseif (dcCore::app()->ctx->eventsofpost->getEventTS('startdt') < \$time && dcCore::app()->ctx->eventsofpost->getEventTS('enddt') > \$time) {\n" .
@@ -1070,7 +1077,7 @@ class tplEventHandler
 
         return
             "<?php\n" .
-            "\$postsofeventHandler = new eventHandler(); \n" .
+            "\$postsofeventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); \n" .
             'if (dcCore::app()->ctx->exists("posts") && dcCore::app()->ctx->posts->post_id) { ' .
             " \$params['event_id'] = dcCore::app()->ctx->posts->post_id; " .
             "} \n" .

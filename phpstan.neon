@@ -1,15 +1,17 @@
+includes:
+  - phpstan-baseline.neon
+
 parameters:
-  level: 1
+  level: 5
 
   bootstrapFiles:
     - phpstan.bootstrap
 
   paths:
-    - inc
+    - src
+    - tpl
 
   scanDirectories:
     - ../dotclear
-  scanFiles:
-    - ../dotclear/inc/prepend.php
 
   reportUnmatchedIgnoredErrors: false

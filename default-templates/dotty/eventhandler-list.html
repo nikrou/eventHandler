@@ -33,56 +33,55 @@
     </div>
 
     <tpl:EventsEntries>
-	<div id="p{{tpl:EntryID}}" class="post {{tpl:EntryIfOdd}} {{tpl:EntryIfFirst}}" lang="{{tpl:EntryLang}}" role="article">
-	    <!-- # New day date -->
-	    <tpl:EventsEntryIf orderedby="startdt">
-		<tpl:EventsDateHeader startdt="1"><p class="day-date">{{tpl:EventsEntryDate startdt="1"}}</p></tpl:EventsDateHeader>
-	    </tpl:EventsEntryIf>
-	    <tpl:EventsEntryIf orderedby="enddt">
-		<tpl:EventsDateHeader enddt="1"><p class="day-date">{{tpl:EventsEntryDate enddt="1"}}</p></tpl:EventsDateHeader>
-	    </tpl:EventsEntryIf>
-	    <tpl:EventsEntryIf orderedby="date">
-		<tpl:DateHeader><p class="day-date">{{tpl:EntryDate}}</p></tpl:DateHeader>
-	    </tpl:EventsEntryIf>
+      <div id="p{{tpl:EntryID}}" class="post {{tpl:EntryIfOdd}} {{tpl:EntryIfFirst}}" lang="{{tpl:EntryLang}}" role="article">
+	<tpl:EventsEntryIf orderedby="startdt">
+	  <tpl:EventsDateHeader startdt="1"><p class="day-date">{{tpl:EventsEntryDate startdt="1"}}</p></tpl:EventsDateHeader>
+	</tpl:EventsEntryIf>
+	<tpl:EventsEntryIf orderedby="enddt">
+	  <tpl:EventsDateHeader enddt="1"><p class="day-date">{{tpl:EventsEntryDate enddt="1"}}</p></tpl:EventsDateHeader>
+	</tpl:EventsEntryIf>
+	<tpl:EventsEntryIf orderedby="date">
+	  <tpl:DateHeader><p class="day-date">{{tpl:EntryDate}}</p></tpl:DateHeader>
+	</tpl:EventsEntryIf>
 
-	    <h2 class="post-title">
-		<a href="{{tpl:EntryURL}}">{{tpl:EntryTitle encode_html="1"}}</a>
-	    </h2>
+	<h2 class="post-title">
+	  <a href="{{tpl:EntryURL}}">{{tpl:EntryTitle encode_html="1"}}</a>
+	</h2>
 
-	    <p class="post-info">{{tpl:lang By}} {{tpl:EntryAuthorLink}}
-		{{tpl:lang on}} {{tpl:EntryDate}}, {{tpl:EntryTime}}
-		<tpl:EntryIf has_category="1">
-		    - <a href="{{tpl:EventsEntryCategoryURL}}">{{tpl:EntryCategory encode_html="1"}}</a>
-		</tpl:EntryIf>
-		- <a href="{{tpl:EntryURL}}">{{tpl:lang Permalink}}</a>
-	    </p>
+	<p class="post-info">{{tpl:lang By}} {{tpl:EntryAuthorLink}}
+	  {{tpl:lang on}} {{tpl:EntryDate}}, {{tpl:EntryTime}}
+	  <tpl:EntryIf has_category="1">
+	    - <a href="{{tpl:EventsEntryCategoryURL}}">{{tpl:EntryCategory encode_html="1"}}</a>
+	  </tpl:EntryIf>
+	  - <a href="{{tpl:EntryURL}}">{{tpl:lang Permalink}}</a>
+	</p>
 
-	    <ul class="event-info">
-		<li class="event-date">{{tpl:lang on}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang for a period of}} {{tpl:EventsEntryDuration}}</li>
-	    </ul>
+	<ul class="event-info">
+	  <li class="event-date">{{tpl:lang on}} {{tpl:EventsEntryDate startdt="1"}}, {{tpl:EventsEntryTime startdt="1"}} {{tpl:lang for a period of}} {{tpl:EventsEntryDuration}}</li>
+	</ul>
 
-	    <div class="post-content">
-		<!-- # Entry with an excerpt -->
-		<tpl:EntryIf extended="1">{{tpl:EntryExcerpt}}</tpl:EntryIf>
-		<!-- # Entry without excerpt -->
-		<tpl:EntryIf extended="0"><p>{{tpl:EntryContent encode_html="1" remove_html="1" cut_string="250"}}</p></tpl:EntryIf>
-
-		<p class="read-it">
-		    <a href="{{tpl:EntryURL}}" title="{{tpl:lang Continue reading}} {{tpl:EntryTitle encode_html="1"}}">{{tpl:lang Continue reading}}</a>
-		</p>
-	    </div>
+	<div class="post-content">
+	  <!-- # Entry with an excerpt -->
+	  <tpl:EntryIf extended="1">{{tpl:EntryExcerpt}}</tpl:EntryIf>
+	  <!-- # Entry without excerpt -->
+	  <tpl:EntryIf extended="0"><p>{{tpl:EntryContent encode_html="1" remove_html="1" cut_string="250"}}</p></tpl:EntryIf>
+	  
+	  <p class="read-it">
+	    <a href="{{tpl:EntryURL}}" title="{{tpl:lang Continue reading}} {{tpl:EntryTitle encode_html="1"}}">{{tpl:lang Continue reading}}</a>
+	  </p>
 	</div>
 
 	<tpl:EntriesFooter>
-	    <tpl:EventsPagination>
-		<p class="pagination"><tpl:PaginationIf end="0"><a href="{{tpl:PaginationURL offset="+1"}}" class="prev">&#171;
-		    {{tpl:lang previous entries}}</a> - </tpl:PaginationIf>
-		    {{tpl:lang page}} {{tpl:PaginationCurrent}} {{tpl:lang of}} {{tpl:PaginationCounter}}
-		    <tpl:PaginationIf start="0"> - <a href="{{tpl:PaginationURL offset="-1"}}" class="next">{{tpl:lang next entries}}
+	  <tpl:EventsPagination>
+	    <p class="pagination"><tpl:PaginationIf end="0"><a href="{{tpl:PaginationURL offset="+1"}}" class="prev">&#171;
+		  {{tpl:lang previous entries}}</a> - </tpl:PaginationIf>
+	      {{tpl:lang page}} {{tpl:PaginationCurrent}} {{tpl:lang of}} {{tpl:PaginationCounter}}
+	      <tpl:PaginationIf start="0"> - <a href="{{tpl:PaginationURL offset="-1"}}" class="next">{{tpl:lang next entries}}
 			&#187;</a></tpl:PaginationIf></p>
 	    </tpl:EventsPagination>
-	</tpl:EntriesFooter>
-    </div>
-    </tpl:EventsEntries>
 
+	</tpl:EntriesFooter>
+      </div>
+    </tpl:EventsEntries>
 </tpl:Block>
+

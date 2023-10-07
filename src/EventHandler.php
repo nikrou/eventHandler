@@ -4,10 +4,10 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- *  contact@jcdenis.fr http://jcd.lv
+ *  contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  *  Licensed under the GPL version 2.0 license.
  *  A copy of this license is available in LICENSE file or at
@@ -16,7 +16,15 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
-class eventHandler
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\eventHandler;
+
+use dcCore;
+use Dotclear\Database\Statement\JoinStatement;
+use Dotclear\Database\Statement\SelectStatement;
+
+class EventHandler
 {
     public $con;
 
@@ -83,9 +91,9 @@ class eventHandler
         $params['columns'] = $col;
 
         // Tables
-        $sql = new dcSelectStatement();
+        $sql = new SelectStatement();
         $sql->join(
-            (new dcJoinStatement())
+            (new JoinStatement())
         		   ->type('INNER')
         		   ->from($this->table . ' EH')
         		   ->on('EH.post_id = P.post_id')
@@ -182,7 +190,7 @@ class eventHandler
 
         if (empty($params['sql_only'])) {
             $rs->eventHandler = $this;
-            $rs->extend('rsExtEventHandlerPublic');
+            $rs->extend(RsExtension::class);
         }
 
         // --BEHAVIOR-- coreEventHandlerGetEvents
@@ -247,7 +255,7 @@ class eventHandler
     public function addEvent($cur_post, $cur_event)
     {
         if (!dcCore::app()->auth->check('usage,contentadmin', $this->blog)) {
-            throw new Exception(__('You are not allowed to create an event'));
+            throw new \Exception(__('You are not allowed to create an event'));
         }
 
         try {
@@ -262,7 +270,7 @@ class eventHandler
 
             // Create second part of event record
             $cur_event->insert();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->con->rollback();
             throw $e;
         }
@@ -276,13 +284,13 @@ class eventHandler
     public function updEvent($post_id, $cur_post, $cur_event)
     {
         if (!dcCore::app()->auth->check('usage,contentadmin', $this->blog)) {
-            throw new Exception(__('You are not allowed to update events'));
+            throw new \Exception(__('You are not allowed to update events'));
         }
 
         $post_id = (integer) $post_id;
 
         if (empty($post_id)) {
-            throw new Exception(__('No such event ID'));
+            throw new \Exception(__('No such event ID'));
         }
 
         $this->con->begin();
@@ -300,7 +308,7 @@ class eventHandler
 
             // update second part of event record
             $cur_event->update("WHERE post_id = '" . $post_id . "' ");
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->con->rollback();
             throw $e;
         }
@@ -311,13 +319,13 @@ class eventHandler
     public function delEvent($post_id)
     {
         if (!dcCore::app()->auth->check('delete,contentadmin', $this->blog)) {
-            throw new Exception(__('You are not allowed to delete events'));
+            throw new \Exception(__('You are not allowed to delete events'));
         }
 
         $post_id = (integer) $post_id;
 
         if (empty($post_id)) {
-            throw new Exception(__('No such event ID'));
+            throw new \Exception(__('No such event ID'));
         }
 
         // --BEHAVIOR-- coreEventHandlerEventDelete
@@ -336,31 +344,31 @@ class eventHandler
     {
         // Required a start date
         if ($cur_event->event_startdt == '') {
-            throw new Exception(__('No event start date'));
+            throw new \Exception(__('No event start date'));
         }
         // Required an end date
         if ($cur_event->event_enddt == '') {
-            throw new Exception(__('No event end date'));
+            throw new \Exception(__('No event end date'));
         }
         // Compare dates
         if (strtotime($cur_event->event_enddt) < strtotime($cur_event->event_startdt)) {
-            throw new Exception(__('Start date greater than end date'));
+            throw new \Exception(__('Start date greater than end date'));
         }
         // Full coordiantes or nothing
         if (($cur_event->event_latitude != '' && $cur_event->event_longitude == '')
            || ($cur_event->event_latitude == '' && $cur_event->event_longitude != '')) {
-            throw new Exception(__('Not full coordinate'));
+            throw new \Exception(__('Not full coordinate'));
         }
         // Coordinates format
         if ($cur_event->event_latitude != '') {
             if (!preg_match('/^(-|)[0-9.]+$/', $cur_event->event_latitude)) {
-                throw new Exception(__('Wrong format of coordinate'));
+                throw new \Exception(__('Wrong format of coordinate'));
             }
         }
         // Coordinates format
         if ($cur_event->event_longitude != '') {
             if (!preg_match('/^(-|)[0-9.]+$/', $cur_event->event_longitude)) {
-                throw new Exception(__('Wrong format of coordinate'));
+                throw new \Exception(__('Wrong format of coordinate'));
             }
         }
         // Set post type
@@ -420,7 +428,7 @@ class eventHandler
         if ($min == 1) {
             $time .= __('one minute') . ' ';
         }
-        if (!$day && !$min && !$day && !$hou) {
+        if (!$day && !$min && !$hou) {
             $time .= __('instantaneous');
         }
 

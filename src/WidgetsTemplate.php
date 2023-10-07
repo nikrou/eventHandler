@@ -4,10 +4,10 @@
  *
  *  This file is part of eventHandler, a plugin for Dotclear 2.
  *
- *  Copyright(c) 2014-2022 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
+ *  Copyright(c) 2014-2023 Nicolas Roudaire <nikrou77@gmail.com> https://www.nikrou.net
  *
  *  Copyright (c) 2009-2013 Jean-Christian Denis and contributors
- *  contact@jcdenis.fr http://jcd.lv
+ *  contact@jcdenis.fr https://chez.jcdenis.fr/
  *
  *  Licensed under the GPL version 2.0 license.
  *  A copy of this license is available in LICENSE file or at
@@ -16,10 +16,19 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
-// Public side of widgets
-class eventHandlerPublicWidgets
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\eventHandler;
+
+use dcCore;
+use Dotclear\Database\Record;
+use Dotclear\Helper\Date;
+use Dotclear\Helper\Html\Html;
+use Dotclear\Plugin\widgets\WidgetsElement;
+
+class WidgetsTemplate
 {
-    public static function events($w)
+    public static function events(WidgetsElement $w)
     {
         if ($w->offline) {
             return;
@@ -74,7 +83,7 @@ class eventHandlerPublicWidgets
             }
         }
         // Get posts
-        $eventHandler = new eventHandler();
+        $eventHandler = new EventHandler();
         $rs = $eventHandler->getEvents($params);
         // No result
         if ($rs->isEmpty()) {
@@ -82,8 +91,8 @@ class eventHandlerPublicWidgets
         }
 
         // Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-events' . ($w->class ? ' ' . html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') .
+        $res = ($w->content_only ? '' : '<div class="widget eventhandler-events' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
+        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
         	// Events events
         	'<ul>';
 
@@ -96,10 +105,10 @@ class eventHandlerPublicWidgets
             }
 
             // Format items
-            $fsd = dt::dt2str($w->date_format, $rs->event_startdt);
-            $fst = dt::dt2str($w->time_format, $rs->event_startdt);
-            $fed = dt::dt2str($w->date_format, $rs->event_enddt);
-            $fet = dt::dt2str($w->time_format, $rs->event_enddt);
+            $fsd = Date::dt2str($w->date_format, $rs->event_startdt);
+            $fst = Date::dt2str($w->time_format, $rs->event_startdt);
+            $fed = Date::dt2str($w->date_format, $rs->event_enddt);
+            $fet = Date::dt2str($w->time_format, $rs->event_enddt);
 
             // Replacement
             $over = str_replace(
@@ -107,14 +116,14 @@ class eventHandlerPublicWidgets
                 [$fsd, $fst, $fed, $fet, '%'],
                 $over_format
             );
-            $title = '<a href="' . $rs->getURL() . '" title="' . $over . '">' . html::escapeHTML($rs->post_title) . '</a>';
+            $title = '<a href="' . $rs->getURL() . '" title="' . $over . '">' . Html::escapeHTML($rs->post_title) . '</a>';
             $cat = '';
             if ($w->item_showcat && $rs->cat_id) {
                 $cat = sprintf(
                     ' (<a href="%s" title="%s">%s</a>)',
                     $rs->getCategoryURL(),
                     __('go to this category'),
-                    html::escapeHTML($rs->cat_title)
+                    Html::escapeHTML($rs->cat_title)
                 );
             }
 
@@ -134,7 +143,7 @@ class eventHandlerPublicWidgets
         return $res;
     }
 
-    public static function eventsOfPost($w)
+    public static function eventsOfPost(WidgetsElement $w)
     {
         if ($w->offline) {
             return;
@@ -186,7 +195,7 @@ class eventHandlerPublicWidgets
             }
         }
         // Get posts
-        $eventHandler = new eventHandler();
+        $eventHandler = new EventHandler();
         $rs = $eventHandler->getEventsByPost($params);
         // No result
         if ($rs->isEmpty()) {
@@ -194,8 +203,8 @@ class eventHandlerPublicWidgets
         }
 
         // Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-eventsofpost' . ($w->class ? ' ' . html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') .
+        $res = ($w->content_only ? '' : '<div class="widget eventhandler-eventsofpost' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
+        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
         	// Events eventsofpost
         	'<ul>';
         while ($rs->fetch()) {
@@ -207,10 +216,10 @@ class eventHandlerPublicWidgets
             }
 
             // Format items
-            $fsd = dt::dt2str(dcCore::app()->blog->settings->system->date_format, $rs->event_startdt);
-            $fst = dt::dt2str(dcCore::app()->blog->settings->system->time_format, $rs->event_startdt);
-            $fed = dt::dt2str(dcCore::app()->blog->settings->system->date_format, $rs->event_enddt);
-            $fet = dt::dt2str(dcCore::app()->blog->settings->system->time_format, $rs->event_enddt);
+            $fsd = Date::dt2str(dcCore::app()->blog->settings->system->date_format, $rs->event_startdt);
+            $fst = Date::dt2str(dcCore::app()->blog->settings->system->time_format, $rs->event_startdt);
+            $fed = Date::dt2str(dcCore::app()->blog->settings->system->date_format, $rs->event_enddt);
+            $fet = Date::dt2str(dcCore::app()->blog->settings->system->time_format, $rs->event_enddt);
 
             // Replacement
             $over = str_replace(
@@ -218,7 +227,7 @@ class eventHandlerPublicWidgets
                 [$fsd, $fst, $fed, $fet],
                 $over_format
             );
-            $item = html::escapeHTML($rs->post_title);
+            $item = Html::escapeHTML($rs->post_title);
 
             $res .= '<li><a href="' . $rs->getURL() . '" title="' . $over . '">' . $item . '</a></li>';
         }
@@ -236,7 +245,7 @@ class eventHandlerPublicWidgets
         return $res;
     }
 
-    public static function postsOfEvent($w)
+    public static function postsOfEvent(WidgetsElement $w)
     {
         if ($w->offline) {
             return;
@@ -278,7 +287,7 @@ class eventHandlerPublicWidgets
             }
         }
         // Get posts
-        $eventHandler = new eventHandler();
+        $eventHandler = new EventHandler();
         $rs = $eventHandler->getPostsByEvent($params);
         // No result
         if ($rs->isEmpty()) {
@@ -286,14 +295,14 @@ class eventHandlerPublicWidgets
         }
 
         // Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-postsofevent' . ($w->class ? ' ' . html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') .
+        $res = ($w->content_only ? '' : '<div class="widget eventhandler-postsofevent' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
+        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
         	// Events postsofevent
         	'<ul>';
 
         while ($rs->fetch()) {
             $res .= '<li><a href="' . $rs->getURL() . '">' .
-            	html::escapeHTML($rs->post_title) . '</a></li>';
+            	Html::escapeHTML($rs->post_title) . '</a></li>';
         }
         $res .= '</ul>';
 
@@ -302,7 +311,7 @@ class eventHandlerPublicWidgets
         return $res;
     }
 
-    public static function categories($w)
+    public static function categories(WidgetsElement $w)
     {
         if ($w->offline) {
             return;
@@ -318,8 +327,8 @@ class eventHandlerPublicWidgets
         }
 
         // Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-categories' . ($w->class ? ' ' . html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '');
+        $res = ($w->content_only ? '' : '<div class="widget eventhandler-categories' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
+        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '');
         // Events categories
         $rs = dcCore::app()->blog->getCategories(['post_type' => 'eventhandler']);
         if ($rs->isEmpty()) {
@@ -329,8 +338,8 @@ class eventHandlerPublicWidgets
         $ref_level = $level = $rs->level - 1;
         while ($rs->fetch()) {
             $class = '';
-            if ((dcCore::app()->url->type == 'catevents' && dcCore::app()->ctx->categories instanceof record && dcCore::app()->ctx->categories->cat_id == $rs->cat_id)
-            	|| (dcCore::app()->url->type == 'event' && dcCore::app()->ctx->posts instanceof record && dcCore::app()->ctx->posts->cat_id == $rs->cat_id)) {
+            if ((dcCore::app()->url->type == 'catevents' && dcCore::app()->ctx->categories instanceof Record && dcCore::app()->ctx->categories->cat_id == $rs->cat_id)
+            	|| (dcCore::app()->url->type == 'event' && dcCore::app()->ctx->posts instanceof Record && dcCore::app()->ctx->posts->cat_id == $rs->cat_id)) {
                 $class = ' class="category-current"';
             }
 
@@ -347,7 +356,7 @@ class eventHandlerPublicWidgets
             $res .=
             	'<a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
             	'/category/' . $rs->cat_url . '">' .
-            	html::escapeHTML($rs->cat_title) . '</a>' .
+            	Html::escapeHTML($rs->cat_title) . '</a>' .
             	($w->postcount ? ' (' . $rs->nb_post . ')' : '');
 
 
@@ -370,7 +379,7 @@ class eventHandlerPublicWidgets
         return $res;
     }
 
-    public static function map($w)
+    public static function map(WidgetsElement $w)
     {
         if ($w->offline) {
             return;
@@ -407,7 +416,7 @@ class eventHandlerPublicWidgets
         }
 
         // Get posts
-        $eventHandler = new eventHandler();
+        $eventHandler = new EventHandler();
         $rs = $eventHandler->getEvents($params);
         // No result
         if ($rs->isEmpty()) {
@@ -427,10 +436,10 @@ class eventHandlerPublicWidgets
         $lng = round($total_lng / $rs->count(), 7);
 
         // Display
-        $res = ($w->content_only ? '' : '<div class="widget eventhandler-map' . ($w->class ? ' ' . html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') .
+        $res = ($w->content_only ? '' : '<div class="widget eventhandler-map' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
+        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
         	// Events map
-        	eventHandler::getMapContent(
+        	EventHandler::getMapContent(
         	    $w->map_width,
         	    $w->map_height,
         	    $w->map_type,
@@ -453,7 +462,7 @@ class eventHandlerPublicWidgets
         return $res;
     }
 
-    public static function calendar($w)
+    public static function calendar(WidgetsElement $w)
     {
         if ($w->offline) {
             return;
@@ -477,15 +486,15 @@ class eventHandlerPublicWidgets
         }
 
         // Generic calendar Object
-        $calendar = eventHandlerCalendar::getArray($year, $month, $w->weekstart);
+        $calendar = Calendar::getArray($year, $month, $w->weekstart);
 
         return
 
         	// Display
-        	$res = ($w->content_only ? '' : '<div class="widget eventhandler-calendar' . ($w->class ? ' ' . html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') .
+        	$res = ($w->content_only ? '' : '<div class="widget eventhandler-calendar' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
+        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
         	// Events calendar
-        	eventHandlerCalendar::parseArray($calendar, $w->weekstart, $w->startonly) .
+        	Calendar::parseArray($calendar, $w->weekstart, $w->startonly) .
         	(
         	    $w->pagelink ?
         	 '<p><strong><a href="' .

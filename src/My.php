@@ -16,4 +16,12 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
-dcCore::app()->resources['help']['eventHandler'] = __DIR__ . '/help/help.html';
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\eventHandler;
+
+use Dotclear\Module\MyPlugin;
+
+class My extends MyPlugin
+{
+}

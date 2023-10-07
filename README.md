@@ -4,7 +4,7 @@
 
 eventHandler is a dotclear plugin to manage events (meetings, shows,...) on your blog.
 
-The main developement has been made by Jc Denis <contact@jcdenis.fr> - http://jcd.lv.
+The main developement has been made by Jc Denis <contact@jcdenis.fr> - https://chez.jcdenis.fr/
 Many thanks to him for that great plugin. I will try to maintain that plugin so that it can be used in recent dotclear releases.
 
 ## Requirements
@@ -19,7 +19,7 @@ Analysis is made using [PHPStan](https://github.com/phpstan/phpstan) :
 $ composer phpstan
 ```
 
-The analysis is made with level 1 but the idea is to increase that level and fix more and more possible issues.
+The analysis is made with level 5 but the idea is to increase that level and fix more and more possible issues.
 
 ## Contributing
 

@@ -1,0 +1,15 @@
+parameters:
+  ignoreErrors:
+    - '#Access to an undefined property Dotclear\\Core\\Backend\\Utility::\$[alpha]*.#'
+    - '#Access to an undefined property Dotclear\\Helper\\Html\\XmlTag::\$[alpha]*.#'
+    - '#Access to an undefined property Dotclear\\Database\\Cursor::\$[alpha]*.#'
+    - '#Access to an undefined property Dotclear\\Database\\MetaRecord::\$[alpha]*.#'
+    - '#Access to an undefined property Dotclear\\Database\\Record::\$[alpha]*.#'
+    - '#Access to an undefined property Dotclear\\Database\\Structure::\$[alpha]*.#'
+    - '#Access to an undefined property Dotclear\\Plugin\\widgets\\WidgetsElement::\$[alpha]*.#'
+    - '#Access to an undefined property Dotclear\\Plugin\\widgets\\WidgetsStack::\$[alpha]*.#'
+
+    - '#Access to an undefined property context::\$[alpha]*.#'
+    - '#Access to an undefined property dcNamespace::\$[alpha]*.#'
+    - '#Access to an undefined property dcPrefs::\$[alpha]*.#'
+    - '#Access to an undefined property dcSettings::\$[alpha]*.#'

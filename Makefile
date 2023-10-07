@@ -5,9 +5,9 @@ TARGET=../target
 
 config: clean manifest
 	mkdir -p $(DIST)/$(PLUGIN_NAME)
-	cp -pr _*.php BUGS CHANGELOG.md CONTRIBUTING.md LICENSE MANIFEST TODO.md README.md \
-	css default-templates exemple-templates inc js locales tpl \
-	icon-dark.svg icon.svg index.php $(DIST)/$(PLUGIN_NAME)/
+	cp -pr BUGS CHANGELOG.md CONTRIBUTING.md LICENSE MANIFEST TODO.md README.md \
+	src css default-templates exemple-templates js locales tpl \
+	icon-dark.svg icon.svg $(DIST)/$(PLUGIN_NAME)/
 	find $(DIST) -name '*~' -exec rm \{\} \;
 
 dist: config
@@ -22,3 +22,37 @@ manifest:
 
 clean:
 	rm -fr $(DIST)
+
+##
+XGETTEXT=/usr/bin/xgettext
+XGETTEXT_PHP=$(XGETTEXT) -k__ -j -L PHP --from-code=utf-8 -o locales/templates/messages.pot
+XGETTEXT_TEMPLATES=$(XGETTEXT) -f- --sort-by-file -L PHP -k"__:1,2" -k"__:1" --no-wrap --foreign-user --from-code=utf-8 -o locales/templates/messages.pot
+GETTEXT_FORMAT=/usr/bin/msgfmt
+GETTEXT_MERGE=/usr/bin/msgmerge
+
+SEARCH_PATTERN=(.php|.tpl)$
+EXCLUDE_PATTERN=(vendor|target|.dist)
+DUMMY_FILE=./__html_tpl_dummy.php
+
+search: $(DUMMY_FILE)
+	find ./ -type f|egrep '$(SEARCH_PATTERN)'|egrep -v '$(EXCLUDE_PATTERN)'|while read f;do $(XGETTEXT_PHP) $$f;done
+	rm $(DUMMY_FILE)
+
+merge:
+	@for l in locales/*/*.po;							\
+	do										\
+	$(GETTEXT_MERGE) $$l locales/templates/messages.pot --output=$$l	;	\
+	done
+
+$(DUMMY_FILE): templates
+
+templates:
+	echo "Building public PO template..."
+	@echo '<?php' > $(DUMMY_FILE)
+	@find ./ -name '*.html' -exec grep -o '{{tpl:lang [^}]*}}' {} \; | sed 's/{{tpl:lang \(.*\)$\}}/__("\1")/' | sort -u >> $(DUMMY_FILE)
+	@find . -name '__html_tpl_dummy.php' -print | $(XGETTEXT_TEMPLATES)
+
+
+
+
+
