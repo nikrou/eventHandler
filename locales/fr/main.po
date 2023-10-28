@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventHandler 2015.05.31\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-05 17:12+0200\n"
+"POT-Creation-Date: 2023-10-28 09:23+0200\n"
 "PO-Revision-Date: 2015-06-03 09:05+0200\n"
 "Last-Translator: Nicolas <nikrou77@gmail.com>\n"
 "Language-Team: Nicolas <nikrou77@gmail.com>\n"
@@ -23,9 +23,9 @@ msgstr "Ajouter ces événements à votre iCalendar"
 msgid "Add this event to your iCalendar"
 msgstr "Ajouter cet événement à votre iCalendar"
 
-#: __html_tpl_dummy.php:4 src/Template.php:228 src/WidgetsTemplate.php:136
-#: src/WidgetsTemplate.php:238 src/WidgetsTemplate.php:372
-#: src/WidgetsTemplate.php:455 src/WidgetsTemplate.php:500
+#: __html_tpl_dummy.php:4 src/Template.php:230 src/WidgetsTemplate.php:138
+#: src/WidgetsTemplate.php:240 src/WidgetsTemplate.php:374
+#: src/WidgetsTemplate.php:457 src/WidgetsTemplate.php:502
 msgid "All events"
 msgstr "Tous les événements"
 
@@ -42,10 +42,10 @@ msgid "Display this event on hCalendar format"
 msgstr "Afficher cet événement au format hCalendar"
 
 #: __html_tpl_dummy.php:13 tpl/edit_event.tpl:35 tpl/settings.tpl:18
-#: tpl/settings.tpl:48 tpl/settings.tpl:120 src/AdminBehaviors.php:111
-#: src/AdminBehaviors.php:138 src/ActionsEvents.php:38 src/ActionsEvents.php:43
-#: src/UrlHandler.php:445 src/UrlHandler.php:455 src/UrlHandler.php:496
-#: src/ManageEvents.php:102 src/ManageEvents.php:108
+#: tpl/settings.tpl:48 tpl/settings.tpl:120 src/AdminBehaviors.php:113
+#: src/AdminBehaviors.php:140 src/ActionsEvents.php:40 src/ActionsEvents.php:45
+#: src/UrlHandler.php:436 src/UrlHandler.php:446 src/UrlHandler.php:487
+#: src/ManageEvents.php:104 src/ManageEvents.php:110
 msgid "Events"
 msgstr "Événements"
 
@@ -69,12 +69,12 @@ msgstr "Longitude :"
 msgid "Period of events:"
 msgstr "Période d'événements : "
 
-#: __html_tpl_dummy.php:32 tpl/edit_event.tpl:213 src/Widgets.php:152
-#: src/Widgets.php:154
+#: __html_tpl_dummy.php:32 tpl/edit_event.tpl:213 src/Widgets.php:154
+#: src/Widgets.php:156
 msgid "Related entries"
 msgstr "Billets liés"
 
-#: __html_tpl_dummy.php:33 src/Widgets.php:117 src/Widgets.php:119
+#: __html_tpl_dummy.php:33 src/Widgets.php:119 src/Widgets.php:121
 msgid "Related events"
 msgstr "Événements liés"
 
@@ -99,7 +99,7 @@ msgid "to"
 msgstr "au"
 
 #: tpl/edit_event.tpl:12 tpl/edit_event.tpl:230 tpl/settings.tpl:11
-#: src/AdminBehaviors.php:36 src/ManageEvents.php:153
+#: src/AdminBehaviors.php:38 src/AdminBehaviors.php:49 src/ManageEvents.php:155
 msgid "Event handler"
 msgstr "Gestionnaire d'événements"
 
@@ -107,23 +107,23 @@ msgstr "Gestionnaire d'événements"
 msgid "Go to this event on the site"
 msgstr "Voir cet événement sur le site"
 
-#: tpl/edit_event.tpl:66 tpl/edit_event.tpl:71 src/ManageEvent.php:216
+#: tpl/edit_event.tpl:66 tpl/edit_event.tpl:71 src/ManageEvent.php:213
 msgid "Edit event"
 msgstr "Modifier un événement"
 
-#: tpl/edit_event.tpl:75 src/RsExtension.php:233
+#: tpl/edit_event.tpl:75 src/RsExtension.php:235
 msgid "Start date:"
 msgstr "Date de début :"
 
-#: tpl/edit_event.tpl:82 src/RsExtension.php:234
+#: tpl/edit_event.tpl:82 src/RsExtension.php:236
 msgid "End date:"
 msgstr "Date de fin :"
 
-#: tpl/edit_event.tpl:88 src/FilterEvents.php:219
+#: tpl/edit_event.tpl:88 src/FilterEvents.php:221
 msgid "Localization"
 msgstr "Localisation"
 
-#: tpl/edit_event.tpl:91 src/RsExtension.php:236
+#: tpl/edit_event.tpl:91 src/RsExtension.php:238
 msgid "Address:"
 msgstr "Adresse : "
 
@@ -156,9 +156,9 @@ msgstr "Si le champ est vide, alors la valeur par défaut (%d) sera utilisée"
 msgid "Required field"
 msgstr ""
 
-#: tpl/edit_event.tpl:123 src/Widgets.php:67 src/Widgets.php:119
-#: src/Widgets.php:154 src/Widgets.php:179 src/Widgets.php:231
-#: src/Widgets.php:266
+#: tpl/edit_event.tpl:123 src/Widgets.php:69 src/Widgets.php:121
+#: src/Widgets.php:156 src/Widgets.php:181 src/Widgets.php:233
+#: src/Widgets.php:268
 msgid "Title:"
 msgstr ""
 
@@ -190,8 +190,8 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: tpl/edit_event.tpl:160 src/FilterEvents.php:215
-#: src/Listing/ListingEventsMini.php:47 src/Listing/ListingEvents.php:49
+#: tpl/edit_event.tpl:160 src/FilterEvents.php:217
+#: src/Listing/ListingEvents.php:51
 msgid "Status"
 msgstr ""
 
@@ -223,17 +223,12 @@ msgstr ""
 msgid "Selected event"
 msgstr "Événement sélectionné"
 
-#: tpl/edit_event.tpl:201
-msgid ""
-"Warning: If you set the URL manually, it may conflict with another entry."
-msgstr ""
-
 #: tpl/edit_event.tpl:215
 msgid "You must save event before adding entries"
 msgstr "Vous devez sauvegarder l'événement avant d'ajouter des billets"
 
 #: tpl/edit_event.tpl:227 tpl/settings.tpl:11 tpl/settings.tpl:19
-#: src/ManageEvents.php:150
+#: src/ManageEvents.php:152
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -245,10 +240,6 @@ msgstr "Activation"
 msgid "Enable plugin"
 msgstr "Activer le plugin"
 
-#: tpl/settings.tpl:37
-msgid "Configuration"
-msgstr ""
-
 #: tpl/settings.tpl:39
 msgid "Additionnal style sheet:"
 msgstr "Feuille de style additionnelle : "
@@ -256,10 +247,6 @@ msgstr "Feuille de style additionnelle : "
 #: tpl/settings.tpl:50
 msgid "Show related entries on event:"
 msgstr "Afficher les billets liés sur un événement :"
-
-#: tpl/settings.tpl:54 tpl/settings.tpl:119 src/Listing/ListingEvents.php:45
-msgid "Entries"
-msgstr ""
 
 #: tpl/settings.tpl:56
 msgid "Show related events on entry:"
@@ -277,11 +264,11 @@ msgstr "Champ par défaut"
 msgid "Default order"
 msgstr "Ordre par défaut"
 
-#: tpl/settings.tpl:80 src/Widgets.php:232
+#: tpl/settings.tpl:80 src/Widgets.php:234
 msgid "Default zoom on map:"
 msgstr "Zoom par défaut de la carte : "
 
-#: tpl/settings.tpl:84 src/Widgets.php:233
+#: tpl/settings.tpl:84 src/Widgets.php:235
 msgid "Default type of map:"
 msgstr "Type par défaut de la carte : "
 
@@ -313,10 +300,6 @@ msgstr ""
 "Quand un événement a une catégorie cachée, il ne s'affiche que sur sa page "
 "de catégorie."
 
-#: tpl/settings.tpl:116
-msgid "Hide"
-msgstr ""
-
 #: tpl/settings.tpl:118
 msgid "Level"
 msgstr "Niveau"
@@ -325,545 +308,523 @@ msgstr "Niveau"
 msgid "List of events related to this category"
 msgstr "Liste des événements liés à cette catégorie"
 
-#: src/PublicRest.php:39
+#: src/PublicRest.php:41
 msgid "Event is disabled on this blog"
 msgstr "L'événement est désactivé sur ce blog"
 
-#: src/PublicRest.php:61
+#: src/PublicRest.php:63
 msgid "Failed to get calendar"
 msgstr "Impossible de récupérer le calendrier"
 
-#: src/ManageEvent.php:90 src/ManageEvents.php:114
+#: src/ManageEvent.php:92 src/ManageEvents.php:116
 msgid "New event"
 msgstr "Nouvel événement"
 
-#: src/ManageEvent.php:180
+#: src/ManageEvent.php:177
 msgid "This event does not exist."
 msgstr "Cet événement n'existe pas."
 
-#: src/ManageEvent.php:207
+#: src/ManageEvent.php:204
 msgid "Change entry into event"
 msgstr "Changer un billet en événement"
 
-#: src/ManageEvent.php:226
+#: src/ManageEvent.php:223
 msgid "next event"
 msgstr "Événement suivant"
 
-#: src/ManageEvent.php:241
+#: src/ManageEvent.php:238
 msgid "previous event"
 msgstr "Événement précédent"
 
-#: src/ManageEvent.php:365
+#: src/ManageEvent.php:362
 msgid "Event has been updated."
 msgstr "L'événement a été mis à jour."
 
-#: src/ManageEvent.php:382
+#: src/ManageEvent.php:379
 msgid "Event has been created."
 msgstr "L'événement a été créé."
 
-#: src/Widgets.php:38 src/Widgets.php:95 src/Widgets.php:202
-#: src/FilterEvents.php:217 src/Template.php:148
-#: src/Listing/ListingEventsMini.php:45 src/Listing/ListingEvents.php:43
+#: src/Widgets.php:40 src/Widgets.php:97 src/Widgets.php:204
+#: src/FilterEvents.php:219 src/Template.php:150
+#: src/Listing/ListingEvents.php:45
 msgid "Start date"
 msgstr "Date de début"
 
-#: src/Widgets.php:39 src/Widgets.php:96 src/Widgets.php:203
-#: src/FilterEvents.php:218 src/Template.php:149
-#: src/Listing/ListingEventsMini.php:46 src/Listing/ListingEvents.php:44
+#: src/Widgets.php:41 src/Widgets.php:98 src/Widgets.php:205
+#: src/FilterEvents.php:220 src/Template.php:151
+#: src/Listing/ListingEvents.php:46
 msgid "End date"
 msgstr "Date de fin"
 
-#: src/Widgets.php:42 src/Widgets.php:99 src/Widgets.php:143
-#: src/Widgets.php:206 src/Manage.php:79
-msgid "Ascending"
-msgstr ""
-
-#: src/Widgets.php:43 src/Widgets.php:100 src/Widgets.php:144
-#: src/Widgets.php:207 src/Manage.php:80
-msgid "Descending"
-msgstr ""
-
-#: src/Widgets.php:46 src/Widgets.php:103 src/Widgets.php:210
+#: src/Widgets.php:48 src/Widgets.php:105 src/Widgets.php:212
 msgid "All periods"
 msgstr "Toutes les périodes"
 
-#: src/Widgets.php:47 src/Widgets.php:104 src/Widgets.php:211
-#: src/FilterEvents.php:184
+#: src/Widgets.php:49 src/Widgets.php:106 src/Widgets.php:213
+#: src/FilterEvents.php:186
 msgid "Not started"
 msgstr "Non débuté"
 
-#: src/Widgets.php:48 src/Widgets.php:105 src/Widgets.php:212
-#: src/FilterEvents.php:185 src/Template.php:76 src/Template.php:242
+#: src/Widgets.php:50 src/Widgets.php:107 src/Widgets.php:214
+#: src/FilterEvents.php:187 src/Template.php:78 src/Template.php:244
 msgid "Started"
 msgstr "Débuté"
 
-#: src/Widgets.php:49 src/Widgets.php:106 src/Widgets.php:213
-#: src/FilterEvents.php:186 src/Template.php:78 src/Template.php:244
+#: src/Widgets.php:51 src/Widgets.php:108 src/Widgets.php:215
+#: src/FilterEvents.php:188 src/Template.php:80 src/Template.php:246
 msgid "Finished"
 msgstr "Terminé"
 
-#: src/Widgets.php:50 src/Widgets.php:107 src/Widgets.php:214
-#: src/FilterEvents.php:187 src/Template.php:77 src/Template.php:243
+#: src/Widgets.php:52 src/Widgets.php:109 src/Widgets.php:216
+#: src/FilterEvents.php:189 src/Template.php:79 src/Template.php:245
 msgid "Not finished"
 msgstr "Non terminé"
 
-#: src/Widgets.php:51 src/Widgets.php:108 src/Widgets.php:215
-#: src/FilterEvents.php:188 src/Template.php:73 src/Template.php:239
+#: src/Widgets.php:53 src/Widgets.php:110 src/Widgets.php:217
+#: src/FilterEvents.php:190 src/Template.php:75 src/Template.php:241
 msgid "Ongoing"
 msgstr "En cours"
 
-#: src/Widgets.php:52 src/Widgets.php:109 src/Widgets.php:216
-#: src/FilterEvents.php:189 src/Template.php:74 src/Template.php:240
+#: src/Widgets.php:54 src/Widgets.php:111 src/Widgets.php:218
+#: src/FilterEvents.php:191 src/Template.php:76 src/Template.php:242
 msgid "Outgoing"
 msgstr "Pas en cours"
 
-#: src/Widgets.php:62
+#: src/Widgets.php:64
 msgid "EventHandler: events"
 msgstr "EventHandler : événements"
 
-#: src/Widgets.php:65 src/Widgets.php:67
+#: src/Widgets.php:67 src/Widgets.php:69
 msgid "Next events"
 msgstr "Événements à venir"
 
-#: src/Widgets.php:72
+#: src/Widgets.php:74
 msgid "Selected entries only"
 msgstr "Billets séléctionnés uniquement"
 
-#: src/Widgets.php:73 src/Widgets.php:124 src/Widgets.php:239
-#: src/FilterEvents.php:181
+#: src/Widgets.php:75 src/Widgets.php:126 src/Widgets.php:241
+#: src/FilterEvents.php:183
 msgid "Period:"
 msgstr "Période :"
 
-#: src/Widgets.php:74
+#: src/Widgets.php:76
 msgid "Date format of events:"
 msgstr "Format de date des événements : "
 
-#: src/Widgets.php:74
-msgid "%A, %B %e %Y"
-msgstr ""
-
-#: src/Widgets.php:75
+#: src/Widgets.php:77
 msgid "Time format of events:"
 msgstr "Format d'heure des événements :"
 
-#: src/Widgets.php:75
-msgid "%H:%M"
-msgstr ""
-
-#: src/Widgets.php:76
+#: src/Widgets.php:78
 msgid "Show category"
 msgstr "Afficher la catégorie"
 
-#: src/Widgets.php:77 src/Widgets.php:181 src/Widgets.php:240
-#: src/Widgets.php:269
+#: src/Widgets.php:79 src/Widgets.php:183 src/Widgets.php:242
+#: src/Widgets.php:271
 msgid "Add link to events page"
 msgstr "Ajouter le lien vers la page des événements"
 
-#: src/Widgets.php:78 src/Widgets.php:182 src/Widgets.php:241
-#: src/Widgets.php:270
-msgid "Display on:"
-msgstr ""
-
-#: src/Widgets.php:79 src/Widgets.php:125 src/Widgets.php:159
-#: src/Widgets.php:183 src/Widgets.php:242 src/Widgets.php:271
-msgid "Content only"
-msgstr ""
-
-#: src/Widgets.php:80 src/Widgets.php:126 src/Widgets.php:160
-#: src/Widgets.php:184 src/Widgets.php:243 src/Widgets.php:272
+#: src/Widgets.php:82 src/Widgets.php:128 src/Widgets.php:162
+#: src/Widgets.php:186 src/Widgets.php:245 src/Widgets.php:274
 msgid "CSS class:"
 msgstr "Classe css : "
 
-#: src/Widgets.php:81 src/Widgets.php:127 src/Widgets.php:161
-#: src/Widgets.php:185 src/Widgets.php:244 src/Widgets.php:273
-msgid "Offline"
-msgstr ""
-
-#: src/Widgets.php:114
+#: src/Widgets.php:116
 msgid "EventHandler: events of an entry"
 msgstr "EventHandler : événements d'un billet"
 
-#: src/Widgets.php:149
+#: src/Widgets.php:151
 msgid "EventHandler: entries of an event"
 msgstr "EventHandler : billets d'un événement"
 
-#: src/Widgets.php:174
+#: src/Widgets.php:176
 msgid "EventHandler: events categories"
 msgstr "EventHandler : catégories d'événements"
 
-#: src/Widgets.php:177 src/Widgets.php:179
+#: src/Widgets.php:179 src/Widgets.php:181
 msgid "Events by categories"
 msgstr "Événements par catégorie"
 
-#: src/Widgets.php:180
+#: src/Widgets.php:182
 msgid "With events counts"
 msgstr "Avec le nombre d'événements"
 
-#: src/Widgets.php:194 src/Manage.php:89
+#: src/Widgets.php:196 src/Manage.php:91
 msgid "road map"
 msgstr "route"
 
-#: src/Widgets.php:195 src/Manage.php:90
+#: src/Widgets.php:197 src/Manage.php:92
 msgid "satellite"
 msgstr "satellite"
 
-#: src/Widgets.php:196 src/Manage.php:91
+#: src/Widgets.php:198 src/Manage.php:93
 msgid "hybrid"
 msgstr "hybride"
 
-#: src/Widgets.php:197 src/Manage.php:92
+#: src/Widgets.php:199 src/Manage.php:94
 msgid "terrain"
 msgstr "terrain"
 
-#: src/Widgets.php:226
+#: src/Widgets.php:228
 msgid "EventHandler: events map"
 msgstr "EventHandler : carte des événements"
 
-#: src/Widgets.php:229 src/Widgets.php:231
+#: src/Widgets.php:231 src/Widgets.php:233
 msgid "Events on map"
 msgstr "Événements sur une carte"
 
-#: src/Widgets.php:234
+#: src/Widgets.php:236
 #, php-format
 msgid "Width of map (with unit as % or px):"
 msgstr "Largeur de la carte (avec les unités telles que % ou px) :"
 
-#: src/Widgets.php:235
+#: src/Widgets.php:237
 #, php-format
 msgid "Height of map (with unit as % or px):"
 msgstr "Hauteur de la carte (avec les unités telles que % ou px) :"
 
-#: src/Widgets.php:236
+#: src/Widgets.php:238
 msgid "Add tooltips"
 msgstr "Ajouter les info-bulles"
 
-#: src/Widgets.php:250
+#: src/Widgets.php:252
 msgid "Sunday"
 msgstr "Dimanche"
 
-#: src/Widgets.php:251
+#: src/Widgets.php:253
 msgid "Monday"
 msgstr "Lundi"
 
-#: src/Widgets.php:261
+#: src/Widgets.php:263
 msgid "EventHandler: events calendar"
 msgstr "EventHandler : calendrier des événements"
 
-#: src/Widgets.php:264 src/Widgets.php:266
+#: src/Widgets.php:266 src/Widgets.php:268
 msgid "Events calendar"
 msgstr "Calendrier des événements"
 
-#: src/Widgets.php:267
+#: src/Widgets.php:269
 msgid "First day of week:"
 msgstr "Premier jour de la semaine :"
 
-#: src/Widgets.php:268
+#: src/Widgets.php:270
 msgid "Show only start date of events"
 msgstr "Afficher seulement la date de début des événements"
 
-#: src/AdminBehaviors.php:111
+#: src/AdminBehaviors.php:113
 msgid "Unbind events"
 msgstr "Détacher les événements"
 
-#: src/AdminBehaviors.php:147
+#: src/AdminBehaviors.php:149
 msgid "Check to unbind"
 msgstr "Cocher pour détacher"
 
-#: src/AdminBehaviors.php:156
+#: src/AdminBehaviors.php:158
 msgid "Bind events"
 msgstr "Attacher des événements"
 
-#: src/AdminBehaviors.php:161
+#: src/AdminBehaviors.php:163
 msgid "Change this entry into an event"
 msgstr "Changer ce billet en événement"
 
-#: src/AdminBehaviors.php:161
+#: src/AdminBehaviors.php:163
 msgid "Change into event"
 msgstr "Changer en événement"
 
-#: src/Manage.php:62
+#: src/Manage.php:64
 msgid "before content"
 msgstr "avant le contenu"
 
-#: src/Manage.php:63
+#: src/Manage.php:65
 msgid "after content"
 msgstr "après le contenu"
 
-#: src/Manage.php:68
+#: src/Manage.php:70
 msgid "Post title"
 msgstr "Titre du billet"
 
-#: src/Manage.php:69
+#: src/Manage.php:71
 msgid "Post selected"
 msgstr "Billet sélectionné"
 
-#: src/Manage.php:70
+#: src/Manage.php:72
 msgid "Post author"
 msgstr "Auteur du billet"
 
-#: src/Manage.php:71
+#: src/Manage.php:73
 msgid "Post date"
 msgstr "Date du billet"
 
-#: src/Manage.php:72
+#: src/Manage.php:74
 msgid "Post id"
 msgstr "Identifiant du billet"
 
-#: src/Manage.php:73
+#: src/Manage.php:75
 msgid "Event start date"
 msgstr "Date de début de l'événement"
 
-#: src/Manage.php:74
+#: src/Manage.php:76
 msgid "Event end date"
 msgstr "Date de fin de l'événement"
 
-#: src/ActionsEvents.php:44
+#: src/ActionsEvents.php:46
 msgid "Back to events list"
 msgstr "Retour à la liste des événements"
 
-#: src/ActionsEvents.php:85
+#: src/ActionsEvents.php:87
 msgid "No such event"
 msgstr "Pas d'événement"
 
-#: src/ActionsEvents.php:100
+#: src/ActionsEvents.php:102
 msgid "entry has been bound to the selected event"
-msgstr "le billet a été lié à l'évènement sélectionné"
+msgid_plural "entry has been bound to the selected events"
+msgstr[0] "Le billet a été lié à l'évènement sélectionné"
+msgstr[1] "Le billet a été lié aux évènements sélectionnés"
 
-#: src/ActionsEvents.php:130
+
+#: src/ActionsEvents.php:132
 #, php-format
 msgid "%d post has been unbound from its events"
 msgstr "%d billet a été bien été détaché de ses événements"
 
-#: src/ActionsEvents.php:144
+#: src/ActionsEvents.php:146
 #, php-format
 msgid "Event #%d (%s) has no related post to be unbound from."
 msgstr "L'événement n°%d (%s) n'a pas d'entrées liées."
 
-#: src/ActionsEvents.php:155
+#: src/ActionsEvents.php:157
 #, php-format
 msgid "Event #%d (%s) unbound from %d related post"
 msgstr "L'événement n°%d (%s) a bien été séparé de l'entrée liée"
 
-#: src/Calendar.php:126
+#: src/Calendar.php:129
 msgid "Calendar"
 msgstr "Calendrier"
 
-#: src/Calendar.php:138
+#: src/Calendar.php:141
 msgid "Detail"
 msgstr "Détail"
 
-#: src/Calendar.php:186
+#: src/Calendar.php:189
 msgid "one event"
 msgstr "un événement"
 
-#: src/Calendar.php:186
+#: src/Calendar.php:189
 #, php-format
 msgid "%s events"
 msgstr "%s événements"
 
-#: src/RsExtension.php:239
+#: src/RsExtension.php:241
 msgid "Location:"
 msgstr "Lieu :"
 
-#: src/RsExtension.php:239
+#: src/RsExtension.php:241
 msgid "latitude:"
 msgstr "latitude :"
 
-#: src/RsExtension.php:239
+#: src/RsExtension.php:241
 msgid "longitude:"
 msgstr "longitude :"
 
-#: src/RsExtension.php:247
+#: src/RsExtension.php:249
 msgid "Read more"
 msgstr "Lire la suite"
 
-#: src/UrlHandler.php:458
+#: src/UrlHandler.php:449
 msgid "Directory:"
 msgstr "Répertoire : "
 
-#: src/UrlHandler.php:476
+#: src/UrlHandler.php:467
 msgid "This page is powered by Dotclear and eventHandler"
 msgstr "Cette page est propulsée par Dotclear et eventHandler"
 
-#: src/UrlHandler.php:532
+#: src/UrlHandler.php:523
 msgid "There's no event at this time."
 msgstr "Il n'y a pas d'événement pour l'instant."
 
-#: src/Template.php:72 src/Template.php:238
+#: src/Template.php:74 src/Template.php:240
 msgid "All"
 msgstr "Tous"
 
-#: src/Template.php:75 src/Template.php:241 src/Listing/ListingEvents.php:78
+#: src/Template.php:77 src/Template.php:243 src/Listing/ListingEvents.php:80
 msgid "Scheduled"
 msgstr "Programmé"
 
-#: src/Template.php:147
+#: src/Template.php:149
 msgid "Published date"
 msgstr "Date de publication"
 
-#: src/Template.php:229
+#: src/Template.php:231
 msgid "Current events"
 msgstr "Événements en cours"
 
-#: src/Template.php:230
+#: src/Template.php:232
 msgid "Event not being"
 msgstr "Événements pas en cours"
 
-#: src/Template.php:231
+#: src/Template.php:233
 msgid "Scheduled events"
 msgstr "Événements programmés"
 
-#: src/Template.php:232
+#: src/Template.php:234
 msgid "Started events"
 msgstr "Événements débutés"
 
-#: src/Template.php:233
+#: src/Template.php:235
 msgid "Unfinished events"
 msgstr "Événements non terminés"
 
-#: src/Template.php:234
+#: src/Template.php:236
 msgid "Completed events"
 msgstr "Événements terminés"
 
-#: src/Template.php:263
+#: src/Template.php:265
 msgid "%m %d %Y"
 msgstr ""
 
-#: src/Template.php:274
+#: src/Template.php:276
 #, php-format
 msgid "For the day of %s"
 msgstr "Pour la journée du %s"
 
-#: src/Template.php:276
+#: src/Template.php:278
 msgid "%m %Y"
 msgstr ""
 
-#: src/Template.php:277
+#: src/Template.php:279
 #, php-format
 msgid "For the month of %s"
 msgstr "Pour le mois de %s"
 
-#: src/Template.php:279
+#: src/Template.php:281
 #, php-format
 msgid "For the year of %s"
 msgstr "Pour l'année %s"
 
-#: src/Template.php:286
+#: src/Template.php:288
 #, php-format
 msgid "For the period between %s and %s"
 msgstr "Pour la période entre %s et %s"
 
-#: src/Template.php:288
+#: src/Template.php:290
 #, php-format
 msgid "For the period through %s and %s"
 msgstr "Pour la période passant entre %s et %s"
 
-#: src/ManageEvents.php:117
+#: src/ManageEvents.php:119
 #, php-format
 msgid "Attach events to \"%s\" post."
 msgstr "Lier des événement au billet \"%s\"."
 
-#: src/ManageEvents.php:124
+#: src/ManageEvents.php:126
 msgid "Attach selected events"
 msgstr "Lier les événements sélectionnés"
 
-#: src/ManageEvents.php:128
+#: src/ManageEvents.php:130
 msgid "Selected events action:"
 msgstr "Action sur l'événement sélectionné : "
 
-#: src/EventHandler.php:256
+#: src/Frontend.php:41 src/Listing/ListingEvents.php:114
+msgid "scheduled"
+msgstr "Programmé"
+
+#: src/Frontend.php:42
+msgid "ongoing"
+msgstr "En cours"
+
+#: src/Frontend.php:43
+msgid "finished"
+msgstr "Terminé"
+
+#: src/EventHandler.php:258
 msgid "You are not allowed to create an event"
 msgstr "Vous n'êtes pas autorisé à créer un événement"
 
-#: src/EventHandler.php:285
+#: src/EventHandler.php:287
 msgid "You are not allowed to update events"
 msgstr "Vous n'êtes pas autorisé à mettre à jour les événements"
 
-#: src/EventHandler.php:291 src/EventHandler.php:326 src/RestMethods.php:36
+#: src/EventHandler.php:293 src/EventHandler.php:328 src/RestMethods.php:38
 msgid "No such event ID"
 msgstr "Pas de tel événement"
 
-#: src/EventHandler.php:320
+#: src/EventHandler.php:322
 msgid "You are not allowed to delete events"
 msgstr "Vous n'êtes pas autorisé à supprimer des événements"
 
-#: src/EventHandler.php:345
+#: src/EventHandler.php:347
 msgid "No event start date"
 msgstr "pas de date de début"
 
-#: src/EventHandler.php:349
+#: src/EventHandler.php:351
 msgid "No event end date"
 msgstr "pas de date de fin"
 
-#: src/EventHandler.php:353
+#: src/EventHandler.php:355
 msgid "Start date greater than end date"
 msgstr "date de début plus récente que la date de fin"
 
-#: src/EventHandler.php:358
+#: src/EventHandler.php:360
 msgid "Not full coordinate"
 msgstr "coordonnées incomplètes"
 
-#: src/EventHandler.php:363 src/EventHandler.php:369
+#: src/EventHandler.php:365 src/EventHandler.php:371
 msgid "Wrong format of coordinate"
 msgstr "mauvais format de coordonnées"
 
-#: src/EventHandler.php:412
+#: src/EventHandler.php:414
 #, php-format
 msgid "%s days"
 msgstr "%s jours"
 
-#: src/EventHandler.php:415
+#: src/EventHandler.php:417
 msgid "one day"
 msgstr "un jour"
 
-#: src/EventHandler.php:418
+#: src/EventHandler.php:420
 #, php-format
 msgid "%s hours"
 msgstr "%s heures"
 
-#: src/EventHandler.php:421
+#: src/EventHandler.php:423
 msgid "one hour"
 msgstr "une heure"
 
-#: src/EventHandler.php:424
+#: src/EventHandler.php:426
 #, php-format
 msgid "%s minutes"
 msgstr "%s minutes"
 
-#: src/EventHandler.php:427
+#: src/EventHandler.php:429
 msgid "one minute"
 msgstr "une minute"
 
-#: src/EventHandler.php:430
+#: src/EventHandler.php:432
 msgid "instantaneous"
 msgstr "instantané"
 
-#: src/EventHandler.php:453
+#: src/EventHandler.php:455
 msgid "Please wait, try to create map..."
 msgstr "Veuillez patienter, construction de la carte..."
 
-#: src/Listing/ListingEventsMini.php:36 src/Listing/ListingEvents.php:34
+#: src/Listing/ListingEvents.php:36
 msgid "No event"
 msgstr "Pas d'événement"
 
-#: src/Listing/ListingEventsMini.php:44
-msgid "Period"
-msgstr "Période"
-
-#: src/RestMethods.php:42
+#: src/RestMethods.php:44
 msgid "An error occured when trying de unbind event"
 msgstr "Il y a eu une erreur en essayant de détacher un événement"
 
-#: src/RestMethods.php:45
+#: src/RestMethods.php:47
 msgid "Event removed from post"
 msgstr "Événements retirés du billet"
 
-#: src/WidgetsTemplate.php:100 src/WidgetsTemplate.php:211
+#: src/WidgetsTemplate.php:102 src/WidgetsTemplate.php:213
 #, php-format
 msgid "On %sd from %st to %et"
 msgstr "Le %sd de %st à %et"
 
-#: src/WidgetsTemplate.php:102 src/WidgetsTemplate.php:213
+#: src/WidgetsTemplate.php:104 src/WidgetsTemplate.php:215
 #, php-format
 msgid "From %sd, %st to %ed, %et"
 msgstr "Du %sd, %st au %ed, %et"

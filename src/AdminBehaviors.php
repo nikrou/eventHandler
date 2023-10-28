@@ -46,7 +46,7 @@ class AdminBehaviors
     public static function adminDashboardFavs(Favorites $favorites)
     {
         $favorites->register('eventHandler', [
-            'title' => 'Event handler',
+            'title' => __('Event handler'),
             'url' => dcCore::app()->admin->url->get('admin.plugin.eventHandler'),
             'small-icon' => [Page::getPF('eventHandler/icon.svg'), Page::getPF('eventHandler/icon-dark.svg')],
             'large-icon' => [Page::getPF('eventHandler/icon.svg'), Page::getPF('eventHandler/icon-dark.svg')],

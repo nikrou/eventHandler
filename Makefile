@@ -5,7 +5,7 @@ TARGET=../target
 
 config: clean manifest
 	mkdir -p $(DIST)/$(PLUGIN_NAME)
-	cp -pr BUGS CHANGELOG.md CONTRIBUTING.md LICENSE MANIFEST TODO.md README.md \
+	cp -pr _define.php BUGS CHANGELOG.md CONTRIBUTING.md LICENSE MANIFEST TODO.md README.md \
 	src css default-templates exemple-templates js locales tpl \
 	icon-dark.svg icon.svg $(DIST)/$(PLUGIN_NAME)/
 	find $(DIST) -name '*~' -exec rm \{\} \;

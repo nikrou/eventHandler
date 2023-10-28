@@ -1,6 +1,6 @@
 # eventHandler
 
-![PHPSTan level](https://img.shields.io/badge/PHPStan-level%201-brightgreen.svg?style=flat)
+![PHPSTan level](https://img.shields.io/badge/PHPStan-level%205-brightgreen.svg?style=flat)
 
 eventHandler is a dotclear plugin to manage events (meetings, shows,...) on your blog.
 

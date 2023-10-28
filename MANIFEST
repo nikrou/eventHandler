@@ -79,7 +79,6 @@ eventHandler/src/Template.php
 eventHandler/src/ManageEvents.php
 eventHandler/src/Frontend.php
 eventHandler/src/EventHandler.php
-eventHandler/src/Listing/ListingEventsMini.php
 eventHandler/src/Listing/ListingEvents.php
 eventHandler/src/PublicBehaviors.php
 eventHandler/src/RestMethods.php
