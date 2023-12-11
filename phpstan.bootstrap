@@ -24,6 +24,7 @@ define('DC_PLUGINS_ROOT', '');
 define('DC_REVERSE_PROXY', false);
 define('DC_SESSION_NAME', '');
 define('DC_VERSION', '2.27');
+define('DC_DEFAULT_TPLSET', 'dotty');
 
 // Xdebug method()
 function xdebug_time_index() {}

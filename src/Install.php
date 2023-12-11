@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
 use Dotclear\Core\Process;
 use Dotclear\Database\Structure;
+use dcCore;
 
 class Install extends Process
 {
@@ -66,22 +66,21 @@ class Install extends Process
 
             // Settings options
             dcCore::app()->blog->settings->addNamespace('eventHandler');
-            $s = dcCore::app()->blog->settings->eventHandler;
 
             $extra_css = file_get_contents(dirname(__DIR__) . '/css/default-eventhandler.css');
 
-            $s->put('active', false, 'boolean', 'Enabled eventHandler extension', false, true);
-            $s->put('public_events_of_post_place', 'after', 'string', 'Display related events on entries', false, true);
-            $s->put('public_posts_of_event_place', 'after', 'string', 'Display related posts on events', false, true);
-            $s->put('public_events_list_sortby', '', 'string', 'Default field for ordering events list', false, true);
-            $s->put('public_events_list_order', '', 'string', 'Default order (asc or desc) for events list', false, true);
-            $s->put('public_hidden_categories', '', 'string', 'List of categories to hide from post content and widgets', false, true);
-            $s->put('public_map_zoom', 9, 'integer', 'Default zoom of map', false, true);
-            $s->put('public_map_type', 'ROADMAP', 'string', 'Default type of map', false, true);
-            $s->put('public_extra_css', $extra_css, 'string', 'Custom CSS', false, true);
-            $s->put('map_provider', 'googlemaps', 'string', 'Map provider', false, true);
-            $s->put('map_tile_layer', 'http://{s}.tile.osm.org/{z}/{x}/{y}.png', 'string', 'Tile Layer for OSM', false, true);
-            $s->put('map_api_key', '', 'string', 'Map API Key', false, true);
+            My::settings()->put('active', false, 'boolean', 'Enabled eventHandler extension', false, true);
+            My::settings()->put('public_events_of_post_place', 'after', 'string', 'Display related events on entries', false, true);
+            My::settings()->put('public_posts_of_event_place', 'after', 'string', 'Display related posts on events', false, true);
+            My::settings()->put('public_events_list_sortby', '', 'string', 'Default field for ordering events list', false, true);
+            My::settings()->put('public_events_list_order', '', 'string', 'Default order (asc or desc) for events list', false, true);
+            My::settings()->put('public_hidden_categories', '', 'string', 'List of categories to hide from post content and widgets', false, true);
+            My::settings()->put('public_map_zoom', 9, 'integer', 'Default zoom of map', false, true);
+            My::settings()->put('public_map_type', 'ROADMAP', 'string', 'Default type of map', false, true);
+            My::settings()->put('public_extra_css', $extra_css, 'string', 'Custom CSS', false, true);
+            My::settings()->put('map_provider', 'googlemaps', 'string', 'Map provider', false, true);
+            My::settings()->put('map_tile_layer', 'http://{s}.tile.osm.org/{z}/{x}/{y}.png', 'string', 'Tile Layer for OSM', false, true);
+            My::settings()->put('map_api_key', '', 'string', 'Map API Key', false, true);
 
             // Set version
             dcCore::app()->setVersion('eventHandler', $new_version);

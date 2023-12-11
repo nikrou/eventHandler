@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
 use Dotclear\Database\Statement\JoinStatement;
 use Dotclear\Database\Statement\SelectStatement;
+use dcCore;
 
 class EventHandler
 {
@@ -94,38 +94,23 @@ class EventHandler
         $sql = new SelectStatement();
         $sql->join(
             (new JoinStatement())
-        		   ->type('INNER')
-        		   ->from($this->table . ' EH')
-        		   ->on('EH.post_id = P.post_id')
-        		   ->statement()
+                   ->type('INNER')
+                   ->from($this->table . ' EH')
+                   ->on('EH.post_id = P.post_id')
+                   ->statement()
         );
 
         // Period
         if (!empty($params['event_period']) && $params['event_period'] != 'all') {
-            switch ($params['event_period']) {
-                case 'ongoing':
-                    $op = ['<', '>', 'AND'];
-                    break;
-                case 'outgoing':
-                    $op = ['>', '<', 'OR'];
-                    break;
-                case 'notstarted':
-                case 'scheduled':
-                    $op = ['>', '!'];
-                    break;
-                case 'started':
-                    $op = ['<', '!'];
-                    break;
-                case 'notfinished':
-                    $op = ['!', '>'];
-                    break;
-                case 'finished':
-                    $op = ['!', '<'];
-                    break;
-                default:
-                    $op = ['=', '=', 'AND'];
-                    break;
-            }
+            $op = match ($params['event_period']) {
+                'ongoing' => ['<', '>', 'AND'],
+                'outgoing' => ['>', '<', 'OR'],
+                'notstarted', 'scheduled' => ['>', '!'],
+                'started' => ['<', '!'],
+                'notfinished' => ['!', '>'],
+                'finished' => ['!', '<'],
+                default => ['=', '=', 'AND'],
+            };
             $now = date('Y-m-d H:i:s');
 
             // sqlite does not understand the TIMESTAMP function but understands the 'Y-m-d H:i:s' format just fine
@@ -213,7 +198,7 @@ class EventHandler
 
         $params['from'] .= ', ' . dcCore::app()->prefix . 'meta EM ';
 
-        if (strpos($this->con->driver(), 'mysql') !== false) {
+        if (str_contains($this->con->driver(), 'mysql')) {
             $params['sql'] .= 'AND EM.meta_id = CAST(P.post_id as char) ';
         } else {
             $params['sql'] .= 'AND CAST(EM.meta_id as int) = CAST(P.post_id as int) ';
@@ -287,7 +272,7 @@ class EventHandler
             throw new \Exception(__('You are not allowed to update events'));
         }
 
-        $post_id = (integer) $post_id;
+        $post_id = (int) $post_id;
 
         if (empty($post_id)) {
             throw new \Exception(__('No such event ID'));
@@ -322,7 +307,7 @@ class EventHandler
             throw new \Exception(__('You are not allowed to delete events'));
         }
 
-        $post_id = (integer) $post_id;
+        $post_id = (int) $post_id;
 
         if (empty($post_id)) {
             throw new \Exception(__('No such event ID'));
@@ -394,7 +379,7 @@ class EventHandler
     // Get human readable duration from integer
     public static function getReadableDuration($int, $format = 'second')
     {
-        $int = (integer) $int;
+        $int = (int) $int;
         $time = '';
         //$sec = $min = $hou = $day = 0;
 
@@ -460,8 +445,8 @@ class EventHandler
         $res .= '<p class="event-map-info-lat">' . $lat . '</p>' . "\n";
         $res .= '<p class="event-map-info-lng">' . $lng . '</p>' . "\n";
 
-        if (dcCore::app()->blog->settings->eventHandler->map_tile_layer) {
-            $res .= '<p class="event-map-info-tile-layer">' . dcCore::app()->blog->settings->eventHandler->map_tile_layer . '</p>' . "\n";
+        if (My::settings()->map_tile_layer) {
+            $res .= '<p class="event-map-info-tile-layer">' . My::settings()->map_tile_layer . '</p>' . "\n";
         }
         $res .= '</div>' . "\n";
         $res .= $markers . "\n";

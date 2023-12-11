@@ -48,7 +48,7 @@ class ListingEvents extends Listing
                 '<th>' . __('Date') . '</th>',
                 '<th>' . __('Category') . '</th>',
                 '<th>' . __('Author') . '</th>',
-                '<th>' . __('Status') . '</th>'
+                '<th>' . __('Status') . '</th>',
             ];
 
             // --BEHAVIOR-- adminEventHandlerEventsListHeaders
@@ -73,7 +73,7 @@ class ListingEvents extends Listing
 
             echo $blocks[1];
 
-            $fmt = fn ($title, $image) => sprintf('<img alt="%1$s" title="%1$s" src="images/%2$s" /> %1$s', $title, $image);
+            $fmt = fn($title, $image) => sprintf('<img alt="%1$s" title="%1$s" src="images/%2$s" /> %1$s', $title, $image);
             echo '<p class="info">' . __('Legend: ') .
                 $fmt(__('Published'), 'check-on.png') . ' - ' .
                 $fmt(__('Unpublished'), 'check-off.png') . ' - ' .
@@ -103,22 +103,13 @@ class ListingEvents extends Listing
         }
 
         $img = '<img alt="%1$s" title="%1$s" src="images/%2$s" />';
-        switch ($this->rs->post_status) {
-            case dcBlog::POST_PUBLISHED:
-                $img_status = sprintf($img, __('published'), 'check-on.png');
-                break;
-            case dcBlog::POST_UNPUBLISHED:
-                $img_status = sprintf($img, __('unpublished'), 'check-off.png');
-                break;
-            case dcBlog::POST_SCHEDULED:
-                $img_status = sprintf($img, __('scheduled'), 'scheduled.png');
-                break;
-            case dcBlog::POST_PENDING:
-                $img_status = sprintf($img, __('pending'), 'check-wrn.png');
-                break;
-            default:
-                $img_status = '';
-        }
+        $img_status = match ((int) $this->rs->post_status) {
+            dcBlog::POST_PUBLISHED => sprintf($img, __('published'), 'check-on.png'),
+            dcBlog::POST_UNPUBLISHED => sprintf($img, __('unpublished'), 'check-off.png'),
+            dcBlog::POST_SCHEDULED => sprintf($img, __('scheduled'), 'scheduled.png'),
+            dcBlog::POST_PENDING => sprintf($img, __('pending'), 'check-wrn.png'),
+            default => '',
+        };
 
         $protected = '';
         if ($this->rs->post_password) {
@@ -158,7 +149,7 @@ class ListingEvents extends Listing
             '<td class="nowrap">' . Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->post_dt) . '</td>',
             '<td class="nowrap">' . $cat_title . '</td>',
             '<td class="nowrap">' . $this->rs->user_id . '</td>',
-            '<td class="nowrap status">' . $img_status . ' ' . $selected . ' ' . $protected . '</td>'
+            '<td class="nowrap status">' . $img_status . ' ' . $selected . ' ' . $protected . '</td>',
         ];
 
         // --BEHAVIOR-- adminEventHandlerEventsListBody

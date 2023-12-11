@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
 use Dotclear\Core\Process;
+use dcCore;
 
 class Prepend extends Process
 {
@@ -62,7 +62,7 @@ class Prepend extends Process
     {
         $alias['eventhandler'] = [
             'startdt' => 'event_startdt',
-            'enddt' => 'event_enddt'
+            'enddt' => 'event_enddt',
         ];
     }
 }

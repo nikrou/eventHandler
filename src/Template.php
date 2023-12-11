@@ -20,30 +20,22 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
-use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
+use Dotclear\Helper\Date;
+use dcCore;
 
 class Template
 {
-	//
-    // Missing values
-	//
     public static function BlogTimezone($a)
     {
         return self::tplValue($a, 'dcCore::app()->blog->settings->system->blog_timezone');
     }
 
-	//
-    // Events page
-	//
-    // URL of page of events list
     public static function EventsURL($a)
     {
         return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_list")');
     }
 
-    // Feed Url
     public static function EventsFeedURL($a)
     {
         $type = !empty($a['type']) ? $a['type'] : 'atom';
@@ -55,7 +47,6 @@ class Template
         return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_feed").(dcCore::app()->ctx->exists("categories") ? "/category/".dcCore::app()->ctx->categories->cat_url : "")."/' . $type . '"');
     }
 
-    // Navigation menu
     public static function EventsMenuPeriod($attr, $content)
     {
         $menus = !empty($attr['menus']) ? $attr['menus'] : '';
@@ -67,7 +58,6 @@ class Template
         return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsMenuPeriodHelper('" . addslashes($menus) . "','" . addslashes($separator) . "','" . addslashes($list) . "','" . addslashes($item) . "','" . addslashes($active_item) . "'); ?>";
     }
 
-    // Navigation menu helper
     public static function EventsMenuPeriodHelper($menus, $separator, $list, $item, $active_item)
     {
         $default_menu = [
@@ -77,9 +67,9 @@ class Template
             'scheduled' => __('Scheduled'),
             'started' => __('Started'),
             'notfinished' => __('Not finished'),
-            'finished' => __('Finished')
+            'finished' => __('Finished'),
         ];
-        // Only requested menus
+
         $menu = $default_menu;
         if (!empty($menus)) {
             $final_menu = [];
@@ -119,7 +109,6 @@ class Template
         return '<div id="eventhandler-menu-period">' . sprintf($list, $res) . '</div>';
     }
 
-    // Sort order menu
     public static function EventsMenuSortOrder($attr)
     {
         $menus = !empty($attr['menus']) ? $attr['menus'] : '';
@@ -131,7 +120,6 @@ class Template
         return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsMenuSortOrdertHelper('" . addslashes($menus) . "','" . addslashes($separator) . "','" . addslashes($list) . "','" . addslashes($item) . "','" . addslashes($active_item) . "'); ?>";
     }
 
-    // Sort order menu helper
     public static function EventsMenuSortOrdertHelper($menus, $separator, $list, $item, $active_item)
     {
         $default_sort_id = [
@@ -140,7 +128,7 @@ class Template
             'author' => 'LOWER(user_id)',
             'date' => 'post_dt',
             'startdt' => 'event_startdt',
-            'enddt' => 'event_enddt'
+            'enddt' => 'event_enddt',
         ];
         $default_sort_text = [
             'title' => __('Title'),
@@ -148,10 +136,9 @@ class Template
             'author' => __('Author'),
             'date' => __('Published date'),
             'startdt' => __('Start date'),
-            'enddt' => __('End date')
+            'enddt' => __('End date'),
         ];
 
-        // Only requested menus
         $menu = $default_sort_id;
         if (!empty($menus)) {
             $final_menu = [];
@@ -178,7 +165,6 @@ class Template
         $url .= $period;
 
         $sortstr = $sortby = $sortorder = null;
-        // Must quote array
         $quoted_default_sort_id = [];
         foreach ($default_sort_id as $k => $v) {
             $quoted_default_sort_id[$k] = preg_quote($v);
@@ -186,7 +172,7 @@ class Template
 
         if (isset(dcCore::app()->ctx->event_params['order'])
             && preg_match('/(' . implode('|', $quoted_default_sort_id) . ')\s(ASC|DESC)/i', dcCore::app()->ctx->event_params['order'], $sortstr)) {
-            $sortby = in_array($sortstr[1], $default_sort_id) ? $sortstr[1]: '';
+            $sortby = in_array($sortstr[1], $default_sort_id) ? $sortstr[1] : '';
             $sortorder = preg_match('#ASC#i', $sortstr[2]) ? 'asc' : 'desc';
         }
 
@@ -208,7 +194,6 @@ class Template
         return '<div id="eventhandler-menu-sortorder">' . sprintf($list, $res) . '</div>';
     }
 
-    // Period info
     public static function EventsPeriod($attr)
     {
         if (!isset($attr['fulltext'])) {
@@ -222,7 +207,6 @@ class Template
         return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsPeriodHelper('" . $fulltext . "'); ?>";
     }
 
-    // Period helper
     public static function EventsPeriodHelper($fulltext)
     {
         if ($fulltext == 2) {
@@ -233,7 +217,7 @@ class Template
                 'scheduled' => __('Scheduled events'),
                 'started' => __('Started events'),
                 'notfinished' => __('Unfinished events'),
-                'finished' => __('Completed events')
+                'finished' => __('Completed events'),
             ];
         } elseif ($fulltext == 1) {
             $text = [
@@ -243,7 +227,7 @@ class Template
                 'scheduled' => __('Scheduled'),
                 'started' => __('Started'),
                 'notfinished' => __('Not finished'),
-                'finished' => __('Finished')
+                'finished' => __('Finished'),
             ];
         } else {
             $text = [
@@ -253,13 +237,12 @@ class Template
                 'scheduled' => 'scheduled',
                 'started' => 'started',
                 'notfinished' => 'notfinished',
-                'finished' => 'finished'
+                'finished' => 'finished',
             ];
         }
         return isset(dcCore::app()->ctx->event_params['event_period']) && isset($text[dcCore::app()->ctx->event_params['event_period']]) ? $text[dcCore::app()->ctx->event_params['event_period']] : $text['all'];
     }
 
-    // Interval info
     public static function EventsInterval($attr)
     {
         $format = !empty($attr['format']) ? addslashes($attr['format']) : __('%m %d %Y');
@@ -267,7 +250,6 @@ class Template
         return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsIntervalHelper('" . $format . "'); ?>";
     }
 
-    // Interval info helper
     public static function EventsIntervalHelper($format)
     {
         if (!empty(dcCore::app()->ctx->event_params['event_start_year'])) {
@@ -292,7 +274,6 @@ class Template
         }
     }
 
-    // Conditions
     public static function EventsIf($attr, $content)
     {
         $if = [];
@@ -300,12 +281,12 @@ class Template
         $operator = isset($attr['operator']) ? dcCore::app()->tpl->getOperator($attr['operator']) : '&&';
 
         if (isset($attr['has_interval'])) {
-            $sign = (boolean) $attr['has_interval'] ? '!' : '';
+            $sign = (bool) $attr['has_interval'] ? '!' : '';
             $if[] = $sign . 'empty(dcCore::app()->ctx->event_params["event_interval"])';
         }
 
         if (isset($attr['has_category'])) {
-            $sign = (boolean) $attr['has_category'] ? '' : '!';
+            $sign = (bool) $attr['has_category'] ? '' : '!';
             $if[] = $sign . 'dcCore::app()->ctx->exists("categories")';
         }
 
@@ -335,7 +316,7 @@ class Template
         $if = '';
 
         if (isset($attr['value'])) {
-            $sign = (boolean) $attr['value'] ? '>' : '==';
+            $sign = (bool) $attr['value'] ? '>' : '==';
             $if = 'dcCore::app()->ctx->nb_posts ' . $sign . ' 0';
         }
 
@@ -346,14 +327,11 @@ class Template
         }
     }
 
-	//
-    // Entries (on events page)
-	//
     public static function EventsEntries($attr, $content)
     {
         $lastn = -1;
         if (isset($attr['lastn'])) {
-            $lastn = abs((integer) $attr['lastn']) + 0;
+            $lastn = abs((int) $attr['lastn']) + 0;
         }
 
         $p = 'if (!isset($_page_number)) { $_page_number = 1; }' . "\n";
@@ -401,18 +379,18 @@ class Template
         if (empty($attr['no_context'])) {
             $p .=
                 'if (dcCore::app()->ctx->exists("users")) { ' .
-            	"\$params['user_id'] = dcCore::app()->ctx->users->user_id; " .
+                "\$params['user_id'] = dcCore::app()->ctx->users->user_id; " .
                 "}\n";
 
             $p .=
                 'if (dcCore::app()->ctx->exists("categories")) { ' .
-            	"\$params['cat_id'] = dcCore::app()->ctx->categories->cat_id; " .
+                "\$params['cat_id'] = dcCore::app()->ctx->categories->cat_id; " .
                 "}\n";
 
             $p .=
                 'if (dcCore::app()->ctx->exists("archives")) { ' .
-            	"\$params['post_year'] = dcCore::app()->ctx->archives->year(); " .
-            	"\$params['post_month'] = dcCore::app()->ctx->archives->month(); ";
+                "\$params['post_year'] = dcCore::app()->ctx->archives->year(); " .
+                "\$params['post_month'] = dcCore::app()->ctx->archives->month(); ";
             if (!isset($attr['lastn'])) {
                 $p .= "unset(\$params['limit']); ";
             }
@@ -421,17 +399,17 @@ class Template
 
             $p .=
                 'if (dcCore::app()->ctx->exists("langs")) { ' .
-            	"\$params['post_lang'] = dcCore::app()->ctx->langs->post_lang; " .
+                "\$params['post_lang'] = dcCore::app()->ctx->langs->post_lang; " .
                 "}\n";
 
             $p .=
                 'if (isset($_search)) { ' .
-            	"\$params['search'] = \$_search; " .
+                "\$params['search'] = \$_search; " .
                 "}\n";
 
             $p .=
                 'if (dcCore::app()->ctx->exists("event_params")) { ' .
-            	"\$params = array_merge(\$params,dcCore::app()->ctx->event_params); " .
+                "\$params = array_merge(\$params,dcCore::app()->ctx->event_params); " .
                 "}\n";
         }
 
@@ -439,11 +417,11 @@ class Template
             $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($attr, 'eventhandler') . "';\n";
         } else {
             $order = $field = $table = '';
-            if (dcCore::app()->blog->settings->eventHandler->public_events_list_sortby && strpos(dcCore::app()->blog->settings->eventHandler->public_events_list_sortby, ':') !== false) {
-                list($table, $field) = explode(':', dcCore::app()->blog->settings->eventHandler->public_events_list_sortby);
+            if (My::settings()->public_events_list_sortby && str_contains(My::settings()->public_events_list_sortby, ':')) {
+                [$table, $field] = explode(':', My::settings()->public_events_list_sortby);
             }
-            if (dcCore::app()->blog->settings->eventHandler->public_events_list_order) {
-                $order = dcCore::app()->blog->settings->eventHandler->public_events_list_order;
+            if (My::settings()->public_events_list_order) {
+                $order = My::settings()->public_events_list_order;
             }
             $special_attr = new \ArrayObject($special_attr = ['order' => $order, 'sortby' => $field]);
             $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($special_attr, $table) . "';\n";
@@ -454,7 +432,7 @@ class Template
         }
 
         if (isset($attr['selected'])) {
-            $p .= "\$params['post_selected'] = " . (integer) (boolean) $attr['selected'] . ";";
+            $p .= "\$params['post_selected'] = " . (int) (bool) $attr['selected'] . ";";
         }
 
         if (isset($attr['age'])) {
@@ -475,7 +453,6 @@ class Template
             'dcCore::app()->ctx->posts = null; dcCore::app()->ctx->post_params = null; ?>';
     }
 
-    // Pagination
     public static function EventsPagination($attr, $content)
     {
         $p =
@@ -496,7 +473,6 @@ class Template
             '<?php endif; ?>';
     }
 
-    // Conditions
     public static function EventsEntryIf($attr, $content)
     {
         $if = [];
@@ -504,17 +480,17 @@ class Template
         $operator = isset($attr['operator']) ? dcCore::app()->tpl->getOperator($attr['operator']) : '&&';
 
         if (isset($attr['has_category'])) {
-            $sign = (boolean) $attr['has_category'] ? '' : '!';
+            $sign = (bool) $attr['has_category'] ? '' : '!';
             $if[] = $sign . 'dcCore::app()->ctx->posts->cat_id';
         }
 
         if (isset($attr['has_address'])) {
-            $sign = (boolean) $attr['has_address'] ? '!' : '=';
+            $sign = (bool) $attr['has_address'] ? '!' : '=';
             $if[] = "'' " . $sign . '= dcCore::app()->ctx->posts->event_address';
         }
 
         if (isset($attr['has_geo'])) {
-            $sign = (boolean) $attr['has_geo'] ? '' : '!';
+            $sign = (bool) $attr['has_geo'] ? '' : '!';
             $if[] = $sign . '("" != dcCore::app()->ctx->posts->event_latitude && "" != dcCore::app()->ctx->posts->event_longitude)';
         }
 
@@ -523,17 +499,17 @@ class Template
         }
 
         if (isset($attr['sameday'])) {
-            $sign = (boolean) $attr['sameday'] ? '' : '!';
+            $sign = (bool) $attr['sameday'] ? '' : '!';
             $if[] = $sign . "dcCore::app()->ctx->posts->isOnSameDay()";
         }
 
         if (isset($attr['oneday'])) {
-            $sign = (boolean) $attr['oneday'] ? '' : '!';
+            $sign = (bool) $attr['oneday'] ? '' : '!';
             $if[] = $sign . "dcCore::app()->ctx->posts->isOnOneDay()";
         }
 
         if (!empty($attr['orderedby'])) {
-            if (substr($attr['orderedby'], 0, 1) == '!') {
+            if (str_starts_with($attr['orderedby'], '!')) {
                 $sign = '!';
                 $orderedby = substr($attr['orderedby'], 1);
             } else {
@@ -544,7 +520,7 @@ class Template
             $default_sort = [
                 'date' => 'post_dt',
                 'startdt' => 'event_startdt',
-                'enddt' => 'event_enddt'
+                'enddt' => 'event_enddt',
             ];
 
             if (isset($default_sort[$orderedby])) {
@@ -561,7 +537,6 @@ class Template
         }
     }
 
-    // First event date
     public static function EventsDateHeader($attr, $content)
     {
         $type = '';
@@ -585,7 +560,6 @@ class Template
             "<?php endif; ?>";
     }
 
-    // Last event date
     public static function EventsDateFooter($attr, $content)
     {
         $type = '';
@@ -609,7 +583,6 @@ class Template
             "<?php endif; ?>";
     }
 
-    // Date of selected type
     public static function EventsEntryDate($a)
     {
         $format = !empty($a['format']) ? addslashes($a['format']) : '';
@@ -639,7 +612,6 @@ class Template
         }
     }
 
-    // Time of selected type
     public static function EventsEntryTime($a)
     {
         $format = !empty($a['format']) ? addslashes($a['format']) : '';
@@ -660,13 +632,11 @@ class Template
         return self::tplValue($a, "dcCore::app()->ctx->posts->getEventTime('" . $format . "','" . $type . "')");
     }
 
-    // Category url
     public static function EventsEntryCategoryURL($a)
     {
         return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_list")."/category/".Html::sanitizeURL(dcCore::app()->ctx->posts->cat_url)');
     }
 
-    // Address
     public static function EventsEntryAddress($a)
     {
         $ics = !empty($a['ics']) ? '"LOCATION;CHARSET=UTF-8:".' : '';
@@ -674,25 +644,21 @@ class Template
         return self::tplValue($a, $ics . 'dcCore::app()->ctx->posts->event_address');
     }
 
-    // Latitude
     public static function EventsEntryLatitude($a)
     {
         return self::tplValue($a, 'dcCore::app()->ctx->posts->event_latitude');
     }
 
-    // Longitude
     public static function EventsEntryLongitude($a)
     {
         return self::tplValue($a, 'dcCore::app()->ctx->posts->event_longitude');
     }
 
-    // Zoom
     public static function EventsEntryZoom($a)
     {
         return self::tplValue($a, 'dcCore::app()->ctx->posts->event_zoom');
     }
 
-    // Duration
     public static function EventsEntryDuration($a)
     {
         $format = !empty($a['format']) ? addslashes($a['format']) : '';
@@ -700,20 +666,19 @@ class Template
         return self::tplValue($a, "Dotclear\\Plugin\\eventHandler\\EventHandler::getReadableDuration((strtotime(dcCore::app()->ctx->posts->event_enddt) - strtotime(dcCore::app()->ctx->posts->event_startdt)),'" . $format . "')");
     }
 
-    // Period
     public static function EventsEntryPeriod($attr)
     {
-        $scheduled = isset($attr['scheduled']) ? $attr['scheduled'] : 'scheduled';
+        $scheduled = $attr['scheduled'] ?? 'scheduled';
         if (empty($attr['strict'])) {
             $scheduled = __($scheduled);
         }
 
-        $ongoing = isset($attr['ongoing']) ? $attr['ongoing'] : 'ongoing';
+        $ongoing = $attr['ongoing'] ?? 'ongoing';
         if (empty($attr['strict'])) {
             $ongoing = __($ongoing);
         }
 
-        $finished = isset($attr['finished']) ? $attr['finished'] : 'finished';
+        $finished = $attr['finished'] ?? 'finished';
         if (empty($attr['strict'])) {
             $finished = __($finished);
         }
@@ -721,7 +686,7 @@ class Template
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return
-            "<?php \$time = time() + Dotclear\Helper\Date::getTimeOffset(dcCore::app()->ctx->posts->post_tz)*2;\n" .
+            "<?php \$time = time() + Date::getTimeOffset(dcCore::app()->ctx->posts->post_tz)*2;\n" .
             "if (dcCore::app()->ctx->posts->getEventTS('startdt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $scheduled . "'") . "; }\n" .
             "elseif (dcCore::app()->ctx->posts->getEventTS('startdt') < \$time && dcCore::app()->ctx->posts->getEventTS('enddt') > \$time) {\n" .
@@ -731,37 +696,33 @@ class Template
             "unset(\$time); ?>\n";
     }
 
-    // Map
     public static function EventsEntryMap($attr)
     {
         if (!empty($attr['map_zoom'])) {
-            $map_zoom = abs((integer) $attr['map_zoom']);
+            $map_zoom = abs((int) $attr['map_zoom']);
         } else {
-            $map_zoom = '(dcCore::app()->ctx->posts->event_zoom)?dcCore::app()->ctx->posts->event_zoom:dcCore::app()->blog->settings->eventHandler->public_map_zoom';
+            $map_zoom = '(dcCore::app()->ctx->posts->event_zoom)?dcCore::app()->ctx->posts->event_zoom:Dotclear\\Plugin\\eventHandler\\My::settings()->public_map_zoom';
         }
-        $map_type = !empty($attr['map_type']) ? '"' . Html::escapeHTML($attr['map_type']) . '"' : 'dcCore::app()->blog->settings->eventHandler->public_map_type';
+        $map_type = !empty($attr['map_type']) ? '"' . Html::escapeHTML($attr['map_type']) . '"' : 'Dotclear\\Plugin\\eventHandler\\My::settings()->public_map_type';
         $map_info = isset($attr['map_info']) && $attr['map_info'] == '0' ? '0' : '1';
 
         return '<?php echo Dotclear\\Plugin\\eventHandler\\EventHandler::getMapContent("","",' . $map_type . ',' . $map_zoom . ',' . $map_info . ',dcCore::app()->ctx->posts->event_latitude,dcCore::app()->ctx->posts->event_longitude,dcCore::app()->ctx->posts->getMapVEvent()); ?>';
     }
 
-	//
-    // Events of an entry (on posts context)
-	//
     public static function EventsOfPost($attr, $content)
     {
         $p = '';
 
         $lastn = -1;
         if (isset($attr['lastn'])) {
-            $lastn = abs((integer) $attr['lastn']) + 0;
+            $lastn = abs((int) $attr['lastn']) + 0;
             if ($lastn > 0) {
                 $p .= "\$params['limit'] = " . $lastn . ";\n";
             }
         }
 
         if (isset($attr['event'])) {
-            $p .= "\$params['event_id'] = '" . abs((integer) $attr['event']) . "';\n";
+            $p .= "\$params['event_id'] = '" . abs((int) $attr['event']) . "';\n";
         }
 
         if (isset($attr['author'])) {
@@ -779,7 +740,7 @@ class Template
         }
 
         if (isset($attr['post'])) {
-            $p .= "\$params['post_id'] = '" . abs((integer) $attr['post']) . "';\n";
+            $p .= "\$params['post_id'] = '" . abs((int) $attr['post']) . "';\n";
         }
 
         if (!empty($attr['type'])) {
@@ -797,7 +758,7 @@ class Template
         }
 
         if (isset($attr['selected'])) {
-            $p .= "\$params['post_selected'] = " . (integer) (boolean) $attr['selected'] . ";";
+            $p .= "\$params['post_selected'] = " . (int) (bool) $attr['selected'] . ";";
         }
 
         if (isset($attr['age'])) {
@@ -809,7 +770,7 @@ class Template
             "<?php\n" .
             'if(!isset($eventHandler)) { $eventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); } ' . "\n" .
             '$params = array(); ' . "\n" .
-            '$public_hidden_categories = @unserialize(dcCore::app()->blog->settings->eventHandler->public_hidden_categories); ' .
+            '$public_hidden_categories = @unserialize(Dotclear\\Plugin\\eventHandler\\My::settings()->public_hidden_categories); ' .
             'if (is_array($public_hidden_categories)) { ' .
             ' foreach($public_hidden_categories as $hidden_cat) { ' .
             '  @$params[\'sql\'] .= " AND C.cat_id != \'".dcCore::app()->con->escape($hidden_cat)."\' "; ' .
@@ -850,12 +811,12 @@ class Template
         $operator = isset($attr['operator']) ? dcCore::app()->tpl->getOperator($attr['operator']) : '&&';
 
         if (isset($attr['has_category'])) {
-            $sign = (boolean) $attr['has_category'] ? '' : '!';
+            $sign = (bool) $attr['has_category'] ? '' : '!';
             $if[] = $sign . 'dcCore::app()->ctx->eventsofpost->cat_id';
         }
 
         if (isset($attr['has_address'])) {
-            $sign = (boolean) $attr['has_address'] ? '!' : '=';
+            $sign = (bool) $attr['has_address'] ? '!' : '=';
             $if[] = "'' " . $sign . '= dcCore::app()->ctx->eventsofpost->event_address';
         }
 
@@ -864,17 +825,17 @@ class Template
         }
 
         if (isset($attr['sameday'])) {
-            $sign = (boolean) $attr['sameday'] ? '' : '!';
+            $sign = (bool) $attr['sameday'] ? '' : '!';
             $if[] = $sign . "dcCore::app()->ctx->eventsofpost->isOnSameDay()";
         }
 
         if (isset($attr['oneday'])) {
-            $sign = (boolean) $attr['oneday'] ? '' : '!';
+            $sign = (bool) $attr['oneday'] ? '' : '!';
             $if[] = $sign . "dcCore::app()->ctx->eventsofpost->isOnOneDay()";
         }
 
         if (!empty($attr['orderedby'])) {
-            if (substr($attr['orderedby'], 0, 1) == '!') {
+            if (str_starts_with($attr['orderedby'], '!')) {
                 $sign = '!';
                 $orderedby = substr($attr['orderedby'], 1);
             } else {
@@ -885,7 +846,7 @@ class Template
             $default_sort = [
                 'date' => 'post_dt',
                 'startdt' => 'event_startdt',
-                'enddt' => 'event_enddt'
+                'enddt' => 'event_enddt',
             ];
 
             if (isset($default_sort[$orderedby])) {
@@ -995,17 +956,17 @@ class Template
 
     public static function EventOfPostPeriod($attr)
     {
-        $scheduled = isset($attr['scheduled']) ? $attr['scheduled'] : 'scheduled';
+        $scheduled = $attr['scheduled'] ?? 'scheduled';
         if (empty($attr['strict'])) {
             $scheduled = __($scheduled);
         }
 
-        $ongoing = isset($attr['ongoing']) ? $attr['ongoing'] : 'ongoing';
+        $ongoing = $attr['ongoing'] ?? 'ongoing';
         if (empty($attr['strict'])) {
             $ongoing = __($ongoing);
         }
 
-        $finished = isset($attr['finished']) ? $attr['finished'] : 'finished';
+        $finished = $attr['finished'] ?? 'finished';
         if (empty($attr['strict'])) {
             $finished = __($finished);
         }
@@ -1013,7 +974,7 @@ class Template
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return
-            "<?php \$time = time() + Dotclear\Helper\Date::getTimeOffset(dcCore::app()->ctx->eventsofpost->post_tz)*2;\n" .
+            "<?php \$time = time() + Date::getTimeOffset(dcCore::app()->ctx->eventsofpost->post_tz)*2;\n" .
             "if (dcCore::app()->ctx->eventsofpost->getEventTS('startdt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $scheduled . "'") . "; }\n" .
             "elseif (dcCore::app()->ctx->eventsofpost->getEventTS('startdt') < \$time && dcCore::app()->ctx->eventsofpost->getEventTS('enddt') > \$time) {\n" .
@@ -1023,23 +984,20 @@ class Template
             "unset(\$time); ?>\n";
     }
 
-	//
-    // Entries of an event (on events context)
-	//
     public static function PostsOfEvent($attr, $content)
     {
         $p = '';
 
         $lastn = -1;
         if (isset($attr['lastn'])) {
-            $lastn = abs((integer) $attr['lastn']) + 0;
+            $lastn = abs((int) $attr['lastn']) + 0;
             if ($lastn > 0) {
                 $p .= "\$params['limit'] = " . $lastn . ";\n";
             }
         }
 
         if (isset($attr['event'])) {
-            $p .= "\$params['event_id'] = '" . abs((integer) $attr['event']) . "';\n";
+            $p .= "\$params['event_id'] = '" . abs((int) $attr['event']) . "';\n";
         }
 
         if (isset($attr['author'])) {
@@ -1067,7 +1025,7 @@ class Template
         }
 
         if (isset($attr['selected'])) {
-            $p .= "\$params['post_selected'] = " . (integer) (boolean) $attr['selected'] . ";";
+            $p .= "\$params['post_selected'] = " . (int) (bool) $attr['selected'] . ";";
         }
 
         if (isset($attr['age'])) {
@@ -1113,12 +1071,12 @@ class Template
 
         if (isset($attr['type'])) {
             $type = trim($attr['type']);
-            $type = !empty($type)?$type:'post';
+            $type = !empty($type) ? $type : 'post';
             $if[] = 'dcCore::app()->ctx->postsofevent->post_type == "' . addslashes($type) . '"';
         }
 
         if (isset($attr['has_category'])) {
-            $sign = (boolean) $attr['has_category'] ? '' : '!';
+            $sign = (bool) $attr['has_category'] ? '' : '!';
             $if[] = $sign . 'dcCore::app()->ctx->postsofevent->cat_id';
         }
 
@@ -1185,7 +1143,6 @@ class Template
         return self::tplValue($a, 'dcCore::app()->ctx->postsofevent->getCategoryURL()');
     }
 
-    // Generic template value
     protected static function tplValue($a, $v)
     {
         return '<?php echo ' . sprintf(dcCore::app()->tpl->getFilters($a), $v) . '; ?>';

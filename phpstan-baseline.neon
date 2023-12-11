@@ -4,7 +4,6 @@ parameters:
     - '#Access to an undefined property Dotclear\\Helper\\Html\\XmlTag::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Database\\Cursor::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Database\\MetaRecord::\$[alpha]*.#'
-    - '#Access to an undefined property Dotclear\\Database\\Record::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Database\\Structure::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Plugin\\widgets\\WidgetsElement::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Plugin\\widgets\\WidgetsStack::\$[alpha]*.#'
@@ -13,3 +12,7 @@ parameters:
     - '#Access to an undefined property dcNamespace::\$[alpha]*.#'
     - '#Access to an undefined property dcPrefs::\$[alpha]*.#'
     - '#Access to an undefined property dcSettings::\$[alpha]*.#'
+    - '#Access to an undefined property record::\$cat_id#'
+
+    - message: '#Variable \$this might not be defined.#'
+      path: _define.php

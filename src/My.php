@@ -22,6 +22,4 @@ namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\Module\MyPlugin;
 
-class My extends MyPlugin
-{
-}
+class My extends MyPlugin {}

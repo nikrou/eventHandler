@@ -20,45 +20,45 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcAuth;
-use dcCore;
 use Dotclear\Core\Backend\Action\ActionsPosts;
 use Dotclear\Core\Backend\Favorites;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Html\Html;
+use dcAuth;
+use dcCore;
+use ArrayObject;
+use Exception;
 use form;
 
 class AdminBehaviors
 {
-    // Dashboard icon
     public static function adminDashboardIcons($name, $icons)
     {
         if ($name === 'eventHandler') {
-            $icons['eventHandler'] = new \ArrayObject([
+            $icons['eventHandler'] = new ArrayObject([
                 __('Event handler'),
-                dcCore::app()->admin->url->get('admin.plugin.eventHandler'),
-                'index.php?pf=eventHandler/icon.svg'
+                'plugin.php?p=eventHandler',
+                'index.php?pf=eventHandler/icon.svg',
             ]);
         }
     }
 
-    // Dashboard fav icon
     public static function adminDashboardFavs(Favorites $favorites)
     {
         $favorites->register('eventHandler', [
-            'title' => __('Event handler'),
-            'url' => dcCore::app()->admin->url->get('admin.plugin.eventHandler'),
+            'title' => 'Event handler',
+            'url' => 'plugin.php?p=eventHandler',
             'small-icon' => [Page::getPF('eventHandler/icon.svg'), Page::getPF('eventHandler/icon-dark.svg')],
             'large-icon' => [Page::getPF('eventHandler/icon.svg'), Page::getPF('eventHandler/icon-dark.svg')],
             'permissions' => dcCore::app()->auth->makePermissions([
-                dcAuth::PERMISSION_USAGE, dcAuth::PERMISSION_CONTENT_ADMIN
-            ])
+                dcAuth::PERMISSION_USAGE, dcAuth::PERMISSION_CONTENT_ADMIN,
+            ]),
         ]);
     }
 
     public static function adminPageHTTPHeaderCSP($csp)
     {
-        if (dcCore::app()->blog->settings->eventHandler->map_provider === 'googlemaps') {
+        if (My::settings()->map_provider === 'googlemaps') {
             $host_map_provider = 'csi.gstatic.com maps.google.com maps.googleapis.com';
             if (isset($csp['img-src'])) {
                 $csp['img-src'] .= ' csi.gstatic.com';
@@ -94,23 +94,23 @@ class AdminBehaviors
         }
     }
 
-    // post.php
-    // Headers, jQuery features to remove events from a post
     public static function adminPostHeaders()
     {
-        return
-        self::adminCss() .
-        Page::jsLoad(Page::getPF('eventHandler/js/post.js'));
+        return  self::adminCss() . Page::jsLoad(Page::getPF('eventHandler/js/post.js'));
     }
 
-    // posts.php
-    // Combo of actions on multiple posts
+    public static function pluginsToolsHeadersV2()
+    {
+        return Page::jsPageTabs();
+    }
+
     public static function adminPostsActions(ActionsPosts $ap)
     {
         if (dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([
-            dcAuth::PERMISSION_CONTENT_ADMIN, dcAuth::PERMISSION_USAGE
+            dcAuth::PERMISSION_CONTENT_ADMIN, dcAuth::PERMISSION_USAGE,
         ]), dcCore::app()->blog->id)) {
-            $ap->addAction([__('Events') => [__('Unbind events') => ActionsEvents::UNBIND_POST_ACTION]], [ActionsEvents::class, 'unbindEvents']);
+            $ap->addAction([__('Events') => [__('Bind events') => ActionsEvents::BIND_EVENT_ACTION]], [ActionsEventsDefault::class, 'doBindUnbind']);
+            $ap->addAction([__('Events') => [__('Unbind events') => ActionsEvents::UNBIND_POST_ACTION]], [ActionsEventsDefault::class, 'doBindUnbind']);
         }
     }
 
@@ -132,7 +132,7 @@ class AdminBehaviors
             if ($events->isEmpty()) {
                 $events = null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             dcCore::app()->error->add($e->getMessage());
         }
 
@@ -155,11 +155,12 @@ class AdminBehaviors
         }
 
         // Bind a event to this post
-        $res .= '<p><a href="' . dcCore::app()->admin->url->get('admin.plugin.eventHandler', ['part' => 'events', 'from_id' => $post->post_id]) . '">' . __('Bind events') . '</a>';
+        $res .= '<p><a href="plugin.php?p=eventHandler&amp;part=events&amp;from_id=' . $post->post_id . '">' . __('Bind events') . '</a>';
 
         // Change post into event publish,contenadmin
         if (dcCore::app()->auth->check('publish,contentadmin', dcCore::app()->blog->id)) {
-            $res .= '<p><a href="' . dcCore::app()->admin->url->get('admin.plugin.eventHandler', ['part' => 'event', 'from_id' => $post->post_id]);
+            $res .= '<p><a href="plugin.php?p=eventHandler';
+            $res .= '&amp;part=event&amp;from_id=' . $post->post_id;
             $res .= '" title="' . __('Change this entry into an event') . '">' . __('Change into event') . '</a>';
         }
 
@@ -180,23 +181,20 @@ class AdminBehaviors
             return;
         }
 
-
         try {
             foreach ($_POST['eventhandler_events'] as $event_id) {
-                $event_id = abs((integer) $event_id);
+                $event_id = abs((int) $event_id);
                 if (!$event_id) {
                     continue;
                 }
 
                 dcCore::app()->meta->delPostMeta($post_id, 'eventhandler', (string) $event_id);
             }
-        } catch (\Exception $e) {
+        } catch (Exception) {
             //dcCore::app()->error->add($e->getMessage());
         }
     }
 
-    // post.php
-    // This delete relation between this post and all there events
     public static function adminBeforePostDelete($post_id)
     {
         if (!$post_id) {
@@ -205,12 +203,11 @@ class AdminBehaviors
 
         try {
             dcCore::app()->meta->delPostMeta($post_id, 'eventhandler');
-        } catch (\Exception $e) {
+        } catch (Exception) {
             //dcCore::app()->error->add($e->getMessage());
         }
     }
 
-    // Returns the admin css according to the darkmode setting
     public static function adminCss()
     {
         $style = "style.css";

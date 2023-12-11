@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\eventHandler;
 
 use dcCore;
+use Exception;
 
 class RestMethods
 {
@@ -34,14 +35,15 @@ class RestMethods
         if (is_null($post_id)) {
             throw new \Exception(__('No such post ID'));
         }
+
         if (is_null($event_id)) {
             throw new \Exception(__('No such event ID'));
         }
 
         try {
             dcCore::app()->meta->delPostMeta($post_id, 'eventhandler', $event_id);
-        } catch (\Exception $e) {
-            throw new \Exception(__('An error occured when trying de unbind event'));
+        } catch (Exception) {
+            throw new Exception(__('An error occured when trying de unbind event'));
         }
 
         return ['message' => __('Event removed from post')];

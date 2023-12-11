@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcBlog;
-use dcCore;
 use Dotclear\Core\Backend\Listing\ListingPosts;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Process;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\L10n;
 use Dotclear\Helper\Network\Http;
+use dcBlog;
+use dcCore;
 use formSelectOption;
 
 class ManageEvent extends Process
@@ -35,7 +35,7 @@ class ManageEvent extends Process
     public static function init(): bool
     {
         if (My::checkContext(My::MANAGE)) {
-            self::status(($_REQUEST['part'] ?? 'events') === 'event');
+            self::status(empty($_REQUEST['part']) || $_REQUEST['part'] === 'event');
         }
 
         return self::status();
@@ -101,9 +101,9 @@ class ManageEvent extends Process
         $next_link = $prev_link = $next_headlink = $prev_headlink = null;
 
         // settings
-        $events_default_zoom = dcCore::app()->blog->settings->eventHandler->public_map_zoom;
-        $map_provider = dcCore::app()->blog->settings->eventHandler->map_provider?dcCore::app()->blog->settings->eventHandler->map_provider:'googlemaps';
-        $map_api_key = dcCore::app()->blog->settings->eventHandler->map_api_key;
+        $events_default_zoom = My::settings()->public_map_zoom;
+        $map_provider = My::settings()->map_provider ? My::settings()->map_provider : 'googlemaps';
+        $map_api_key = My::settings()->map_api_key;
 
         $preview_url = '';
 
@@ -139,7 +139,6 @@ class ManageEvent extends Process
             }
         }
 
-
         // Languages combo
         $rs = dcCore::app()->blog->getLangs(['order' => 'asc']);
         $all_langs = L10n::getISOcodes(false, true);
@@ -154,11 +153,10 @@ class ManageEvent extends Process
         }
         unset($all_langs, $rs);
 
-
         // Change a post to an event
         $change = false;
         if (!empty($_REQUEST['from_id'])) {
-            $post = dcCore::app()->blog->getPosts(['post_id' => (integer) $_REQUEST['from_id'], 'post_type' => '']);
+            $post = dcCore::app()->blog->getPosts(['post_id' => (int) $_REQUEST['from_id'], 'post_type' => '']);
 
             if ($post->isEmpty()) {
                 dcCore::app()->error->add(__('This entry does not exist.'));
@@ -171,7 +169,7 @@ class ManageEvent extends Process
 
         // Get entry informations
         if (!empty($_REQUEST['id'])) {
-            $post = $eventHandler->getEvents(['post_id' => (integer) $_REQUEST['id']]);
+            $post = $eventHandler->getEvents(['post_id' => (int) $_REQUEST['id']]);
 
             if ($post->isEmpty()) {
                 dcCore::app()->error->add(__('This event does not exist.'));
@@ -195,7 +193,7 @@ class ManageEvent extends Process
             $post_content_xhtml = $post->post_content_xhtml;
             $post_notes = $post->post_notes;
             $post_status = $post->post_status;
-            $post_selected = (boolean) $post->post_selected;
+            $post_selected = (bool) $post->post_selected;
             $post_open_comment = false;
             $post_open_tb = false;
 
@@ -260,10 +258,10 @@ class ManageEvent extends Process
 
             $post_title = $_POST['post_title'];
 
-            $cat_id = (integer) $_POST['cat_id'];
+            $cat_id = (int) $_POST['cat_id'];
 
             if (isset($_POST['post_status'])) {
-                $post_status = (integer) $_POST['post_status'];
+                $post_status = (int) $_POST['post_status'];
             }
 
             if (empty($_POST['post_dt'])) {
@@ -294,7 +292,6 @@ class ManageEvent extends Process
                 $post_content,
                 $post_content_xhtml
             );
-
 
             if (empty($_POST['event_startdt'])) {
                 $event_startdt = '';
@@ -331,7 +328,7 @@ class ManageEvent extends Process
             $cur_post->post_content_xhtml = $post_content_xhtml;
             $cur_post->post_notes = $post_notes;
             $cur_post->post_status = $post_status;
-            $cur_post->post_selected = (integer) $post_selected;
+            $cur_post->post_selected = (int) $post_selected;
             $cur_post->post_open_comment = 0;
             $cur_post->post_open_tb = 0;
 
@@ -386,12 +383,12 @@ class ManageEvent extends Process
 
         if ($post_id && isset($post)) {
             $preview_url = dcCore::app()->blog->url .
-            	dcCore::app()->url->getURLFor(
-            	    'eventhandler_preview',
-            	    dcCore::app()->auth->userID() . '/' .
-            	    Http::browserUID(DC_MASTER_KEY . dcCore::app()->auth->userID() . dcCore::app()->auth->getInfo('user_pwd')) .
-            	    '/' . $post->post_url
-            	);
+                dcCore::app()->url->getURLFor(
+                    'eventhandler_preview',
+                    dcCore::app()->auth->userID() . '/' .
+                    Http::browserUID(DC_MASTER_KEY . dcCore::app()->auth->userID() . dcCore::app()->auth->getInfo('user_pwd')) .
+                    '/' . $post->post_url
+                );
         }
 
         if (!empty($_POST['delete']) && $can_delete) {
@@ -408,11 +405,11 @@ class ManageEvent extends Process
 
         // Get bind entries
         if ($post_id && !$change) {
-            $page = !empty($_GET['page']) ? (integer) $_GET['page'] : 1;
+            $page = !empty($_GET['page']) ? (int) $_GET['page'] : 1;
             $nb_per_page = 30;
 
-            if (!empty($_GET['nb']) && (integer) $_GET['nb'] > 0) {
-                $nb_per_page = (integer) $_GET['nb'];
+            if (!empty($_GET['nb']) && (int) $_GET['nb'] > 0) {
+                $nb_per_page = (int) $_GET['nb'];
             }
 
             $params = [];

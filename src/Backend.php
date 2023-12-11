@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
 use Dotclear\Core\Backend\Menus;
 use Dotclear\Core\Process;
+use dcCore;
 
 class Backend extends Process
 {
@@ -50,12 +50,13 @@ class Backend extends Process
         dcCore::app()->addBehavior('adminDashboardIconsV2', [AdminBehaviors::class, 'adminDashboardIcons']);
         dcCore::app()->addBehavior('adminDashboardFavoritesV2', [AdminBehaviors::class, 'adminDashboardFavs']);
 
+        dcCore::app()->addBehavior('pluginsToolsHeadersV2', [AdminBehaviors::class, 'pluginsToolsHeadersV2']);
+
         // Admin behaviors
-        if (dcCore::app()->blog->settings->eventHandler->active) {
+        if (My::settings()->active) {
             dcCore::app()->addBehavior('adminPageHTTPHeaderCSP', [AdminBehaviors::class, 'adminPageHTTPHeaderCSP']);
             dcCore::app()->addBehavior('adminPostHeaders', [AdminBehaviors::class, 'adminPostHeaders']);
             dcCore::app()->addBehavior('adminPostsActions', [AdminBehaviors::class, 'adminPostsActions']);
-            dcCore::app()->addBehavior('adminPostsActionsPage', [AdminBehaviors::class, 'adminPostsActions']);
             dcCore::app()->addBehavior('adminPostFormItems', [AdminBehaviors::class, 'adminPostFormItems']);
             dcCore::app()->addBehavior('adminAfterPostCreate', [AdminBehaviors::class, 'adminAfterPostSave']);
             dcCore::app()->addBehavior('adminAfterPostUpdate', [AdminBehaviors::class, 'adminAfterPostSave']);

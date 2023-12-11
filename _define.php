@@ -29,6 +29,6 @@ $this->registerModule(
         'settings' => ['self' => '&part=settings'],
         'repository' => 'https://github.com/nikrou/eventHandler',
         'support' => 'http://forum.dotclear.org/viewtopic.php?id=43296',
-        'details' => 'http://plugins.dotaddict.org/dc2/details/eventHandler'
+        'details' => 'http://plugins.dotaddict.org/dc2/details/eventHandler',
     ]
 );

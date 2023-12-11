@@ -5,7 +5,6 @@ use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\eventHandler\AdminBehaviors;
 use Dotclear\Plugin\eventHandler\My;
-
 ?>
 <html>
     <head>
@@ -25,8 +24,8 @@ use Dotclear\Plugin\eventHandler\My;
 	// --BEHAVIOR-- adminEventHandlerHeaders
 	dcCore::app()->callBehavior('adminEventHandlerHeaders') .
 	Page::jsPageTabs($default_tab) .
-  AdminBehaviors::adminCss();
-?>
+	AdminBehaviors::adminCss();
+	?>
 	<?php echo $next_headlink . "\n" . $prev_headlink;?>
     </head>
     <body>
@@ -47,18 +46,18 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 	</p>
 	<p>
 	    <?php
-    if ($prev_link) {
-        echo $prev_link;
-    }
-    if ($next_link && $prev_link) {
-        echo ' - ';
-    }
-    if ($next_link) {
-        echo $next_link;
-    }
+     if ($prev_link) {
+         echo $prev_link;
+     }
+     if ($next_link && $prev_link) {
+         echo ' - ';
+     }
+     if ($next_link) {
+         echo $next_link;
+     }
 
-    // --BEHAVIOR-- adminEventHandlerNavLinks
-    dcCore::app()->callBehavior('adminEventHandlerNavLinks', isset($post) ? $post : null);
+     // --BEHAVIOR-- adminEventHandlerNavLinks
+     dcCore::app()->callBehavior('adminEventHandlerNavLinks', isset($post) ? $post : null);
 	    ?>
 	</p>
 	<?php endif;?>
@@ -150,7 +149,8 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 				echo
 				($post_id ? form::hidden('id', $post_id) : '') .
 				($can_delete ? '<input type="submit" value="' . __('Delete') . '" class="delete" name="delete" />' : '') .
-				dcCore::app()->formNonce();	?>
+				dcCore::app()->formNonce();
+				?>
 			    </p>
 			</div>
 		    </div>
@@ -205,7 +205,7 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 		    <?php
 		    // --BEHAVIOR-- adminEventHandlerFormSidebar
 		    dcCore::app()->callBehavior('adminEventHandlerFormSidebar', isset($post) ? $post : null);
-?>
+		    ?>
 		</div>
 	    </form>
 	</div>
@@ -218,17 +218,10 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 	    <?php endif;?>
 	</div>
 	<?php
-// --BEHAVIOR-- adminEventHandlerTab
-dcCore::app()->callBehavior('adminEventHandlerTab', isset($post) ? $post : null);
-?>
+	// --BEHAVIOR-- adminEventHandlerTab
+	dcCore::app()->callBehavior('adminEventHandlerTab', isset($post) ? $post : null);
+	 ?>
 	<?php endif;?>
-	<hr class="clear"/><p class="right">
-	<?php if (dcCore::app()->auth->check('admin', dcCore::app()->blog->id)) {
-	    echo '<a class="button" href="', My::manageUrl(['part' => 'settings']), '">', __('Settings'), '</a> - ';
-	}?>
-	eventHandler - <?php echo dcCore::app()->plugins->moduleInfo('eventHandler', 'version');?>
-	<img alt="<?php echo  __('Event handler');?>" src="index.php?pf=eventHandler/icon.svg" width="16px" />
-	</p>
 	<?php Page::helpBlock('eventHandler');?>
     </body>
 </html>

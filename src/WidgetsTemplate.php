@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
-use Dotclear\Database\Record;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\widgets\WidgetsElement;
+use dcCore;
+use record;
 
 class WidgetsTemplate
 {
@@ -34,67 +34,63 @@ class WidgetsTemplate
             return;
         }
 
-        // Plugin active ?
-        if (!dcCore::app()->blog->settings->eventHandler->active) {
+        if (!My::settings()->active) {
             return;
         }
-        // Home only
-        if ($w->homeonly == 1 && dcCore::app()->url->type != 'default'
-        	|| $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
+
+        if ($w->homeonly == 1 && dcCore::app()->url->type != 'default' || $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
             return;
         }
+
         $params['sql'] = '';
-        // Period
+
         if ($w->period) {
             $params['event_period'] = $w->period;
         }
-        // Sort field
-        $params['order'] = ($w->sortby && in_array($w->sortby, ['post_title', 'post_dt', 'event_startdt', 'event_enddt'])) ?
-        	$w->sortby . ' ' : 'event_startdt ';
-        // Sort order
+
+        $params['order'] = ($w->sortby && in_array($w->sortby, ['post_title', 'post_dt', 'event_startdt', 'event_enddt'])) ? $w->sortby . ' ' : 'event_startdt ';
         $params['order'] .= $w->sort == 'desc' ? 'desc' : 'asc';
-        // Rows number
-        if ('' !== $w->limit) {
-            $params['limit'] = abs((integer) $w->limit);
+
+        if ($w->limit !== '') {
+            $params['limit'] = abs((int) $w->limit);
         }
-        // No post content
+
         $params['no_content'] = true;
-        // Post type
         $params['post_type'] = 'eventhandler';
-        // Selected post only
+
         if ($w->selectedonly) {
             $params['post_selected'] = 1;
         }
-        // Category
+
         if ($w->category) {
             if ($w->category == 'null') {
                 $params['sql'] .= ' AND P.cat_id IS NULL ';
             } elseif (is_numeric($w->category)) {
-                $params['cat_id'] = (integer) $w->category;
+                $params['cat_id'] = (int) $w->category;
             } else {
                 $params['cat_url'] = $w->category;
             }
         } else { // If no paricular category is selected, remove unlisted categories
-            $public_hidden_categories = @unserialize(dcCore::app()->blog->settings->eventHandler->public_hidden_categories);
+            $public_hidden_categories = @unserialize(My::settings()->public_hidden_categories);
             if (is_array($public_hidden_categories) && !empty($public_hidden_categories)) {
                 foreach ($public_hidden_categories as $k => $cat_id) {
                     $params['sql'] .= " AND P.cat_id != '$cat_id' ";
                 }
             }
         }
-        // Get posts
+
         $eventHandler = new EventHandler();
         $rs = $eventHandler->getEvents($params);
-        // No result
+
         if ($rs->isEmpty()) {
             return;
         }
 
         // Display
         $res = ($w->content_only ? '' : '<div class="widget eventhandler-events' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
-        	// Events events
-        	'<ul>';
+            ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
+            // Events events
+            '<ul>';
 
         while ($rs->fetch()) {
             // If same day
@@ -133,9 +129,9 @@ class WidgetsTemplate
 
         if ($w->pagelink) {
             $res .=
-            	'<p><strong><a href="' .
-            	dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
-            	'" >' . __('All events') . '</a></strong></p>';
+                '<p><strong><a href="' .
+                dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                '" >' . __('All events') . '</a></strong></p>';
         }
 
         $res .= ($w->content_only ? '' : '</div>');
@@ -150,13 +146,14 @@ class WidgetsTemplate
         }
 
         // Plugin active
-        if (!dcCore::app()->blog->settings->eventHandler->active) {
+        if (!My::settings()->active) {
             return;
         }
         // Post page only
         if (dcCore::app()->url->type != 'post') {
             return;
         }
+
         $params['sql'] = '';
         // Period
         if ($w->period) {
@@ -164,12 +161,12 @@ class WidgetsTemplate
         }
         // Sort field
         $params['order'] = ($w->sortby && in_array($w->sortby, ['post_title', 'post_dt', 'event_startdt', 'event_enddt'])) ?
-        	$w->sortby . ' ' : 'event_startdt ';
+            $w->sortby . ' ' : 'event_startdt ';
         // Sort order
         $params['order'] .= $w->sort == 'desc' ? 'desc' : 'asc';
         // Rows number
         if ('' !== $w->limit) {
-            $params['limit'] = abs((integer) $w->limit);
+            $params['limit'] = abs((int) $w->limit);
         }
         // No post content
         $params['no_content'] = true;
@@ -182,14 +179,14 @@ class WidgetsTemplate
             if ($w->category == 'null') {
                 $params['sql'] .= ' AND P.cat_id IS NULL ';
             } elseif (is_numeric($w->category)) {
-                $params['cat_id'] = (integer) $w->category;
+                $params['cat_id'] = (int) $w->category;
             } else {
                 $params['cat_url'] = $w->category;
             }
         } else { // If no paricular category is selected, remove unlisted categories
-            $public_hidden_categories = @unserialize(dcCore::app()->blog->settings->eventHandler->public_hidden_categories);
+            $public_hidden_categories = @unserialize(My::settings()->public_hidden_categories);
             if (is_array($public_hidden_categories) && !empty($public_hidden_categories)) {
-                foreach ($public_hidden_categories as $k => $cat_id) {
+                foreach ($public_hidden_categories as $cat_id) {
                     $params['sql'] .= " AND P.cat_id != '$cat_id' ";
                 }
             }
@@ -199,14 +196,14 @@ class WidgetsTemplate
         $rs = $eventHandler->getEventsByPost($params);
         // No result
         if ($rs->isEmpty()) {
-            return;
+            return '';
         }
 
         // Display
         $res = ($w->content_only ? '' : '<div class="widget eventhandler-eventsofpost' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
-        	// Events eventsofpost
-        	'<ul>';
+            ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
+            // Events eventsofpost
+            '<ul>';
         while ($rs->fetch()) {
             // If same day
             if ($rs->isOnSameDay()) {
@@ -235,9 +232,9 @@ class WidgetsTemplate
 
         if ($w->pagelink) {
             $res .=
-            	'<p><strong><a href="' .
-            	dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
-            	'" >' . __('All events') . '</a></strong></p>';
+                '<p><strong><a href="' .
+                dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                '" >' . __('All events') . '</a></strong></p>';
         }
 
         $res .= ($w->content_only ? '' : '</div>');
@@ -252,7 +249,7 @@ class WidgetsTemplate
         }
 
         // Plugin active
-        if (!dcCore::app()->blog->settings->eventHandler->active) {
+        if (!My::settings()->active) {
             return;
         }
         // Event page only
@@ -263,12 +260,12 @@ class WidgetsTemplate
         $params['sql'] = '';
         // Sort field
         $params['order'] = ($w->sortby && in_array($w->sortby, ['post_title', 'post_dt'])) ?
-        	$w->sortby . ' ' : 'post_dt ';
+            $w->sortby . ' ' : 'post_dt ';
         // Sort order
         $params['order'] .= $w->sort == 'asc' ? 'asc' : 'desc';
         // Rows number
         if ('' !== $w->limit) {
-            $params['limit'] = abs((integer) $w->limit);
+            $params['limit'] = abs((int) $w->limit);
         }
         // No post content
         $params['no_content'] = true;
@@ -281,7 +278,7 @@ class WidgetsTemplate
             if ($w->category == 'null') {
                 $params['sql'] = ' AND P.cat_id IS NULL ';
             } elseif (is_numeric($w->category)) {
-                $params['cat_id'] = (integer) $w->category;
+                $params['cat_id'] = (int) $w->category;
             } else {
                 $params['cat_url'] = $w->category;
             }
@@ -296,13 +293,13 @@ class WidgetsTemplate
 
         // Display
         $res = ($w->content_only ? '' : '<div class="widget eventhandler-postsofevent' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
-        	// Events postsofevent
-        	'<ul>';
+            ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
+            // Events postsofevent
+            '<ul>';
 
         while ($rs->fetch()) {
             $res .= '<li><a href="' . $rs->getURL() . '">' .
-            	Html::escapeHTML($rs->post_title) . '</a></li>';
+                Html::escapeHTML($rs->post_title) . '</a></li>';
         }
         $res .= '</ul>';
 
@@ -317,18 +314,18 @@ class WidgetsTemplate
             return;
         }
         // Plugin active ?
-        if (!dcCore::app()->blog->settings->eventHandler->active) {
+        if (!My::settings()->active) {
             return;
         }
 
         if ($w->homeonly == 1 && dcCore::app()->url->type != 'default'
-        	|| $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
+            || $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
             return;
         }
 
         // Display
         $res = ($w->content_only ? '' : '<div class="widget eventhandler-categories' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '');
+            ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '');
         // Events categories
         $rs = dcCore::app()->blog->getCategories(['post_type' => 'eventhandler']);
         if ($rs->isEmpty()) {
@@ -338,8 +335,8 @@ class WidgetsTemplate
         $ref_level = $level = $rs->level - 1;
         while ($rs->fetch()) {
             $class = '';
-            if ((dcCore::app()->url->type == 'catevents' && dcCore::app()->ctx->categories instanceof Record && dcCore::app()->ctx->categories->cat_id == $rs->cat_id)
-            	|| (dcCore::app()->url->type == 'event' && dcCore::app()->ctx->posts instanceof Record && dcCore::app()->ctx->posts->cat_id == $rs->cat_id)) {
+            if ((dcCore::app()->url->type == 'catevents' && dcCore::app()->ctx->categories instanceof record && dcCore::app()->ctx->categories->cat_id == $rs->cat_id)
+                || (dcCore::app()->url->type == 'event' && dcCore::app()->ctx->posts instanceof record && dcCore::app()->ctx->posts->cat_id == $rs->cat_id)) {
                 $class = ' class="category-current"';
             }
 
@@ -354,11 +351,10 @@ class WidgetsTemplate
             }
 
             $res .=
-            	'<a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
-            	'/category/' . $rs->cat_url . '">' .
-            	Html::escapeHTML($rs->cat_title) . '</a>' .
-            	($w->postcount ? ' (' . $rs->nb_post . ')' : '');
-
+                '<a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                '/category/' . $rs->cat_url . '">' .
+                Html::escapeHTML($rs->cat_title) . '</a>' .
+                ($w->postcount ? ' (' . $rs->nb_post . ')' : '');
 
             $level = $rs->level;
         }
@@ -369,9 +365,9 @@ class WidgetsTemplate
 
         if ($w->pagelink) {
             $res .=
-            	'<p><strong><a href="' .
-            	dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
-            	'" >' . __('All events') . '</a></strong></p>';
+                '<p><strong><a href="' .
+                dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                '" >' . __('All events') . '</a></strong></p>';
         }
 
         $res .= ($w->content_only ? '' : '</div>');
@@ -386,9 +382,9 @@ class WidgetsTemplate
         }
 
         // Plugin active
-        if (!dcCore::app()->blog->settings->eventHandler->active
-        	|| $w->homeonly == 1 && dcCore::app()->url->type != 'default'
-        	|| $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
+        if (!My::settings()->active
+            || $w->homeonly == 1 && dcCore::app()->url->type != 'default'
+            || $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
             return;
         }
 
@@ -399,7 +395,7 @@ class WidgetsTemplate
         }
         // Sort field
         $params['order'] = ($w->sortby && in_array($w->sortby, ['post_title', 'post_dt', 'event_startdt', 'event_enddt'])) ?
-        	$w->sortby . ' ' : 'event_startdt ';
+            $w->sortby . ' ' : 'event_startdt ';
         // Sort order
         $params['order'] .= $w->sort == 'desc' ? 'desc' : 'asc';
         $params['limit'] = 10;
@@ -408,7 +404,7 @@ class WidgetsTemplate
         $params['sql'] .= "AND event_latitude != '' ";
         $params['sql'] .= "AND event_longitude != '' ";
 
-        $public_hidden_categories = @unserialize(dcCore::app()->blog->settings->eventHandler->public_hidden_categories);
+        $public_hidden_categories = @unserialize(My::settings()->public_hidden_categories);
         if (is_array($public_hidden_categories) && !empty($public_hidden_categories)) {
             foreach ($public_hidden_categories as $k => $cat_id) {
                 $params['sql'] .= " AND P.cat_id != '$cat_id' ";
@@ -437,24 +433,24 @@ class WidgetsTemplate
 
         // Display
         $res = ($w->content_only ? '' : '<div class="widget eventhandler-map' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
-        	// Events map
-        	EventHandler::getMapContent(
-        	    $w->map_width,
-        	    $w->map_height,
-        	    $w->map_type,
-        	    $w->map_zoom,
-        	    ((integer) $w->map_info),
-        	    $lat,
-        	    $lng,
-        	    $markers
-        	);
+            ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
+            // Events map
+            EventHandler::getMapContent(
+                $w->map_width,
+                $w->map_height,
+                $w->map_type,
+                $w->map_zoom,
+                ((int) $w->map_info),
+                $lat,
+                $lng,
+                $markers
+            );
 
         if ($w->pagelink) {
             $res .=
-            	'<p><strong><a href="' .
-            	dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
-            	'" >' . __('All events') . '</a></strong></p>';
+                '<p><strong><a href="' .
+                dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                '" >' . __('All events') . '</a></strong></p>';
         }
 
         $res .= ($w->content_only ? '' : '</div>');
@@ -468,9 +464,9 @@ class WidgetsTemplate
             return;
         }
 
-        if (!dcCore::app()->blog->settings->eventHandler->active
-        	|| $w->homeonly == 1 && dcCore::app()->url->type != 'default'
-        	|| $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
+        if (!My::settings()->active
+            || $w->homeonly == 1 && dcCore::app()->url->type != 'default'
+            || $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
             return;
         }
 
@@ -489,18 +485,17 @@ class WidgetsTemplate
         $calendar = Calendar::getArray($year, $month, $w->weekstart);
 
         return
-
-        	// Display
-        	$res = ($w->content_only ? '' : '<div class="widget eventhandler-calendar' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
-        	($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
-        	// Events calendar
-        	Calendar::parseArray($calendar, $w->weekstart, $w->startonly) .
-        	(
-        	    $w->pagelink ?
-        	 '<p><strong><a href="' .
-        	 dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
-        	 '" >' . __('All events') . '</a></strong></p>' : ''
-        	) .
-        	($w->content_only ? '' : '</div>');
+            // Display
+            $res = ($w->content_only ? '' : '<div class="widget eventhandler-calendar' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
+            ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
+            // Events calendar
+            Calendar::parseArray($calendar, $w->weekstart, $w->startonly) .
+            (
+                $w->pagelink ?
+             '<p><strong><a href="' .
+             dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+             '" >' . __('All events') . '</a></strong></p>' : ''
+            ) .
+            ($w->content_only ? '' : '</div>');
     }
 }

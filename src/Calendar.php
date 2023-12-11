@@ -20,23 +20,24 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
+use ArrayObject;
+use dcCore;
 
 class Calendar
 {
     // claim timestamp of sunday
-    const	SUNDAY_TS = 1042329600;
+    public const SUNDAY_TS = 1_042_329_600;
 
     // Prepare structure of the calendar
     public static function getArray($year = null, $month = null, $weekstart = 0)
     {
         /** @var array<string, string> $calendar */
-        $calendar = new \ArrayObject();
+        $calendar = new ArrayObject();
 
         // Parse date in
-        $weekstart = abs((integer) $weekstart) + 0;
+        $weekstart = abs((int) $weekstart) + 0;
 
         if (null === $year || 4 != strlen($year)) {
             $year = date('Y', time());
@@ -52,9 +53,9 @@ class Calendar
         $prev_dt = date('Y-m-01 00:00:00', mktime(0, 0, 0, (int) $month - 1, 1, (int) $year));
         $next_dt = date('Y-m-01 00:00:00', mktime(0, 0, 0, (int) $month + 1, 1, (int) $year));
 
-        $calendar['year'] = $year;
-        $calendar['month'] = $month;
-        $calendar['day'] = $day;
+        $calendar['year'] = (int) $year;
+        $calendar['month'] = (int) $month;
+        $calendar['day'] = (int) $day;
 
         // caption
         $calendar['caption'] = [
@@ -64,14 +65,14 @@ class Calendar
             'current_url' => Date::str('%Y/%m', $ts),
             'current_dt' => Date::str('%Y%m', $ts),
             'next_url' => Date::dt2str('%Y/%m', $next_dt),
-            'next_txt' => Date::str('%B %Y', strtotime($next_dt))
+            'next_txt' => Date::str('%B %Y', strtotime($next_dt)),
         ];
 
         // days of week
-        $first_ts = self::SUNDAY_TS + ((integer)$weekstart * 86400);
+        $first_ts = self::SUNDAY_TS + ((int) $weekstart * 86400);
         $last_ts = $first_ts + (6 * 86400);
         $first = date('w', $ts);
-        $first = ($first == 0)?7:$first;
+        $first = ($first == 0) ? 7 : $first;
         $first = $first - $weekstart;
         $limit = date('t', $ts);
 
@@ -97,7 +98,7 @@ class Calendar
             if ($dstart && !checkdate((int) $month, $d, (int) $year)) {
                 $dstart = false;
             }
-            $calendar['rows'][$row][$field] = $dstart ? $d :' ';
+            $calendar['rows'][$row][$field] = $dstart ? $d : ' ';
             $field++;
 
             if (($i + 1) % 7 == 0 && $d >= $limit) {
@@ -110,6 +111,7 @@ class Calendar
 
             $i++;
         }
+
         return $calendar;
     }
 
@@ -160,15 +162,15 @@ class Calendar
         if ($calendar['rows']) {
             $res .= " <tbody>\n";
 
-            foreach ($calendar['rows'] as $r => $days) {
+            foreach ($calendar['rows'] as $days) {
                 $res .= "  <tr>\n";
-                foreach ($days as $f => $day) {
+                foreach ($days as $day) {
                     if (' ' != $day) {
                         $params = [];
                         if (!$startonly) {
                             $params['event_period'] = 'ongoing';
-                            $params['event_startdt'] = date('Y-m-d H:i:s', mktime(0, 0, 0, $calendar['month'], $day + 1, $calendar['year']));
-                            $params['event_enddt'] = date('Y-m-d H:i:s', mktime(0, 0, 0, $calendar['month'], $day, $calendar['year']));
+                            $params['event_startdt'] = date('Y-m-d H:i:s', mktime(0, 0, 0, $calendar['month'], (int) $day + 1, $calendar['year']));
+                            $params['event_enddt'] = date('Y-m-d H:i:s', mktime(0, 0, 0, $calendar['month'], (int) $day, $calendar['year']));
                         } else {
                             $params['event_start_year'] = $calendar['year'];
                             $params['event_start_month'] = $calendar['month'];

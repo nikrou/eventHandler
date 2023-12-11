@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\widgets\WidgetsStack;
+use dcCore;
 
 class Widgets
 {
-    public static function events(WidgetsStack $w): void
+    public static function events(WidgetsStack $w)
     {
         $rs = dcCore::app()->blog->getCategories(['post_type' => 'eventhandler']);
         $combo_categories = ['&nbsp;' => '', __('Uncategorized') => 'null'];
@@ -38,11 +38,11 @@ class Widgets
             __('Date') => 'post_dt',
             __('Title') => 'post_title',
             __('Start date') => 'event_startdt',
-            __('End date') => 'event_enddt'
+            __('End date') => 'event_enddt',
         ];
         $combo_sort = [
             __('Ascending') => 'asc',
-            __('Descending') => 'desc'
+            __('Descending') => 'desc',
         ];
         $combo_period = [
             __('All periods') => '',
@@ -51,12 +51,12 @@ class Widgets
             __('Finished') => 'finished',
             __('Not finished') => 'notfinished',
             __('Ongoing') => 'ongoing',
-            __('Outgoing') => 'outgoing'
+            __('Outgoing') => 'outgoing',
         ];
         $combo_homeonly = [
             __('All pages') => 0,
             __('Home page only') => 1,
-            __('Except on home page') => 2
+            __('Except on home page') => 2,
         ];
 
         $w->create(
@@ -83,7 +83,7 @@ class Widgets
         $w->ehEvents->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function eventsOfPost(WidgetsStack $w): void
+    public static function eventsOfPost(WidgetsStack $w)
     {
         $rs = dcCore::app()->blog->getCategories(['post_type' => 'eventhandler']);
         $combo_categories = ['&nbsp;' => '', __('Uncategorized') => 'null'];
@@ -95,11 +95,11 @@ class Widgets
             __('Date') => 'post_dt',
             __('Title') => 'post_title',
             __('Start date') => 'event_startdt',
-            __('End date') => 'event_enddt'
+            __('End date') => 'event_enddt',
         ];
         $combo_sort = [
             __('Ascending') => 'asc',
-            __('Descending') => 'desc'
+            __('Descending') => 'desc',
         ];
         $combo_period = [
             __('All periods') => '',
@@ -108,7 +108,7 @@ class Widgets
             __('Finished') => 'finished',
             __('Not finished') => 'notfinished',
             __('Ongoing') => 'ongoing',
-            __('Outgoing') => 'outgoing'
+            __('Outgoing') => 'outgoing',
         ];
 
         $w->create(
@@ -129,7 +129,7 @@ class Widgets
         $w->ehEventsOfPost->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function postsOfEvent(WidgetsStack $w): void
+    public static function postsOfEvent(WidgetsStack $w)
     {
         $rs = dcCore::app()->blog->getCategories(['post_type' => 'post']);
         $combo_categories = ['&nbsp;' => '', __('Uncategorized') => 'null'];
@@ -139,11 +139,11 @@ class Widgets
         }
         $combo_sortby = [
             __('Date') => 'post_dt',
-            __('Title') => 'post_title'
+            __('Title') => 'post_title',
         ];
         $combo_sort = [
             __('Ascending') => 'asc',
-            __('Descending') => 'desc'
+            __('Descending') => 'desc',
         ];
 
         $w->create(
@@ -163,12 +163,12 @@ class Widgets
         $w->ehPostsOfEvent->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function categories(WidgetsStack $w): void
+    public static function categories(WidgetsStack $w)
     {
         $combo_homeonly = [
             __('All pages') => 0,
             __('Home page only') => 1,
-            __('Except on home page') => 2
+            __('Except on home page') => 2,
         ];
 
         $w->create(
@@ -187,7 +187,7 @@ class Widgets
         $w->ehCategories->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function map(WidgetsStack $w): void
+    public static function map(WidgetsStack $w)
     {
         for ($i = 3;$i < 21;$i++) {
             $combo_map_zoom[$i] = $i;
@@ -196,17 +196,17 @@ class Widgets
             __('road map') => 'ROADMAP',
             __('satellite') => 'SATELLITE',
             __('hybrid') => 'HYBRID',
-            __('terrain') => 'TERRAIN'
+            __('terrain') => 'TERRAIN',
         ];
         $combo_sortby = [
             __('Date') => 'post_dt',
             __('Title') => 'post_title',
             __('Start date') => 'event_startdt',
-            __('End date') => 'event_enddt'
+            __('End date') => 'event_enddt',
         ];
         $combo_sort = [
             __('Ascending') => 'asc',
-            __('Descending') => 'desc'
+            __('Descending') => 'desc',
         ];
         $combo_period = [
             __('All periods') => '',
@@ -215,12 +215,12 @@ class Widgets
             __('Finished') => 'finished',
             __('Not finished') => 'notfinished',
             __('Ongoing') => 'ongoing',
-            __('Outgoing') => 'outgoing'
+            __('Outgoing') => 'outgoing',
         ];
         $combo_homeonly = [
             __('All pages') => 0,
             __('Home page only') => 1,
-            __('Except on home page') => 2
+            __('Except on home page') => 2,
         ];
 
         $w->create(
@@ -246,16 +246,16 @@ class Widgets
         $w->ehMap->setting('offline', __('Offline'), 0, 'check');
     }
 
-    public static function calendar(WidgetsStack $w): void
+    public static function calendar(WidgetsStack $w)
     {
         $combo_weekstart = [
             __('Sunday') => '0',
-            __('Monday') => '1'
+            __('Monday') => '1',
         ];
         $combo_homeonly = [
             __('All pages') => 0,
             __('Home page only') => 1,
-            __('Except on home page') => 2
+            __('Except on home page') => 2,
         ];
 
         $w->create(

@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use context;
-use dcCore;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
+use context;
+use dcCore;
 use rsExtPost;
 
 class RsExtension extends rsExtPost

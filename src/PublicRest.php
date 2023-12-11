@@ -20,25 +20,25 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\XmlTag;
+use Exception;
 
 class PublicRest
 {
     public static function calendar($get, $post)
     {
-        $blog_uid = isset($post['blogId']) ? $post['blogId'] : null;
-        $current_ym = isset($post['curDate']) ? $post['curDate'] : '';
-        $direction = isset($post['reqDirection']) ? $post['reqDirection'] : 'prev';
-        $weekstart = isset($post['weekStart']) ? (boolean) $post['weekStart'] : false;
-        $startonly = isset($post['startOnly']) ? (boolean) $post['startOnly'] : true;
+        $blog_uid = $post['blogId'] ?? null;
+        $current_ym = $post['curDate'] ?? '';
+        $direction = $post['reqDirection'] ?? 'prev';
+        $weekstart = isset($post['weekStart']) ? (bool) $post['weekStart'] : false;
+        $startonly = isset($post['startOnly']) ? (bool) $post['startOnly'] : true;
 
         $rsp = new XmlTag();
         $table = '<p>' . __('An error occured') . '</p>';
 
-        if (!dcCore::app()->blog->settings->eventHandler->active) {
-            throw new \Exception(__('Event is disabled on this blog'));
+        if (!My::settings()->active) {
+            throw new Exception(__('Event is disabled on this blog'));
         }
 
         try {
@@ -59,8 +59,8 @@ class PublicRest
             $calendar = Calendar::getArray($year, $month, $weekstart);
 
             $table = Calendar::parseArray($calendar, $weekstart, $startonly, $rest = true);
-        } catch (\Exception $e) {
-            throw new \Exception(__('Failed to get calendar'));
+        } catch (Exception) {
+            throw new Exception(__('Failed to get calendar'));
         }
 
         $xc = new XmlTag('calendar');

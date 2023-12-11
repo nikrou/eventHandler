@@ -20,23 +20,22 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
 use Dotclear\Core\Backend\Action\ActionsPosts;
-use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
+use Dotclear\Helper\Html\Html;
+use dcCore;
+use Exception;
 
 class ActionsEvents extends ActionsPosts
 {
     public const BIND_EVENT_ACTION = 'eventhandler_bind_event';
     public const UNBIND_POST_ACTION = 'eventhandler_unbind_post';
 
-    protected $use_render = true;
-
     public function __construct(?string $uri, array $redirect_args = [])
     {
         parent::__construct($uri, $redirect_args);
 
-        $this->redirect_fields = ['p', 'part'];
+        $this->redirect_fields = ['part'];
         $this->caller_title = __('Events');
     }
 
@@ -51,121 +50,33 @@ class ActionsEvents extends ActionsPosts
         Page::closeModule();
     }
 
+    public function error(Exception $e)
+    {
+        dcCore::app()->error->add($e->getMessage());
+        $this->beginPage(
+            Page::breadcrumb(
+                [
+                    Html::escapeHTML(dcCore::app()->blog->name) => '',
+                    $this->getCallerTitle() => $this->getRedirection(true),
+                    __('Events actions') => '',
+                ]
+            )
+        );
+        $this->endPage();
+    }
+
+    protected function loadDefaults()
+    {
+        // We could have added a behavior here, but we want default action to be setup first
+        ActionsEventsDefault::adminEventsActionsPage($this);
+        // --BEHAVIOR-- adminPostsActions -- Actions
+        dcCore::app()->callBehavior('adminActionsEvents', $this);
+    }
+
     public function process()
     {
         $this->from['post_type'] = 'eventhandler';
 
         return parent::process();
-    }
-
-    public static function bindEvents(ActionsPosts $ap): void
-    {
-        if ($ap->getAction() !== self::BIND_EVENT_ACTION) {
-            return;
-        }
-
-        if (empty($ap->from['from_id'])) {
-            throw new \Exception(__('No entry selected'));
-        }
-
-        $params['sql'] = ' AND P.post_id ' . dcCore::app()->con->in($ap->from['from_id']) . ' ';
-        $posts = dcCore::app()->blog->getPosts($params);
-
-        if ($posts->isEmpty()) {
-            throw new \Exception(__('No such post'));
-        }
-        $events_id = [];
-
-        if (isset($ap->from['entries'])) {
-            foreach ($ap->from['entries'] as $k => $v) {
-                $events_id[$k] = (integer) $v;
-            }
-            $params['sql'] = 'AND P.post_id ' . dcCore::app()->con->in($events_id) . ' ';
-            $eventHandler = new EventHandler();
-            $events = $eventHandler->getEvents($params);
-            if ($events->isEmpty()) {
-                throw new \Exception(__('No such event'));
-            }
-            $meta_ids = [];
-            while ($events->fetch()) {
-                $meta_ids[] = $events->post_id;
-            }
-
-            while ($posts->fetch()) {
-                foreach ($meta_ids as $meta_id) {
-                    dcCore::app()->meta->delPostMeta($posts->post_id, 'eventhandler', $meta_id);
-                    dcCore::app()->meta->setPostMeta($posts->post_id, 'eventhandler', $meta_id);
-                }
-            }
-            Notices::addSuccessNotice(
-                __(
-                    'entry has been bound to the selected event',
-                    'entry has been bound to the selected events',
-                    $events->count()
-                )
-            );
-            $ap->redirect(true);
-        }
-    }
-
-    public static function unbindEvents(ActionsPosts $ap): void
-    {
-        if ($ap->getAction() !== self::UNBIND_POST_ACTION) {
-            return;
-        }
-
-        $posts_ids = $ap->getIDs();
-        if (empty($posts_ids)) {
-            throw new \Exception(__('No entry selected'));
-        }
-
-        $params['sql'] = ' AND P.post_id ' . dcCore::app()->con->in($posts_ids) . ' ';
-        $posts = dcCore::app()->blog->getPosts($params);
-
-        if (!$posts->isEmpty()) {
-            while ($posts->fetch()) {
-                dcCore::app()->meta->delPostMeta($posts->post_id, 'eventhandler');
-            }
-
-            Notices::addSuccessNotice(sprintf(
-                __(
-                    '%d post has been unbound from its events',
-                    '%d posts have been unbound from their events',
-                    count($posts_ids)
-                ),
-                count($posts_ids)
-            ));
-        } elseif ($ap->from['entries']) {
-            $eventHandler = new EventHandler();
-            foreach ($ap->from['entries'] as $k => $v) {
-                $params = ['event_id' => $v];
-                $posts = $eventHandler->getPostsByEvent($params);
-                $event = $eventHandler->getEvents($params);
-                if ($posts->isEmpty()) {
-                    Notices::addWarningNotice(sprintf(
-                        __('Event #%d (%s) has no related post to be unbound from.'),
-                        $v,
-                        $event->post_title
-                    ));
-                    continue;
-                }
-                while ($posts->fetch()) {
-                    dcCore::app()->meta->delPostMeta($posts->post_id, 'eventhandler', $v);
-                }
-                Notices::addSuccessNotice(sprintf(
-                    __(
-                        'Event #%d (%s) unbound from %d related post',
-                        'Event #%d (%s) unbound from %d related posts',
-                        $posts->count()
-                    ),
-                    $v,
-                    $event->post_title,
-                    $posts->count()
-                ));
-            }
-            $ap->redirect(false);
-        }
-
-        $ap->redirect(true);
     }
 }

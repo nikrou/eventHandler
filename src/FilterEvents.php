@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
-use dcUtils;
 use Dotclear\Core\Backend\Combos;
 use Dotclear\Core\Backend\Filter\Filter;
 use Dotclear\Core\Backend\Filter\Filters;
 use Dotclear\Core\Backend\Filter\FiltersLibrary;
 use Dotclear\Helper\Html\Html;
+use dcCore;
+use dcUtils;
 
 class FilterEvents extends Filters
 {
@@ -143,8 +143,8 @@ class FilterEvents extends Filters
         }
 
         return (new Filter('month'))
-            ->param('post_month', fn ($f) => substr($f[0], 4, 2))
-            ->param('post_year', fn ($f) => substr($f[0], 0, 4))
+            ->param('post_month', fn($f) => substr($f[0], 4, 2))
+            ->param('post_year', fn($f) => substr($f[0], 0, 4))
             ->title(__('Month:'))
             ->options(array_merge(
                 ['-' => ''],
@@ -188,7 +188,7 @@ class FilterEvents extends Filters
             __('Finished') => 'finished',
             __('Not finished') => 'notfinished',
             __('Ongoing') => 'ongoing',
-            __('Outgoing') => 'outgoing'
+            __('Outgoing') => 'outgoing',
         ]);
     }
 
@@ -200,7 +200,7 @@ class FilterEvents extends Filters
         ->options([
             '-' => '',
             __('selected') => '1',
-            __('not selected') => '0'
+            __('not selected') => '0',
         ]);
     }
 

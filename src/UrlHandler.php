@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
+use Dotclear\Helper\Html\Html;
+use ArrayObject;
 use context;
 use dcCore;
 use dcUrlHandlers;
-use Dotclear\Helper\Html\Html;
 
 class UrlHandler extends dcUrlHandlers
 {
-    // Call service from public for ajax request
     public static function eventService($args)
     {
         dcCore::app()->rest->addFunction('eventHandlerCalendar', [PublicRest::class, 'calendar']);
@@ -35,10 +35,9 @@ class UrlHandler extends dcUrlHandlers
         exit;
     }
 
-    // Single event page
     public static function eventSingle($args)
     {
-        if ($args == '' || !dcCore::app()->ctx->preview && !dcCore::app()->blog->settings->eventHandler->active) {
+        if ($args == '' || !dcCore::app()->ctx->preview && !My::settings()->active) {
             self::p404();
         } else {
             $is_ical = self::isIcalDocument($args);
@@ -48,7 +47,7 @@ class UrlHandler extends dcUrlHandlers
             dcCore::app()->blog->withoutPassword(false);
 
             /** @var array<string, string> $params */
-            $params = new \ArrayObject();
+            $params = new ArrayObject();
             $params['post_type'] = 'eventhandler';
             $params['post_url'] = $args;
 
@@ -62,7 +61,7 @@ class UrlHandler extends dcUrlHandlers
                 'mail' => '',
                 'site' => '',
                 'preview' => false,
-                'remember' => false
+                'remember' => false,
             ];
 
             dcCore::app()->blog->withoutPassword(true);
@@ -87,7 +86,7 @@ class UrlHandler extends dcUrlHandlers
                     if ((!empty($_POST['password']) && $_POST['password'] == $post_password)
                         || (isset($pwd_cookie[$post_id]) && $pwd_cookie[$post_id] == $post_password)) {
                         $pwd_cookie[$post_id] = $post_password;
-                        setcookie('dc_passwd', serialize($pwd_cookie), 0, '/');
+                        setcookie('dc_passwd', serialize($pwd_cookie), ['expires' => 0, 'path' => '/']);
                     } else {
                         self::serveDocument('password-form.html', 'text/html', false);
                     }
@@ -147,7 +146,7 @@ class UrlHandler extends dcUrlHandlers
             if ($is_gmap) {
                 $params['limit'] = [0, 30];
             } else {
-                $pn = $n ? $n : 1;
+                $pn = $n ?: 1;
                 $nbppf = dcCore::app()->blog->settings->system->nb_post_per_feed;
                 $params['limit'] = [(($pn - 1) * $nbppf), $nbppf];
             }
@@ -253,7 +252,7 @@ class UrlHandler extends dcUrlHandlers
             'scheduled',
             'started',
             'notfinished',
-            'finished'
+            'finished',
         ];
         // Know order
         $default_order_list = [
@@ -262,19 +261,19 @@ class UrlHandler extends dcUrlHandlers
             'author' => 'LOWER(user_id)',
             'date' => 'post_dt',
             'startdt' => 'event_startdt',
-            'enddt' => 'event_enddt'
+            'enddt' => 'event_enddt',
         ];
 
         // Test URI
         if (!preg_match(
             '#^' .
-			'((/category/([^/]+))|)' .
-			'(' .
-			 '(/(' . implode('|', $default_period_list) . '))|' . // period
-			 '(/(on|in|of)/([0-9]{4})(/([0-9]{1,2})|)(/([0-9]{1,2})|)(/([0-9]{4})(/([0-9]{1,2})|)(/([0-9]{1,2})|)|))|' . // interval
-			')' .
-			'(/(' . implode('|', array_keys($default_order_list)) . ')(/(asc|desc)|)|)' . // order
-			'(/ical.ics|/hcal.html|/gmap|/|)$#i',
+            '((/category/([^/]+))|)' .
+            '(' .
+             '(/(' . implode('|', $default_period_list) . '))|' . // period
+             '(/(on|in|of)/([0-9]{4})(/([0-9]{1,2})|)(/([0-9]{1,2})|)(/([0-9]{4})(/([0-9]{1,2})|)(/([0-9]{1,2})|)|))|' . // interval
+            ')' .
+            '(/(' . implode('|', array_keys($default_order_list)) . ')(/(asc|desc)|)|)' . // order
+            '(/ical.ics|/hcal.html|/gmap|/|)$#i',
             $args,
             $m
         )) {
@@ -303,22 +302,22 @@ class UrlHandler extends dcUrlHandlers
 
             // Make start date
             if (!empty($m[13])) {
-                $start = date('Y-m-d 00:00:00', mktime(0, 0, 0, $m[11], $m[13], $m[9]));
-                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, $m[11], ($m[13] + 1), $m[9]));
+                $start = date('Y-m-d 00:00:00', mktime(0, 0, 0, (int) $m[11], (int) $m[13], (int) $m[9]));
+                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, (int) $m[11], ((int) $m[13] + 1), (int) $m[9]));
             } elseif (!empty($m[11])) {
-                $start = date('Y-m-d 00:00:00', mktime(0, 0, 0, $m[11], 1, $m[9]));
-                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, ($m[11] + 1), 1, $m[9]));
+                $start = date('Y-m-d 00:00:00', mktime(0, 0, 0, (int) $m[11], 1, (int) $m[9]));
+                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, ((int) $m[11] + 1), 1, (int) $m[9]));
             } elseif (!empty($m[9])) {
-                $start = date('Y-m-d 00:00:00', mktime(0, 0, 0, 1, 1, $m[9]));
-                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, 1, 1, ($m[9] + 1)));
+                $start = date('Y-m-d 00:00:00', mktime(0, 0, 0, 1, 1, (int) $m[9]));
+                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, 1, 1, ((int) $m[9] + 1)));
             }
             // Make end date
             if (!empty($m[19])) {
-                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, $m[17], $m[19], $m[15]));
+                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, (int) $m[17], (int) $m[19], (int) $m[15]));
             } elseif (!empty($m[17])) {
-                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, $m[17], 1, $m[15]));
+                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, (int) $m[17], 1, (int) $m[15]));
             } elseif (!empty($m[15])) {
-                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, 1, 1, $m[15]));
+                $end = date('Y-m-d 00:00:00', mktime(0, 0, 0, 1, 1, (int) $m[15]));
             }
             // Make interval
             if ($m[8] == 'on') {
@@ -343,7 +342,7 @@ class UrlHandler extends dcUrlHandlers
         } else {
             $params['event_period'] = 'scheduled'; // default
         }
-		// Get order
+        // Get order
         $params['order'] = 'event_startdt ASC'; // default
         if (!empty($m[21])) {
             $sortorder = 'ASC';
@@ -356,37 +355,36 @@ class UrlHandler extends dcUrlHandlers
         return $params;
     }
 
-    // Test if request url is a ical
     protected static function isIcalDocument(&$args)
     {
         if (preg_match('#/ical\.ics$#', $args, $m)) {
             $args = preg_replace('#/ical\.ics$#', '', $args);
             return true;
         }
+
         return false;
     }
 
-    // Test if request url is a hcal
     protected static function isHcalDocument(&$args)
     {
         if (preg_match('#/hcal\.html$#', $args, $m)) {
             $args = preg_replace('#/hcal\.html$#', '', $args);
             return true;
         }
+
         return false;
     }
 
-    // Test if request url is a gmap
     protected static function isGmapDocument(&$args)
     {
         if (preg_match('#/gmap$#', $args, $m)) {
             $args = preg_replace('#/gmap$#', '', $args);
             return true;
         }
+
         return false;
     }
 
-    // Serve special ical document
     public static function serveIcalDocument($rs, $x_dc_folder = '')
     {
         if ($rs->isEmpty()) {
@@ -402,12 +400,11 @@ class UrlHandler extends dcUrlHandlers
         implode("\r\n ", str_split(trim("X-DC-BLOGNAME:" . dcCore::app()->blog->name), 70)) . "\r\n";
 
         if ($x_dc_folder) {
-            $res .=
-            implode("\r\n ", str_split(trim("X-DC-FOLDER:" . $x_dc_folder), 70)) . "\r\n";
+            $res .= implode("\r\n ", str_split(trim("X-DC-FOLDER:" . $x_dc_folder), 70)) . "\r\n";
         }
 
         while ($rs->fetch()) {
-            // See lib.eventhandler.rs.extension.php
+            // @see RsExtension.php
             $res .= $rs->getIcalVEVENT();
         }
 
@@ -512,7 +509,7 @@ class UrlHandler extends dcUrlHandlers
             $res .= EventHandler::getMapContent(
                 '',
                 '',
-                dcCore::app()->blog->settings->eventHandler->public_map_type,
+                My::settings()->public_map_type,
                 2,
                 1,
                 $lat,

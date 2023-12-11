@@ -10,8 +10,9 @@ parameters:
   paths:
     - src
     - tpl
+    - _define.php
 
   scanDirectories:
     - ../dotclear
 
-  reportUnmatchedIgnoredErrors: false
+  reportUnmatchedIgnoredErrors: true

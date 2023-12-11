@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
 use Dotclear\Core\Process;
+use dcCore;
 
 class Frontend extends Process
 {
