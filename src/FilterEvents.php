@@ -20,22 +20,24 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
+use Dotclear\App;
 use Dotclear\Core\Backend\Combos;
 use Dotclear\Core\Backend\Filter\Filter;
 use Dotclear\Core\Backend\Filter\Filters;
 use Dotclear\Core\Backend\Filter\FiltersLibrary;
 use Dotclear\Helper\Html\Html;
-use dcCore;
-use dcUtils;
+use ArrayObject;
+use Exception;
 
 class FilterEvents extends Filters
 {
-    public function __construct(string $type = 'posts', private string $post_type = 'eventhandler')
+    public function __construct(private readonly string $post_type = 'eventhandler')
     {
-        parent::__construct($type);
+        parent::__construct('posts');
+
         $this->add((new Filter('post_type', $post_type))->param('post_type'));
 
-        $filters = new \ArrayObject([
+        $filters = new ArrayObject([
             FiltersLibrary::getPageFilter(),
             $this->getPostUserFilter(),
             $this->getPostCategoriesFilter(),
@@ -56,18 +58,18 @@ class FilterEvents extends Filters
         $users = null;
 
         try {
-            $users = dcCore::app()->blog->getPostsUsers($this->post_type);
+            $users = App::blog()->getPostsUsers($this->post_type);
             if ($users->isEmpty()) {
                 return null;
             }
-        } catch (\Exception $e) {
-            dcCore::app()->error->add($e->getMessage());
+        } catch (Exception $e) {
+            App::error()->add($e->getMessage());
 
             return null;
         }
 
         $combo = Combos::getUsersCombo($users);
-        dcUtils::lexicalKeySort($combo, dcUtils::ADMIN_LOCALE);
+        App::lexical()->lexicalKeySort($combo, App::lexical()::ADMIN_LOCALE);
 
         return (new Filter('user_id'))
             ->param()
@@ -84,12 +86,12 @@ class FilterEvents extends Filters
         $categories = null;
 
         try {
-            $categories = dcCore::app()->blog->getCategories(['post_type' => $this->post_type]);
+            $categories = App::blog()->getCategories(['post_type' => $this->post_type]);
             if ($categories->isEmpty()) {
                 return null;
             }
-        } catch (\Exception $e) {
-            dcCore::app()->error->add($e->getMessage());
+        } catch (Exception $e) {
+            App::error()->add($e->getMessage());
 
             return null;
         }
@@ -129,22 +131,22 @@ class FilterEvents extends Filters
         $dates = null;
 
         try {
-            $dates = dcCore::app()->blog->getDates([
+            $dates = App::blog()->getDates([
                 'type' => 'month',
                 'post_type' => $this->post_type,
             ]);
             if ($dates->isEmpty()) {
                 return null;
             }
-        } catch (\Exception $e) {
-            dcCore::app()->error->add($e->getMessage());
+        } catch (Exception $e) {
+            App::error()->add($e->getMessage());
 
             return null;
         }
 
         return (new Filter('month'))
-            ->param('post_month', fn($f) => substr($f[0], 4, 2))
-            ->param('post_year', fn($f) => substr($f[0], 0, 4))
+            ->param('post_month', fn($f) => substr((string) $f[0], 4, 2))
+            ->param('post_year', fn($f) => substr((string) $f[0], 0, 4))
             ->title(__('Month:'))
             ->options(array_merge(
                 ['-' => ''],
@@ -157,12 +159,12 @@ class FilterEvents extends Filters
         $langs = null;
 
         try {
-            $langs = dcCore::app()->blog->getLangs(['post_type' => $this->post_type]);
+            $langs = App::blog()->getLangs(['post_type' => $this->post_type]);
             if ($langs->isEmpty()) {
                 return null;
             }
-        } catch (\Exception $e) {
-            dcCore::app()->error->add($e->getMessage());
+        } catch (Exception $e) {
+            App::error()->add($e->getMessage());
 
             return null;
         }

@@ -23,23 +23,23 @@ namespace Dotclear\Plugin\eventHandler;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\widgets\WidgetsElement;
-use dcCore;
+use Dotclear\App;
 use record;
 
 class WidgetsTemplate
 {
-    public static function events(WidgetsElement $w)
+    public static function events(WidgetsElement $w): string
     {
         if ($w->offline) {
-            return;
+            return '';
         }
 
         if (!My::settings()->active) {
-            return;
+            return '';
         }
 
-        if ($w->homeonly == 1 && dcCore::app()->url->type != 'default' || $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
-            return;
+        if ($w->homeonly == 1 && App::url()->getType() != 'default' || $w->homeonly == 2 && App::url()->getType() == 'default') {
+            return '';
         }
 
         $params['sql'] = '';
@@ -83,7 +83,7 @@ class WidgetsTemplate
         $rs = $eventHandler->getEvents($params);
 
         if ($rs->isEmpty()) {
-            return;
+            return '';
         }
 
         // Display
@@ -110,7 +110,7 @@ class WidgetsTemplate
             $over = str_replace(
                 ['%sd', '%st', '%ed', '%et', '%%'],
                 [$fsd, $fst, $fed, $fet, '%'],
-                $over_format
+                (string) $over_format
             );
             $title = '<a href="' . $rs->getURL() . '" title="' . $over . '">' . Html::escapeHTML($rs->post_title) . '</a>';
             $cat = '';
@@ -130,7 +130,7 @@ class WidgetsTemplate
         if ($w->pagelink) {
             $res .=
                 '<p><strong><a href="' .
-                dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                App::blog()->url() . App::url()->getBase('eventhandler_list') .
                 '" >' . __('All events') . '</a></strong></p>';
         }
 
@@ -139,19 +139,19 @@ class WidgetsTemplate
         return $res;
     }
 
-    public static function eventsOfPost(WidgetsElement $w)
+    public static function eventsOfPost(WidgetsElement $w): string
     {
         if ($w->offline) {
-            return;
+            return '';
         }
 
         // Plugin active
         if (!My::settings()->active) {
-            return;
+            return '';
         }
         // Post page only
-        if (dcCore::app()->url->type != 'post') {
-            return;
+        if (App::url()->getType() != 'post') {
+            return '';
         }
 
         $params['sql'] = '';
@@ -171,7 +171,7 @@ class WidgetsTemplate
         // No post content
         $params['no_content'] = true;
         // Post id
-        $params['post_id'] = dcCore::app()->ctx->posts->post_id;
+        $params['post_id'] = App::frontend()->context()->posts->post_id;
         // Event type
         $params['event_type'] = 'eventhandler';
         // Category
@@ -213,16 +213,16 @@ class WidgetsTemplate
             }
 
             // Format items
-            $fsd = Date::dt2str(dcCore::app()->blog->settings->system->date_format, $rs->event_startdt);
-            $fst = Date::dt2str(dcCore::app()->blog->settings->system->time_format, $rs->event_startdt);
-            $fed = Date::dt2str(dcCore::app()->blog->settings->system->date_format, $rs->event_enddt);
-            $fet = Date::dt2str(dcCore::app()->blog->settings->system->time_format, $rs->event_enddt);
+            $fsd = Date::dt2str(App::blog()->settings()->system->date_format, $rs->event_startdt);
+            $fst = Date::dt2str(App::blog()->settings()->system->time_format, $rs->event_startdt);
+            $fed = Date::dt2str(App::blog()->settings()->system->date_format, $rs->event_enddt);
+            $fet = Date::dt2str(App::blog()->settings()->system->time_format, $rs->event_enddt);
 
             // Replacement
             $over = str_replace(
                 ['%sd', '%st', '%ed', '%et', ],
                 [$fsd, $fst, $fed, $fet],
-                $over_format
+                (string) $over_format
             );
             $item = Html::escapeHTML($rs->post_title);
 
@@ -233,7 +233,7 @@ class WidgetsTemplate
         if ($w->pagelink) {
             $res .=
                 '<p><strong><a href="' .
-                dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                App::blog()->url() . App::url()->getBase('eventhandler_list') .
                 '" >' . __('All events') . '</a></strong></p>';
         }
 
@@ -242,19 +242,19 @@ class WidgetsTemplate
         return $res;
     }
 
-    public static function postsOfEvent(WidgetsElement $w)
+    public static function postsOfEvent(WidgetsElement $w): string
     {
         if ($w->offline) {
-            return;
+            return '';
         }
 
         // Plugin active
         if (!My::settings()->active) {
-            return;
+            return '';
         }
         // Event page only
-        if (dcCore::app()->url->type != 'eventhandler_single') {
-            return;
+        if (App::url()->getType() != 'eventhandler_single') {
+            return '';
         }
 
         $params['sql'] = '';
@@ -270,7 +270,7 @@ class WidgetsTemplate
         // No post content
         $params['no_content'] = true;
         // Event id
-        $params['event_id'] = dcCore::app()->ctx->posts->post_id;
+        $params['event_id'] = App::frontend()->context()->posts->post_id;
         // Event type
         $params['event_type'] = 'eventhandler';
         // Category
@@ -288,7 +288,7 @@ class WidgetsTemplate
         $rs = $eventHandler->getPostsByEvent($params);
         // No result
         if ($rs->isEmpty()) {
-            return;
+            return '';
         }
 
         // Display
@@ -308,35 +308,35 @@ class WidgetsTemplate
         return $res;
     }
 
-    public static function categories(WidgetsElement $w)
+    public static function categories(WidgetsElement $w): string
     {
         if ($w->offline) {
-            return;
-        }
-        // Plugin active ?
-        if (!My::settings()->active) {
-            return;
+            return '';
         }
 
-        if ($w->homeonly == 1 && dcCore::app()->url->type != 'default'
-            || $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
-            return;
+        if (!My::settings()->active) {
+            return '';
+        }
+
+        if ($w->homeonly == 1 && App::url()->getType() != 'default'
+            || $w->homeonly == 2 && App::url()->getType() == 'default') {
+            return '';
         }
 
         // Display
         $res = ($w->content_only ? '' : '<div class="widget eventhandler-categories' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
             ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '');
         // Events categories
-        $rs = dcCore::app()->blog->getCategories(['post_type' => 'eventhandler']);
+        $rs = App::blog()->getCategories(['post_type' => 'eventhandler']);
         if ($rs->isEmpty()) {
-            return;
+            return '';
         }
 
         $ref_level = $level = $rs->level - 1;
         while ($rs->fetch()) {
             $class = '';
-            if ((dcCore::app()->url->type == 'catevents' && dcCore::app()->ctx->categories instanceof record && dcCore::app()->ctx->categories->cat_id == $rs->cat_id)
-                || (dcCore::app()->url->type == 'event' && dcCore::app()->ctx->posts instanceof record && dcCore::app()->ctx->posts->cat_id == $rs->cat_id)) {
+            if ((App::url()->getType() == 'catevents' && App::frontend()->context()->categories instanceof record && App::frontend()->context()->categories->cat_id == $rs->cat_id)
+                || (App::url()->getType() == 'event' && App::frontend()->context()->posts instanceof record && App::frontend()->context()->posts->cat_id == $rs->cat_id)) {
                 $class = ' class="category-current"';
             }
 
@@ -351,7 +351,7 @@ class WidgetsTemplate
             }
 
             $res .=
-                '<a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                '<a href="' . App::blog()->url() . App::url()->getBase('eventhandler_list') .
                 '/category/' . $rs->cat_url . '">' .
                 Html::escapeHTML($rs->cat_title) . '</a>' .
                 ($w->postcount ? ' (' . $rs->nb_post . ')' : '');
@@ -366,7 +366,7 @@ class WidgetsTemplate
         if ($w->pagelink) {
             $res .=
                 '<p><strong><a href="' .
-                dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                App::blog()->url() . App::url()->getBase('eventhandler_list') .
                 '" >' . __('All events') . '</a></strong></p>';
         }
 
@@ -375,17 +375,16 @@ class WidgetsTemplate
         return $res;
     }
 
-    public static function map(WidgetsElement $w)
+    public static function map(WidgetsElement $w): string
     {
         if ($w->offline) {
-            return;
+            return '';
         }
 
-        // Plugin active
         if (!My::settings()->active
-            || $w->homeonly == 1 && dcCore::app()->url->type != 'default'
-            || $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
-            return;
+            || $w->homeonly == 1 && App::url()->getType() != 'default'
+            || $w->homeonly == 2 && App::url()->getType() == 'default') {
+            return '';
         }
 
         $params['sql'] = '';
@@ -416,7 +415,7 @@ class WidgetsTemplate
         $rs = $eventHandler->getEvents($params);
         // No result
         if ($rs->isEmpty()) {
-            return;
+            return '';
         }
 
         $total_lat = $total_lng = 0;
@@ -449,7 +448,7 @@ class WidgetsTemplate
         if ($w->pagelink) {
             $res .=
                 '<p><strong><a href="' .
-                dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+                App::blog()->url() . App::url()->getBase('eventhandler_list') .
                 '" >' . __('All events') . '</a></strong></p>';
         }
 
@@ -458,27 +457,27 @@ class WidgetsTemplate
         return $res;
     }
 
-    public static function calendar(WidgetsElement $w)
+    public static function calendar(WidgetsElement $w): string
     {
         if ($w->offline) {
-            return;
+            return '';
         }
 
         if (!My::settings()->active
-            || $w->homeonly == 1 && dcCore::app()->url->type != 'default'
-            || $w->homeonly == 2 && dcCore::app()->url->type == 'default') {
-            return;
+            || $w->homeonly == 1 && App::url()->getType() != 'default'
+            || $w->homeonly == 2 && App::url()->getType() == 'default') {
+            return '';
         }
 
         $year = date('Y');
         $month = date('m');
 
-        if (dcCore::app()->ctx->exists('event_params') && !empty(dcCore::app()->ctx->event_params['event_start_month'])) {
-            $year = dcCore::app()->ctx->event_params['event_start_year'];
-            $month = dcCore::app()->ctx->event_params['event_start_month'];
-        } elseif (dcCore::app()->ctx->exists('event_params') && !empty(dcCore::app()->ctx->event_params['event_startdt'])) {
-            $year = date('Y', strtotime(dcCore::app()->ctx->event_params['event_startdt']));
-            $month = date('m', strtotime(dcCore::app()->ctx->event_params['event_startdt']));
+        if (App::frontend()->context()->exists('event_params') && !empty(App::frontend()->context()->event_params['event_start_month'])) {
+            $year = App::frontend()->context()->event_params['event_start_year'];
+            $month = App::frontend()->context()->event_params['event_start_month'];
+        } elseif (App::frontend()->context()->exists('event_params') && !empty(App::frontend()->context()->event_params['event_startdt'])) {
+            $year = date('Y', strtotime((string) App::frontend()->context()->event_params['event_startdt']));
+            $month = date('m', strtotime((string) App::frontend()->context()->event_params['event_startdt']));
         }
 
         // Generic calendar Object
@@ -493,7 +492,7 @@ class WidgetsTemplate
             (
                 $w->pagelink ?
              '<p><strong><a href="' .
-             dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') .
+             App::blog()->url() . App::url()->getBase('eventhandler_list') .
              '" >' . __('All events') . '</a></strong></p>' : ''
             ) .
             ($w->content_only ? '' : '</div>');

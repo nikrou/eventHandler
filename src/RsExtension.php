@@ -22,40 +22,40 @@ namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
-use context;
-use dcCore;
-use rsExtPost;
+use Dotclear\Schema\Extension\Post;
+use Dotclear\App;
+use Dotclear\Database\MetaRecord;
 
-class RsExtension extends rsExtPost
+class RsExtension extends Post
 {
     // Duration is on same real day
-    public static function isOnSameDay($rs)
+    public static function isOnSameDay(MetaRecord $rs): bool
     {
         return Date::dt2str('%Y%j', $rs->event_startdt) == Date::dt2str('%Y%j', $rs->event_enddt);
     }
 
     // Duration is less than 24 hours
-    public static function isOnOneDay($rs)
+    public static function isOnOneDay(MetaRecord $rs): bool
     {
-        return (strtotime($rs->event_enddt) - strtotime($rs->event_startdt)) < 86401;
+        return (strtotime((string) $rs->event_enddt) - strtotime((string) $rs->event_startdt)) < 86401;
     }
 
-    public static function getEventTS($rs, $type = '')
+    public static function getEventTS(MetaRecord $rs, string $type = ''): int
     {
         if ($type == 'upddt') {
-            return strtotime($rs->post_upddt);
+            return strtotime((string) $rs->post_upddt);
         } elseif ($type == 'creadt') {
-            return strtotime($rs->post_creadt);
+            return strtotime((string) $rs->post_creadt);
         } elseif ($type == 'startdt') {
-            return strtotime($rs->event_startdt);
+            return strtotime((string) $rs->event_startdt);
         } elseif ($type == 'enddt') {
-            return strtotime($rs->event_enddt);
+            return strtotime((string) $rs->event_enddt);
         } else {
-            return strtotime($rs->post_dt);
+            return strtotime((string) $rs->post_dt);
         }
     }
 
-    public static function getEventISO8601Date($rs, $type = '')
+    public static function getEventISO8601Date(MetaRecord $rs, string $type = ''): string
     {
         if (in_array($type, ['upddt', 'creadt'])) {
             return Date::iso8601($rs->getTS($type) + Date::getTimeOffset($rs->post_tz), $rs->post_tz);
@@ -64,7 +64,7 @@ class RsExtension extends rsExtPost
         }
     }
 
-    public static function getEventRFC822Date($rs, $type = '')
+    public static function getEventRFC822Date(MetaRecord $rs, string $type = ''): string
     {
         if (in_array($type, ['upddt', 'creadt'])) {
             return Date::rfc822($rs->getTS($type) + Date::getTimeOffset($rs->post_tz), $rs->post_tz);
@@ -73,10 +73,10 @@ class RsExtension extends rsExtPost
         }
     }
 
-    public static function getEventDate($rs, $format, $type = '')
+    public static function getEventDate(MetaRecord $rs, string $format, string $type = ''): string
     {
         if (!$format) {
-            $format = dcCore::app()->blog->settings->system->date_format;
+            $format = App::blog()->settings()->system->date_format;
         }
 
         if ($type == 'upddt') {
@@ -92,10 +92,10 @@ class RsExtension extends rsExtPost
         }
     }
 
-    public static function getEventTime($rs, $format, $type = '')
+    public static function getEventTime(MetaRecord $rs, string $format, string $type = ''): string
     {
         if (!$format) {
-            $format = dcCore::app()->blog->settings->system->time_format;
+            $format = App::blog()->settings()->system->time_format;
         }
 
         if ($type == 'upddt') {
@@ -111,7 +111,7 @@ class RsExtension extends rsExtPost
         }
     }
 
-    public static function getPeriod($rs)
+    public static function getPeriod(MetaRecord $rs): string
     {
         $now = date('Y-m-d H:i:s');
 
@@ -124,7 +124,7 @@ class RsExtension extends rsExtPost
         }
     }
 
-    public static function firstEventOfDay($rs, $type = '')
+    public static function firstEventOfDay(MetaRecord $rs, string $type = ''): bool
     {
         if ($rs->isStart()) {
             return true;
@@ -159,7 +159,7 @@ class RsExtension extends rsExtPost
         return $ndate != $cdate;
     }
 
-    public static function lastEventOfDay($rs, $type = '')
+    public static function lastEventOfDay(MetaRecord $rs, string $type = ''): bool
     {
         if ($rs->isEnd()) {
             return true;
@@ -195,8 +195,7 @@ class RsExtension extends rsExtPost
     }
 
     // Not best place for next functions but work fine here!
-
-    public static function getIcalVEVENT($rs)
+    public static function getIcalVEVENT(MetaRecord $rs): string
     {
         $l = [];
         $l[] = "BEGIN:VEVENT";
@@ -207,12 +206,15 @@ class RsExtension extends rsExtPost
         $l[] = "SUMMARY;CHARSET=UTF-8:" . $rs->post_title;
         $l[] = "URL:" . $rs->getURL();
         $l[] = "UID:" . $rs->post_id;
-        $l[] = "DTSTAMP;TZID=" . dcCore::app()->blog->settings->system->blog_timezone . ":" . Date::dt2str("%Y%m%dT%H%M%S", $rs->post_upddt, $rs->post_tz);
-        $l[] = "DTSTART;TZID=" . dcCore::app()->blog->settings->system->blog_timezone . ":" . Date::dt2str("%Y%m%dT%H%M%S", $rs->event_startdt);
-        $l[] = "DTEND;TZID=" . dcCore::app()->blog->settings->system->blog_timezone . ":" . Date::dt2str("%Y%m%dT%H%M%S", $rs->event_enddt);
-        $l[] = "DESCRIPTION;CHARSET=UTF-8:" . $rs->post_title . " - " . ($rs->isExtended() ? context::global_filter($rs->getExcerpt(), 1, 1, '250', 0, 0, '') : context::global_filter($rs->getContent(), 1, 1, '250', 0, 0, '')) . " - " . $rs->getURL();
+        $l[] = "DTSTAMP;TZID=" . App::blog()->settings()->system->blog_timezone . ":" . Date::dt2str("%Y%m%dT%H%M%S", $rs->post_upddt, $rs->post_tz);
+        $l[] = "DTSTART;TZID=" . App::blog()->settings()->system->blog_timezone . ":" . Date::dt2str("%Y%m%dT%H%M%S", $rs->event_startdt);
+        $l[] = "DTEND;TZID=" . App::blog()->settings()->system->blog_timezone . ":" . Date::dt2str("%Y%m%dT%H%M%S", $rs->event_enddt);
+        $l[] = "DESCRIPTION;CHARSET=UTF-8:" . $rs->post_title . " - " .
+            ($rs->isExtended() ?
+            App::frontend()->context()->global_filter($rs->getExcerpt(), 1, 1, '250', 0, 0, '')
+            : App::frontend()->context()->global_filter($rs->getContent(), 1, 1, '250', 0, 0, '')) . " - " . $rs->getURL();
         if ($rs->event_address) {
-            $l[] = "LOCATION;CHARSET=UTF-8:" . context::global_filter($rs->event_address, 1, 1, '250', 0, 0, '');
+            $l[] = "LOCATION;CHARSET=UTF-8:" . App::frontend()->context()->global_filter($rs->event_address, 1, 1, '250', 0, 0, '');
         }
         if ($rs->cat_id) {
             $l[] = "CATEGORIES;CHARSET=UTF-8:" . $rs->cat_title;
@@ -223,10 +225,11 @@ class RsExtension extends rsExtPost
         foreach ($l as $k => $line) {
             $res .= implode("\r\n ", str_split(trim($line), 70)) . "\r\n";
         }
+
         return $res;
     }
 
-    public static function getHcalVEVENT($rs)
+    public static function getHcalVEVENT(MetaRecord $rs): string
     {
         $res =
         '<div class="vevent">' . "\n" .
@@ -245,14 +248,16 @@ class RsExtension extends rsExtPost
         }
         $res .=
         '</ul>' . "\n" .
-        '<p class="description">' . ($rs->isExtended() ? context::global_filter($rs->getExcerpt(), 1, 1, '250', 0, 0, '') : context::global_filter($rs->getContent(), 1, 1, '250', 0, 0, '')) . '</p>' . "\n" .
-        '<p><a class="url" href="' . $rs->getURL() . '">' . __('Read more') . '</a> <abbr class="uid">' . dcCore::app()->blog->id . $rs->post_id . '</abbr></p>' . "\n" .
+        '<p class="description">' . ($rs->isExtended()
+            ? App::frontend()->context()->global_filter($rs->getExcerpt(), 1, 1, '250', 0, 0, '')
+            : App::frontend()->context()->global_filter($rs->getContent(), 1, 1, '250', 0, 0, '')) . '</p>' . "\n" .
+        '<p><a class="url" href="' . $rs->getURL() . '">' . __('Read more') . '</a> <abbr class="uid">' . App::blog()->id() . $rs->post_id . '</abbr></p>' . "\n" .
         '</div>';
 
         return $res;
     }
 
-    public static function getMapVEvent($rs)
+    public static function getMapVEvent(MetaRecord $rs): string
     {
         return
             '<div style="display:none;" class="event-map-marker">' . "\n" .

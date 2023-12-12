@@ -23,14 +23,19 @@ namespace Dotclear\Plugin\eventHandler;
 use Dotclear\Core\Backend\Action\ActionsPosts;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Html\Html;
-use dcCore;
+use Dotclear\App;
 use Exception;
 
 class ActionsEvents extends ActionsPosts
 {
-    public const BIND_EVENT_ACTION = 'eventhandler_bind_event';
-    public const UNBIND_POST_ACTION = 'eventhandler_unbind_post';
+    final public const BIND_EVENT_ACTION = 'eventhandler_bind_event';
+    final public const UNBIND_POST_ACTION = 'eventhandler_unbind_post';
 
+    protected bool $use_render = true;
+
+    /**
+     * @param array<string, mixed> $redirect_args
+     */
     public function __construct(?string $uri, array $redirect_args = [])
     {
         parent::__construct($uri, $redirect_args);
@@ -50,13 +55,13 @@ class ActionsEvents extends ActionsPosts
         Page::closeModule();
     }
 
-    public function error(Exception $e)
+    public function error(Exception $e): void
     {
-        dcCore::app()->error->add($e->getMessage());
+        App::error()->add($e->getMessage());
         $this->beginPage(
             Page::breadcrumb(
                 [
-                    Html::escapeHTML(dcCore::app()->blog->name) => '',
+                    Html::escapeHTML(App::blog()->name()) => '',
                     $this->getCallerTitle() => $this->getRedirection(true),
                     __('Events actions') => '',
                 ]
@@ -65,12 +70,12 @@ class ActionsEvents extends ActionsPosts
         $this->endPage();
     }
 
-    protected function loadDefaults()
+    protected function loadDefaults(): void
     {
         // We could have added a behavior here, but we want default action to be setup first
         ActionsEventsDefault::adminEventsActionsPage($this);
         // --BEHAVIOR-- adminPostsActions -- Actions
-        dcCore::app()->callBehavior('adminActionsEvents', $this);
+        App::behavior()->callBehavior('adminActionsEvents', $this);
     }
 
     public function process()

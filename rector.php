@@ -25,7 +25,6 @@ use Rector\Set\ValueObject\LevelSetList;
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         __DIR__ . '/src',
-        __DIR__ . '/inc',
         __DIR__ . '/tpl',
     ]);
 
@@ -33,13 +32,15 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_80,
+        LevelSetList::UP_TO_PHP_81,
     ]);
 
     $rectorConfig->ruleWithConfiguration(RenameClassRector::class, [
         'dcPage' => 'Dotclear\Core\Backend\Page',
         'html' => 'Dotclear\Helper\Html\Html',
         'dt' => 'Dotclear\Helper\Date',
-        // 'dcAuth' => 'Dotclear\Core\Auth',
-        // 'initPages' => 'Dotclear\Plugin\pages\Pages',
+        'dcAuth' => 'Dotclear\Core\Auth',
+        'initPages' => 'Dotclear\Plugin\pages\Pages',
+        'dcBlog' => 'Dotclear\Core\Blog',
     ]);
 };

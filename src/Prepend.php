@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
+use ArrayObject;
 use Dotclear\Core\Process;
-use dcCore;
+use Dotclear\App;
 
 class Prepend extends Process
 {
@@ -36,29 +37,24 @@ class Prepend extends Process
             return false;
         }
 
-        // Public page for an event
-        dcCore::app()->url->register('eventhandler_single', 'day', '^day/(.+)$', [UrlHandler::class, 'eventSingle']);
-        // Preview page
-        dcCore::app()->url->register('eventhandler_preview', 'daypreview', '^daypreview/(.+)$', [UrlHandler::class, 'eventPreview']);
-        // Public page for list of events
-        dcCore::app()->url->register('eventhandler_list', 'days', '^days(|/.+)$', [UrlHandler::class, 'eventList']);
-        // Feed of events
-        dcCore::app()->url->register('eventhandler_feed', 'daysfeed', '^daysfeed/(.+)$', [UrlHandler::class, 'eventFeed']);
-        // Public rest service
-        dcCore::app()->url->register('eventhandler_pubrest', 'daysservice', '^daysservice/$', [UrlHandler::class, 'eventService']);
+        App::url()->register('eventhandler_single', 'day', '^day/(.+)$', UrlHandler::eventSingle(...));
+        App::url()->register('eventhandler_preview', 'daypreview', '^daypreview/(.+)$', UrlHandler::eventPreview(...));
+        App::url()->register('eventhandler_list', 'days', '^days(|/.+)$', UrlHandler::eventList(...));
+        App::url()->register('eventhandler_feed', 'daysfeed', '^daysfeed/(.+)$', UrlHandler::eventFeed(...));
+        App::url()->register('eventhandler_pubrest', 'daysservice', '^daysservice/$', UrlHandler::eventService(...));
 
-        // Add new post type for event
-        dcCore::app()->setPostType('eventhandler', 'plugin.php?p=eventHandler&part=event&id=%d', dcCore::app()->url->getBase('eventhandler_single') . '/%s');
-        // Add sort ability on template
-        dcCore::app()->addBehavior('templateCustomSortByAlias', [self::class, 'eventHandlerCustomSortByAlias']);
+        App::postTypes()->setPostType('eventhandler', 'plugin.php?p=eventHandler&part=event&id=%d', App::url()->getBase('eventhandler_single') . '/%s');
+        App::behavior()->addBehavior('templateCustomSortByAlias', self::eventHandlerCustomSortByAlias(...));
 
-        // Admin rest method
-        dcCore::app()->rest->addFunction('unbindEventOfPost', [RestMethods::class, 'unbindEventOfPost']);
+        App::rest()->addFunction('unbindEventOfPost', RestMethods::unbindEventOfPost(...));
 
         return true;
     }
 
-    public function eventHandlerCustomSortByAlias($alias)
+    /**
+    * @param ArrayObject<string, mixed> $alias
+    */
+    public static function eventHandlerCustomSortByAlias(ArrayObject $alias): void
     {
         $alias['eventhandler'] = [
             'startdt' => 'event_startdt',

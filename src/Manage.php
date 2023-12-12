@@ -25,14 +25,16 @@ use Dotclear\Core\Backend\Page;
 use Dotclear\Core\Process;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\eventHandler\Listing\ListingEvents;
-use dcCore;
+use Dotclear\App;
+use Dotclear\Core\Backend\UserPref;
+use Dotclear\Database\MetaRecord;
 use Exception;
 use form;
 
 class Manage extends Process
 {
-    private static $from_post = null;
-    private static $from_id = null;
+    private static ?MetaRecord $from_post = null;
+    private static ?int $from_id = null;
 
     public static function init(): bool
     {
@@ -60,44 +62,56 @@ class Manage extends Process
         if (!empty($_REQUEST['from_id'])) {
             try {
                 self::$from_id = (int) $_REQUEST['from_id'];
-                self::$from_post = dcCore::app()->blog->getPosts(['post_id' => self::$from_id, 'post_type' => '']);
+                self::$from_post = App::blog()->getPosts(['post_id' => self::$from_id, 'post_type' => '']);
                 if (self::$from_post->isEmpty()) {
                     self::$from_id = self::$from_post = null;
                     throw new Exception(__('No such post ID'));
                 }
             } catch (Exception $e) {
-                dcCore::app()->error->add($e->getMessage());
+                App::error()->add($e->getMessage());
             }
         }
 
-        dcCore::app()->admin->eventhandler_events_filter = new FilterEvents();
-        $params = dcCore::app()->admin->eventhandler_events_filter->params();
+        App::backend()->eventhandler_events_filter = new FilterEvents();
+        App::backend()->eventhandler_events_filter_page = !empty($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
+        App::backend()->eventhandler_events_filter_nb_per_page = UserPref::getUserFilters('posts', 'nb');
+
+        if (!empty($_GET['nb']) && (int) $_GET['nb'] > 0) {
+            App::backend()->eventhandler_events_filter_nb_per_page = (int) $_GET['nb'];
+        }
+
+        $params = App::backend()->eventhandler_events_filter->params();
         $params['post_type'] = 'eventhandler';
         $params['no_content'] = true;
+        $params['limit'] = [
+            ((App::backend()->eventhandler_events_filter_page - 1) * App::backend()->eventhandler_events_filter_nb_per_page),
+            App::backend()->eventhandler_events_filter_nb_per_page,
+        ];
 
-        dcCore::app()->admin->eventhandler_events_list = null;
+        App::backend()->eventhandler_events_list = null;
 
         try {
             $eventHandler = new EventHandler();
             $events = $eventHandler->getEvents($params);
             $counter = $eventHandler->getEvents($params, true);
-            dcCore::app()->admin->eventhandler_events_list = new ListingEvents($events, $counter->f(0));
-            dcCore::app()->callBehavior('adminEventHandlerEventsListCustom', [$events, $counter, dcCore::app()->admin->eventhandler_events_list]);
+            App::backend()->eventhandler_events_list = new ListingEvents($events, $counter->f(0));
+            App::backend()->eventhandler_events_list->setEntriesNames('entries');
+            App::behavior()->callBehavior('adminEventHandlerEventsListCustom', [$events, $counter, App::backend()->eventhandler_events_list]);
         } catch (Exception $e) {
-            dcCore::app()->error->add($e->getMessage());
+            App::error()->add($e->getMessage());
         }
 
-        dcCore::app()->admin->eventhandler_events_actions = new ActionsEvents(My::manageUrl(['part' => 'events']), ['part' => 'events']);
+        App::backend()->eventhandler_events_actions = new ActionsEvents(My::manageUrl(['part' => 'events']), ['part' => 'events']);
         if (self::$from_id) {
-            dcCore::app()->admin->eventhandler_events_actions->addAction(
+            App::backend()->eventhandler_events_actions->addAction(
                 [__('Entries') => [__('Bind related event') => ActionsEvents::BIND_EVENT_ACTION]],
-                [ActionsEventsDefault::class, 'doBindUnBind']
+                ActionsEventsDefault::doBindUnBind(...)
             );
         }
 
-        dcCore::app()->admin->eventhandler_events_actions_rendered = null;
-        if (dcCore::app()->admin->eventhandler_events_actions->process()) {
-            dcCore::app()->admin->eventhandler_events_actions_rendered = true;
+        App::backend()->eventhandler_events_actions_rendered = null;
+        if (App::backend()->eventhandler_events_actions->process()) {
+            App::backend()->eventhandler_events_actions_rendered = true;
         }
 
         return true;
@@ -118,24 +132,24 @@ class Manage extends Process
         Page::openModule(
             __('Events'),
             Page::jsLoad('js/_posts_list.js') .
-            dcCore::app()->admin->eventhandler_events_filter->js(My::manageUrl()) .
+            App::backend()->eventhandler_events_filter->js(My::manageUrl()) .
             My::cssLoad('/css/style.css')
         );
 
-        echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
+        echo Page::breadcrumb([Html::escapeHTML(App::blog()->name()) => '',
             '<a href="' . My::manageUrl(['part' => 'events']) . '">' . __('Events') . '</a>' => '',
         ]);
 
         echo Notices::getNotices();
 
-        if (!dcCore::app()->error->flag()) {
+        if (!App::error()->flag()) {
             echo '<p class="top-add"><a class="button add" href="', My::manageUrl(['part' => 'event']), '">', __('New event'), '</a></p>';
 
             if (self::$from_id) {
                 echo '<p class="info">', sprintf(__('Attach events to "%s" post.'), self::$from_post->post_title), '</p>';
             }
 
-            dcCore::app()->admin->eventhandler_events_filter->display('admin.plugin.' . My::id());
+            App::backend()->eventhandler_events_filter->display('admin.plugin.' . My::id());
 
             $form_end = '';
             if (self::$from_id) {
@@ -144,20 +158,20 @@ class Manage extends Process
                 form::hidden(['from_id'], self::$from_id);
             } else {
                 $form_end = '<label for="action" class="classic">' . __('Selected events action:') . '</label>' .
-                form::combo('action', dcCore::app()->admin->eventhandler_events_actions->getCombo()) .
+                form::combo('action', App::backend()->eventhandler_events_actions->getCombo()) .
                 '<input id="do-action" type="submit" value="' . __('ok') . '" />';
             }
 
-            dcCore::app()->admin->eventhandler_events_list->display(
-                dcCore::app()->admin->eventhandler_events_filter->page,
-                dcCore::app()->admin->eventhandler_events_filter->nb,
+            App::backend()->eventhandler_events_list->display(
+                App::backend()->eventhandler_events_filter_page,
+                App::backend()->eventhandler_events_filter_nb_per_page,
                 '<form action="' . My::manageUrl() . '" method="post" id="form-entries">' .
                 '%s' .
                 '<div class="two-cols">' .
                 '<p class="col checkboxes-helpers"></p>' .
                 '<p class="col right">' . $form_end .
-                dcCore::app()->admin->url->getHiddenFormFields('admin.plugin.' . My::id(), dcCore::app()->admin->eventhandler_events_filter->values()) .
-                dcCore::app()->formNonce() .
+                App::backend()->url()->getHiddenFormFields('admin.plugin.' . My::id(), App::backend()->eventhandler_events_filter->values()) .
+                App::nonce()->getFormNonce() .
                 '</p></div>' .
                 '</form>'
             );

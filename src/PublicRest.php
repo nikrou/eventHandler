@@ -26,7 +26,11 @@ use Exception;
 
 class PublicRest
 {
-    public static function calendar($get, $post)
+    /**
+     * @param array<string, mixed> $get
+     * @param array<string, mixed> $post
+     */
+    public static function calendar($get, $post): XmlTag
     {
         $blog_uid = $post['blogId'] ?? null;
         $current_ym = $post['curDate'] ?? '';
@@ -42,8 +46,8 @@ class PublicRest
         }
 
         try {
-            $year = $cyear = (int) substr($current_ym, 0, 4);
-            $month = $cmonth = (int) substr($current_ym, 4, 2);
+            $year = $cyear = (int) substr((string) $current_ym, 0, 4);
+            $month = $cmonth = (int) substr((string) $current_ym, 4, 2);
 
             $prev = date('Y-m-01 00:00:00', mktime(0, 0, 0, $cmonth - 1, 1, $cyear));
             $next = date('Y-m-01 00:00:00', mktime(0, 0, 0, $cmonth + 1, 1, $cyear));

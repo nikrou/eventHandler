@@ -22,7 +22,7 @@ namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\Core\Backend\Menus;
 use Dotclear\Core\Process;
-use dcCore;
+use Dotclear\App;
 
 class Backend extends Process
 {
@@ -39,28 +39,26 @@ class Backend extends Process
 
         My::addBackendMenuItem(Menus::MENU_BLOG);
 
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'events']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'eventsOfPost']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'postsOfEvent']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'categories']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'calendar']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'map']);
+        App::behavior()->addBehavior('initWidgets', Widgets::events(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::eventsOfPost(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::postsOfEvent(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::categories(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::calendar(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::map(...));
 
         // Admin Dashboard
-        dcCore::app()->addBehavior('adminDashboardIconsV2', [AdminBehaviors::class, 'adminDashboardIcons']);
-        dcCore::app()->addBehavior('adminDashboardFavoritesV2', [AdminBehaviors::class, 'adminDashboardFavs']);
-
-        dcCore::app()->addBehavior('pluginsToolsHeadersV2', [AdminBehaviors::class, 'pluginsToolsHeadersV2']);
+        App::behavior()->addBehavior('adminDashboardFavoritesV2', AdminBehaviors::adminDashboardFavs(...));
+        App::behavior()->addBehavior('pluginsToolsHeadersV2', AdminBehaviors::pluginsToolsHeadersV2(...));
 
         // Admin behaviors
         if (My::settings()->active) {
-            dcCore::app()->addBehavior('adminPageHTTPHeaderCSP', [AdminBehaviors::class, 'adminPageHTTPHeaderCSP']);
-            dcCore::app()->addBehavior('adminPostHeaders', [AdminBehaviors::class, 'adminPostHeaders']);
-            dcCore::app()->addBehavior('adminPostsActions', [AdminBehaviors::class, 'adminPostsActions']);
-            dcCore::app()->addBehavior('adminPostFormItems', [AdminBehaviors::class, 'adminPostFormItems']);
-            dcCore::app()->addBehavior('adminAfterPostCreate', [AdminBehaviors::class, 'adminAfterPostSave']);
-            dcCore::app()->addBehavior('adminAfterPostUpdate', [AdminBehaviors::class, 'adminAfterPostSave']);
-            dcCore::app()->addBehavior('adminBeforePostDelete', [AdminBehaviors::class, 'adminBeforePostDelete']);
+            App::behavior()->addBehavior('adminPageHTTPHeaderCSP', AdminBehaviors::adminPageHTTPHeaderCSP(...));
+            App::behavior()->addBehavior('adminPostHeaders', AdminBehaviors::adminPostHeaders(...));
+            App::behavior()->addBehavior('adminPostsActions', AdminBehaviors::adminPostsActions(...));
+            App::behavior()->addBehavior('adminPostFormItems', AdminBehaviors::adminPostFormItems(...));
+            App::behavior()->addBehavior('adminAfterPostCreate', AdminBehaviors::adminAfterPostSave(...));
+            App::behavior()->addBehavior('adminAfterPostUpdate', AdminBehaviors::adminAfterPostSave(...));
+            App::behavior()->addBehavior('adminBeforePostDelete', AdminBehaviors::adminBeforePostDelete(...));
         }
 
         return true;

@@ -20,25 +20,29 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler\Listing;
 
+use Dotclear\Core\Blog;
 use Dotclear\Core\Backend\Listing\Listing;
 use Dotclear\Core\Backend\Listing\Pager;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
-use dcBlog;
-use dcCore;
+use Dotclear\App;
 use form;
 
 class ListingEvents extends Listing
 {
-    public function display(int $page, int $nb_per_page, string $enclose_block = '')
+    private string $entries_names = 'entries';
+
+    public function setEntriesNames(string $name): void
+    {
+        $this->entries_names = $name;
+    }
+
+    public function display(int $page, int $nb_per_page, string $enclose_block = ''): void
     {
         if ($this->rs->isEmpty()) {
             echo '<p><strong>' . __('No event') . '</strong></p>';
         } else {
             $pager = new Pager($page, $this->rs_count, $nb_per_page, 10);
-            $pager->html_prev = $this->html_prev;
-            $pager->html_next = $this->html_next;
-            $pager->var_page = 'page';
 
             $columns = [
                 '<th colspan="2">' . __('Title') . '</th>',
@@ -52,7 +56,7 @@ class ListingEvents extends Listing
             ];
 
             // --BEHAVIOR-- adminEventHandlerEventsListHeaders
-            dcCore::app()->callBehavior('adminEventHandlerEventsListHeaders', ['columns' => &$columns]);
+            App::behavior()->callBehavior('adminEventHandlerEventsListHeaders', ['columns' => &$columns]);
             $html_block = '<table class="clear"><tr>' .
                 join('', $columns) .
                 '</tr>%s</table>';
@@ -80,7 +84,7 @@ class ListingEvents extends Listing
                 $fmt(__('Scheduled'), 'scheduled.png') . ' - ' .
                 $fmt(__('Pending'), 'check-wrn.png') . ' - ' .
                 $fmt(__('Protected'), 'locker.png') . ' - ' .
-                $fmt(__('Selected'), 'selected.png') . ' - ' .
+                $fmt(__('In widget'), 'selected.png') . ' - ' .
                 $fmt(__('Attachments'), 'attach.png') .
                 '</p>';
 
@@ -88,10 +92,10 @@ class ListingEvents extends Listing
         }
     }
 
-    private function postLine()
+    private function postLine(): string
     {
-        if (dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([dcCore::app()->auth::PERMISSION_CATEGORIES]), dcCore::app()->blog->id)) {
-            $cat_link = '<a href="category.php?id=%s">%s</a>';
+        if (App::auth()->check(App::auth()->makePermissions([App::auth()::PERMISSION_CATEGORIES]), App::blog()->id())) {
+            $cat_link = '<a href="' . App::backend()->url()->get('admin.category', ['id' => '%s'], '&amp;', true) . '">%s</a>';
         } else {
             $cat_link = '%2$s';
         }
@@ -104,10 +108,10 @@ class ListingEvents extends Listing
 
         $img = '<img alt="%1$s" title="%1$s" src="images/%2$s" />';
         $img_status = match ((int) $this->rs->post_status) {
-            dcBlog::POST_PUBLISHED => sprintf($img, __('published'), 'check-on.png'),
-            dcBlog::POST_UNPUBLISHED => sprintf($img, __('unpublished'), 'check-off.png'),
-            dcBlog::POST_SCHEDULED => sprintf($img, __('scheduled'), 'scheduled.png'),
-            dcBlog::POST_PENDING => sprintf($img, __('pending'), 'check-wrn.png'),
+            Blog::POST_PUBLISHED => sprintf($img, __('published'), 'check-on.png'),
+            Blog::POST_UNPUBLISHED => sprintf($img, __('unpublished'), 'check-off.png'),
+            Blog::POST_SCHEDULED => sprintf($img, __('scheduled'), 'scheduled.png'),
+            Blog::POST_PENDING => sprintf($img, __('pending'), 'check-wrn.png'),
             default => '',
         };
 
@@ -118,13 +122,13 @@ class ListingEvents extends Listing
 
         $selected = '';
         if ($this->rs->post_selected) {
-            $selected = sprintf($img, __('selected'), 'selected.png');
+            $selected = sprintf($img, __('In widget'), 'selected.png');
         }
 
         $now = time();
-        if (strtotime($this->rs->event_startdt) > $now) {
+        if (strtotime((string) $this->rs->event_startdt) > $now) {
             $event_class = 'eventhandler scheduled';
-        } elseif (strtotime($this->rs->event_enddt) < $now) {
+        } elseif (strtotime((string) $this->rs->event_enddt) < $now) {
             $event_class = 'eventhandler finished';
         } else {
             $event_class = 'eventhandler ongoing';
@@ -135,13 +139,12 @@ class ListingEvents extends Listing
         if ($entries->isEmpty()) {
             $nb_entries = 0;
         } else {
-            $nb_entries = '<a href="' . dcCore::app()->getPostAdminURL($this->rs->post_type, $this->rs->post_id);
-            $nb_entries .= '&amp;tab=bind-entries">' . $entries->f(0) . '</a>';
+            $nb_entries = '<a href="' . App::postTypes()->getPostAdminURL($this->rs->post_type, $this->rs->post_id, true, ['tab' => 'bind-entries']) . '">' . $entries->f(0) . '</a>';
         }
 
         $columns = [
-            '<td class="nowrap">' . form::checkbox(['entries[]'], $this->rs->post_id, '', '', '', !$this->rs->isEditable()) . '</td>' .
-            '<td class="maximal"><a href="' . dcCore::app()->getPostAdminURL($this->rs->post_type, $this->rs->post_id) . '">' .
+            '<td class="nowrap">' . form::checkbox([$this->entries_names . '[]'], $this->rs->post_id, '', '', '', !$this->rs->isEditable()) . '</td>' .
+            '<td class="maximal"><a href="' . App::postTypes()->getPostAdminURL($this->rs->post_type, $this->rs->post_id) . '">' .
             Html::escapeHTML($this->rs->post_title) . '</a></td>',
             '<td class="nowrap' . ' ' . $event_class . '">' . Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->event_startdt) . '</td>',
             '<td class="nowrap' . ' ' . $event_class . '">' . Date::dt2str(__('%Y-%m-%d %H:%M'), $this->rs->event_enddt) . '</td>',
@@ -153,7 +156,7 @@ class ListingEvents extends Listing
         ];
 
         // --BEHAVIOR-- adminEventHandlerEventsListBody
-        dcCore::app()->callBehavior('adminEventHandlerEventsListBody', $this->rs, ['columns' => &$columns]);
+        App::behavior()->callBehavior('adminEventHandlerEventsListBody', $this->rs, ['columns' => &$columns]);
 
         return
             '<tr class="line' . ($this->rs->post_status != 1 ? ' offline' : '') . ' ' . $event_class . '"' .

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-28 09:23+0200\n"
+"POT-Creation-Date: 2023-12-11 18:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,9 +25,9 @@ msgstr ""
 msgid "Add this event to your iCalendar"
 msgstr ""
 
-#: __html_tpl_dummy.php:4 src/Template.php:230 src/WidgetsTemplate.php:138
-#: src/WidgetsTemplate.php:240 src/WidgetsTemplate.php:374
-#: src/WidgetsTemplate.php:457 src/WidgetsTemplate.php:502
+#: __html_tpl_dummy.php:4 src/Template.php:214 src/WidgetsTemplate.php:134
+#: src/WidgetsTemplate.php:237 src/WidgetsTemplate.php:370
+#: src/WidgetsTemplate.php:453 src/WidgetsTemplate.php:497
 #: __html_tpl_dummy.php:4
 msgid "All events"
 msgstr ""
@@ -64,11 +64,13 @@ msgstr ""
 msgid "Display this event on hCalendar format"
 msgstr ""
 
-#: __html_tpl_dummy.php:13 tpl/edit_event.tpl:35 tpl/settings.tpl:18
-#: tpl/settings.tpl:48 tpl/settings.tpl:120 src/AdminBehaviors.php:113
-#: src/AdminBehaviors.php:140 src/ActionsEvents.php:40 src/ActionsEvents.php:45
-#: src/UrlHandler.php:436 src/UrlHandler.php:446 src/UrlHandler.php:487
-#: src/ManageEvents.php:104 src/ManageEvents.php:110 __html_tpl_dummy.php:13
+#: __html_tpl_dummy.php:13 tpl/edit_event.tpl:34 tpl/list_events.tpl:12
+#: tpl/list_events.tpl:18 src/AdminBehaviors.php:112 src/AdminBehaviors.php:113
+#: src/AdminBehaviors.php:140 src/Manage.php:119 src/Manage.php:126
+#: src/ActionsEvents.php:39 src/ActionsEvents.php:44 src/UrlHandler.php:433
+#: src/UrlHandler.php:443 src/UrlHandler.php:484 src/ManageEvents.php:104
+#: src/ManageEvents.php:110 src/Config.php:233 src/Config.php:303
+#: __html_tpl_dummy.php:13
 msgid "Events"
 msgstr ""
 
@@ -100,7 +102,7 @@ msgstr ""
 msgid "iCalendar"
 msgstr ""
 
-#: __html_tpl_dummy.php:21 tpl/edit_event.tpl:101 __html_tpl_dummy.php:21
+#: __html_tpl_dummy.php:21 tpl/edit_event.tpl:100 __html_tpl_dummy.php:21
 msgid "Latitude:"
 msgstr ""
 
@@ -108,7 +110,7 @@ msgstr ""
 msgid "list of events"
 msgstr ""
 
-#: __html_tpl_dummy.php:23 tpl/edit_event.tpl:106 __html_tpl_dummy.php:23
+#: __html_tpl_dummy.php:23 tpl/edit_event.tpl:105 __html_tpl_dummy.php:23
 msgid "Longitude:"
 msgstr ""
 
@@ -178,97 +180,98 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: tpl/edit_event.tpl:12 tpl/edit_event.tpl:230 tpl/settings.tpl:11
-#: src/AdminBehaviors.php:38 src/AdminBehaviors.php:49 src/ManageEvents.php:155
+#: tpl/edit_event.tpl:11 src/AdminBehaviors.php:39 src/ManageEvents.php:155
 msgid "Event handler"
 msgstr ""
 
-#: tpl/edit_event.tpl:45
+#: tpl/edit_event.tpl:44
 msgid "Go to this event on the site"
 msgstr ""
 
-#: tpl/edit_event.tpl:66 tpl/edit_event.tpl:71 src/ManageEvent.php:213
+#: tpl/edit_event.tpl:65 tpl/edit_event.tpl:70 src/ManageEvent.php:211
 msgid "Edit event"
 msgstr ""
 
-#: tpl/edit_event.tpl:75 src/RsExtension.php:235
+#: tpl/edit_event.tpl:74 src/RsExtension.php:235
 msgid "Start date:"
 msgstr ""
 
-#: tpl/edit_event.tpl:82 src/RsExtension.php:236
+#: tpl/edit_event.tpl:81 src/RsExtension.php:236
 msgid "End date:"
 msgstr ""
 
-#: tpl/edit_event.tpl:88 src/FilterEvents.php:221
+#: tpl/edit_event.tpl:87 src/FilterEvents.php:221
 msgid "Localization"
 msgstr ""
 
-#: tpl/edit_event.tpl:91 src/RsExtension.php:238
+#: tpl/edit_event.tpl:90 src/RsExtension.php:238
 msgid "Address:"
 msgstr ""
 
-#: tpl/edit_event.tpl:97 tpl/settings.tpl:78
+#: tpl/edit_event.tpl:96 src/Config.php:263
 msgid "Maps"
 msgstr ""
 
-#: tpl/edit_event.tpl:98
+#: tpl/edit_event.tpl:97
 msgid ""
 "If you want to use maps, you must enter an address as precise as possible "
 "(number, street, city, country)"
 msgstr ""
 
-#: tpl/edit_event.tpl:99
+#: tpl/edit_event.tpl:98
 msgid "Find coordinates from address"
 msgstr ""
 
-#: tpl/edit_event.tpl:111
+#: tpl/edit_event.tpl:110
 msgid "Zoom for that map:"
 msgstr ""
 
-#: tpl/edit_event.tpl:115
+#: tpl/edit_event.tpl:114
 #, php-format
 msgid "If empty, defaut zoom (%d) will be used"
 msgstr ""
 
-#: tpl/edit_event.tpl:123 tpl/edit_event.tpl:131
+#: tpl/edit_event.tpl:122 tpl/edit_event.tpl:130
 msgid "Required field"
 msgstr ""
 
-#: tpl/edit_event.tpl:123 src/Widgets.php:69 src/Widgets.php:121
+#: tpl/edit_event.tpl:122 src/Widgets.php:69 src/Widgets.php:121
 #: src/Widgets.php:156 src/Widgets.php:181 src/Widgets.php:233
 #: src/Widgets.php:268
 msgid "Title:"
 msgstr ""
 
-#: tpl/edit_event.tpl:127
+#: tpl/edit_event.tpl:126
 msgid "Excerpt:"
 msgstr ""
 
-#: tpl/edit_event.tpl:132
+#: tpl/edit_event.tpl:131
 msgid "Content:"
 msgstr ""
 
-#: tpl/edit_event.tpl:137
+#: tpl/edit_event.tpl:136
 msgid "Notes:"
 msgstr ""
 
-#: tpl/edit_event.tpl:141 tpl/settings.tpl:164
+#: tpl/edit_event.tpl:140 src/ActionsEventsDefault.php:174
 msgid "Save"
 msgstr ""
 
-#: tpl/edit_event.tpl:144
+#: tpl/edit_event.tpl:143
 msgid "Preview event"
 msgstr ""
 
-#: tpl/edit_event.tpl:147
+#: tpl/edit_event.tpl:146
 msgid "Cancel"
 msgstr ""
 
-#: tpl/edit_event.tpl:152
+#: tpl/edit_event.tpl:151 src/ActionsEventsDefault.php:78
+#: src/ActionsEventsDefault.php:79
 msgid "Delete"
 msgstr ""
 
 #: tpl/edit_event.tpl:160 src/FilterEvents.php:217
+#: src/ActionsEventsDefault.php:43 src/Listing/ListingEventsMini.php:47
 #: src/Listing/ListingEvents.php:51
 msgid "Status"
 msgstr ""
@@ -301,8 +304,8 @@ msgstr ""
 msgid "Selected event"
 msgstr ""
 
-#: tpl/edit_event.tpl:188 tpl/settings.tpl:117 src/FilterEvents.php:215
-#: src/Listing/ListingEvents.php:49
+#: tpl/edit_event.tpl:188 src/FilterEvents.php:215
+#: src/Listing/ListingEvents.php:49 src/Config.php:300
 msgid "Category"
 msgstr ""
 
@@ -328,107 +331,26 @@ msgstr ""
 msgid "You must save event before adding entries"
 msgstr ""
 
-#: tpl/edit_event.tpl:227 tpl/settings.tpl:11 tpl/settings.tpl:19
-#: src/ManageEvents.php:152
-msgid "Settings"
+#: tpl/list_events.tpl:22 src/ManageEvent.php:92 src/Manage.php:132
+#: src/ManageEvents.php:116
+msgid "New event"
 msgstr ""
 
-#: tpl/settings.tpl:24 tpl/settings.tpl:27
-msgid "Activation"
+#: tpl/list_events.tpl:24 src/Manage.php:135 src/ManageEvents.php:119
+#, php-format
+msgid "Attach events to \"%s\" post."
 msgstr ""
 
-#: tpl/settings.tpl:30
-msgid "Enable plugin"
+#: tpl/list_events.tpl:38 src/Manage.php:142 src/ManageEvents.php:126
+msgid "Attach selected events"
 msgstr ""
 
-#: tpl/settings.tpl:37
-msgid "Configuration"
+#: tpl/list_events.tpl:54
+msgid "Selected entries action:"
 msgstr ""
 
-#: tpl/settings.tpl:39
-msgid "Additionnal style sheet:"
-msgstr ""
-
-#: tpl/settings.tpl:50
-msgid "Show related entries on event:"
-msgstr ""
-
-#: tpl/settings.tpl:54 tpl/settings.tpl:119 src/Listing/ListingEvents.php:47
-msgid "Entries"
-msgstr ""
-
-#: tpl/settings.tpl:56
-msgid "Show related events on entry:"
-msgstr ""
-
-#: tpl/settings.tpl:60
-msgid "Events list ordering"
-msgstr ""
-
-#: tpl/settings.tpl:64
-msgid "Default field"
-msgstr ""
-
-#: tpl/settings.tpl:70
-msgid "Default order"
-msgstr ""
-
-#: tpl/settings.tpl:80 src/Widgets.php:234
-msgid "Default zoom on map:"
-msgstr ""
-
-#: tpl/settings.tpl:84 src/Widgets.php:235
-msgid "Default type of map:"
-msgstr ""
-
-#: tpl/settings.tpl:88
-msgid "Map provider:"
-msgstr ""
-
-#: tpl/settings.tpl:92
-msgid "API Key:"
-msgstr ""
-
-#: tpl/settings.tpl:96
-msgid "URL to create API Key:"
-msgstr ""
-
-#: tpl/settings.tpl:99
-msgid "Map tile layer:"
-msgstr ""
-
-#: tpl/settings.tpl:103
-msgid "Default map tile layer for OpenStreetMap."
-msgstr ""
-
-#: tpl/settings.tpl:110 tpl/settings.tpl:112
-msgid "Categories"
-msgstr ""
-
-#: tpl/settings.tpl:113
-msgid ""
-"When an event has an hidden category, it will only display on its category "
-"page."
-msgstr ""
-
-#: tpl/settings.tpl:116
-msgid "Hide"
-msgstr ""
-
-#: tpl/settings.tpl:118
-msgid "Level"
-msgstr ""
-
-#: tpl/settings.tpl:130
-msgid "List of events related to this category"
-msgstr ""
-
-#: tpl/settings.tpl:134
-msgid "List of entries related to this category"
-msgstr ""
-
-#: tpl/settings.tpl:140
-msgid "Edit this category"
+#: tpl/list_events.tpl:56 src/Manage.php:148 src/ManageEvents.php:132
+msgid "ok"
 msgstr ""
 
 #: src/PublicRest.php:38
@@ -443,47 +365,43 @@ msgstr ""
 msgid "Failed to get calendar"
 msgstr ""
 
-#: src/ManageEvent.php:92 src/ManageEvents.php:116
-msgid "New event"
-msgstr ""
-
-#: src/ManageEvent.php:146 src/ManageEvent.php:149 src/ManageEvent.php:152
+#: src/ManageEvent.php:145 src/ManageEvent.php:148 src/ManageEvent.php:151
 msgid "Most used"
 msgstr ""
 
-#: src/ManageEvent.php:146 src/ManageEvent.php:150
+#: src/ManageEvent.php:145 src/ManageEvent.php:149
 msgid "Available"
 msgstr ""
 
-#: src/ManageEvent.php:164
+#: src/ManageEvent.php:162
 msgid "This entry does not exist."
 msgstr ""
 
-#: src/ManageEvent.php:177
+#: src/ManageEvent.php:175
 msgid "This event does not exist."
 msgstr ""
 
-#: src/ManageEvent.php:204
+#: src/ManageEvent.php:202
 msgid "Change entry into event"
 msgstr ""
 
-#: src/ManageEvent.php:223
+#: src/ManageEvent.php:221
 msgid "next event"
 msgstr ""
 
-#: src/ManageEvent.php:238
+#: src/ManageEvent.php:236
 msgid "previous event"
 msgstr ""
 
-#: src/ManageEvent.php:362
+#: src/ManageEvent.php:359
 msgid "Event has been updated."
 msgstr ""
 
-#: src/ManageEvent.php:379
+#: src/ManageEvent.php:376
 msgid "Event has been created."
 msgstr ""
 
-#: src/ManageEvent.php:459
+#: src/ManageEvent.php:456
 msgid "Don't forget to validate your XHTML conversion by saving your post."
 msgstr ""
 
@@ -498,30 +416,30 @@ msgid "Date"
 msgstr ""
 
 #: src/Widgets.php:39 src/Widgets.php:96 src/Widgets.php:142
-#: src/Widgets.php:203 src/FilterEvents.php:214 src/Template.php:146
-#: src/Listing/ListingEvents.php:44
+#: src/Widgets.php:203 src/FilterEvents.php:214 src/Template.php:134
+#: src/Listing/ListingEventsMini.php:43 src/Listing/ListingEvents.php:44
 msgid "Title"
 msgstr ""
 
 #: src/Widgets.php:40 src/Widgets.php:97 src/Widgets.php:204
-#: src/FilterEvents.php:219 src/Template.php:150
-#: src/Listing/ListingEvents.php:45
+#: src/FilterEvents.php:219 src/Template.php:138
+#: src/Listing/ListingEventsMini.php:45 src/Listing/ListingEvents.php:45
 msgid "Start date"
 msgstr ""
 
 #: src/Widgets.php:41 src/Widgets.php:98 src/Widgets.php:205
-#: src/FilterEvents.php:220 src/Template.php:151
-#: src/Listing/ListingEvents.php:46
+#: src/FilterEvents.php:220 src/Template.php:139
+#: src/Listing/ListingEventsMini.php:46 src/Listing/ListingEvents.php:46
 msgid "End date"
 msgstr ""
 
 #: src/Widgets.php:44 src/Widgets.php:101 src/Widgets.php:145
-#: src/Widgets.php:208 src/Manage.php:81
+#: src/Widgets.php:208 src/Config.php:82
 msgid "Ascending"
 msgstr ""
 
 #: src/Widgets.php:45 src/Widgets.php:102 src/Widgets.php:146
-#: src/Widgets.php:209 src/Manage.php:82
+#: src/Widgets.php:209 src/Config.php:83
 msgid "Descending"
 msgstr ""
 
@@ -535,27 +453,27 @@ msgid "Not started"
 msgstr ""
 
 #: src/Widgets.php:50 src/Widgets.php:107 src/Widgets.php:214
-#: src/FilterEvents.php:187 src/Template.php:78 src/Template.php:244
+#: src/FilterEvents.php:187 src/Template.php:68 src/Template.php:228
 msgid "Started"
 msgstr ""
 
 #: src/Widgets.php:51 src/Widgets.php:108 src/Widgets.php:215
-#: src/FilterEvents.php:188 src/Template.php:80 src/Template.php:246
+#: src/FilterEvents.php:188 src/Template.php:70 src/Template.php:230
 msgid "Finished"
 msgstr ""
 
 #: src/Widgets.php:52 src/Widgets.php:109 src/Widgets.php:216
-#: src/FilterEvents.php:189 src/Template.php:79 src/Template.php:245
+#: src/FilterEvents.php:189 src/Template.php:69 src/Template.php:229
 msgid "Not finished"
 msgstr ""
 
 #: src/Widgets.php:53 src/Widgets.php:110 src/Widgets.php:217
-#: src/FilterEvents.php:190 src/Template.php:75 src/Template.php:241
+#: src/FilterEvents.php:190 src/Template.php:65 src/Template.php:225
 msgid "Ongoing"
 msgstr ""
 
 #: src/Widgets.php:54 src/Widgets.php:111 src/Widgets.php:218
-#: src/FilterEvents.php:191 src/Template.php:76 src/Template.php:242
+#: src/FilterEvents.php:191 src/Template.php:66 src/Template.php:226
 msgid "Outgoing"
 msgstr ""
 
@@ -670,19 +588,19 @@ msgstr ""
 msgid "With events counts"
 msgstr ""
 
-#: src/Widgets.php:196 src/Manage.php:91
+#: src/Widgets.php:196 src/Config.php:92
 msgid "road map"
 msgstr ""
 
-#: src/Widgets.php:197 src/Manage.php:92
+#: src/Widgets.php:197 src/Config.php:93
 msgid "satellite"
 msgstr ""
 
-#: src/Widgets.php:198 src/Manage.php:93
+#: src/Widgets.php:198 src/Config.php:94
 msgid "hybrid"
 msgstr ""
 
-#: src/Widgets.php:199 src/Manage.php:94
+#: src/Widgets.php:199 src/Config.php:95
 msgid "terrain"
 msgstr ""
 
@@ -692,6 +610,14 @@ msgstr ""
 
 #: src/Widgets.php:231 src/Widgets.php:233
 msgid "Events on map"
+msgstr ""
+
+#: src/Widgets.php:234 src/Config.php:265
+msgid "Default zoom on map:"
+msgstr ""
+
+#: src/Widgets.php:235 src/Config.php:269
+msgid "Default type of map:"
 msgstr ""
 
 #: src/Widgets.php:236
@@ -732,6 +658,10 @@ msgstr ""
 msgid "Show only start date of events"
 msgstr ""
 
+#: src/AdminBehaviors.php:112 src/AdminBehaviors.php:158
+msgid "Bind events"
+msgstr ""
+
 #: src/AdminBehaviors.php:113
 msgid "Unbind events"
 msgstr ""
@@ -740,15 +670,11 @@ msgstr ""
 msgid "Check to unbind"
 msgstr ""
 
-#: src/AdminBehaviors.php:158
-msgid "Bind events"
-msgstr ""
-
-#: src/AdminBehaviors.php:163
+#: src/AdminBehaviors.php:164
 msgid "Change this entry into an event"
 msgstr ""
 
-#: src/AdminBehaviors.php:163
+#: src/AdminBehaviors.php:164
 msgid "Change into event"
 msgstr ""
 
@@ -776,7 +702,8 @@ msgstr ""
 msgid "Selected:"
 msgstr ""
 
-#: src/FilterEvents.php:202 src/Listing/ListingEvents.php:130
+#: src/FilterEvents.php:202 src/Listing/ListingEventsMini.php:94
+#: src/Listing/ListingEvents.php:121
 msgid "selected"
 msgstr ""
 
@@ -788,108 +715,55 @@ msgstr ""
 msgid "Sort by:"
 msgstr ""
 
-#: src/FilterEvents.php:216 src/Template.php:148
+#: src/FilterEvents.php:216 src/Template.php:136
 #: src/Listing/ListingEvents.php:50
 msgid "Author"
 msgstr ""
 
-#: src/FilterEvents.php:218 src/Template.php:147
+#: src/FilterEvents.php:218 src/Template.php:135
 #: src/Listing/ListingEvents.php:83
 msgid "Selected"
 msgstr ""
 
-#: src/Manage.php:63
-msgid "hide"
+#: src/Manage.php:66 src/ManageEvents.php:54 src/RestMethods.php:36
+msgid "No such post ID"
 msgstr ""
 
-#: src/Manage.php:64
-msgid "before content"
+#: src/Manage.php:93 src/ActionsEventsDefault.php:83
+#: src/ActionsEventsDefault.php:140 src/Listing/ListingEvents.php:47
+#: src/Config.php:239 src/Config.php:302
+msgid "Entries"
 msgstr ""
 
-#: src/Manage.php:65
-msgid "after content"
+#: src/Manage.php:93
+msgid "Bind related event"
 msgstr ""
 
-#: src/Manage.php:70
-msgid "Post title"
+#: src/Manage.php:146 src/ManageEvents.php:130
+msgid "Selected events action:"
 msgstr ""
 
-#: src/Manage.php:71
-msgid "Post selected"
-msgstr ""
-
-#: src/Manage.php:72
-msgid "Post author"
-msgstr ""
-
-#: src/Manage.php:73
-msgid "Post date"
-msgstr ""
-
-#: src/Manage.php:74
-msgid "Post id"
-msgstr ""
-
-#: src/Manage.php:75
-msgid "Event start date"
-msgstr ""
-
-#: src/Manage.php:76
-msgid "Event end date"
-msgstr ""
-
-#: src/Manage.php:203
-msgid "Configuration has been updated."
-msgstr ""
-
-#: src/ActionsEvents.php:46
+#: src/ActionsEvents.php:45
 msgid "Back to events list"
 msgstr ""
 
-#: src/ActionsEvents.php:68 src/ActionsEvents.php:119
-msgid "No entry selected"
+#: src/ActionsEvents.php:61
+msgid "Events actions"
 msgstr ""
 
-#: src/ActionsEvents.php:75
-msgid "No such post"
-msgstr ""
-
-#: src/ActionsEvents.php:87
-msgid "No such event"
-msgstr ""
-
-#: src/ActionsEvents.php:102
-msgid "entry has been bound to the selected event"
-msgstr ""
-
-#: src/ActionsEvents.php:132
-#, php-format
-msgid "%d post has been unbound from its events"
-msgstr ""
-
-#: src/ActionsEvents.php:146
-#, php-format
-msgid "Event #%d (%s) has no related post to be unbound from."
-msgstr ""
-
-#: src/ActionsEvents.php:157
-#, php-format
-msgid "Event #%d (%s) unbound from %d related post"
-msgstr ""
-
-#: src/Calendar.php:129
+#: src/Calendar.php:131
 msgid "Calendar"
 msgstr ""
 
-#: src/Calendar.php:141
+#: src/Calendar.php:143
 msgid "Detail"
 msgstr ""
 
-#: src/Calendar.php:189
+#: src/Calendar.php:191
 msgid "one event"
 msgstr ""
 
-#: src/Calendar.php:189
+#: src/Calendar.php:191
 #, php-format
 msgid "%s events"
 msgstr ""
@@ -910,109 +784,173 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: src/UrlHandler.php:449
+#: src/UrlHandler.php:446
 msgid "Directory:"
 msgstr ""
 
-#: src/UrlHandler.php:467
+#: src/UrlHandler.php:464
 msgid "This page is powered by Dotclear and eventHandler"
 msgstr ""
 
-#: src/UrlHandler.php:523
+#: src/UrlHandler.php:520
 msgid "There's no event at this time."
 msgstr ""
 
-#: src/Template.php:74 src/Template.php:240
+#: src/ActionsEventsDefault.php:44
+msgid "Publish"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:45
+msgid "Unpublish"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:46
+msgid "Schedule"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:47
+msgid "Mark as pending"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:54
+msgid "Mark"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:55
+msgid "Mark as selected"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:56
+msgid "Mark as unselected"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:61 src/ActionsEventsDefault.php:67
+msgid "Change"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:61
+msgid "Change category"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:68
+msgid "Change author"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:83
+msgid "Unbind related entries"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:96
+msgid "No entry selected"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:111
+msgid "No such event"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:127
+#, php-format
+msgid "%d entry has been bound %s"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:132
+msgid "to the selected event"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:141 src/ActionsEventsDefault.php:144
+msgid "Select events to link to entries"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:188
+#, php-format
+msgid "%d post has been unbound from its events"
+msgstr ""
+
+#: src/ActionsEventsDefault.php:203
+#, php-format
+msgid "Event #%d (%s) has no related post to be unbound from."
+msgstr ""
+
+#: src/ActionsEventsDefault.php:214
+#, php-format
+msgid "Event #%d (%s) unbound from %d related post"
+msgstr ""
+
+#: src/Template.php:64 src/Template.php:224
 msgid "All"
 msgstr ""
 
-#: src/Template.php:77 src/Template.php:243 src/Listing/ListingEvents.php:80
+#: src/Template.php:67 src/Template.php:227 src/Listing/ListingEvents.php:80
 msgid "Scheduled"
 msgstr ""
 
-#: src/Template.php:149
+#: src/Template.php:137
 msgid "Published date"
 msgstr ""
 
-#: src/Template.php:231
+#: src/Template.php:215
 msgid "Current events"
 msgstr ""
 
-#: src/Template.php:232
+#: src/Template.php:216
 msgid "Event not being"
 msgstr ""
 
-#: src/Template.php:233
+#: src/Template.php:217
 msgid "Scheduled events"
 msgstr ""
 
-#: src/Template.php:234
+#: src/Template.php:218
 msgid "Started events"
 msgstr ""
 
-#: src/Template.php:235
+#: src/Template.php:219
 msgid "Unfinished events"
 msgstr ""
 
-#: src/Template.php:236
+#: src/Template.php:220
 msgid "Completed events"
 msgstr ""
 
-#: src/Template.php:265
+#: src/Template.php:248
 msgid "%m %d %Y"
 msgstr ""
 
-#: src/Template.php:276
+#: src/Template.php:258
 #, php-format
 msgid "For the day of %s"
 msgstr ""
 
-#: src/Template.php:278
+#: src/Template.php:260
 msgid "%m %Y"
 msgstr ""
 
-#: src/Template.php:279
+#: src/Template.php:261
 #, php-format
 msgid "For the month of %s"
 msgstr ""
 
-#: src/Template.php:281
+#: src/Template.php:263
 #, php-format
 msgid "For the year of %s"
 msgstr ""
 
-#: src/Template.php:288
+#: src/Template.php:270
 #, php-format
 msgid "For the period between %s and %s"
 msgstr ""
 
-#: src/Template.php:290
+#: src/Template.php:272
 #, php-format
 msgid "For the period through %s and %s"
 msgstr ""
 
-#: src/ManageEvents.php:54 src/RestMethods.php:35
-msgid "No such post ID"
+#: src/ManageEvents.php:152
+msgid "Settings"
 msgstr ""
 
-#: src/ManageEvents.php:119
-#, php-format
-msgid "Attach events to \"%s\" post."
-msgstr ""
-
-#: src/ManageEvents.php:126
-msgid "Attach selected events"
-msgstr ""
-
-#: src/ManageEvents.php:130
-msgid "Selected events action:"
-msgstr ""
-
-#: src/ManageEvents.php:132
-msgid "ok"
-msgstr ""
-
-#: src/Frontend.php:41 src/Listing/ListingEvents.php:114
+#: src/Frontend.php:41 src/Listing/ListingEventsMini.php:82
+#: src/Listing/ListingEvents.php:109
 msgid "scheduled"
 msgstr ""
 
@@ -1024,79 +962,109 @@ msgstr ""
 msgid "finished"
 msgstr ""
 
-#: src/EventHandler.php:258
+#: src/EventHandler.php:243
 msgid "You are not allowed to create an event"
 msgstr ""
 
-#: src/EventHandler.php:287
+#: src/EventHandler.php:272
 msgid "You are not allowed to update events"
 msgstr ""
 
-#: src/EventHandler.php:293 src/EventHandler.php:328 src/RestMethods.php:38
+#: src/EventHandler.php:278 src/EventHandler.php:313 src/RestMethods.php:40
 msgid "No such event ID"
 msgstr ""
 
-#: src/EventHandler.php:322
+#: src/EventHandler.php:307
 msgid "You are not allowed to delete events"
 msgstr ""
 
-#: src/EventHandler.php:347
+#: src/EventHandler.php:332
 msgid "No event start date"
 msgstr ""
 
-#: src/EventHandler.php:351
+#: src/EventHandler.php:336
 msgid "No event end date"
 msgstr ""
 
-#: src/EventHandler.php:355
+#: src/EventHandler.php:340
 msgid "Start date greater than end date"
 msgstr ""
 
-#: src/EventHandler.php:360
+#: src/EventHandler.php:345
 msgid "Not full coordinate"
 msgstr ""
 
-#: src/EventHandler.php:365 src/EventHandler.php:371
+#: src/EventHandler.php:350 src/EventHandler.php:356
 msgid "Wrong format of coordinate"
 msgstr ""
 
-#: src/EventHandler.php:414
+#: src/EventHandler.php:399
 #, php-format
 msgid "%s days"
 msgstr ""
 
-#: src/EventHandler.php:417
+#: src/EventHandler.php:402
 msgid "one day"
 msgstr ""
 
-#: src/EventHandler.php:420
+#: src/EventHandler.php:405
 #, php-format
 msgid "%s hours"
 msgstr ""
 
-#: src/EventHandler.php:423
+#: src/EventHandler.php:408
 msgid "one hour"
 msgstr ""
 
-#: src/EventHandler.php:426
+#: src/EventHandler.php:411
 #, php-format
 msgid "%s minutes"
 msgstr ""
 
-#: src/EventHandler.php:429
+#: src/EventHandler.php:414
 msgid "one minute"
 msgstr ""
 
-#: src/EventHandler.php:432
+#: src/EventHandler.php:417
 msgid "instantaneous"
 msgstr ""
 
-#: src/EventHandler.php:455
+#: src/EventHandler.php:440
 msgid "Please wait, try to create map..."
 msgstr ""
 
-#: src/Listing/ListingEvents.php:36
+#: src/Listing/ListingEventsMini.php:36 src/Listing/ListingEvents.php:36
 msgid "No event"
+msgstr ""
+
+#: src/Listing/ListingEventsMini.php:44
+msgid "Period"
+msgstr ""
+
+#: src/Listing/ListingEventsMini.php:60 src/Listing/ListingEventsMini.php:72
+msgid "Page(s)"
+msgstr ""
+
+#: src/Listing/ListingEventsMini.php:80 src/Listing/ListingEvents.php:107
+msgid "published"
+msgstr ""
+
+#: src/Listing/ListingEventsMini.php:81 src/Listing/ListingEvents.php:108
+msgid "unpublished"
+msgstr ""
+
+#: src/Listing/ListingEventsMini.php:83 src/Listing/ListingEvents.php:110
+msgid "pending"
+msgstr ""
+
+#: src/Listing/ListingEventsMini.php:89 src/Listing/ListingEvents.php:116
+msgid "protected"
+msgstr ""
+
+#: src/Listing/ListingEventsMini.php:105 src/Listing/ListingEventsMini.php:106
+#: src/Listing/ListingEvents.php:146 src/Listing/ListingEvents.php:147
+#: src/Listing/ListingEvents.php:149
+msgid "%Y-%m-%d %H:%M"
 msgstr ""
 
 #: src/Listing/ListingEvents.php:77
@@ -1123,49 +1091,158 @@ msgstr ""
 msgid "Attachments"
 msgstr ""
 
-#: src/Listing/ListingEvents.php:108
-msgid "published"
-msgstr ""
-
-#: src/Listing/ListingEvents.php:111
-msgid "unpublished"
-msgstr ""
-
-#: src/Listing/ListingEvents.php:117
-msgid "pending"
-msgstr ""
-
-#: src/Listing/ListingEvents.php:125
-msgid "protected"
-msgstr ""
-
-#: src/Listing/ListingEvents.php:155 src/Listing/ListingEvents.php:156
-#: src/Listing/ListingEvents.php:158
-msgid "%Y-%m-%d %H:%M"
-msgstr ""
-
 #: src/PublicBehaviors.php:57
 msgid "Please wait..."
 msgstr ""
 
-#: src/RestMethods.php:44
+#: src/RestMethods.php:46
 msgid "An error occured when trying de unbind event"
 msgstr ""
 
-#: src/RestMethods.php:47
+#: src/RestMethods.php:49
 msgid "Event removed from post"
 msgstr ""
 
-#: src/WidgetsTemplate.php:102 src/WidgetsTemplate.php:213
+#: src/Config.php:64
+msgid "hide"
+msgstr ""
+
+#: src/Config.php:65
+msgid "before content"
+msgstr ""
+
+#: src/Config.php:66
+msgid "after content"
+msgstr ""
+
+#: src/Config.php:71
+msgid "Post title"
+msgstr ""
+
+#: src/Config.php:72
+msgid "Post selected"
+msgstr ""
+
+#: src/Config.php:73
+msgid "Post author"
+msgstr ""
+
+#: src/Config.php:74
+msgid "Post date"
+msgstr ""
+
+#: src/Config.php:75
+msgid "Post id"
+msgstr ""
+
+#: src/Config.php:76
+msgid "Event start date"
+msgstr ""
+
+#: src/Config.php:77
+msgid "Event end date"
+msgstr ""
+
+#: src/Config.php:191
+msgid "Configuration has been updated."
+msgstr ""
+
+#: src/Config.php:208 src/Config.php:211
+msgid "Activation"
+msgstr ""
+
+#: src/Config.php:214
+msgid "Enable plugin"
+msgstr ""
+
+#: src/Config.php:222
+msgid "Configuration"
+msgstr ""
+
+#: src/Config.php:224
+msgid "Additionnal style sheet:"
+msgstr ""
+
+#: src/Config.php:235
+msgid "Show related entries on event:"
+msgstr ""
+
+#: src/Config.php:241
+msgid "Show related events on entry:"
+msgstr ""
+
+#: src/Config.php:245
+msgid "Events list ordering"
+msgstr ""
+
+#: src/Config.php:249
+msgid "Default field"
+msgstr ""
+
+#: src/Config.php:255
+msgid "Default order"
+msgstr ""
+
+#: src/Config.php:273
+msgid "Map provider:"
+msgstr ""
+
+#: src/Config.php:277
+msgid "API Key:"
+msgstr ""
+
+#: src/Config.php:281
+msgid "URL to create API Key:"
+msgstr ""
+
+#: src/Config.php:284
+msgid "Map tile layer:"
+msgstr ""
+
+#: src/Config.php:288
+msgid "Default map tile layer for OpenStreetMap."
+msgstr ""
+
+#: src/Config.php:293 src/Config.php:295
+msgid "Categories"
+msgstr ""
+
+#: src/Config.php:296
+msgid ""
+"When an event has an hidden category, it will only display on its category "
+"page."
+msgstr ""
+
+#: src/Config.php:299
+msgid "Hide"
+msgstr ""
+
+#: src/Config.php:301
+msgid "Level"
+msgstr ""
+
+#: src/Config.php:310
+msgid "List of events related to this category"
+msgstr ""
+
+#: src/Config.php:314
+msgid "List of entries related to this category"
+msgstr ""
+
+#: src/Config.php:319
+msgid "Edit this category"
+msgstr ""
+
+#: src/WidgetsTemplate.php:98 src/WidgetsTemplate.php:210
 #, php-format
 msgid "On %sd from %st to %et"
 msgstr ""
 
-#: src/WidgetsTemplate.php:104 src/WidgetsTemplate.php:215
+#: src/WidgetsTemplate.php:100 src/WidgetsTemplate.php:212
 #, php-format
 msgid "From %sd, %st to %ed, %et"
 msgstr ""
 
-#: src/WidgetsTemplate.php:125
+#: src/WidgetsTemplate.php:121
 msgid "go to this category"
 msgstr ""

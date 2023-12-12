@@ -26,8 +26,10 @@ use Dotclear\Core\Process;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\L10n;
 use Dotclear\Helper\Network\Http;
-use dcBlog;
-use dcCore;
+use Dotclear\App;
+use Dotclear\Core\Auth;
+use Dotclear\Core\Blog;
+use Exception;
 use formSelectOption;
 
 class ManageEvent extends Process
@@ -62,18 +64,18 @@ class ManageEvent extends Process
         $post_id = '';
         $cat_id = '';
         $post_dt = '';
-        $post_format = dcCore::app()->auth->getOption('post_format');
-        $post_editor = dcCore::app()->auth->getOption('editor');
+        $post_format = App::auth()->getOption('post_format');
+        $post_editor = App::auth()->getOption('editor');
         $post_password = '';
         $post_url = '';
-        $post_lang = dcCore::app()->auth->getInfo('user_lang');
+        $post_lang = App::auth()->getInfo('user_lang');
         $post_title = '';
         $post_excerpt = '';
         $post_excerpt_xhtml = '';
         $post_content = '';
         $post_content_xhtml = '';
         $post_notes = '';
-        $post_status = dcCore::app()->auth->getInfo('user_post_status');
+        $post_status = App::auth()->getInfo('user_post_status');
         $post_selected = false;
 
         // This 3 options are disabled
@@ -91,47 +93,46 @@ class ManageEvent extends Process
 
         $page_title = __('New event');
 
-        $can_view_page = true;
-        $can_edit_post = dcCore::app()->auth->check('usage,contentadmin', dcCore::app()->blog->id);
-        $can_publish = dcCore::app()->auth->check('publish,contentadmin', dcCore::app()->blog->id);
+        $can_edit_post = App::auth()->check(App::auth()->makePermissions([Auth::PERMISSION_CONTENT_ADMIN, Auth::PERMISSION_USAGE]), App::blog()->id());
+        $can_publish = App::auth()->check(App::auth()->makePermissions([Auth::PERMISSION_CONTENT_ADMIN, Auth::PERMISSION_PUBLISH]), App::blog()->id());
         $can_delete = false;
 
-        $post_headlink = '<link rel="%s" title="%s" href="' . dcCore::app()->admin->getPageURL() . '&part=event&amp;id=%s" />';
-        $post_link = '<a href="' . dcCore::app()->admin->getPageURL() . '&part=event&amp;id=%s" title="%s">%s</a>';
+        $post_headlink = '<link rel="%s" title="%s" href="' . App::backend()->getPageURL() . '&part=event&amp;id=%s" />';
+        $post_link = '<a href="' . App::backend()->getPageURL() . '&part=event&amp;id=%s" title="%s">%s</a>';
         $next_link = $prev_link = $next_headlink = $prev_headlink = null;
 
         // settings
         $events_default_zoom = My::settings()->public_map_zoom;
-        $map_provider = My::settings()->map_provider ? My::settings()->map_provider : 'googlemaps';
+        $map_provider = My::settings()->map_provider ?: 'googlemaps';
         $map_api_key = My::settings()->map_api_key;
 
         $preview_url = '';
 
         // If user can't publish
         if (!$can_publish) {
-            $post_status = dcBlog::POST_PENDING;
+            $post_status = Blog::POST_PENDING;
         }
 
         // Getting categories
         $categories_combo = ['&nbsp;' => ''];
         try {
-            $categories = dcCore::app()->blog->getCategories(['post_type' => 'post']);
+            $categories = App::blog()->getCategories(['post_type' => 'post']);
             while ($categories->fetch()) {
                 $categories_combo[] = new formSelectOption(
                     str_repeat('&nbsp;&nbsp;', $categories->level - 1) . '&bull; ' . Html::escapeHTML($categories->cat_title),
                     $categories->cat_id
                 );
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
 
         // Status combo
-        foreach (dcCore::app()->blog->getAllPostStatus() as $k => $v) {
+        foreach (App::blog()->getAllPostStatus() as $k => $v) {
             $status_combo[$v] = (string) $k;
         }
 
         // Formaters combo
-        $core_formaters = dcCore::app()->getFormaters();
+        $core_formaters = App::formater()->getFormaters();
         $available_formats = ['' => ''];
         foreach ($core_formaters as $editor => $formats) {
             foreach ($formats as $format) {
@@ -140,7 +141,7 @@ class ManageEvent extends Process
         }
 
         // Languages combo
-        $rs = dcCore::app()->blog->getLangs(['order' => 'asc']);
+        $rs = App::blog()->getLangs(['order' => 'asc']);
         $all_langs = L10n::getISOcodes(false, true);
         $lang_combo = ['' => '', __('Most used') => [], __('Available') => L10n::getISOcodes(true, true)];
         while ($rs->fetch()) {
@@ -156,12 +157,11 @@ class ManageEvent extends Process
         // Change a post to an event
         $change = false;
         if (!empty($_REQUEST['from_id'])) {
-            $post = dcCore::app()->blog->getPosts(['post_id' => (int) $_REQUEST['from_id'], 'post_type' => '']);
+            $post = App::blog()->getPosts(['post_id' => (int) $_REQUEST['from_id'], 'post_type' => '']);
 
             if ($post->isEmpty()) {
-                dcCore::app()->error->add(__('This entry does not exist.'));
+                App::error()->add(__('This entry does not exist.'));
                 unset($post);
-                $can_view_page = false;
             } else {
                 $change = true;
             }
@@ -172,16 +172,15 @@ class ManageEvent extends Process
             $post = $eventHandler->getEvents(['post_id' => (int) $_REQUEST['id']]);
 
             if ($post->isEmpty()) {
-                dcCore::app()->error->add(__('This event does not exist.'));
+                App::error()->add(__('This event does not exist.'));
                 unset($post);
-                $can_view_page = false;
             }
         }
 
         if (isset($post)) {
             $post_id = $post->post_id;
             $cat_id = $post->cat_id;
-            $post_dt = date('Y-m-d H:i', strtotime($post->post_dt));
+            $post_dt = date('Y-m-d H:i', strtotime((string) $post->post_dt));
             $post_format = $post->post_format;
             $post_password = $post->post_password;
             $post_url = $post->post_url;
@@ -201,8 +200,8 @@ class ManageEvent extends Process
                 $post_type = 'eventhandler';
                 $page_title = __('Change entry into event');
             } else {
-                $event_startdt = date('Y-m-d\TH:i', strtotime($post->event_startdt));
-                $event_enddt = date('Y-m-d\TH:i', strtotime($post->event_enddt));
+                $event_startdt = date('Y-m-d\TH:i', strtotime((string) $post->event_startdt));
+                $event_enddt = date('Y-m-d\TH:i', strtotime((string) $post->event_enddt));
                 $event_address = $post->event_address;
                 $event_latitude = $post->event_latitude;
                 $event_longitude = $post->event_longitude;
@@ -210,8 +209,8 @@ class ManageEvent extends Process
 
                 $page_title = __('Edit event');
 
-                $next_rs = dcCore::app()->blog->getNextPost($post, 1);
-                $prev_rs = dcCore::app()->blog->getNextPost($post, -1);
+                $next_rs = App::blog()->getNextPost($post, 1);
+                $prev_rs = App::blog()->getNextPost($post, -1);
 
                 if ($next_rs !== null) {
                     $next_link = sprintf(
@@ -267,7 +266,7 @@ class ManageEvent extends Process
             if (empty($_POST['post_dt'])) {
                 $post_dt = '';
             } else {
-                $post_dt = strtotime($_POST['post_dt']);
+                $post_dt = strtotime((string) $_POST['post_dt']);
                 $post_dt = date('Y-m-d\TH:i', $post_dt);
             }
 
@@ -283,7 +282,7 @@ class ManageEvent extends Process
                 $post_url = $_POST['post_url'];
             }
 
-            dcCore::app()->blog->setPostContent(
+            App::blog()->setPostContent(
                 $post_id,
                 $post_format,
                 $post_lang,
@@ -296,14 +295,14 @@ class ManageEvent extends Process
             if (empty($_POST['event_startdt'])) {
                 $event_startdt = '';
             } else {
-                $event_startdt = strtotime($_POST['event_startdt']);
+                $event_startdt = strtotime((string) $_POST['event_startdt']);
                 $event_startdt = date('Y-m-d H:i', $event_startdt);
             }
 
             if (empty($_POST['event_enddt'])) {
                 $event_enddt = '';
             } else {
-                $event_enddt = strtotime($_POST['event_enddt']);
+                $event_enddt = strtotime((string) $_POST['event_enddt']);
                 $event_enddt = date('Y-m-d H:i', $event_enddt);
             }
             $event_address = $_POST['event_address'];
@@ -314,9 +313,9 @@ class ManageEvent extends Process
 
         // Create or update post
         if (!empty($_POST) && !empty($_POST['save']) && $can_edit_post) {
-            $cur_post = dcCore::app()->con->openCursor(dcCore::app()->prefix . 'post');
+            $cur_post = App::con()->openCursor(App::con()->prefix() . 'post');
 
-            $cur_post->cat_id = ($cat_id ? $cat_id : null);
+            $cur_post->cat_id = ($cat_id ?: null);
             $cur_post->post_dt = $post_dt ? date('Y-m-d H:i:00', strtotime($post_dt)) : '';
             $cur_post->post_format = $post_format;
             $cur_post->post_password = $post_password;
@@ -336,7 +335,7 @@ class ManageEvent extends Process
                 $cur_post->post_url = $post_url;
             }
 
-            $cur_event = dcCore::app()->con->openCursor(dcCore::app()->prefix . 'eventhandler');
+            $cur_event = App::con()->openCursor(App::con()->prefix() . 'eventhandler');
 
             $cur_event->event_startdt = $event_startdt ? date('Y-m-d H:i:00', strtotime($event_startdt)) : '';
             $cur_event->event_enddt = $event_enddt ? date('Y-m-d H:i:00', strtotime($event_enddt)) : '';
@@ -349,44 +348,44 @@ class ManageEvent extends Process
             if ($post_id) {
                 try {
                     // --BEHAVIOR-- adminBeforeEventHandlerUpdate
-                    dcCore::app()->callBehavior('adminBeforeEventHandlerUpdate', $cur_post, $cur_event, $post_id);
+                    App::behavior()->callBehavior('adminBeforeEventHandlerUpdate', $cur_post, $cur_event, $post_id);
 
-                    $eventHandler->updEvent($post_id, $cur_post, $cur_event);
+                    $eventHandler->updEvent((int) $post_id, $cur_post, $cur_event);
 
                     // --BEHAVIOR-- adminAfterEventHandlerUpdate
-                    dcCore::app()->callBehavior('adminAfterEventHandlerUpdate', $cur_post, $cur_event, $post_id);
+                    App::behavior()->callBehavior('adminAfterEventHandlerUpdate', $cur_post, $cur_event, $post_id);
 
                     Notices::addSuccessNotice(__('Event has been updated.'));
-                    dcCore::app()->admin->url->redirect('admin.plugin.eventHandler', ['part' => 'event', 'id' => $post_id]);
-                } catch (\Exception $e) {
-                    dcCore::app()->error->add($e->getMessage());
+                    App::backend()->url()->redirect('admin.plugin.eventHandler', ['part' => 'event', 'id' => $post_id]);
+                } catch (Exception $e) {
+                    App::error()->add($e->getMessage());
                 }
             } else {
-                $cur_post->user_id = dcCore::app()->auth->userID();
+                $cur_post->user_id = App::auth()->userID();
 
                 try {
                     // --BEHAVIOR-- adminBeforeEventHandlerCreate
-                    dcCore::app()->callBehavior('adminBeforeEventHandlerCreate', $cur_post, $cur_event);
+                    App::behavior()->callBehavior('adminBeforeEventHandlerCreate', $cur_post, $cur_event);
 
                     $return_id = $eventHandler->addEvent($cur_post, $cur_event);
 
                     // --BEHAVIOR-- adminAfterEventHandlerCreate
-                    dcCore::app()->callBehavior('adminAfterEventHandlerCreate', $cur_post, $cur_event, $return_id);
+                    App::behavior()->callBehavior('adminAfterEventHandlerCreate', $cur_post, $cur_event, $return_id);
 
                     Notices::addSuccessNotice(__('Event has been created.'));
-                    dcCore::app()->admin->url->redirect('admin.plugin.eventHandler', ['part' => 'event', 'id' => $return_id]);
-                } catch (\Exception $e) {
-                    dcCore::app()->error->add($e->getMessage());
+                    App::backend()->url()->redirect('admin.plugin.eventHandler', ['part' => 'event', 'id' => $return_id]);
+                } catch (Exception $e) {
+                    App::error()->add($e->getMessage());
                 }
             }
         }
 
         if ($post_id && isset($post)) {
-            $preview_url = dcCore::app()->blog->url .
-                dcCore::app()->url->getURLFor(
+            $preview_url = App::blog()->url() .
+                App::url()->getURLFor(
                     'eventhandler_preview',
-                    dcCore::app()->auth->userID() . '/' .
-                    Http::browserUID(DC_MASTER_KEY . dcCore::app()->auth->userID() . dcCore::app()->auth->getInfo('user_pwd')) .
+                    App::auth()->userID() . '/' .
+                    Http::browserUID(DC_MASTER_KEY . App::auth()->userID() . App::auth()->getInfo('user_pwd')) .
                     '/' . $post->post_url
                 );
         }
@@ -394,12 +393,12 @@ class ManageEvent extends Process
         if (!empty($_POST['delete']) && $can_delete) {
             try {
                 // --BEHAVIOR-- adminBeforeEventHandlerDelete
-                dcCore::app()->callBehavior('adminBeforeEventHandlerDelete', $post_id);
+                App::behavior()->callBehavior('adminBeforeEventHandlerDelete', $post_id);
 
                 $eventHandler->delEvent($post_id);
-                dcCore::app()->admin->url->redirect('admin.plugin.eventHandler', ['part' => 'events']);
-            } catch (\Exception $e) {
-                dcCore::app()->error->add($e->getMessage());
+                App::backend()->url()->redirect('admin.plugin.eventHandler', ['part' => 'events']);
+            } catch (Exception $e) {
+                App::error()->add($e->getMessage());
             }
         }
 
@@ -421,8 +420,8 @@ class ManageEvent extends Process
                 $posts = $eventHandler->getPostsByEvent($params);
                 $counter = $eventHandler->getPostsByEvent($params, true);
                 $posts_list = new ListingPosts($posts, $counter->f(0));
-            } catch (\Exception $e) {
-                dcCore::app()->error->add($e->getMessage());
+            } catch (Exception $e) {
+                App::error()->add($e->getMessage());
             }
         }
 
@@ -439,7 +438,7 @@ class ManageEvent extends Process
 
         $admin_post_behavior = '';
         if ($post_editor && !empty($post_editor[$post_format])) {
-            $admin_post_behavior = dcCore::app()->callBehavior(
+            $admin_post_behavior = App::behavior()->callBehavior(
                 'adminPostEditor',
                 $post_editor[$post_format],
                 'event',
@@ -457,7 +456,7 @@ class ManageEvent extends Process
         }
 
         // --BEHAVIOR-- adminEventHandlerBeforeEventTpl - to use a custom tpl e.g.
-        dcCore::app()->callBehavior('adminEventHandlerCustomEventTpl');
+        App::behavior()->callBehavior('adminEventHandlerCustomEventTpl');
 
         include(__DIR__ . '/../tpl/edit_event.tpl');
     }

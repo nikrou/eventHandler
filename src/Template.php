@@ -22,32 +22,36 @@ namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Date;
-use dcCore;
+use ArrayObject;
+use Dotclear\App;
 
 class Template
 {
-    public static function BlogTimezone($a)
+    public static function BlogTimezone(mixed $a): string
     {
         return self::tplValue($a, 'dcCore::app()->blog->settings->system->blog_timezone');
     }
 
-    public static function EventsURL($a)
+    public static function EventsURL(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_list")');
+        return self::tplValue($a, 'App::blog()->url().App::url()->getBase("eventhandler_list")');
     }
 
-    public static function EventsFeedURL($a)
+    public static function EventsFeedURL(mixed $a): string
     {
         $type = !empty($a['type']) ? $a['type'] : 'atom';
 
-        if (!preg_match('#^(rss2|atom)$#', $type)) {
+        if (!preg_match('#^(rss2|atom)$#', (string) $type)) {
             $type = 'atom';
         }
 
-        return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_feed").(dcCore::app()->ctx->exists("categories") ? "/category/".dcCore::app()->ctx->categories->cat_url : "")."/' . $type . '"');
+        return self::tplValue($a, 'App::blog()->url().App::url()->getBase("eventhandler_feed").(App::frontend()->context()->exists("categories") ? "/category/".App::frontend()->context()->categories->cat_url : "")."/' . $type . '"');
     }
 
-    public static function EventsMenuPeriod($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsMenuPeriod(ArrayObject $attr, string $content): string
     {
         $menus = !empty($attr['menus']) ? $attr['menus'] : '';
         $separator = !empty($attr['separator']) ? $attr['separator'] : '';
@@ -55,10 +59,10 @@ class Template
         $item = !empty($attr['item']) ? $attr['item'] : '';
         $active_item = !empty($attr['active_item']) ? $attr['active_item'] : '';
 
-        return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsMenuPeriodHelper('" . addslashes($menus) . "','" . addslashes($separator) . "','" . addslashes($list) . "','" . addslashes($item) . "','" . addslashes($active_item) . "'); ?>";
+        return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsMenuPeriodHelper('" . addslashes((string) $menus) . "','" . addslashes((string) $separator) . "','" . addslashes((string) $list) . "','" . addslashes((string) $item) . "','" . addslashes((string) $active_item) . "'); ?>";
     }
 
-    public static function EventsMenuPeriodHelper($menus, $separator, $list, $item, $active_item)
+    public static function EventsMenuPeriodHelper(string $menus, string $separator, string $list, string $item, string $active_item): string
     {
         $default_menu = [
             'all' => __('All'),
@@ -88,9 +92,9 @@ class Template
         $list = $list ? Html::decodeEntities($list) : '<ul>%s</ul>';
         $item = $item ? Html::decodeEntities($item) : '<li><a href="%s">%s</a>%s</li>';
         $active_item = $active_item ? Html::decodeEntities($active_item) : '<li class="nav-active"><a href="%s">%s</a>%s</li>';
-        $url = dcCore::app()->blog->url . dcCore::app()->url->getBase("eventhandler_list") . '/';
-        if (dcCore::app()->ctx->exists('categories')) {
-            $url .= 'category/' . dcCore::app()->ctx->categories->cat_url . '/';
+        $url = App::blog()->url() . App::url()->getBase("eventhandler_list") . '/';
+        if (App::frontend()->context()->exists('categories')) {
+            $url .= 'category/' . App::frontend()->context()->categories->cat_url . '/';
         }
 
         $i = 1;
@@ -99,7 +103,7 @@ class Template
             $i++;
             $sep = $separator && $i < count($menu) + 1 ? $separator : '';
 
-            if (isset(dcCore::app()->ctx->event_params['event_period']) && dcCore::app()->ctx->event_params['event_period'] == $id) {
+            if (isset(App::frontend()->context()->event_params['event_period']) && App::frontend()->context()->event_params['event_period'] == $id) {
                 $res .= sprintf($active_item, $url . $id, $name, $sep);
             } else {
                 $res .= sprintf($item, $url . $id, $name, $sep);
@@ -109,7 +113,10 @@ class Template
         return '<div id="eventhandler-menu-period">' . sprintf($list, $res) . '</div>';
     }
 
-    public static function EventsMenuSortOrder($attr)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsMenuSortOrder(ArrayObject $attr): string
     {
         $menus = !empty($attr['menus']) ? $attr['menus'] : '';
         $separator = !empty($attr['separator']) ? $attr['separator'] : '';
@@ -117,10 +124,10 @@ class Template
         $item = !empty($attr['item']) ? $attr['item'] : '';
         $active_item = !empty($attr['active_item']) ? $attr['active_item'] : '';
 
-        return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsMenuSortOrdertHelper('" . addslashes($menus) . "','" . addslashes($separator) . "','" . addslashes($list) . "','" . addslashes($item) . "','" . addslashes($active_item) . "'); ?>";
+        return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsMenuSortOrdertHelper('" . addslashes((string) $menus) . "','" . addslashes((string) $separator) . "','" . addslashes((string) $list) . "','" . addslashes((string) $item) . "','" . addslashes((string) $active_item) . "'); ?>";
     }
 
-    public static function EventsMenuSortOrdertHelper($menus, $separator, $list, $item, $active_item)
+    public static function EventsMenuSortOrdertHelper(string $menus, string $separator, string $list, string $item, string $active_item): string
     {
         $default_sort_id = [
             'title' => 'LOWER(post_title)',
@@ -157,10 +164,10 @@ class Template
         $list = $list ? Html::decodeEntities($list) : '<ul>%s</ul>';
         $item = $item ? Html::decodeEntities($item) : '<li><a href="%s">%s</a>%s</li>';
         $active_item = $active_item ? Html::decodeEntities($active_item) : '<li class="nav-active"><a href="%s">%s</a>%s</li>';
-        $period = !empty(dcCore::app()->ctx->event_params['event_period']) ? dcCore::app()->ctx->event_params['event_period'] : 'all';
-        $url = dcCore::app()->blog->url . dcCore::app()->url->getBase("eventhandler_list") . '/';
-        if (dcCore::app()->ctx->exists('categories')) {
-            $url .= 'category/' . dcCore::app()->ctx->categories->cat_url . '/';
+        $period = !empty(App::frontend()->context()->event_params['event_period']) ? App::frontend()->context()->event_params['event_period'] : 'all';
+        $url = App::blog()->url() . App::url()->getBase("eventhandler_list") . '/';
+        if (App::frontend()->context()->exists('categories')) {
+            $url .= 'category/' . App::frontend()->context()->categories->cat_url . '/';
         }
         $url .= $period;
 
@@ -170,8 +177,8 @@ class Template
             $quoted_default_sort_id[$k] = preg_quote($v);
         }
 
-        if (isset(dcCore::app()->ctx->event_params['order'])
-            && preg_match('/(' . implode('|', $quoted_default_sort_id) . ')\s(ASC|DESC)/i', dcCore::app()->ctx->event_params['order'], $sortstr)) {
+        if (isset(App::frontend()->context()->event_params['order'])
+            && preg_match('/(' . implode('|', $quoted_default_sort_id) . ')\s(ASC|DESC)/i', (string) App::frontend()->context()->event_params['order'], $sortstr)) {
             $sortby = in_array($sortstr[1], $default_sort_id) ? $sortstr[1] : '';
             $sortorder = preg_match('#ASC#i', $sortstr[2]) ? 'asc' : 'desc';
         }
@@ -194,7 +201,10 @@ class Template
         return '<div id="eventhandler-menu-sortorder">' . sprintf($list, $res) . '</div>';
     }
 
-    public static function EventsPeriod($attr)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsPeriod(ArrayObject $attr): string
     {
         if (!isset($attr['fulltext'])) {
             $fulltext = 0;
@@ -207,9 +217,9 @@ class Template
         return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsPeriodHelper('" . $fulltext . "'); ?>";
     }
 
-    public static function EventsPeriodHelper($fulltext)
+    public static function EventsPeriodHelper(int $fulltext): string
     {
-        if ($fulltext == 2) {
+        if ($fulltext === 2) {
             $text = [
                 'all' => __('All events'),
                 'ongoing' => __('Current events'),
@@ -219,7 +229,7 @@ class Template
                 'notfinished' => __('Unfinished events'),
                 'finished' => __('Completed events'),
             ];
-        } elseif ($fulltext == 1) {
+        } elseif ($fulltext === 1) {
             $text = [
                 'all' => __('All'),
                 'ongoing' => __('Ongoing'),
@@ -240,33 +250,39 @@ class Template
                 'finished' => 'finished',
             ];
         }
-        return isset(dcCore::app()->ctx->event_params['event_period']) && isset($text[dcCore::app()->ctx->event_params['event_period']]) ? $text[dcCore::app()->ctx->event_params['event_period']] : $text['all'];
+        return isset(App::frontend()->context()->event_params['event_period']) && isset($text[App::frontend()->context()->event_params['event_period']])
+        ? $text[App::frontend()->context()->event_params['event_period']] : $text['all'];
     }
 
-    public static function EventsInterval($attr)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsInterval(ArrayObject $attr): string
     {
-        $format = !empty($attr['format']) ? addslashes($attr['format']) : __('%m %d %Y');
+        $format = !empty($attr['format']) ? addslashes((string) $attr['format']) : __('%m %d %Y');
 
         return "<?php echo Dotclear\\Plugin\\eventHandler\\Template::EventsIntervalHelper('" . $format . "'); ?>";
     }
 
-    public static function EventsIntervalHelper($format)
+    public static function EventsIntervalHelper(string $format): string
     {
-        if (!empty(dcCore::app()->ctx->event_params['event_start_year'])) {
-            if (!empty(dcCore::app()->ctx->event_params['event_start_day'])) {
-                $dt = Date::str($format, mktime(0, 0, 0, dcCore::app()->ctx->event_params['event_start_month'], dcCore::app()->ctx->event_params['event_start_day'], dcCore::app()->ctx->event_params['event_start_year']));
+        if (!empty(App::frontend()->context()->event_params['event_start_year'])) {
+            if (!empty(App::frontend()->context()->event_params['event_start_day'])) {
+                $dt = Date::str($format, mktime(0, 0, 0, App::frontend()->context()->event_params['event_start_month'], App::frontend()->context()->event_params['event_start_day'], App::frontend()->context()->event_params['event_start_year']));
                 return sprintf(__('For the day of %s'), $dt);
-            } elseif (!empty(dcCore::app()->ctx->event_params['event_start_month'])) {
-                $dt = Date::str(__('%m %Y'), mktime(0, 0, 0, dcCore::app()->ctx->event_params['event_start_month'], 1, dcCore::app()->ctx->event_params['event_start_year']));
+            } elseif (!empty(App::frontend()->context()->event_params['event_start_month'])) {
+                $dt = Date::str(__('%m %Y'), mktime(0, 0, 0, App::frontend()->context()->event_params['event_start_month'], 1, App::frontend()->context()->event_params['event_start_year']));
                 return sprintf(__('For the month of %s'), $dt);
-            } elseif (!empty(dcCore::app()->ctx->event_params['event_start_year'])) {
-                return sprintf(__('For the year of %s'), dcCore::app()->ctx->event_params['event_start_year']);
+            } elseif (!empty(App::frontend()->context()->event_params['event_start_year'])) {
+                return sprintf(__('For the year of %s'), App::frontend()->context()->event_params['event_start_year']);
+            } else {
+                return '';
             }
         } else {
-            $start = Date::dt2str($format, dcCore::app()->ctx->event_params['event_startdt']);
-            $end = Date::dt2str($format, dcCore::app()->ctx->event_params['event_enddt']);
+            $start = Date::dt2str($format, App::frontend()->context()->event_params['event_startdt']);
+            $end = Date::dt2str($format, App::frontend()->context()->event_params['event_enddt']);
 
-            if (strtotime(dcCore::app()->ctx->event_params['event_startdt']) < strtotime(dcCore::app()->ctx->event_params['event_enddt'])) {
+            if (strtotime((string) App::frontend()->context()->event_params['event_startdt']) < strtotime((string) App::frontend()->context()->event_params['event_enddt'])) {
                 return sprintf(__('For the period between %s and %s'), $start, $end);
             } else {
                 return sprintf(__('For the period through %s and %s'), $end, $start);
@@ -274,34 +290,37 @@ class Template
         }
     }
 
-    public static function EventsIf($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsIf(ArrayObject $attr, string $content): string
     {
         $if = [];
 
-        $operator = isset($attr['operator']) ? dcCore::app()->tpl->getOperator($attr['operator']) : '&&';
+        $operator = isset($attr['operator']) ? App::frontend()->template()->getOperator($attr['operator']) : '&&';
 
         if (isset($attr['has_interval'])) {
             $sign = (bool) $attr['has_interval'] ? '!' : '';
-            $if[] = $sign . 'empty(dcCore::app()->ctx->event_params["event_interval"])';
+            $if[] = $sign . 'empty(App::frontend()->context()->event_params["event_interval"])';
         }
 
         if (isset($attr['has_category'])) {
             $sign = (bool) $attr['has_category'] ? '' : '!';
-            $if[] = $sign . 'dcCore::app()->ctx->exists("categories")';
+            $if[] = $sign . 'App::frontend()->context()->exists("categories")';
         }
 
         if (isset($attr['has_period'])) {
             if ($attr['has_period']) {
-                $if[] = '!empty(dcCore::app()->ctx->event_params["event_period"]) && dcCore::app()->ctx->event_params["event_period"] != "all"';
+                $if[] = '!empty(App::frontend()->context()->event_params["event_period"]) && App::frontend()->context()->event_params["event_period"] != "all"';
             } else {
-                $if[] = 'empty(dcCore::app()->ctx->event_params["event_period"]) || !empty(dcCore::app()->ctx->event_params["event_period"]) && dcCore::app()->ctx->event_params["event_period"] == "all"';
+                $if[] = 'empty(App::frontend()->context()->event_params["event_period"]) || !empty(App::frontend()->context()->event_params["event_period"]) && App::frontend()->context()->event_params["event_period"] == "all"';
             }
         }
 
         if (isset($attr['period'])) {
             $if[] =
-                '(!empty(dcCore::app()->ctx->event_params["event_period"]) && dcCore::app()->ctx->event_params["event_period"] == "' . addslashes($attr['period']) . '" ' .
-                '|| empty(dcCore::app()->ctx->event_params["event_period"]) && ("" == "' . addslashes($attr['period']) . '" || "all" == "' . addslashes($attr['period']) . '")))';
+                '(!empty(App::frontend()->context()->event_params["event_period"]) && App::frontend()->context()->event_params["event_period"] == "' . addslashes((string) $attr['period']) . '" ' .
+                '|| empty(App::frontend()->context()->event_params["event_period"]) && ("" == "' . addslashes((string) $attr['period']) . '" || "all" == "' . addslashes((string) $attr['period']) . '")))';
         }
 
         if (!empty($if)) {
@@ -311,13 +330,16 @@ class Template
         }
     }
 
-    public static function EventsCount($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsCount(ArrayObject $attr, string $content): string
     {
         $if = '';
 
         if (isset($attr['value'])) {
             $sign = (bool) $attr['value'] ? '>' : '==';
-            $if = 'dcCore::app()->ctx->nb_posts ' . $sign . ' 0';
+            $if = 'App::frontend()->context()->nb_posts ' . $sign . ' 0';
         }
 
         if ($if) {
@@ -327,7 +349,10 @@ class Template
         }
     }
 
-    public static function EventsEntries($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsEntries(ArrayObject $attr, string $content): string
     {
         $lastn = -1;
         if (isset($attr['lastn'])) {
@@ -340,7 +365,7 @@ class Template
             if ($lastn > 0) {
                 $p .= "\$params['limit'] = " . $lastn . ";\n";
             } else {
-                $p .= "\$params['limit'] = dcCore::app()->ctx->nb_entry_per_page;\n";
+                $p .= "\$params['limit'] = App::frontend()->context()->nb_entry_per_page;\n";
             }
 
             if (!isset($attr['ignore_pagination']) || $attr['ignore_pagination'] == "0") {
@@ -351,11 +376,11 @@ class Template
         }
 
         if (isset($attr['author'])) {
-            $p .= "\$params['user_id'] = '" . addslashes($attr['author']) . "';\n";
+            $p .= "\$params['user_id'] = '" . addslashes((string) $attr['author']) . "';\n";
         }
 
         if (isset($attr['category'])) {
-            $p .= "\$params['cat_url'] = '" . addslashes($attr['category']) . "';\n";
+            $p .= "\$params['cat_url'] = '" . addslashes((string) $attr['category']) . "';\n";
             $p .= "context::categoryPostParam(\$params);\n";
         }
 
@@ -365,32 +390,32 @@ class Template
         }
 
         if (!empty($attr['type'])) {
-            $p .= "\$params['post_type'] = preg_split('/\s*,\s*/','" . addslashes($attr['type']) . "',-1,PREG_SPLIT_NO_EMPTY);\n";
+            $p .= "\$params['post_type'] = preg_split('/\s*,\s*/','" . addslashes((string) $attr['type']) . "',-1,PREG_SPLIT_NO_EMPTY);\n";
         }
 
         if (!empty($attr['url'])) {
-            $p .= "\$params['post_url'] = '" . addslashes($attr['url']) . "';\n";
+            $p .= "\$params['post_url'] = '" . addslashes((string) $attr['url']) . "';\n";
         }
 
         if (isset($attr['period'])) {
-            $p .= "\$params['event_period'] = '" . addslashes($attr['period']) . "';\n";
+            $p .= "\$params['event_period'] = '" . addslashes((string) $attr['period']) . "';\n";
         }
 
         if (empty($attr['no_context'])) {
             $p .=
-                'if (dcCore::app()->ctx->exists("users")) { ' .
-                "\$params['user_id'] = dcCore::app()->ctx->users->user_id; " .
+                'if (App::frontend()->context()->exists("users")) { ' .
+                "\$params['user_id'] = App::frontend()->context()->users->user_id; " .
                 "}\n";
 
             $p .=
-                'if (dcCore::app()->ctx->exists("categories")) { ' .
-                "\$params['cat_id'] = dcCore::app()->ctx->categories->cat_id; " .
+                'if (App::frontend()->context()->exists("categories")) { ' .
+                "\$params['cat_id'] = App::frontend()->context()->categories->cat_id; " .
                 "}\n";
 
             $p .=
-                'if (dcCore::app()->ctx->exists("archives")) { ' .
-                "\$params['post_year'] = dcCore::app()->ctx->archives->year(); " .
-                "\$params['post_month'] = dcCore::app()->ctx->archives->month(); ";
+                'if (App::frontend()->context()->exists("archives")) { ' .
+                "\$params['post_year'] = App::frontend()->context()->archives->year(); " .
+                "\$params['post_month'] = App::frontend()->context()->archives->month(); ";
             if (!isset($attr['lastn'])) {
                 $p .= "unset(\$params['limit']); ";
             }
@@ -398,8 +423,8 @@ class Template
                 "}\n";
 
             $p .=
-                'if (dcCore::app()->ctx->exists("langs")) { ' .
-                "\$params['post_lang'] = dcCore::app()->ctx->langs->post_lang; " .
+                'if (App::frontend()->context()->exists("langs")) { ' .
+                "\$params['post_lang'] = App::frontend()->context()->langs->post_lang; " .
                 "}\n";
 
             $p .=
@@ -408,23 +433,23 @@ class Template
                 "}\n";
 
             $p .=
-                'if (dcCore::app()->ctx->exists("event_params")) { ' .
-                "\$params = array_merge(\$params,dcCore::app()->ctx->event_params); " .
+                'if (App::frontend()->context()->exists("event_params")) { ' .
+                "\$params = array_merge(\$params,App::frontend()->context()->event_params); " .
                 "}\n";
         }
 
         if (!empty($attr['order']) || !empty($attr['sortby'])) {
-            $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($attr, 'eventhandler') . "';\n";
+            $p .= "\$params['order'] = '" . App::frontend()->template()->getSortByStr($attr, 'eventhandler') . "';\n";
         } else {
             $order = $field = $table = '';
-            if (My::settings()->public_events_list_sortby && str_contains(My::settings()->public_events_list_sortby, ':')) {
-                [$table, $field] = explode(':', My::settings()->public_events_list_sortby);
+            if (My::settings()->public_events_list_sortby && str_contains((string) My::settings()->public_events_list_sortby, ':')) {
+                [$table, $field] = explode(':', (string) My::settings()->public_events_list_sortby);
             }
             if (My::settings()->public_events_list_order) {
                 $order = My::settings()->public_events_list_order;
             }
-            $special_attr = new \ArrayObject($special_attr = ['order' => $order, 'sortby' => $field]);
-            $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($special_attr, $table) . "';\n";
+            $special_attr = new ArrayObject($special_attr = ['order' => $order, 'sortby' => $field]);
+            $p .= "\$params['order'] = '" . App::frontend()->template()->getSortByStr($special_attr, $table) . "';\n";
         }
 
         if (isset($attr['no_content']) && $attr['no_content']) {
@@ -436,7 +461,7 @@ class Template
         }
 
         if (isset($attr['age'])) {
-            $age = dcCore::app()->tpl->getAge($attr);
+            $age = App::frontend()->template()->getAge($attr);
             $p .= !empty($age) ? "@\$params['sql'] .= ' AND P.post_dt > \'" . $age . "\'';\n" : '';
         }
 
@@ -445,21 +470,24 @@ class Template
             'if(!isset($eventHandler)) { $eventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); } ' . "\n" .
             '$params = array(); ' . "\n" .
             $p .
-            'dcCore::app()->ctx->post_params = $params; ' . "\n" .
-            'dcCore::app()->ctx->posts = $eventHandler->getEvents($params); unset($params); ' . "\n" .
-            'dcCore::app()->ctx->nb_posts = count(dcCore::app()->ctx->posts); ' . "\n" .
+            'App::frontend()->context()->post_params = $params; ' . "\n" .
+            'App::frontend()->context()->posts = $eventHandler->getEvents($params); unset($params); ' . "\n" .
+            'App::frontend()->context()->nb_posts = count(App::frontend()->context()->posts); ' . "\n" .
             "?>\n" .
-            '<?php while (dcCore::app()->ctx->posts->fetch()) : ?>' . $content . '<?php endwhile; ' .
-            'dcCore::app()->ctx->posts = null; dcCore::app()->ctx->post_params = null; ?>';
+            '<?php while (App::frontend()->context()->posts->fetch()) : ?>' . $content . '<?php endwhile; ' .
+            'App::frontend()->context()->posts = null; App::frontend()->context()->post_params = null; ?>';
     }
 
-    public static function EventsPagination($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsPagination(ArrayObject $attr, string $content): string
     {
         $p =
             "<?php\n" .
             'if(!isset($eventHandler)) { $eventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); } ' . "\n" .
-            '$params = dcCore::app()->ctx->post_params; ' . "\n" .
-            'dcCore::app()->ctx->pagination = $eventHandler->getEvents($params,true); unset($params); ' . "\n" .
+            '$params = App::frontend()->context()->post_params; ' . "\n" .
+            'App::frontend()->context()->pagination = $eventHandler->getEvents($params,true); unset($params); ' . "\n" .
             "?>\n";
 
         if (isset($attr['no_context']) && $attr['no_context']) {
@@ -468,50 +496,53 @@ class Template
 
         return
             $p .
-            '<?php if (dcCore::app()->ctx->pagination->f(0) > dcCore::app()->ctx->posts->count()) : ?>' .
+            '<?php if (App::frontend()->context()->pagination->f(0) > App::frontend()->context()->posts->count()) : ?>' .
             $content .
             '<?php endif; ?>';
     }
 
-    public static function EventsEntryIf($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsEntryIf(ArrayObject $attr, string $content): string
     {
         $if = [];
 
-        $operator = isset($attr['operator']) ? dcCore::app()->tpl->getOperator($attr['operator']) : '&&';
+        $operator = isset($attr['operator']) ? App::frontend()->template()->getOperator($attr['operator']) : '&&';
 
         if (isset($attr['has_category'])) {
             $sign = (bool) $attr['has_category'] ? '' : '!';
-            $if[] = $sign . 'dcCore::app()->ctx->posts->cat_id';
+            $if[] = $sign . 'App::frontend()->context()->posts->cat_id';
         }
 
         if (isset($attr['has_address'])) {
             $sign = (bool) $attr['has_address'] ? '!' : '=';
-            $if[] = "'' " . $sign . '= dcCore::app()->ctx->posts->event_address';
+            $if[] = "'' " . $sign . '= App::frontend()->context()->posts->event_address';
         }
 
         if (isset($attr['has_geo'])) {
             $sign = (bool) $attr['has_geo'] ? '' : '!';
-            $if[] = $sign . '("" != dcCore::app()->ctx->posts->event_latitude && "" != dcCore::app()->ctx->posts->event_longitude)';
+            $if[] = $sign . '("" != App::frontend()->context()->posts->event_latitude && "" != App::frontend()->context()->posts->event_longitude)';
         }
 
         if (isset($attr['period'])) {
-            $if[] = 'dcCore::app()->ctx->posts->getPeriod() == "' . addslashes($attr['period']) . '"';
+            $if[] = 'App::frontend()->context()->posts->getPeriod() == "' . addslashes((string) $attr['period']) . '"';
         }
 
         if (isset($attr['sameday'])) {
             $sign = (bool) $attr['sameday'] ? '' : '!';
-            $if[] = $sign . "dcCore::app()->ctx->posts->isOnSameDay()";
+            $if[] = $sign . "App::frontend()->context()->posts->isOnSameDay()";
         }
 
         if (isset($attr['oneday'])) {
             $sign = (bool) $attr['oneday'] ? '' : '!';
-            $if[] = $sign . "dcCore::app()->ctx->posts->isOnOneDay()";
+            $if[] = $sign . "App::frontend()->context()->posts->isOnOneDay()";
         }
 
         if (!empty($attr['orderedby'])) {
-            if (str_starts_with($attr['orderedby'], '!')) {
+            if (str_starts_with((string) $attr['orderedby'], '!')) {
                 $sign = '!';
-                $orderedby = substr($attr['orderedby'], 1);
+                $orderedby = substr((string) $attr['orderedby'], 1);
             } else {
                 $sign = '';
                 $orderedby = $attr['orderedby'];
@@ -526,7 +557,7 @@ class Template
             if (isset($default_sort[$orderedby])) {
                 $orderedby = $default_sort[$orderedby];
 
-                $if[] = $sign . "strstr(dcCore::app()->ctx->post_params['order'],'" . addslashes($orderedby) . "')";
+                $if[] = $sign . "strstr(App::frontend()->context()->post_params['order'],'" . addslashes($orderedby) . "')";
             }
         }
 
@@ -537,7 +568,10 @@ class Template
         }
     }
 
-    public static function EventsDateHeader($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsDateHeader(ArrayObject $attr, string $content): string
     {
         $type = '';
         if (!empty($attr['creadt'])) {
@@ -555,12 +589,15 @@ class Template
 
         return
             "<?php " .
-            'if (dcCore::app()->ctx->posts->firstEventOfDay("' . $type . '")) : ?>' .
+            'if (App::frontend()->context()->posts->firstEventOfDay("' . $type . '")) : ?>' .
             $content .
             "<?php endif; ?>";
     }
 
-    public static function EventsDateFooter($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsDateFooter(ArrayObject $attr, string $content): string
     {
         $type = '';
         if (!empty($attr['creadt'])) {
@@ -578,14 +615,14 @@ class Template
 
         return
             "<?php " .
-            'if (dcCore::app()->ctx->posts->lastEventOfDay("' . $type . '")) : ?>' .
+            'if (App::frontend()->context()->posts->lastEventOfDay("' . $type . '")) : ?>' .
             $content .
             "<?php endif; ?>";
     }
 
-    public static function EventsEntryDate($a)
+    public static function EventsEntryDate(mixed $a): string
     {
-        $format = !empty($a['format']) ? addslashes($a['format']) : '';
+        $format = !empty($a['format']) ? addslashes((string) $a['format']) : '';
         $iso8601 = !empty($a['iso8601']);
         $rfc822 = !empty($a['rfc822']);
 
@@ -604,17 +641,17 @@ class Template
         }
 
         if ($rfc822) {
-            return self::tplValue($a, "dcCore::app()->ctx->posts->getEventRFC822Date('" . $type . "')");
+            return self::tplValue($a, "App::frontend()->context()->posts->getEventRFC822Date('" . $type . "')");
         } elseif ($iso8601) {
-            return self::tplValue($a, "dcCore::app()->ctx->posts->getEventISO8601Date('" . $type . "')");
+            return self::tplValue($a, "App::frontend()->context()->posts->getEventISO8601Date('" . $type . "')");
         } else {
-            return self::tplValue($a, "dcCore::app()->ctx->posts->getEventDate('" . $format . "','" . $type . "')");
+            return self::tplValue($a, "App::frontend()->context()->posts->getEventDate('" . $format . "','" . $type . "')");
         }
     }
 
-    public static function EventsEntryTime($a)
+    public static function EventsEntryTime(mixed $a): string
     {
-        $format = !empty($a['format']) ? addslashes($a['format']) : '';
+        $format = !empty($a['format']) ? addslashes((string) $a['format']) : '';
         $type = '';
         if (!empty($a['creadt'])) {
             $type = 'creadt';
@@ -629,44 +666,47 @@ class Template
             $type = 'startdt';
         }
 
-        return self::tplValue($a, "dcCore::app()->ctx->posts->getEventTime('" . $format . "','" . $type . "')");
+        return self::tplValue($a, "App::frontend()->context()->posts->getEventTime('" . $format . "','" . $type . "')");
     }
 
-    public static function EventsEntryCategoryURL($a)
+    public static function EventsEntryCategoryURL(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_list")."/category/".Html::sanitizeURL(dcCore::app()->ctx->posts->cat_url)');
+        return self::tplValue($a, 'App::blog()->url().App::url()->getBase("eventhandler_list")."/category/".Html::sanitizeURL(App::frontend()->context()->posts->cat_url)');
     }
 
-    public static function EventsEntryAddress($a)
+    public static function EventsEntryAddress(mixed $a): string
     {
         $ics = !empty($a['ics']) ? '"LOCATION;CHARSET=UTF-8:".' : '';
 
-        return self::tplValue($a, $ics . 'dcCore::app()->ctx->posts->event_address');
+        return self::tplValue($a, $ics . 'App::frontend()->context()->posts->event_address');
     }
 
-    public static function EventsEntryLatitude($a)
+    public static function EventsEntryLatitude(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->posts->event_latitude');
+        return self::tplValue($a, 'App::frontend()->context()->posts->event_latitude');
     }
 
-    public static function EventsEntryLongitude($a)
+    public static function EventsEntryLongitude(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->posts->event_longitude');
+        return self::tplValue($a, 'App::frontend()->context()->posts->event_longitude');
     }
 
-    public static function EventsEntryZoom($a)
+    public static function EventsEntryZoom(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->posts->event_zoom');
+        return self::tplValue($a, 'App::frontend()->context()->posts->event_zoom');
     }
 
-    public static function EventsEntryDuration($a)
+    public static function EventsEntryDuration(mixed $a): string
     {
-        $format = !empty($a['format']) ? addslashes($a['format']) : '';
+        $format = !empty($a['format']) ? addslashes((string) $a['format']) : '';
 
-        return self::tplValue($a, "Dotclear\\Plugin\\eventHandler\\EventHandler::getReadableDuration((strtotime(dcCore::app()->ctx->posts->event_enddt) - strtotime(dcCore::app()->ctx->posts->event_startdt)),'" . $format . "')");
+        return self::tplValue($a, "Dotclear\\Plugin\\eventHandler\\EventHandler::getReadableDuration((strtotime(App::frontend()->context()->posts->event_enddt) - strtotime(App::frontend()->context()->posts->event_startdt)),'" . $format . "')");
     }
 
-    public static function EventsEntryPeriod($attr)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsEntryPeriod(ArrayObject $attr): string
     {
         $scheduled = $attr['scheduled'] ?? 'scheduled';
         if (empty($attr['strict'])) {
@@ -683,33 +723,39 @@ class Template
             $finished = __($finished);
         }
 
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
         return
-            "<?php \$time = time() + Date::getTimeOffset(dcCore::app()->ctx->posts->post_tz)*2;\n" .
-            "if (dcCore::app()->ctx->posts->getEventTS('startdt') > \$time) {\n" .
+            "<?php \$time = time() + Date::getTimeOffset(App::frontend()->context()->posts->post_tz)*2;\n" .
+            "if (App::frontend()->context()->posts->getEventTS('startdt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $scheduled . "'") . "; }\n" .
-            "elseif (dcCore::app()->ctx->posts->getEventTS('startdt') < \$time && dcCore::app()->ctx->posts->getEventTS('enddt') > \$time) {\n" .
+            "elseif (App::frontend()->context()->posts->getEventTS('startdt') < \$time && App::frontend()->context()->posts->getEventTS('enddt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $ongoing . "'") . "; }\n" .
-            "elseif (dcCore::app()->ctx->posts->getEventTS('enddt') < \$time) {\n" .
+            "elseif (App::frontend()->context()->posts->getEventTS('enddt') < \$time) {\n" .
             " echo " . sprintf($f, "'" . $finished . "'") . "; }\n" .
             "unset(\$time); ?>\n";
     }
 
-    public static function EventsEntryMap($attr)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsEntryMap(ArrayObject $attr): string
     {
         if (!empty($attr['map_zoom'])) {
             $map_zoom = abs((int) $attr['map_zoom']);
         } else {
-            $map_zoom = '(dcCore::app()->ctx->posts->event_zoom)?dcCore::app()->ctx->posts->event_zoom:Dotclear\\Plugin\\eventHandler\\My::settings()->public_map_zoom';
+            $map_zoom = '(App::frontend()->context()->posts->event_zoom)?App::frontend()->context()->posts->event_zoom:Dotclear\\Plugin\\eventHandler\\My::settings()->public_map_zoom';
         }
         $map_type = !empty($attr['map_type']) ? '"' . Html::escapeHTML($attr['map_type']) . '"' : 'Dotclear\\Plugin\\eventHandler\\My::settings()->public_map_type';
         $map_info = isset($attr['map_info']) && $attr['map_info'] == '0' ? '0' : '1';
 
-        return '<?php echo Dotclear\\Plugin\\eventHandler\\EventHandler::getMapContent("","",' . $map_type . ',' . $map_zoom . ',' . $map_info . ',dcCore::app()->ctx->posts->event_latitude,dcCore::app()->ctx->posts->event_longitude,dcCore::app()->ctx->posts->getMapVEvent()); ?>';
+        return '<?php echo Dotclear\\Plugin\\eventHandler\\EventHandler::getMapContent("","",' . $map_type . ',' . $map_zoom . ',' . $map_info . ',App::frontend()->context()->posts->event_latitude,App::frontend()->context()->posts->event_longitude,App::frontend()->context()->posts->getMapVEvent()); ?>';
     }
 
-    public static function EventsOfPost($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsOfPost(ArrayObject $attr, string $content): string
     {
         $p = '';
 
@@ -726,11 +772,11 @@ class Template
         }
 
         if (isset($attr['author'])) {
-            $p .= "\$params['user_id'] = '" . addslashes($attr['author']) . "';\n";
+            $p .= "\$params['user_id'] = '" . addslashes((string) $attr['author']) . "';\n";
         }
 
         if (isset($attr['category'])) {
-            $p .= "\$params['cat_url'] = '" . addslashes($attr['category']) . "';\n";
+            $p .= "\$params['cat_url'] = '" . addslashes((string) $attr['category']) . "';\n";
             $p .= "context::categoryPostParam(\$params);\n";
         }
 
@@ -744,13 +790,13 @@ class Template
         }
 
         if (!empty($attr['type'])) {
-            $p .= "\$params['post_type'] = preg_split('/\s*,\s*/','" . addslashes($attr['type']) . "',-1,PREG_SPLIT_NO_EMPTY);\n";
+            $p .= "\$params['post_type'] = preg_split('/\s*,\s*/','" . addslashes((string) $attr['type']) . "',-1,PREG_SPLIT_NO_EMPTY);\n";
         }
 
         if (!empty($attr['order']) || !empty($attr['sortby'])) {
-            $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($attr, 'eventhandler') . "';\n";
+            $p .= "\$params['order'] = '" . App::frontend()->template()->getSortByStr($attr, 'eventhandler') . "';\n";
         } else {
-            $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($attr, 'post') . "';\n";
+            $p .= "\$params['order'] = '" . App::frontend()->template()->getSortByStr($attr, 'post') . "';\n";
         }
 
         if (isset($attr['no_content']) && $attr['no_content']) {
@@ -762,7 +808,7 @@ class Template
         }
 
         if (isset($attr['age'])) {
-            $age = dcCore::app()->tpl->getAge($attr);
+            $age = App::frontend()->template()->getAge($attr);
             $p .= !empty($age) ? "@\$params['sql'] .= ' AND P.post_dt > \'" . $age . "\'';\n" : '';
         }
 
@@ -776,68 +822,77 @@ class Template
             '  @$params[\'sql\'] .= " AND C.cat_id != \'".dcCore::app()->con->escape($hidden_cat)."\' "; ' .
             ' } ' .
             "} \n" .
-            'if (dcCore::app()->ctx->exists("posts") && dcCore::app()->ctx->posts->post_id) { ' .
-            '$params["post_id"] = dcCore::app()->ctx->posts->post_id; ' .
+            'if (App::frontend()->context()->exists("posts") && App::frontend()->context()->posts->post_id) { ' .
+            '$params["post_id"] = App::frontend()->context()->posts->post_id; ' .
             "} \n" .
             $p .
             'if (!empty($params["post_id"])) { ' . "\n" .
-            'dcCore::app()->ctx->eventsofpost_params = $params;' . "\n" .
-            'dcCore::app()->ctx->eventsofpost = $eventHandler->getEventsByPost($params); unset($params); ' . "\n" .
-            'while (dcCore::app()->ctx->eventsofpost->fetch()) : ?>' . $content . '<?php endwhile; ' .
+            'App::frontend()->context()->eventsofpost_params = $params;' . "\n" .
+            'App::frontend()->context()->eventsofpost = $eventHandler->getEventsByPost($params); unset($params); ' . "\n" .
+            'while (App::frontend()->context()->eventsofpost->fetch()) : ?>' . $content . '<?php endwhile; ' .
             '} ' . "\n" .
-            'dcCore::app()->ctx->eventsofpost = null; dcCore::app()->ctx->eventsofpost_params = null; ?>';
+            'App::frontend()->context()->eventsofpost = null; App::frontend()->context()->eventsofpost_params = null; ?>';
     }
 
-    public static function EventsOfPostHeader($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsOfPostHeader(ArrayObject $attr, string $content): string
     {
         return
-            "<?php if (dcCore::app()->ctx->eventsofpost->isStart()) : ?>" .
+            "<?php if (App::frontend()->context()->eventsofpost->isStart()) : ?>" .
             $content .
             "<?php endif; ?>";
     }
 
-    public static function EventsOfPostFooter($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventsOfPostFooter(ArrayObject $attr, string $content): string
     {
         return
-            "<?php if (dcCore::app()->ctx->eventsofpost->isEnd()) : ?>" .
+            "<?php if (App::frontend()->context()->eventsofpost->isEnd()) : ?>" .
             $content .
             "<?php endif; ?>";
     }
 
-    public static function EventOfPostIf($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventOfPostIf(ArrayObject $attr, string $content): string
     {
         $if = [];
 
-        $operator = isset($attr['operator']) ? dcCore::app()->tpl->getOperator($attr['operator']) : '&&';
+        $operator = isset($attr['operator']) ? App::frontend()->template()->getOperator($attr['operator']) : '&&';
 
         if (isset($attr['has_category'])) {
             $sign = (bool) $attr['has_category'] ? '' : '!';
-            $if[] = $sign . 'dcCore::app()->ctx->eventsofpost->cat_id';
+            $if[] = $sign . 'App::frontend()->context()->eventsofpost->cat_id';
         }
 
         if (isset($attr['has_address'])) {
             $sign = (bool) $attr['has_address'] ? '!' : '=';
-            $if[] = "'' " . $sign . '= dcCore::app()->ctx->eventsofpost->event_address';
+            $if[] = "'' " . $sign . '= App::frontend()->context()->eventsofpost->event_address';
         }
 
         if (isset($attr['period'])) {
-            $if[] = 'dcCore::app()->ctx->eventsofpost->getPeriod() == "' . addslashes($attr['period']) . '"';
+            $if[] = 'App::frontend()->context()->eventsofpost->getPeriod() == "' . addslashes((string) $attr['period']) . '"';
         }
 
         if (isset($attr['sameday'])) {
             $sign = (bool) $attr['sameday'] ? '' : '!';
-            $if[] = $sign . "dcCore::app()->ctx->eventsofpost->isOnSameDay()";
+            $if[] = $sign . "App::frontend()->context()->eventsofpost->isOnSameDay()";
         }
 
         if (isset($attr['oneday'])) {
             $sign = (bool) $attr['oneday'] ? '' : '!';
-            $if[] = $sign . "dcCore::app()->ctx->eventsofpost->isOnOneDay()";
+            $if[] = $sign . "App::frontend()->context()->eventsofpost->isOnOneDay()";
         }
 
         if (!empty($attr['orderedby'])) {
-            if (str_starts_with($attr['orderedby'], '!')) {
+            if (str_starts_with((string) $attr['orderedby'], '!')) {
                 $sign = '!';
-                $orderedby = substr($attr['orderedby'], 1);
+                $orderedby = substr((string) $attr['orderedby'], 1);
             } else {
                 $sign = '';
                 $orderedby = $attr['orderedby'];
@@ -852,7 +907,7 @@ class Template
             if (isset($default_sort[$orderedby])) {
                 $orderedby = $default_sort[$orderedby];
 
-                $if[] = $sign . "strstr(dcCore::app()->ctx->eventsofpost['order'],'" . addslashes($orderedby) . "')";
+                $if[] = $sign . "strstr(App::frontend()->context()->eventsofpost['order'],'" . addslashes($orderedby) . "')";
             }
         }
 
@@ -863,19 +918,19 @@ class Template
         }
     }
 
-    public static function EventOfPostTitle($a)
+    public static function EventOfPostTitle(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->eventsofpost->post_title');
+        return self::tplValue($a, 'App::frontend()->context()->eventsofpost->post_title');
     }
 
-    public static function EventOfPostURL($a)
+    public static function EventOfPostURL(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->eventsofpost->getURL()');
+        return self::tplValue($a, 'App::frontend()->context()->eventsofpost->getURL()');
     }
 
-    public static function EventOfPostDate($a)
+    public static function EventOfPostDate(mixed $a): string
     {
-        $format = !empty($a['format']) ? addslashes($a['format']) : '';
+        $format = !empty($a['format']) ? addslashes((string) $a['format']) : '';
         $iso8601 = !empty($a['iso8601']);
         $rfc822 = !empty($a['rfc822']);
 
@@ -894,17 +949,17 @@ class Template
         }
 
         if ($rfc822) {
-            return self::tplValue($a, "dcCore::app()->ctx->eventsofpost->getEventRFC822Date('" . $type . "')");
+            return self::tplValue($a, "App::frontend()->context()->eventsofpost->getEventRFC822Date('" . $type . "')");
         } elseif ($iso8601) {
-            return self::tplValue($a, "dcCore::app()->ctx->eventsofpost->getEventISO8601Date('" . $type . "')");
+            return self::tplValue($a, "App::frontend()->context()->eventsofpost->getEventISO8601Date('" . $type . "')");
         } else {
-            return self::tplValue($a, "dcCore::app()->ctx->eventsofpost->getEventDate('" . $format . "','" . $type . "')");
+            return self::tplValue($a, "App::frontend()->context()->eventsofpost->getEventDate('" . $format . "','" . $type . "')");
         }
     }
 
-    public static function EventOfPostTime($a)
+    public static function EventOfPostTime(mixed $a): string
     {
-        $format = !empty($a['format']) ? addslashes($a['format']) : '';
+        $format = !empty($a['format']) ? addslashes((string) $a['format']) : '';
         $type = '';
         if (!empty($a['creadt'])) {
             $type = 'creadt';
@@ -919,42 +974,45 @@ class Template
             $type = 'startdt';
         }
 
-        return self::tplValue($a, "dcCore::app()->ctx->eventsofpost->getEventTime('" . $format . "','" . $type . "')");
+        return self::tplValue($a, "App::frontend()->context()->eventsofpost->getEventTime('" . $format . "','" . $type . "')");
     }
 
-    public static function EventOfPostAuthorCommonName($a)
+    public static function EventOfPostAuthorCommonName(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->eventsofpost->getAuthorCN()');
+        return self::tplValue($a, 'App::frontend()->context()->eventsofpost->getAuthorCN()');
     }
 
-    public static function EventOfPostAuthorLink($a)
+    public static function EventOfPostAuthorLink(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->eventsofpost->getAuthorLink()');
+        return self::tplValue($a, 'App::frontend()->context()->eventsofpost->getAuthorLink()');
     }
 
-    public static function EventOfPostCategory($a)
+    public static function EventOfPostCategory(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->eventsofpost->cat_title');
+        return self::tplValue($a, 'App::frontend()->context()->eventsofpost->cat_title');
     }
 
-    public static function EventOfPostCategoryURL($a)
+    public static function EventOfPostCategoryURL(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("eventhandler_list")."/category/".Html::sanitizeURL(dcCore::app()->ctx->eventsofpost->cat_url)');
+        return self::tplValue($a, 'App::blog()->url().App::url()->getBase("eventhandler_list")."/category/".Html::sanitizeURL(App::frontend()->context()->eventsofpost->cat_url)');
     }
 
-    public static function EventOfPostAddress($a)
+    public static function EventOfPostAddress(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->eventsofpost->event_address');
+        return self::tplValue($a, 'App::frontend()->context()->eventsofpost->event_address');
     }
 
-    public static function EventOfPostDuration($a)
+    public static function EventOfPostDuration(mixed $a): string
     {
-        $format = !empty($a['format']) ? addslashes($a['format']) : '';
+        $format = !empty($a['format']) ? addslashes((string) $a['format']) : '';
 
-        return self::tplValue($a, "Dotclear\\Plugin\\eventHandler\\EventHandler::getReadableDuration((strtotime(dcCore::app()->ctx->eventsofpost->event_enddt) - strtotime(dcCore::app()->ctx->eventsofpost->event_startdt)),'" . $format . "')");
+        return self::tplValue($a, "Dotclear\\Plugin\\eventHandler\\EventHandler::getReadableDuration((strtotime(App::frontend()->context()->eventsofpost->event_enddt) - strtotime(App::frontend()->context()->eventsofpost->event_startdt)),'" . $format . "')");
     }
 
-    public static function EventOfPostPeriod($attr)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function EventOfPostPeriod($attr): string
     {
         $scheduled = $attr['scheduled'] ?? 'scheduled';
         if (empty($attr['strict'])) {
@@ -971,20 +1029,23 @@ class Template
             $finished = __($finished);
         }
 
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
         return
-            "<?php \$time = time() + Date::getTimeOffset(dcCore::app()->ctx->eventsofpost->post_tz)*2;\n" .
-            "if (dcCore::app()->ctx->eventsofpost->getEventTS('startdt') > \$time) {\n" .
+            "<?php \$time = time() + Date::getTimeOffset(App::frontend()->context()->eventsofpost->post_tz)*2;\n" .
+            "if (App::frontend()->context()->eventsofpost->getEventTS('startdt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $scheduled . "'") . "; }\n" .
-            "elseif (dcCore::app()->ctx->eventsofpost->getEventTS('startdt') < \$time && dcCore::app()->ctx->eventsofpost->getEventTS('enddt') > \$time) {\n" .
+            "elseif (App::frontend()->context()->eventsofpost->getEventTS('startdt') < \$time && App::frontend()->context()->eventsofpost->getEventTS('enddt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $ongoing . "'") . "; }\n" .
-            "elseif (dcCore::app()->ctx->eventsofpost->getEventTS('enddt') < \$time) {\n" .
+            "elseif (App::frontend()->context()->eventsofpost->getEventTS('enddt') < \$time) {\n" .
             " echo " . sprintf($f, "'" . $finished . "'") . "; }\n" .
             "unset(\$time); ?>\n";
     }
 
-    public static function PostsOfEvent($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function PostsOfEvent(ArrayObject $attr, string $content): string
     {
         $p = '';
 
@@ -1001,11 +1062,11 @@ class Template
         }
 
         if (isset($attr['author'])) {
-            $p .= "\$params['user_id'] = '" . addslashes($attr['author']) . "';\n";
+            $p .= "\$params['user_id'] = '" . addslashes((string) $attr['author']) . "';\n";
         }
 
         if (isset($attr['category'])) {
-            $p .= "\$params['cat_url'] = '" . addslashes($attr['category']) . "';\n";
+            $p .= "\$params['cat_url'] = '" . addslashes((string) $attr['category']) . "';\n";
             $p .= "context::categoryPostParam(\$params);\n";
         }
 
@@ -1015,10 +1076,10 @@ class Template
         }
 
         if (!empty($attr['type'])) {
-            $p .= "\$params['post_type'] = preg_split('/\s*,\s*/','" . addslashes($attr['type']) . "',-1,PREG_SPLIT_NO_EMPTY);\n";
+            $p .= "\$params['post_type'] = preg_split('/\s*,\s*/','" . addslashes((string) $attr['type']) . "',-1,PREG_SPLIT_NO_EMPTY);\n";
         }
 
-        $p .= "\$params['order'] = '" . dcCore::app()->tpl->getSortByStr($attr, 'post') . "';\n";
+        $p .= "\$params['order'] = '" . App::frontend()->template()->getSortByStr($attr, 'post') . "';\n";
 
         if (isset($attr['no_content']) && $attr['no_content']) {
             $p .= "\$params['no_content'] = true;\n";
@@ -1029,55 +1090,64 @@ class Template
         }
 
         if (isset($attr['age'])) {
-            $age = dcCore::app()->tpl->getAge($attr);
+            $age = App::frontend()->template()->getAge($attr);
             $p .= !empty($age) ? "@\$params['sql'] .= ' AND P.post_dt > \'" . $age . "\'';\n" : '';
         }
 
         return
             "<?php\n" .
             "\$postsofeventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); \n" .
-            'if (dcCore::app()->ctx->exists("posts") && dcCore::app()->ctx->posts->post_id) { ' .
-            " \$params['event_id'] = dcCore::app()->ctx->posts->post_id; " .
+            'if (App::frontend()->context()->exists("posts") && App::frontend()->context()->posts->post_id) { ' .
+            " \$params['event_id'] = App::frontend()->context()->posts->post_id; " .
             "} \n" .
             $p .
-            'dcCore::app()->ctx->postsofevent_params = $params;' . "\n" .
-            'dcCore::app()->ctx->postsofevent = $postsofeventHandler->getPostsByEvent($params); unset($params);' . "\n" .
+            'App::frontend()->context()->postsofevent_params = $params;' . "\n" .
+            'App::frontend()->context()->postsofevent = $postsofeventHandler->getPostsByEvent($params); unset($params);' . "\n" .
             "?>\n" .
-            '<?php while (dcCore::app()->ctx->postsofevent->fetch()) : ?>' . $content . '<?php endwhile; ' .
-            'dcCore::app()->ctx->postsofevent = null; dcCore::app()->ctx->postsofevent_params = null; $postsofeventHandler = null; ?>';
+            '<?php while (App::frontend()->context()->postsofevent->fetch()) : ?>' . $content . '<?php endwhile; ' .
+            'App::frontend()->context()->postsofevent = null; App::frontend()->context()->postsofevent_params = null; $postsofeventHandler = null; ?>';
     }
 
-    public static function PostsOfEventHeader($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function PostsOfEventHeader(ArrayObject $attr, string $content): string
     {
         return
-            "<?php if (dcCore::app()->ctx->postsofevent->isStart()) : ?>" .
+            "<?php if (App::frontend()->context()->postsofevent->isStart()) : ?>" .
             $content .
             "<?php endif; ?>";
     }
 
-    public static function PostsOfEventFooter($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function PostsOfEventFooter(ArrayObject $attr, string $content): string
     {
         return
-            "<?php if (dcCore::app()->ctx->postsofevent->isEnd()) : ?>" .
+            "<?php if (App::frontend()->context()->postsofevent->isEnd()) : ?>" .
             $content .
             "<?php endif; ?>";
     }
 
-    public static function PostOfEventIf($attr, $content)
+    /**
+    * @param ArrayObject<string, mixed> $attr
+    */
+    public static function PostOfEventIf(ArrayObject $attr, string $content): string
     {
         $if = [];
 
-        $operator = isset($attr['operator']) ? dcCore::app()->tpl->getOperator($attr['operator']) : '&&';
+        $operator = isset($attr['operator']) ? App::frontend()->template()->getOperator($attr['operator']) : '&&';
 
         if (isset($attr['type'])) {
-            $type = trim($attr['type']);
+            $type = trim((string) $attr['type']);
             $type = !empty($type) ? $type : 'post';
-            $if[] = 'dcCore::app()->ctx->postsofevent->post_type == "' . addslashes($type) . '"';
+            $if[] = 'App::frontend()->context()->postsofevent->post_type == "' . addslashes($type) . '"';
         }
 
         if (isset($attr['has_category'])) {
             $sign = (bool) $attr['has_category'] ? '' : '!';
-            $if[] = $sign . 'dcCore::app()->ctx->postsofevent->cat_id';
+            $if[] = $sign . 'App::frontend()->context()->postsofevent->cat_id';
         }
 
         if (!empty($if)) {
@@ -1087,64 +1157,64 @@ class Template
         }
     }
 
-    public static function PostOfEventTitle($a)
+    public static function PostOfEventTitle(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->postsofevent->post_title');
+        return self::tplValue($a, 'App::frontend()->context()->postsofevent->post_title');
     }
 
-    public static function PostOfEventURL($a)
+    public static function PostOfEventURL(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->postsofevent->getURL()');
+        return self::tplValue($a, 'App::frontend()->context()->postsofevent->getURL()');
     }
 
-    public static function PostOfEventDate($a)
+    public static function PostOfEventDate(mixed $a): string
     {
-        $format = !empty($a['format']) ? addslashes($a['format']) : '';
+        $format = !empty($a['format']) ? addslashes((string) $a['format']) : '';
         $iso8601 = !empty($a['iso8601']);
         $rfc822 = !empty($a['rfc822']);
         $type = (!empty($a['creadt']) ? 'creadt' : '');
         $type = (!empty($a['upddt']) ? 'upddt' : '');
 
         if ($rfc822) {
-            return self::tplValue($a, "dcCore::app()->ctx->postsofevent->getRFC822Date('" . $type . "')");
+            return self::tplValue($a, "App::frontend()->context()->postsofevent->getRFC822Date('" . $type . "')");
         } elseif ($iso8601) {
-            return self::tplValue($a, "dcCore::app()->ctx->postsofevent->getISO8601Date('" . $type . "')");
+            return self::tplValue($a, "App::frontend()->context()->postsofevent->getISO8601Date('" . $type . "')");
         } else {
-            return self::tplValue($a, "dcCore::app()->ctx->postsofevent->getDate('" . $format . "','" . $type . "')");
+            return self::tplValue($a, "App::frontend()->context()->postsofevent->getDate('" . $format . "','" . $type . "')");
         }
     }
 
-    public static function PostOfEventTime($a)
+    public static function PostOfEventTime(mixed $a): string
     {
-        $format = !empty($a['format']) ? addslashes($a['format']) : '';
+        $format = !empty($a['format']) ? addslashes((string) $a['format']) : '';
         $type = (!empty($a['creadt']) ? 'creadt' : '');
         $type = (!empty($a['upddt']) ? 'upddt' : '');
 
-        return self::tplValue($a, "dcCore::app()->ctx->postsofevent->getTime('" . $format . "','" . $type . "')");
+        return self::tplValue($a, "App::frontend()->context()->postsofevent->getTime('" . $format . "','" . $type . "')");
     }
 
-    public static function PostOfEventAuthorCommonName($a)
+    public static function PostOfEventAuthorCommonName(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->postsofevent->getAuthorCN()');
+        return self::tplValue($a, 'App::frontend()->context()->postsofevent->getAuthorCN()');
     }
 
-    public static function PostOfEventAuthorLink($a)
+    public static function PostOfEventAuthorLink(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->postsofevent->getAuthorLink()');
+        return self::tplValue($a, 'App::frontend()->context()->postsofevent->getAuthorLink()');
     }
 
-    public static function PostOfEventCategory($a)
+    public static function PostOfEventCategory(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->postsofevent->cat_title');
+        return self::tplValue($a, 'App::frontend()->context()->postsofevent->cat_title');
     }
 
-    public static function PostOfEventCategoryURL($a)
+    public static function PostOfEventCategoryURL(mixed $a): string
     {
-        return self::tplValue($a, 'dcCore::app()->ctx->postsofevent->getCategoryURL()');
+        return self::tplValue($a, 'App::frontend()->context()->postsofevent->getCategoryURL()');
     }
 
-    protected static function tplValue($a, $v)
+    protected static function tplValue(mixed $a, string $v): string
     {
-        return '<?php echo ' . sprintf(dcCore::app()->tpl->getFilters($a), $v) . '; ?>';
+        return '<?php echo ' . sprintf(App::frontend()->template()->getFilters($a), $v) . '; ?>';
     }
 }

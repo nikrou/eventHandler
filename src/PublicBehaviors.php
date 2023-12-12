@@ -21,12 +21,11 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\Helper\Html\Html;
-use dcCore;
+use Dotclear\App;
 
 class PublicBehaviors
 {
-    // Add some css and js to page
-    public static function publicHeadContent()
+    public static function publicHeadContent(): void
     {
         if (!My::settings()->active) {
             return;
@@ -38,21 +37,21 @@ class PublicBehaviors
         }
 
         if (My::settings()->map_provider == 'osm') {
-            echo '<link rel="stylesheet" type="text/css" href="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/css/leaflet.css"/>',"\n";
-            echo '<script src="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/js/osm/leaflet-src.js"></script>',"\n";
+            echo '<link rel="stylesheet" type="text/css" href="' . App::blog()->getQmarkURL() . 'pf=eventHandler/css/leaflet.css"/>',"\n";
+            echo '<script src="' . App::blog()->getQmarkURL() . 'pf=eventHandler/js/osm/leaflet-src.js"></script>',"\n";
         }
 
-        echo '<script src="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/js/' . My::settings()->map_provider . '/event-public-map.js"></script>',"\n";
-        echo '<script src="' . dcCore::app()->blog->getQmarkURL() . 'pf=eventHandler/js/event-public-cal.js"></script>',"\n";
+        echo '<script src="' . App::blog()->getQmarkURL() . 'pf=eventHandler/js/' . My::settings()->map_provider . '/event-public-map.js"></script>',"\n";
+        echo '<script src="' . App::blog()->getQmarkURL() . 'pf=eventHandler/js/event-public-cal.js"></script>',"\n";
         echo '<script>' . "\n" .
             "//<![CDATA[\n" .
             " \$(function(){ \n" .
             "  \$.fn.eventHandlerCalendar.defaults.service_url = '" .
-            Html::escapeJS(dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_pubrest') . '/') . "'; \n" .
+            Html::escapeJS(App::blog()->url() . App::url()->getBase('eventhandler_pubrest') . '/') . "'; \n" .
             "  \$.fn.eventHandlerCalendar.defaults.service_func = '" .
             Html::escapeJS('eventHandlerCalendar') . "'; \n" .
             "  \$.fn.eventHandlerCalendar.defaults.blog_uid = '" .
-            Html::escapeJS(dcCore::app()->blog->uid) . "'; \n" .
+            Html::escapeJS(App::blog()->uid()) . "'; \n" .
             "  \$.fn.eventHandlerCalendar.defaults.msg_wait = '" .
             Html::escapeJS(__('Please wait...')) . "'; \n" .
             "  \$('.calendar-array').eventHandlerCalendar(); \n" .
@@ -66,30 +65,27 @@ class PublicBehaviors
         }
     }
 
-    public static function publicBeforeDocument()
+    public static function publicBeforeDocument(): void
     {
-        $tplset = dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'tplset');
+        $tplset = App::themes()->moduleInfo(App::blog()->settings()->system->theme, 'tplset');
         if (!empty($tplset) && is_dir(__DIR__ . '/../default-templates/' . $tplset)) {
-            dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/../default-templates/' . $tplset);
+            App::frontend()->template()->setPath(App::frontend()->template()->getPath(), __DIR__ . '/../default-templates/' . $tplset);
         } else {
-            dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/../default-templates/' . DC_DEFAULT_TPLSET);
+            App::frontend()->template()->setPath(App::frontend()->template()->getPath(), __DIR__ . '/../default-templates/' . DC_DEFAULT_TPLSET);
         }
     }
 
-    // Before entry content
-    public static function publicEntryBeforeContent()
+    public static function publicEntryBeforeContent(): void
     {
-        return self::publicEntryContent('before');
+        self::publicEntryContent('before');
     }
 
-    // After entry content
-    public static function publicEntryAfterContent()
+    public static function publicEntryAfterContent(): void
     {
-        return self::publicEntryContent('after');
+        self::publicEntryContent('after');
     }
 
-    // Add list of events / posts on entries
-    protected static function publicEntryContent($place)
+    protected static function publicEntryContent(string $place): void
     {
         if (!My::settings()->active || My::settings()->public_posts_of_event_place == '') {
             return;
@@ -102,18 +98,18 @@ class PublicBehaviors
         ];
 
         // List of posts related to a event
-        if (in_array(dcCore::app()->url->type, $default_url_type)) {
+        if (in_array(App::url()->getType(), $default_url_type)) {
             if (My::settings()->public_posts_of_event_place != $place) {
                 return;
             }
 
-            echo dcCore::app()->tpl->getData('eventhandler-postsofevent.html');
+            echo App::frontend()->template()->getData('eventhandler-postsofevent.html');
         } else { // List of events related to a post
             if (My::settings()->public_events_of_post_place != $place) {
                 return;
             }
 
-            echo dcCore::app()->tpl->getData('eventhandler-eventsofpost.html');
+            echo App::frontend()->template()->getData('eventhandler-eventsofpost.html');
         }
     }
 }

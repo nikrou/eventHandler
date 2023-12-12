@@ -56,7 +56,7 @@ return $config
     // spaces
     'binary_operator_spaces' => ['operators' => ['=>' => 'single_space', '=' => 'single_space']],
     'concat_space' => ['spacing' => 'one'],
-    'no_spaces_inside_parenthesis' => true,
+    'spaces_inside_parentheses' => false,
 ])
 ->setFinder($finder);
 

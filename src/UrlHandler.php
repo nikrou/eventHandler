@@ -22,39 +22,39 @@ namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\Helper\Html\Html;
 use ArrayObject;
-use context;
-use dcCore;
-use dcUrlHandlers;
+use Dotclear\App;
+use Dotclear\Core\Frontend\Url;
+use Dotclear\Database\MetaRecord;
 
-class UrlHandler extends dcUrlHandlers
+class UrlHandler extends Url
 {
-    public static function eventService($args)
+    public static function eventService(string $args): void
     {
-        dcCore::app()->rest->addFunction('eventHandlerCalendar', [PublicRest::class, 'calendar']);
-        dcCore::app()->rest->serve();
+        App::rest()->addFunction('eventHandlerCalendar', PublicRest::calendar(...));
+        App::rest()->serve();
         exit;
     }
 
-    public static function eventSingle($args)
+    public static function eventSingle(string $args): void
     {
-        if ($args == '' || !dcCore::app()->ctx->preview && !My::settings()->active) {
+        if ($args == '' || !App::frontend()->context()->ctx->preview && !My::settings()->active) {
             self::p404();
         } else {
             $is_ical = self::isIcalDocument($args);
             $is_hcal = self::isHcalDocument($args);
             $is_gmap = self::isGmapDocument($args);
 
-            dcCore::app()->blog->withoutPassword(false);
+            App::blog()->withoutPassword(false);
 
             /** @var array<string, string> $params */
             $params = new ArrayObject();
             $params['post_type'] = 'eventhandler';
             $params['post_url'] = $args;
 
-            dcCore::app()->ctx->eventHandler = new EventHandler();
-            dcCore::app()->ctx->posts = dcCore::app()->ctx->eventHandler->getEvents($params);
+            App::frontend()->context()->ctx->eventHandler = new EventHandler();
+            App::frontend()->context()->ctx->posts = App::frontend()->context()->ctx->eventHandler->getEvents($params);
 
-            dcCore::app()->ctx->comment_preview = [
+            App::frontend()->context()->ctx->comment_preview = [
                 'content' => '',
                 'rawcontent' => '',
                 'name' => '',
@@ -64,17 +64,17 @@ class UrlHandler extends dcUrlHandlers
                 'remember' => false,
             ];
 
-            dcCore::app()->blog->withoutPassword(true);
+            App::blog()->withoutPassword(true);
 
-            if (dcCore::app()->ctx->posts->isEmpty()) {
+            if (App::frontend()->context()->ctx->posts->isEmpty()) {
                 // The specified page does not exist.
                 self::p404();
             } else {
-                $post_id = dcCore::app()->ctx->posts->post_id;
-                $post_password = dcCore::app()->ctx->posts->post_password;
+                $post_id = App::frontend()->context()->ctx->posts->post_id;
+                $post_password = App::frontend()->context()->ctx->posts->post_password;
 
                 // Password protected entry
-                if ($post_password != '' && !dcCore::app()->ctx->preview) {
+                if ($post_password != '' && !App::frontend()->context()->ctx->preview) {
                     // Get passwords cookie
                     if (isset($_COOKIE['dc_passwd'])) {
                         $pwd_cookie = unserialize($_COOKIE['dc_passwd']);
@@ -93,11 +93,11 @@ class UrlHandler extends dcUrlHandlers
                 }
 
                 if ($is_ical) {
-                    self::serveIcalDocument(dcCore::app()->ctx->posts, $args);
+                    self::serveIcalDocument(App::frontend()->context()->ctx->posts, $args);
                 } elseif ($is_hcal) {
-                    self::serveHcalDocument(dcCore::app()->ctx->posts, $args);
+                    self::serveHcalDocument(App::frontend()->context()->ctx->posts, $args);
                 } elseif ($is_gmap) {
-                    self::serveGmapDocument(dcCore::app()->ctx->posts, $args);
+                    self::serveGmapDocument(App::frontend()->context()->ctx->posts, $args);
                 } else {
                     self::serveDocument('eventhandler-single.html');
                 }
@@ -106,7 +106,7 @@ class UrlHandler extends dcUrlHandlers
     }
 
     // Preview single event from admin side
-    public static function eventPreview($args)
+    public static function eventPreview(string $args): void
     {
         if (!preg_match('#^(.+?)/([0-9a-z]{40})/(.+?)$#', $args, $m)) {
             // The specified Preview URL is malformed.
@@ -115,25 +115,25 @@ class UrlHandler extends dcUrlHandlers
             $user_id = $m[1];
             $user_key = $m[2];
             $post_url = $m[3];
-            if (!dcCore::app()->auth->checkUser($user_id, null, $user_key)) {
+            if (!App::auth()->checkUser($user_id, null, $user_key)) {
                 // The user has no access to the entry.
                 self::p404();
             } else {
-                dcCore::app()->ctx->preview = true;
+                App::frontend()->context()->ctx->preview = true;
                 self::eventSingle($post_url);
             }
         }
     }
 
     // Multiple events page
-    public static function eventList($args)
+    public static function eventList(string $args): void
     {
         $n = self::getPageNumber($args);
         $is_ical = self::isIcalDocument($args);
         $is_hcal = self::isHcalDocument($args);
         $is_gmap = self::isGmapDocument($args);
 
-        dcCore::app()->ctx->event_params = self::getEventsParams($args);
+        App::frontend()->context()->ctx->event_params = self::getEventsParams($args);
 
         if ($n) {
             $GLOBALS['_page_number'] = $n;
@@ -147,13 +147,13 @@ class UrlHandler extends dcUrlHandlers
                 $params['limit'] = [0, 30];
             } else {
                 $pn = $n ?: 1;
-                $nbppf = dcCore::app()->blog->settings->system->nb_post_per_feed;
+                $nbppf = App::blog()->settings()->system->nb_post_per_feed;
                 $params['limit'] = [(($pn - 1) * $nbppf), $nbppf];
             }
-            if (dcCore::app()->ctx->exists("categories")) {
-                $params['cat_id'] = dcCore::app()->ctx->categories->cat_id;
+            if (App::frontend()->context()->ctx->exists("categories")) {
+                $params['cat_id'] = App::frontend()->context()->ctx->categories->cat_id;
             }
-            $params = array_merge($params, dcCore::app()->ctx->event_params);
+            $params = array_merge($params, App::frontend()->context()->ctx->event_params);
 
             $eventHandler = new EventHandler();
             $rs = $eventHandler->getEvents($params);
@@ -171,7 +171,7 @@ class UrlHandler extends dcUrlHandlers
     }
 
     // Classic feed
-    public static function eventFeed($args)
+    public static function eventFeed(string $args): void
     {
         $type = null;
         $cat_url = false;
@@ -184,13 +184,13 @@ class UrlHandler extends dcUrlHandlers
             $params['lang'] = $m[1];
             $args = $m[3];
 
-            dcCore::app()->ctx->langs = dcCore::app()->blog->getLangs($params);
+            App::frontend()->context()->ctx->langs = App::blog()->getLangs($params);
 
-            if (dcCore::app()->ctx->langs->isEmpty()) {
+            if (App::frontend()->context()->ctx->langs->isEmpty()) {
                 // The specified language does not exist.
                 self::p404();
             } else {
-                dcCore::app()->ctx->cur_lang = $m[1];
+                App::frontend()->context()->ctx->cur_lang = $m[1];
             }
         }
 
@@ -211,14 +211,14 @@ class UrlHandler extends dcUrlHandlers
         if ($cat_url) {
             $params['cat_url'] = $cat_url;
             $params['post_type'] = 'eventhandler';
-            dcCore::app()->ctx->categories = dcCore::app()->blog->getCategories($params);
+            App::frontend()->context()->ctx->categories = App::blog()->getCategories($params);
 
-            if (dcCore::app()->ctx->categories->isEmpty()) {
+            if (App::frontend()->context()->ctx->categories->isEmpty()) {
                 // The specified category does no exist.
                 self::p404();
             }
 
-            $subtitle = ' - ' . dcCore::app()->ctx->categories->cat_title;
+            $subtitle = ' - ' . App::frontend()->context()->ctx->categories->cat_title;
         }
 
         $tpl = 'eventhandler-' . $type . '.xml';
@@ -227,19 +227,22 @@ class UrlHandler extends dcUrlHandlers
             $mime = 'application/atom+xml';
         }
 
-        dcCore::app()->ctx->nb_entry_per_page = dcCore::app()->blog->settings->system->nb_post_per_feed;
-        dcCore::app()->ctx->short_feed_items = dcCore::app()->blog->settings->system->short_feed_items;
-        dcCore::app()->ctx->feed_subtitle = $subtitle;
+        App::frontend()->context()->ctx->nb_entry_per_page = App::blog()->settings()->system->nb_post_per_feed;
+        App::frontend()->context()->ctx->short_feed_items = App::blog()->settings()->system->short_feed_items;
+        App::frontend()->context()->ctx->feed_subtitle = $subtitle;
 
-        header('X-Robots-Tag: ' . context::robotsPolicy(dcCore::app()->blog->settings->system->robots_policy, ''));
+        header('X-Robots-Tag: ' . App::frontend()->context()->robotsPolicy(App::blog()->settings()->system->robots_policy, ''));
         self::serveDocument($tpl, $mime);
         if (!$cat_url) {
-            dcCore::app()->blog->publishScheduledEntries();
+            App::blog()->publishScheduledEntries();
         }
     }
 
-    // Parse URI for multiple events page
-    public static function getEventsParams($args)
+    /**  Parse URI for multiple events page
+     *
+     * @return array<string, string>
+     */
+    public static function getEventsParams(string $args): array
     {
         $params = [];
         $params['post_type'] = 'eventhandler';
@@ -284,9 +287,9 @@ class UrlHandler extends dcUrlHandlers
         if (!empty($m[3])) {
             $cat_params['cat_url'] = $m[3];
             $cat_params['post_type'] = 'eventhandler';
-            dcCore::app()->ctx->categories = dcCore::app()->blog->getCategories($cat_params);
+            App::frontend()->context()->ctx->categories = App::blog()->getCategories($cat_params);
 
-            if (dcCore::app()->ctx->categories->isEmpty()) {
+            if (App::frontend()->context()->ctx->categories->isEmpty()) {
                 // The specified category does no exist.
                 self::p404();
             }
@@ -355,7 +358,7 @@ class UrlHandler extends dcUrlHandlers
         return $params;
     }
 
-    protected static function isIcalDocument(&$args)
+    protected static function isIcalDocument(string &$args): bool
     {
         if (preg_match('#/ical\.ics$#', $args, $m)) {
             $args = preg_replace('#/ical\.ics$#', '', $args);
@@ -365,7 +368,7 @@ class UrlHandler extends dcUrlHandlers
         return false;
     }
 
-    protected static function isHcalDocument(&$args)
+    protected static function isHcalDocument(string &$args): bool
     {
         if (preg_match('#/hcal\.html$#', $args, $m)) {
             $args = preg_replace('#/hcal\.html$#', '', $args);
@@ -375,7 +378,7 @@ class UrlHandler extends dcUrlHandlers
         return false;
     }
 
-    protected static function isGmapDocument(&$args)
+    protected static function isGmapDocument(string &$args): bool
     {
         if (preg_match('#/gmap$#', $args, $m)) {
             $args = preg_replace('#/gmap$#', '', $args);
@@ -385,7 +388,7 @@ class UrlHandler extends dcUrlHandlers
         return false;
     }
 
-    public static function serveIcalDocument($rs, $x_dc_folder = '')
+    public static function serveIcalDocument(MetaRecord $rs, string $x_dc_folder = ''): void
     {
         if ($rs->isEmpty()) {
             self::p404();
@@ -397,7 +400,7 @@ class UrlHandler extends dcUrlHandlers
         "VERSION:2.0\r\n" .
         "METHOD:PUBLISH\r\n" .
         "CALSCALE:GREGORIAN\r\n" .
-        implode("\r\n ", str_split(trim("X-DC-BLOGNAME:" . dcCore::app()->blog->name), 70)) . "\r\n";
+        implode("\r\n ", str_split(trim("X-DC-BLOGNAME:" . App::blog()->name()), 70)) . "\r\n";
 
         if ($x_dc_folder) {
             $res .= implode("\r\n ", str_split(trim("X-DC-FOLDER:" . $x_dc_folder), 70)) . "\r\n";
@@ -418,7 +421,7 @@ class UrlHandler extends dcUrlHandlers
     }
 
     // Serve special hcal document
-    public static function serveHcalDocument($rs, $x_dc_folder = '')
+    public static function serveHcalDocument(MetaRecord $rs, string $x_dc_folder = ''): void
     {
         if ($rs->isEmpty()) {
             self::p404();
@@ -428,23 +431,23 @@ class UrlHandler extends dcUrlHandlers
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' . "\n" .
         '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . "\n" .
         '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="' .
-        dcCore::app()->blog->settings->system->lang . '" lang="' . dcCore::app()->blog->settings->system->lang . '">' . "\n" .
+        App::blog()->settings()->system->lang . '" lang="' . App::blog()->settings()->system->lang . '">' . "\n" .
         '<head>' . "\n" .
-        '<title>' . Html::escapeHTML(dcCore::app()->blog->name) . ' - ' . __('Events') . '</title>' . "\n" .
+        '<title>' . Html::escapeHTML(App::blog()->name()) . ' - ' . __('Events') . '</title>' . "\n" .
         '<style type="text/css" media="screen">' . "\n" .
-        '@import url(' . dcCore::app()->blog->getQmarkURL() .
+        '@import url(' . App::blog()->getQmarkURL() .
         'pf=eventHandler/css/event-hcalendar.css);' . "\n" .
         '</style>' . "\n" .
         '</head>' . "\n" .
         '<body>' . "\n" .
         '<div id="page">' . "\n" .
         '<div id="top">' . "\n" .
-        '<h1><a href="' . dcCore::app()->blog->url . '">' . Html::escapeHTML(dcCore::app()->blog->name) .
+        '<h1><a href="' . App::blog()->url() . '">' . Html::escapeHTML(App::blog()->name()) .
         ' - ' . __('Events') . '</a></h1>' . "\n";
 
         if ($x_dc_folder) {
             $res .= '<p>' . __('Directory:') . ' <a href="' .
-            dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') . $x_dc_folder . '">' .
+            App::blog()->url() . App::url()->getBase('eventhandler_list') . $x_dc_folder . '">' .
             $x_dc_folder . '</a></p>' . "\n";
         }
 
@@ -473,21 +476,21 @@ class UrlHandler extends dcUrlHandlers
     }
 
     // Serve special gmap document
-    public static function serveGmapDocument($rs, $x_dc_folder = '')
+    public static function serveGmapDocument(MetaRecord $rs, string $x_dc_folder = ''): void
     {
         $res =
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' . "\n" .
         '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . "\n" .
         '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="' .
-        dcCore::app()->blog->settings->system->lang . '" lang="' . dcCore::app()->blog->settings->system->lang . '">' . "\n" .
+        App::blog()->settings()->system->lang . '" lang="' . App::blog()->settings()->system->lang . '">' . "\n" .
         '<head>' . "\n" .
-        '<title>' . Html::escapeHTML(dcCore::app()->blog->name) . ' - ' . __('Events') . '</title>' . "\n" .
+        '<title>' . Html::escapeHTML(App::blog()->name()) . ' - ' . __('Events') . '</title>' . "\n" .
         '<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />' . "\n" .
-        '<script src="' . dcCore::app()->blog->settings->system->themes_url .
-        "/" . dcCore::app()->blog->settings->system->theme . '/../default/js/jquery.js"></script=>' . "\n" .
-        '<script type="text/javascript" src="' . dcCore::app()->blog->settings->system->themes_url .
-        "/" . dcCore::app()->blog->settings->system->theme . '/../default/js/jquery.cookie.js"></script>' . "\n" .
-        "<script src=\"" . dcCore::app()->blog->getQmarkURL() .
+        '<script src="' . App::blog()->settings()->system->themes_url .
+        "/" . App::blog()->settings()->system->theme . '/../default/js/jquery.js"></script=>' . "\n" .
+        '<script type="text/javascript" src="' . App::blog()->settings()->system->themes_url .
+        "/" . App::blog()->settings()->system->theme . '/../default/js/jquery.cookie.js"></script>' . "\n" .
+        "<script src=\"" . App::blog()->getQmarkURL() .
         'pf=eventHandler/js/googlepmaps/event-public-map.js"></script>' . "\n" .
         '<style type="text/css">' .
         'html { height: 100%; } body { height: 100%; margin: 0px; padding: 0px; } ' .

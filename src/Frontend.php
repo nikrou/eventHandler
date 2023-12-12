@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\Core\Process;
-use dcCore;
+use Dotclear\App;
 
 class Frontend extends Process
 {
@@ -36,85 +36,85 @@ class Frontend extends Process
             return false;
         }
 
-        dcCore::app()->addBehavior('publicPrependV2', function (): void {
+        App::behavior()->addBehavior('publicPrependV2', function (): void {
             // Localisation
             __('scheduled');
             __('ongoing');
             __('finished');
         });
 
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'events']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'eventsOfPost']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'postsOfEvent']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'categories']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'calendar']);
-        dcCore::app()->addBehavior('initWidgets', [Widgets::class, 'map']);
+        App::behavior()->addBehavior('initWidgets', Widgets::events(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::eventsOfPost(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::postsOfEvent(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::categories(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::calendar(...));
+        App::behavior()->addBehavior('initWidgets', Widgets::map(...));
 
         // Public behaviors
-        dcCore::app()->addBehavior('publicHeadContent', [PublicBehaviors::class, 'publicHeadContent']);
-        dcCore::app()->addBehavior('publicBeforeDocument', [PublicBehaviors::class, 'publicBeforeDocument']);
-        dcCore::app()->addBehavior('publicEntryBeforeContent', [PublicBehaviors::class, 'publicEntryBeforeContent']);
-        dcCore::app()->addBehavior('publicEntryAfterContent', [PublicBehaviors::class, 'publicEntryAfterContent']);
+        App::behavior()->addBehavior('publicHeadContent', PublicBehaviors::publicHeadContent(...));
+        App::behavior()->addBehavior('publicBeforeDocument', PublicBehaviors::publicBeforeDocument(...));
+        App::behavior()->addBehavior('publicEntryBeforeContent', PublicBehaviors::publicEntryBeforeContent(...));
+        App::behavior()->addBehavior('publicEntryAfterContent', PublicBehaviors::publicEntryAfterContent(...));
 
         // Missing values
-        dcCore::app()->tpl->addValue('BlogTimezone', [Template::class, 'BlogTimezone']);
+        App::frontend()->template()->addValue('BlogTimezone', Template::BlogTimezone(...));
 
         // Page of events
-        dcCore::app()->tpl->addBlock('EventsIf', [Template::class, 'EventsIf']);
-        dcCore::app()->tpl->addValue('EventsMenuPeriod', [Template::class, 'EventsMenuPeriod']);
-        dcCore::app()->tpl->addValue('EventsMenuSortOrder', [Template::class, 'EventsMenuSortOrder']);
-        dcCore::app()->tpl->addValue('EventsFeedURL', [Template::class, 'EventsFeedURL']);
-        dcCore::app()->tpl->addValue('EventsURL', [Template::class, 'EventsURL']);
-        dcCore::app()->tpl->addValue('EventsPeriod', [Template::class, 'EventsPeriod']);
-        dcCore::app()->tpl->addValue('EventsInterval', [Template::class, 'EventsInterval']);
+        App::frontend()->template()->addBlock('EventsIf', Template::EventsIf(...));
+        App::frontend()->template()->addValue('EventsMenuPeriod', Template::EventsMenuPeriod(...));
+        App::frontend()->template()->addValue('EventsMenuSortOrder', Template::EventsMenuSortOrder(...));
+        App::frontend()->template()->addValue('EventsFeedURL', Template::EventsFeedURL(...));
+        App::frontend()->template()->addValue('EventsURL', Template::EventsURL(...));
+        App::frontend()->template()->addValue('EventsPeriod', Template::EventsPeriod(...));
+        App::frontend()->template()->addValue('EventsInterval', Template::EventsInterval(...));
 
-        dcCore::app()->tpl->addBlock('EventsCount', [Template::class, 'EventsCount']);
-        dcCore::app()->tpl->addBlock('EventsEntries', [Template::class, 'EventsEntries']);
-        dcCore::app()->tpl->addBlock('EventsPagination', [Template::class, 'EventsPagination']);
-        dcCore::app()->tpl->addBlock('EventsEntryIf', [Template::class, 'EventsEntryIf']);
-        dcCore::app()->tpl->addBlock('EventsDateHeader', [Template::class, 'EventsDateHeader']);
-        dcCore::app()->tpl->addBlock('EventsDateFooter', [Template::class, 'EventsDateFooter']);
-        dcCore::app()->tpl->addValue('EventsEntryDate', [Template::class, 'EventsEntryDate']);
-        dcCore::app()->tpl->addValue('EventsEntryTime', [Template::class, 'EventsEntryTime']);
-        dcCore::app()->tpl->addValue('EventsEntryCategoryURL', [Template::class, 'EventsEntryCategoryURL']);
-        dcCore::app()->tpl->addValue('EventsEntryAddress', [Template::class, 'EventsEntryAddress']);
-        dcCore::app()->tpl->addValue('EventsEntryLatitude', [Template::class, 'EventsEntryLatitude']);
-        dcCore::app()->tpl->addValue('EventsEntryLongitude', [Template::class, 'EventsEntryLongitude']);
-        dcCore::app()->tpl->addValue('EventsEntryZoom', [Template::class, 'EventsEntryZoom']);
-        dcCore::app()->tpl->addValue('EventsEntryDuration', [Template::class, 'EventsEntryDuration']);
-        dcCore::app()->tpl->addValue('EventsEntryPeriod', [Template::class, 'EventsEntryPeriod']);
-        dcCore::app()->tpl->addValue('EventsEntryMap', [Template::class, 'EventsEntryMap']);
+        App::frontend()->template()->addBlock('EventsCount', Template::EventsCount(...));
+        App::frontend()->template()->addBlock('EventsEntries', Template::EventsEntries(...));
+        App::frontend()->template()->addBlock('EventsPagination', Template::EventsPagination(...));
+        App::frontend()->template()->addBlock('EventsEntryIf', Template::EventsEntryIf(...));
+        App::frontend()->template()->addBlock('EventsDateHeader', Template::EventsDateHeader(...));
+        App::frontend()->template()->addBlock('EventsDateFooter', Template::EventsDateFooter(...));
+        App::frontend()->template()->addValue('EventsEntryDate', Template::EventsEntryDate(...));
+        App::frontend()->template()->addValue('EventsEntryTime', Template::EventsEntryTime(...));
+        App::frontend()->template()->addValue('EventsEntryCategoryURL', Template::EventsEntryCategoryURL(...));
+        App::frontend()->template()->addValue('EventsEntryAddress', Template::EventsEntryAddress(...));
+        App::frontend()->template()->addValue('EventsEntryLatitude', Template::EventsEntryLatitude(...));
+        App::frontend()->template()->addValue('EventsEntryLongitude', Template::EventsEntryLongitude(...));
+        App::frontend()->template()->addValue('EventsEntryZoom', Template::EventsEntryZoom(...));
+        App::frontend()->template()->addValue('EventsEntryDuration', Template::EventsEntryDuration(...));
+        App::frontend()->template()->addValue('EventsEntryPeriod', Template::EventsEntryPeriod(...));
+        App::frontend()->template()->addValue('EventsEntryMap', Template::EventsEntryMap(...));
 
         // Events of a post
-        dcCore::app()->tpl->addBlock('EventsOfPost', [Template::class, 'EventsOfPost']);
-        dcCore::app()->tpl->addBlock('EventsOfPostHeader', [Template::class, 'EventsOfPostHeader']);
-        dcCore::app()->tpl->addBlock('EventsOfPostFooter', [Template::class, 'EventsOfPostFooter']);
-        dcCore::app()->tpl->addBlock('EventOfPostIf', [Template::class, 'EventOfPostIf']);
-        dcCore::app()->tpl->addValue('EventOfPostURL', [Template::class, 'EventOfPostURL']);
-        dcCore::app()->tpl->addValue('EventOfPostTitle', [Template::class, 'EventOfPostTitle']);
-        dcCore::app()->tpl->addValue('EventOfPostDate', [Template::class, 'EventOfPostDate']);
-        dcCore::app()->tpl->addValue('EventOfPostTime', [Template::class, 'EventOfPostTime']);
-        dcCore::app()->tpl->addValue('EventOfPostAuthorCommonName', [Template::class, 'EventOfPostAuthorCommonName']);
-        dcCore::app()->tpl->addValue('EventOfPostAuthorLink', [Template::class, 'EventOfPostAuthorLink']);
-        dcCore::app()->tpl->addValue('EventOfPostCategory', [Template::class, 'EventOfPostCategory']);
-        dcCore::app()->tpl->addValue('EventOfPostCategoryURL', [Template::class, 'EventOfPostCategoryURL']);
-        dcCore::app()->tpl->addValue('EventOfPostAddress', [Template::class, 'EventOfPostAddress']);
-        dcCore::app()->tpl->addValue('EventOfPostDuration', [Template::class, 'EventOfPostDuration']);
-        dcCore::app()->tpl->addValue('EventOfPostPeriod', [Template::class, 'EventOfPostPeriod']);
+        App::frontend()->template()->addBlock('EventsOfPost', Template::EventsOfPost(...));
+        App::frontend()->template()->addBlock('EventsOfPostHeader', Template::EventsOfPostHeader(...));
+        App::frontend()->template()->addBlock('EventsOfPostFooter', Template::EventsOfPostFooter(...));
+        App::frontend()->template()->addBlock('EventOfPostIf', Template::EventOfPostIf(...));
+        App::frontend()->template()->addValue('EventOfPostURL', Template::EventOfPostURL(...));
+        App::frontend()->template()->addValue('EventOfPostTitle', Template::EventOfPostTitle(...));
+        App::frontend()->template()->addValue('EventOfPostDate', Template::EventOfPostDate(...));
+        App::frontend()->template()->addValue('EventOfPostTime', Template::EventOfPostTime(...));
+        App::frontend()->template()->addValue('EventOfPostAuthorCommonName', Template::EventOfPostAuthorCommonName(...));
+        App::frontend()->template()->addValue('EventOfPostAuthorLink', Template::EventOfPostAuthorLink(...));
+        App::frontend()->template()->addValue('EventOfPostCategory', Template::EventOfPostCategory(...));
+        App::frontend()->template()->addValue('EventOfPostCategoryURL', Template::EventOfPostCategoryURL(...));
+        App::frontend()->template()->addValue('EventOfPostAddress', Template::EventOfPostAddress(...));
+        App::frontend()->template()->addValue('EventOfPostDuration', Template::EventOfPostDuration(...));
+        App::frontend()->template()->addValue('EventOfPostPeriod', Template::EventOfPostPeriod(...));
 
         // Posts of an event
-        dcCore::app()->tpl->addBlock('PostsOfEvent', [Template::class, 'PostsOfEvent']);
-        dcCore::app()->tpl->addBlock('PostsOfEventHeader', [Template::class, 'PostsOfEventHeader']);
-        dcCore::app()->tpl->addBlock('PostsOfEventFooter', [Template::class, 'PostsOfEventFooter']);
-        dcCore::app()->tpl->addBlock('PostOfEventIf', [Template::class, 'PostOfEventIf']);
-        dcCore::app()->tpl->addValue('PostOfEventURL', [Template::class, 'PostOfEventURL']);
-        dcCore::app()->tpl->addValue('PostOfEventTitle', [Template::class, 'PostOfEventTitle']);
-        dcCore::app()->tpl->addValue('PostOfEventDate', [Template::class, 'PostOfEventDate']);
-        dcCore::app()->tpl->addValue('PostOfEventTime', [Template::class, 'PostOfEventTime']);
-        dcCore::app()->tpl->addValue('PostOfEventAuthorCommonName', [Template::class, 'PostOfEventAuthorCommonName']);
-        dcCore::app()->tpl->addValue('PostOfEventAuthorLink', [Template::class, 'PostOfEventAuthorLink']);
-        dcCore::app()->tpl->addValue('PostOfEventCategory', [Template::class, 'PostOfEventCategory']);
-        dcCore::app()->tpl->addValue('PostOfEventCategoryURL', [Template::class, 'PostOfEventCategoryURL']);
+        App::frontend()->template()->addBlock('PostsOfEvent', Template::PostsOfEvent(...));
+        App::frontend()->template()->addBlock('PostsOfEventHeader', Template::PostsOfEventHeader(...));
+        App::frontend()->template()->addBlock('PostsOfEventFooter', Template::PostsOfEventFooter(...));
+        App::frontend()->template()->addBlock('PostOfEventIf', Template::PostOfEventIf(...));
+        App::frontend()->template()->addValue('PostOfEventURL', Template::PostOfEventURL(...));
+        App::frontend()->template()->addValue('PostOfEventTitle', Template::PostOfEventTitle(...));
+        App::frontend()->template()->addValue('PostOfEventDate', Template::PostOfEventDate(...));
+        App::frontend()->template()->addValue('PostOfEventTime', Template::PostOfEventTime(...));
+        App::frontend()->template()->addValue('PostOfEventAuthorCommonName', Template::PostOfEventAuthorCommonName(...));
+        App::frontend()->template()->addValue('PostOfEventAuthorLink', Template::PostOfEventAuthorLink(...));
+        App::frontend()->template()->addValue('PostOfEventCategory', Template::PostOfEventCategory(...));
+        App::frontend()->template()->addValue('PostOfEventCategoryURL', Template::PostOfEventCategoryURL(...));
 
         return true;
     }

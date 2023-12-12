@@ -20,35 +20,40 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
+use Dotclear\App;
+use Dotclear\Core\Auth;
+use Dotclear\Database\Cursor;
+use Dotclear\Database\MetaRecord;
 use Dotclear\Database\Statement\JoinStatement;
 use Dotclear\Database\Statement\SelectStatement;
-use dcCore;
+use Exception;
 
 class EventHandler
 {
-    public $con;
-
-    protected $type;
-    protected $table;
-    protected $blog;
+    protected string $type;
+    protected string $table;
 
     public function __construct(string $type = 'eventhandler')
     {
-        $this->con = dcCore::app()->con;
         $this->type = (string) $type;
-        $this->table = dcCore::app()->prefix . 'eventhandler';
-        $this->blog = $this->con->escape(dcCore::app()->blog->id);
+        $this->table = App::con()->prefix() . 'eventhandler';
     }
 
-    public static function cleanedParams($params)
+    /**
+     * @param array<string, mixed> $params
+     *
+     * @return array<string, mixed>
+     */
+    public static function cleanedParams($params): array
     {
-        // Prepare params
         if (!isset($params['columns'])) {
             $params['columns'] = [];
         }
+
         if (!isset($params['from'])) {
             $params['from'] = '';
         }
+
         if (!isset($params['sql'])) {
             $params['sql'] = '';
         }
@@ -56,31 +61,31 @@ class EventHandler
         return $params;
     }
 
-    // Get record of events
-    public function getEvents($params, $count_only = false)
+    /**
+     * @param array<string, mixed> $params
+     */
+    public function getEvents(array $params = [], bool $count_only = false): MetaRecord
     {
         $params = self::cleanedParams($params);
 
-        // Regain post_id
         if (isset($params['event_id'])) {
             $params['post_id'] = $params['event_id'];
             unset($params['event_id']);
         }
-        // Regain post_type
+
         if (isset($params['event_type'])) {
             $params['post_type'] = $params['event_type'];
             unset($params['event_type']);
         }
-        // Default post_type
+
         if (!isset($params['post_type'])) {
             $params['post_type'] = $this->type;
         }
 
-        // Columns of table eventhandler
         if (!isset($params['columns'])) {
             $params['columns'] = [];
         }
-        //Fixed bug on some PHP version
+
         $col = (array) $params['columns'];
         $col[] = 'event_startdt';
         $col[] = 'event_enddt';
@@ -90,7 +95,6 @@ class EventHandler
         $col[] = 'event_zoom';
         $params['columns'] = $col;
 
-        // Tables
         $sql = new SelectStatement();
         $sql->join(
             (new JoinStatement())
@@ -100,7 +104,6 @@ class EventHandler
                    ->statement()
         );
 
-        // Period
         if (!empty($params['event_period']) && $params['event_period'] != 'all') {
             $op = match ($params['event_period']) {
                 'ongoing' => ['<', '>', 'AND'],
@@ -114,12 +117,12 @@ class EventHandler
             $now = date('Y-m-d H:i:s');
 
             // sqlite does not understand the TIMESTAMP function but understands the 'Y-m-d H:i:s' format just fine
-            $timestamp = $this->con->driver() == 'sqlite' ? "" : " TIMESTAMP";
+            $timestamp = App::con()->driver() == 'sqlite' ? "" : " TIMESTAMP";
 
             $params['sql'] .= $op[0] != '!' && $op[1] != '!' ? 'AND (' : 'AND ';
 
             if (!empty($params['event_startdt']) && $op[0] != '!') {
-                $params['sql'] .= "EH.event_startdt " . $op[0] . $timestamp . " '" . $this->con->escape($params['event_startdt']) . "'";
+                $params['sql'] .= "EH.event_startdt " . $op[0] . $timestamp . " '" . App::con()->escape($params['event_startdt']) . "'";
             } elseif (empty($params['event_startdt']) && $op[0] != '!') {
                 $params['sql'] .= "EH.event_startdt " . $op[0] . $timestamp . " '" . $now . "'";
             }
@@ -127,7 +130,7 @@ class EventHandler
             $params['sql'] .= $op[0] != '!' && $op[1] != '!' ? ' ' . $op[2] . ' ' : '';
 
             if (!empty($params['event_enddt']) && $op[1] != '!') {
-                $params['sql'] .= "EH.event_enddt " . $op[1] . $timestamp . " '" . $this->con->escape($params['event_enddt']) . "'";
+                $params['sql'] .= "EH.event_enddt " . $op[1] . $timestamp . " '" . App::con()->escape($params['event_enddt']) . "'";
             } elseif (empty($params['event_enddt']) && $op[1] != '!') {
                 $params['sql'] .= "EH.event_enddt " . $op[1] . $timestamp . " '" . $now . "'";
             }
@@ -135,43 +138,41 @@ class EventHandler
             $params['sql'] .= $op[0] != '!' && $op[1] != '!' ? ') ' : ' ';
         }
 
-        // Cut start date
         if (!empty($params['event_start_year'])) {
-            $params['sql'] .= 'AND ' . $this->con->dateFormat('EH.event_startdt', '%Y') . ' = ' .
+            $params['sql'] .= 'AND ' . App::con()->dateFormat('EH.event_startdt', '%Y') . ' = ' .
             "'" . sprintf('%04d', $params['event_start_year']) . "' ";
         }
         if (!empty($params['event_start_month'])) {
-            $params['sql'] .= 'AND ' . $this->con->dateFormat('EH.event_startdt', '%m') . ' = ' .
+            $params['sql'] .= 'AND ' . App::con()->dateFormat('EH.event_startdt', '%m') . ' = ' .
             "'" . sprintf('%02d', $params['event_start_month']) . "' ";
         }
         if (!empty($params['event_start_day'])) {
-            $params['sql'] .= 'AND ' . $this->con->dateFormat('EH.event_startdt', '%d') . ' = ' .
+            $params['sql'] .= 'AND ' . App::con()->dateFormat('EH.event_startdt', '%d') . ' = ' .
             "'" . sprintf('%02d', $params['event_start_day']) . "' ";
         }
 
-        // Cut end date
         if (!empty($params['event_end_year'])) {
-            $params['sql'] .= 'AND ' . $this->con->dateFormat('EH.event_enddt', '%Y') . ' = ' .
+            $params['sql'] .= 'AND ' . App::con()->dateFormat('EH.event_enddt', '%Y') . ' = ' .
             "'" . sprintf('%04d', $params['event_end_year']) . "' ";
         }
         if (!empty($params['event_end_month'])) {
-            $params['sql'] .= 'AND ' . $this->con->dateFormat('EH.event_enddt', '%m') . ' = ' .
+            $params['sql'] .= 'AND ' . App::con()->dateFormat('EH.event_enddt', '%m') . ' = ' .
             "'" . sprintf('%02d', $params['event_end_month']) . "' ";
         }
         if (!empty($params['event_endt_day'])) {
-            $params['sql'] .= 'AND ' . $this->con->dateFormat('EH.event_enddt', '%d') . ' = ' .
+            $params['sql'] .= 'AND ' . App::con()->dateFormat('EH.event_enddt', '%d') . ' = ' .
             "'" . sprintf('%02d', $params['event_end_day']) . "' ";
         }
 
         // Localization
         if (!empty($params['event_address'])) {
-            $params['sql'] .= "AND EH.event_address = '" . $this->con->escape($params['event_address']) . "' ";
+            $params['sql'] .= "AND EH.event_address = '" . App::con()->escape($params['event_address']) . "' ";
         }
 
         // --BEHAVIOR-- coreEventHandlerBeforeGetEvents
-        dcCore::app()->callBehavior('coreEventHandlerBeforeGetEvents', $this, ['params' => &$params]);
+        App::behavior()->callBehavior('coreEventHandlerBeforeGetEvents', $this, ['params' => &$params]);
 
-        $rs = dcCore::app()->blog->getPosts($params, $count_only, $sql);
+        $rs = App::blog()->getPosts($params, $count_only, $sql);
 
         if (empty($params['sql_only'])) {
             $rs->eventHandler = $this;
@@ -179,13 +180,15 @@ class EventHandler
         }
 
         // --BEHAVIOR-- coreEventHandlerGetEvents
-        dcCore::app()->callBehavior('coreEventHandlerGetEvents', $rs);
+        App::behavior()->callBehavior('coreEventHandlerGetEvents', $rs);
 
         return $rs;
     }
 
-    // Get record of events linked to a "normal post"
-    public function getEventsByPost($params = [], $count_only = false)
+    /**
+     * @param array<string, mixed> $params
+     */
+    public function getEventsByPost(array $params = [], bool $count_only = false): ?MetaRecord
     {
         $params = self::cleanedParams($params);
 
@@ -196,24 +199,26 @@ class EventHandler
             $params['event_type'] = $this->type;
         }
 
-        $params['from'] .= ', ' . dcCore::app()->prefix . 'meta EM ';
+        $params['from'] .= ', ' . App::con()->prefix() . 'meta EM ';
 
-        if (str_contains($this->con->driver(), 'mysql')) {
+        if (str_contains((string) App::con()->driver(), 'mysql')) {
             $params['sql'] .= 'AND EM.meta_id = CAST(P.post_id as char) ';
         } else {
             $params['sql'] .= 'AND CAST(EM.meta_id as int) = CAST(P.post_id as int) ';
         }
 
-        $params['sql'] .= "AND EM.post_id = '" . $this->con->escape($params['post_id']) . "' ";
-        $params['sql'] .= "AND EM.meta_type = '" . $this->con->escape($params['event_type']) . "' ";
+        $params['sql'] .= "AND EM.post_id = '" . App::con()->escape($params['post_id']) . "' ";
+        $params['sql'] .= "AND EM.meta_type = '" . App::con()->escape($params['event_type']) . "' ";
 
         unset($params['post_id']);
 
         return $this->getEvents($params, $count_only);
     }
 
-    // Get record of "normal posts" linked to an event
-    public function getPostsByEvent($params = [], $count_only = false)
+    /**
+     * @param array<string, mixed> $params
+     */
+    public function getPostsByEvent(array $params = [], bool $count_only = false): ?MetaRecord
     {
         $params = self::cleanedParams($params);
 
@@ -226,134 +231,123 @@ class EventHandler
         if (!isset($params['post_type'])) {
             $params['post_type'] = '';
         }
-        $params['from'] .= ', ' . dcCore::app()->prefix . 'meta EM ';
+        $params['from'] .= ', ' . App::con()->prefix() . 'meta EM ';
         $params['sql'] .= 'AND EM.post_id = P.post_id ';
-        $params['sql'] .= "AND EM.meta_id = '" . $this->con->escape($params['event_id']) . "' ";
-        $params['sql'] .= "AND EM.meta_type = '" . $this->con->escape($params['event_type']) . "' ";
+        $params['sql'] .= "AND EM.meta_id = '" . App::con()->escape($params['event_id']) . "' ";
+        $params['sql'] .= "AND EM.meta_type = '" . App::con()->escape($params['event_type']) . "' ";
 
         unset($params['event_id'],$params['event_type']);
 
-        return dcCore::app()->blog->getPosts($params, $count_only);
+        return App::blog()->getPosts($params, $count_only);
     }
 
-    // Add an event
-    public function addEvent($cur_post, $cur_event)
+    public function addEvent(Cursor $cur_post, Cursor $cur_event): int
     {
-        if (!dcCore::app()->auth->check('usage,contentadmin', $this->blog)) {
-            throw new \Exception(__('You are not allowed to create an event'));
+        if (!App::auth()->check(App::auth()->makePermissions([
+            Auth::PERMISSION_CONTENT_ADMIN, Auth::PERMISSION_USAGE,
+        ]), App::blog()->id())) {
+            throw new Exception(__('You are not allowed to create an event'));
         }
 
         try {
-            // Clean cursor
             $this->getEventCursor(null, $cur_post, $cur_event);
 
             // --BEHAVIOR-- coreEventHandlerBeforeEventAdd
-            dcCore::app()->callBehavior("coreEventHandlerBeforeEventAdd", $this, $cur_post, $cur_event);
+            App::behavior()->callBehavior("coreEventHandlerBeforeEventAdd", $this, $cur_post, $cur_event);
 
-            // Adding first part of event record
-            $cur_event->post_id = dcCore::app()->blog->addPost($cur_post);
-
-            // Create second part of event record
+            $cur_event->post_id = App::blog()->addPost($cur_post);
             $cur_event->insert();
-        } catch (\Exception $e) {
-            $this->con->rollback();
+        } catch (Exception $e) {
+            App::con()->rollback();
             throw $e;
         }
 
         // --BEHAVIOR-- coreEventHandlerAfterEventAdd
-        dcCore::app()->callBehavior("coreEventHandlerAfterEventAdd", $this, $cur_event->post_id, $cur_post, $cur_event);
+        App::behavior()->callBehavior("coreEventHandlerAfterEventAdd", $this, $cur_event->post_id, $cur_post, $cur_event);
         return $cur_event->post_id;
     }
 
-    // Update an event
-    public function updEvent($post_id, $cur_post, $cur_event)
+    public function updEvent(int $post_id, Cursor $cur_post, Cursor $cur_event): void
     {
-        if (!dcCore::app()->auth->check('usage,contentadmin', $this->blog)) {
-            throw new \Exception(__('You are not allowed to update events'));
+        if (!App::auth()->check(App::auth()->makePermissions([
+            Auth::PERMISSION_CONTENT_ADMIN, Auth::PERMISSION_USAGE,
+        ]), App::blog()->id())) {
+            throw new Exception(__('You are not allowed to update events'));
         }
 
         $post_id = (int) $post_id;
 
         if (empty($post_id)) {
-            throw new \Exception(__('No such event ID'));
+            throw new Exception(__('No such event ID'));
         }
 
-        $this->con->begin();
+        App::con()->begin();
         try {
-            // Clean cursor
             $this->getEventCursor($post_id, $cur_post, $cur_event);
 
             // --BEHAVIOR-- coreEventHandlerBeforeEventUpdate
-            dcCore::app()->callBehavior('coreEventHandlerBeforeEventUpdate', $this, $post_id, $cur_post, $cur_event);
-            // Update first part of event record
-            dcCore::app()->blog->updPost($post_id, $cur_post);
+            App::behavior()->callBehavior('coreEventHandlerBeforeEventUpdate', $this, $post_id, $cur_post, $cur_event);
 
-            // Set post_id
+            App::blog()->updPost($post_id, $cur_post);
             $cur_event->post_id = $post_id;
-
-            // update second part of event record
             $cur_event->update("WHERE post_id = '" . $post_id . "' ");
-        } catch (\Exception $e) {
-            $this->con->rollback();
+        } catch (Exception $e) {
+            App::con()->rollback();
             throw $e;
         }
-        $this->con->commit();
+        App::con()->commit();
     }
 
-    // Delete an event
-    public function delEvent($post_id)
+    public function delEvent(int $post_id): void
     {
-        if (!dcCore::app()->auth->check('delete,contentadmin', $this->blog)) {
-            throw new \Exception(__('You are not allowed to delete events'));
+        if (App::auth()->check(App::auth()->makePermissions([
+            Auth::PERMISSION_CONTENT_ADMIN, Auth::PERMISSION_DELETE,
+        ]), App::blog()->id())) {
+            throw new Exception(__('You are not allowed to delete events'));
         }
 
         $post_id = (int) $post_id;
 
         if (empty($post_id)) {
-            throw new \Exception(__('No such event ID'));
+            throw new Exception(__('No such event ID'));
         }
 
         // --BEHAVIOR-- coreEventHandlerEventDelete
-        dcCore::app()->callBehavior("coreEventHandlerEventDelete", $this, $post_id);
+        App::behavior()->callBehavior("coreEventHandlerEventDelete", $this, $post_id);
 
-        // Delete first part of event record
-        dcCore::app()->blog->delPost($post_id);
-
-        //what about reference key?
-        // Delete second part of event record
-        $this->con->execute('DELETE FROM ' . $this->table . ' ' . 'WHERE post_id = ' . $post_id . ' ');
+        App::blog()->delPost($post_id);
+        App::con()->execute('DELETE FROM ' . $this->table . ' ' . 'WHERE post_id = ' . $post_id . ' ');
     }
 
-    // Clean cursor
-    private function getEventCursor($post_id, $cur_post, $cur_event)
+    private function getEventCursor(?int $post_id, Cursor $cur_post, Cursor $cur_event): void
     {
         // Required a start date
         if ($cur_event->event_startdt == '') {
-            throw new \Exception(__('No event start date'));
+            throw new Exception(__('No event start date'));
         }
         // Required an end date
         if ($cur_event->event_enddt == '') {
-            throw new \Exception(__('No event end date'));
+            throw new Exception(__('No event end date'));
         }
         // Compare dates
-        if (strtotime($cur_event->event_enddt) < strtotime($cur_event->event_startdt)) {
-            throw new \Exception(__('Start date greater than end date'));
+        if (strtotime((string) $cur_event->event_enddt) < strtotime((string) $cur_event->event_startdt)) {
+            throw new Exception(__('Start date greater than end date'));
         }
         // Full coordiantes or nothing
         if (($cur_event->event_latitude != '' && $cur_event->event_longitude == '')
            || ($cur_event->event_latitude == '' && $cur_event->event_longitude != '')) {
-            throw new \Exception(__('Not full coordinate'));
+            throw new Exception(__('Not full coordinate'));
         }
         // Coordinates format
         if ($cur_event->event_latitude != '') {
-            if (!preg_match('/^(-|)[0-9.]+$/', $cur_event->event_latitude)) {
-                throw new \Exception(__('Wrong format of coordinate'));
+            if (!preg_match('/^(-|)[0-9.]+$/', (string) $cur_event->event_latitude)) {
+                throw new Exception(__('Wrong format of coordinate'));
             }
         }
         // Coordinates format
         if ($cur_event->event_longitude != '') {
-            if (!preg_match('/^(-|)[0-9.]+$/', $cur_event->event_longitude)) {
-                throw new \Exception(__('Wrong format of coordinate'));
+            if (!preg_match('/^(-|)[0-9.]+$/', (string) $cur_event->event_longitude)) {
+                throw new Exception(__('Wrong format of coordinate'));
             }
         }
         // Set post type
@@ -373,27 +367,26 @@ class EventHandler
         $cur_event->unsetField('post_id');
 
         // --BEHAVIOR-- coreEventHandlerGetEventCursor
-        dcCore::app()->callBehavior('coreEventHandlerGetEventCursor', $this, $post_id, $cur_post, $cur_event);
+        App::behavior()->callBehavior('coreEventHandlerGetEventCursor', $this, $post_id, $cur_post, $cur_event);
     }
 
     // Get human readable duration from integer
-    public static function getReadableDuration($int, $format = 'second')
+    public static function getReadableDuration(int $timestamp, string $format = 'second'): string
     {
-        $int = (int) $int;
         $time = '';
         //$sec = $min = $hou = $day = 0;
 
         //todo format
-        $sec = $int % 60;
-        $int -= $sec;
-        $int /= 60;
-        $min = $int % 60;
-        $int -= $min;
-        $int /= 60;
-        $hou = $int % 24;
-        $int -= $hou;
-        $int /= 24;
-        $day = $int;
+        $sec = $timestamp % 60;
+        $timestamp -= $sec;
+        $timestamp /= 60;
+        $min = $timestamp % 60;
+        $timestamp -= $min;
+        $timestamp /= 60;
+        $hou = $timestamp % 24;
+        $timestamp -= $hou;
+        $timestamp /= 24;
+        $day = $timestamp;
 
         if ($day > 1) {
             $time .= sprintf(__('%s days'), $day) . ' ';
@@ -421,8 +414,8 @@ class EventHandler
     }
 
     // Build HTML content for events maps
-    // markers are in lib.eventhandler.rs.extension.php
-    public static function getMapContent($width, $height, $type, $zoom, $info, $lat, $lng, $markers)
+    // markers are in RsExtension.php
+    public static function getMapContent(string $width, string $height, string $type, int $zoom, int $info, float $lat, float $lng, string $markers): string
     {
         $style = '';
         if ($width || $height) {

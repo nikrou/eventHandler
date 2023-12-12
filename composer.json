@@ -30,7 +30,6 @@
     },
     "scripts": {
         "phpstan": "phpstan analyse",
-        "psalm": "psalm",
         "rector": "rector process"
     }
 }

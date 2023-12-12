@@ -1,6 +1,6 @@
 # eventHandler
 
-![PHPSTan level](https://img.shields.io/badge/PHPStan-level%205-brightgreen.svg?style=flat)
+![PHPSTan level](https://img.shields.io/badge/PHPStan-level%206-brightgreen.svg?style=flat)
 
 eventHandler is a dotclear plugin to manage events (meetings, shows,...) on your blog.
 
@@ -19,7 +19,7 @@ Analysis is made using [PHPStan](https://github.com/phpstan/phpstan) :
 $ composer phpstan
 ```
 
-The analysis is made with level 5 but the idea is to increase that level and fix more and more possible issues.
+The analysis is made with level 6 but the idea is to increase that level and fix more and more possible issues.
 
 ## Contributing
 

@@ -4,15 +4,21 @@ parameters:
     - '#Access to an undefined property Dotclear\\Helper\\Html\\XmlTag::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Database\\Cursor::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Database\\MetaRecord::\$[alpha]*.#'
+    - '#Call to an undefined method Dotclear\\Database\\MetaRecord::(getPeriod|isEditable|getURL)\(\)#'
     - '#Access to an undefined property Dotclear\\Database\\Structure::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Plugin\\widgets\\WidgetsElement::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Plugin\\widgets\\WidgetsStack::\$[alpha]*.#'
+    - '#Access to an undefined property Dotclear\\Interface\\Core\\BlogWorkspaceInterface::\$[alpha]*#'
+    - '#Access to an undefined property Dotclear\\Core\\Frontend\\Ctx::\$[alpha]*#'
+    - '#Access to an undefined property Dotclear\\Interface\\Core\\BlogSettingsInterface::\$[alpha]*#'
+    - '#Access to an undefined property Dotclear\\Interface\\Core\\UserPreferencesInterface::\$[alpha]*#'
 
-    - '#Access to an undefined property context::\$[alpha]*.#'
-    - '#Access to an undefined property dcNamespace::\$[alpha]*.#'
-    - '#Access to an undefined property dcPrefs::\$[alpha]*.#'
-    - '#Access to an undefined property dcSettings::\$[alpha]*.#'
     - '#Access to an undefined property record::\$cat_id#'
 
     - message: '#Variable \$this might not be defined.#'
       path: _define.php
+
+    # phpstan doesn't understand extend of MetaRecord :
+    - '#Call to an undefined method Dotclear\\Database\\MetaRecord::(isOnSameDay|getCategoryURL|getMapVEvent|getIcalVEVENT|getHcalVEVENT|getEventDate|getEventISO8601Date|getEventTime)\(\)#'
+    - '#Call to an undefined method Dotclear\\Database\\MetaRecord::(isDeletable)\(\)#'
+    - '#Call to an undefined method Dotclear\\Database\\MetaRecord::(getTS|isExtended|getExcerpt|getContent)#'

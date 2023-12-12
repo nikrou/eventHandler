@@ -1,10 +1,12 @@
 <?php
 
+use Dotclear\App;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\eventHandler\AdminBehaviors;
 use Dotclear\Plugin\eventHandler\My;
+
 ?>
 <html>
     <head>
@@ -13,26 +15,26 @@ use Dotclear\Plugin\eventHandler\My;
 	<script async defer src="//maps.google.com/maps/api/js?key=<?php echo $map_api_key;?>"></script>
 	<?php endif;?>
 	<?php
-	echo
-	Page::jsModal() .
-	Page::jsMetaEditor() .
-	$admin_post_behavior .
-	Page::jsLoad('js/_post.js') .
-	Page::jsLoad('index.php?pf=eventHandler/js/event.js') .
-	Page::jsLoad('index.php?pf=eventHandler/js/' . $map_provider . '/event-admin-map.js') .
-	Page::jsConfirmClose('entry-form', 'comment-form') .
-	// --BEHAVIOR-- adminEventHandlerHeaders
-	dcCore::app()->callBehavior('adminEventHandlerHeaders') .
-	Page::jsPageTabs($default_tab) .
-	AdminBehaviors::adminCss();
-	?>
+    echo
+    Page::jsModal() .
+    Page::jsMetaEditor() .
+    $admin_post_behavior .
+    Page::jsLoad('js/_post.js') .
+    Page::jsLoad('index.php?pf=eventHandler/js/event.js') .
+    Page::jsLoad('index.php?pf=eventHandler/js/' . $map_provider . '/event-admin-map.js') .
+    Page::jsConfirmClose('entry-form', 'comment-form') .
+    // --BEHAVIOR-- adminEventHandlerHeaders
+    App::behavior()->callBehavior('adminEventHandlerHeaders') .
+    Page::jsPageTabs($default_tab) .
+    AdminBehaviors::adminCss();
+?>
 	<?php echo $next_headlink . "\n" . $prev_headlink;?>
     </head>
     <body>
 	<?php
-echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
-    '<a href="' . dcCore::app()->admin->url->get('admin.plugin.eventHandler', ['part' => 'events']) . '">' . __('Events') . '</a>
-	&rsaquo; <span class="page-title">' . $page_title . '</span>' => ''
+echo Page::breadcrumb([Html::escapeHTML(App::blog()->name()) => '',
+    '<a href="' . App::backend()->url()->get('admin.plugin.eventHandler', ['part' => 'events']) . '">' . __('Events') . '</a>
+	&rsaquo; <span class="page-title">' . $page_title . '</span>' => '',
 ]);
 ?>
 
@@ -57,13 +59,13 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
      }
 
      // --BEHAVIOR-- adminEventHandlerNavLinks
-     dcCore::app()->callBehavior('adminEventHandlerNavLinks', isset($post) ? $post : null);
+     App::behavior()->callBehavior('adminEventHandlerNavLinks', $post ?? null);
 	    ?>
 	</p>
 	<?php endif;?>
-	<?php if ($can_view_page && $can_edit_post):?>
+	<?php if ($can_edit_post):?>
 	<div class="multi-part" title="<?php echo __('Edit event');?>" id="edit-entry">
-	    <form action="<?php echo dcCore::app()->admin->getPageURL();?>&amp;part=event" method="post" id="entry-form">
+	    <form action="<?php echo My::manageUrl(['part' => 'event']);?>" method="post" id="entry-form">
 		<div id="entry-wrapper">
 		    <div id="entry-content">
 			<div class="constrained">
@@ -115,8 +117,8 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 				</div>
 			    </div>
 			    <?php
-			    // --BEHAVIOR-- adminEventHandlerForm
-			    dcCore::app()->callBehavior('adminEventHandlerForm', isset($post) ? $post : null);
+	            // --BEHAVIOR-- adminEventHandlerForm
+	            App::behavior()->callBehavior('adminEventHandlerForm', $post ?? null);
 	    ?>
 
 			    <p class="col"><label class="required" title="<?php echo __('Required field');?>"><?php echo __('Title:');?>
@@ -130,7 +132,7 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 				<label class="required" title="<?php echo __('Required field');?>" for="post_content">
 				    <?php echo __('Content:');?>
 				</label>
-				<?php echo form::textarea('post_content', 50, dcCore::app()->auth->getOption('edit_size'), Html::escapeHTML($post_content), '', 2);?>
+				<?php echo form::textarea('post_content', 50, App::auth()->getOption('edit_size'), Html::escapeHTML($post_content), '', 2);?>
 			    </p>
 
 			    <p class="area" id="notes-area"><label><?php echo __('Notes:');?></label>
@@ -143,14 +145,14 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 				    <?php echo __('Preview event');?>&nbsp;(p)
 				</a>
 				<?php else:?>
-				<a id="post-cancel" href="<?php echo dcCore::app()->admin->getPageURL();?>" class="button" accesskey="c"><?php echo __('Cancel');?> (c)</a>
+				<a id="post-cancel" href="<?php echo App::backend()->getPageURL();?>" class="button" accesskey="c"><?php echo __('Cancel');?> (c)</a>
 				<?php endif;?>
 				<?php
-				echo
-				($post_id ? form::hidden('id', $post_id) : '') .
-				($can_delete ? '<input type="submit" value="' . __('Delete') . '" class="delete" name="delete" />' : '') .
-				dcCore::app()->formNonce();
-				?>
+	            echo
+	            ($post_id ? form::hidden('id', $post_id) : '') .
+	            ($can_delete ? '<input type="submit" value="' . __('Delete') . '" class="delete" name="delete" />' : '') .
+	            App::nonce()->getFormNonce();
+?>
 			    </p>
 			</div>
 		    </div>
@@ -169,7 +171,10 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 			    <h5 id="label_format"><label for="post_format" class="classic"><?php echo __('Text formatting');?></label></h5>
 			    <p><?php echo form::combo('post_format', $available_formats, $post_format, 'maximal');?></p>
 			    <p class="format_control control_no_xhtml">
-				<a id="convert-xhtml" class="button<?php echo ($post_id && $post_format != 'wiki' ? ' hide' : '');?>" href="<?php echo dcCore::app()->admin->getPageURL();?>&amp;part=event&amp;id=<?php echo $post_id;?>&amp;xconv=1"><?php echo __('Convert to XHTML');?></a></p>
+						<a id="convert-xhtml" class="button<?php echo($post_id && $post_format != 'wiki' ? ' hide' : '');?>" href="<?php echo My::manageUrl(['part' => 'event', 'id' => $post_id, 'xconv' => 1]);?>">
+							<?php echo __('Convert to XHTML');?>
+						</a>
+					</p>
 			</div>
 			<p>
 			    <label>
@@ -203,9 +208,9 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 			</div>
 		    </div>
 		    <?php
-		    // --BEHAVIOR-- adminEventHandlerFormSidebar
-		    dcCore::app()->callBehavior('adminEventHandlerFormSidebar', isset($post) ? $post : null);
-		    ?>
+            // --BEHAVIOR-- adminEventHandlerFormSidebar
+            App::behavior()->callBehavior('adminEventHandlerFormSidebar', $post ?? null);
+?>
 		</div>
 	    </form>
 	</div>
@@ -218,9 +223,9 @@ echo Page::breadcrumb([Html::escapeHTML(dcCore::app()->blog->name) => '',
 	    <?php endif;?>
 	</div>
 	<?php
-	// --BEHAVIOR-- adminEventHandlerTab
-	dcCore::app()->callBehavior('adminEventHandlerTab', isset($post) ? $post : null);
-	 ?>
+    // --BEHAVIOR-- adminEventHandlerTab
+    App::behavior()->callBehavior('adminEventHandlerTab', $post ?? null);
+?>
 	<?php endif;?>
 	<?php Page::helpBlock('eventHandler');?>
     </body>

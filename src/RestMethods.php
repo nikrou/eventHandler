@@ -20,28 +20,32 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
-use dcCore;
+use Dotclear\App;
 use Exception;
 
 class RestMethods
 {
-    public static function unbindEventOfPost(array $unused, array $post): array
+    /**
+     * @param array<string, mixed> $get
+     * @param array<string, mixed> $post
+     *
+     * @return  array<string, mixed>
+     */
+    public static function unbindEventOfPost(array $get, array $post): array
     {
-        dcCore::app()->blog->settings->addNamespace('eventHandler');
-
         $post_id = $post['postId'] ?? null;
         $event_id = $post['eventId'] ?? null;
 
         if (is_null($post_id)) {
-            throw new \Exception(__('No such post ID'));
+            throw new Exception(__('No such post ID'));
         }
 
         if (is_null($event_id)) {
-            throw new \Exception(__('No such event ID'));
+            throw new Exception(__('No such event ID'));
         }
 
         try {
-            dcCore::app()->meta->delPostMeta($post_id, 'eventhandler', $event_id);
+            App::meta()->delPostMeta($post_id, 'eventhandler', $event_id);
         } catch (Exception) {
             throw new Exception(__('An error occured when trying de unbind event'));
         }

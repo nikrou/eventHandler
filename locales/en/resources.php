@@ -16,4 +16,6 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
-dcCore::app()->resources['help']['eventHandler'] = __DIR__ . '/help/help.html';
+use Dotclear\App;
+
+App::backend()->resources()->set('help', 'eventHandler', __DIR__ . '/help/help.html');

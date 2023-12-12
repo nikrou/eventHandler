@@ -1,3 +1,7 @@
+# plugin eventHandler 2023.12.12
+
+- Adapt plugin for dotclear 2.28
+
 # plugin eventHandler 2023.10.28
 
 - Fix missing translations. Close #52. Thanks to [Franck](https://github.com/franck-tomek) for report.

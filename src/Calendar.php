@@ -23,15 +23,17 @@ namespace Dotclear\Plugin\eventHandler;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 use ArrayObject;
-use dcCore;
+use Dotclear\App;
 
 class Calendar
 {
     // claim timestamp of sunday
-    public const SUNDAY_TS = 1_042_329_600;
+    final public const SUNDAY_TS = 1_042_329_600;
 
-    // Prepare structure of the calendar
-    public static function getArray($year = null, $month = null, $weekstart = 0)
+    /**
+     * @return array<string, mixed>
+     */
+    public static function getArray(?string $year = null, ?string $month = null, bool $weekstart = false): array
     {
         /** @var array<string, string> $calendar */
         $calendar = new ArrayObject();
@@ -82,7 +84,6 @@ class Calendar
             $i++;
         }
 
-        // each days
         $d = 1;
         $i = $row = $field = 0;
         $dstart = false;
@@ -115,12 +116,13 @@ class Calendar
         return $calendar;
     }
 
-    // Fill calendar
-    public static function parseArray($calendar, $weekstart, $startonly, $rest = false)
+    /**
+     * @param array<string, mixed> $calendar
+     */
+    public static function parseArray(array $calendar, bool $weekstart, bool $startonly, bool $rest = false): string
     {
         $eventHandler = new EventHandler();
 
-        // Additional class for js params
         $class = $weekstart ? ' weekstart' : '';
         $class .= $startonly ? ' startonly' : '';
 
@@ -130,10 +132,9 @@ class Calendar
         }
         $res .= "<table summary=\"" . __('Calendar') . "\">\n";
 
-        // Caption
         $base = '';
         if ($calendar['caption']) {
-            $base = dcCore::app()->blog->url . dcCore::app()->url->getBase('eventhandler_list') . '/' . ($startonly ? 'of' : 'on') . '/';
+            $base = App::blog()->url() . App::url()->getBase('eventhandler_list') . '/' . ($startonly ? 'of' : 'on') . '/';
 
             $res .= " <caption title=\"" . $calendar['caption']['current_dt'] . "\">\n";
             if (!empty($calendar['caption']['prev_url'])) {
@@ -149,7 +150,6 @@ class Calendar
             $res .= " </caption>\n";
         }
 
-        // Head line
         if ($calendar['head']) {
             $res .= " <thead>\n  <tr>\n";
             foreach ($calendar['head'] as $d) {
@@ -158,7 +158,6 @@ class Calendar
             $res .= "  </tr>\n </thead>\n";
         }
 
-        // Rows
         if ($calendar['rows']) {
             $res .= " <tbody>\n";
 
@@ -187,9 +186,7 @@ class Calendar
                         } elseif ($count > 1) {
                             $day =
                             '<a href="' . $base . $calendar['year'] . '/' . $calendar['month'] . '/' . $day .
-                            '" title="' .
-                            ($count == 1 ? __('one event') : sprintf(__('%s events'), $count)) .
-                            '">' . $day . '</a>';
+                            '" title="' . sprintf(__('%s events'), $count) . '">' . $day . '</a>';
                         }
                     }
                     $res .= "   <td" . (2 < strlen((string) $day) ? ' class="eventsday"' : '') . ">" . $day . "</td>\n";

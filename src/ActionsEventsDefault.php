@@ -20,25 +20,26 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
+use ArrayObject;
 use Dotclear\Core\Backend\Action\ActionsPostsDefault;
 use Dotclear\Core\Backend\Action\ActionsPosts;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Html\Form\Hidden;
 use Dotclear\Helper\Html\Html;
-use Dotclear\Plugin\eventHandler\Listing\ListingEventsMini;
-use dcCore;
+use Dotclear\App;
+use Dotclear\Plugin\eventHandler\Listing\ListingEvents;
 use Exception;
 use form;
 
 class ActionsEventsDefault
 {
-    public static function adminEventsActionsPage(ActionsEvents $ap)
+    public static function adminEventsActionsPage(ActionsEvents $ap): void
     {
-        if (dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([
-            dcCore::app()->auth::PERMISSION_PUBLISH,
-            dcCore::app()->auth::PERMISSION_CONTENT_ADMIN,
-        ]), dcCore::app()->blog->id)) {
+        if (App::auth()->check(App::auth()->makePermissions([
+            App::auth()::PERMISSION_PUBLISH,
+            App::auth()::PERMISSION_CONTENT_ADMIN,
+        ]), App::blog()->id())) {
             $ap->addAction(
                 [__('Status') => [
                     __('Publish') => 'publish',
@@ -60,9 +61,9 @@ class ActionsEventsDefault
 
         $ap->addAction([__('Change') => [__('Change category') => 'category']], [ActionsPostsDefault::class, 'doChangePostCategory']);
 
-        if (dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([
-            dcCore::app()->auth::PERMISSION_ADMIN,
-        ]), dcCore::app()->blog->id)) {
+        if (App::auth()->check(App::auth()->makePermissions([
+            App::auth()::PERMISSION_ADMIN,
+        ]), App::blog()->id())) {
             $ap->addAction(
                 [__('Change') => [
                     __('Change author') => 'author', ]],
@@ -70,41 +71,50 @@ class ActionsEventsDefault
             );
         }
 
-        if (dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([
-            dcCore::app()->auth::PERMISSION_DELETE,
-            dcCore::app()->auth::PERMISSION_CONTENT_ADMIN,
-        ]), dcCore::app()->blog->id)) {
+        if (App::auth()->check(App::auth()->makePermissions([
+            App::auth()::PERMISSION_DELETE,
+            App::auth()::PERMISSION_CONTENT_ADMIN,
+        ]), App::blog()->id())) {
             $ap->addAction(
                 [__('Delete') => [
                     __('Delete') => 'delete', ]],
                 [ActionsPostsDefault::class, 'doDeletePost']
             );
 
-            $ap->addAction([__('Entries') => [__('Unbind related entries') => ActionsEvents::UNBIND_POST_ACTION]], [self::class, 'doBindUnbind']);
+            $ap->addAction([__('Entries') => [__('Unbind related entries') => ActionsEvents::UNBIND_POST_ACTION]], self::doBindUnbind(...));
         }
     }
 
-    public static function doBindUnBind(ActionsPosts $ap, $post)
+    /**
+    * @param ArrayObject<string, mixed> $post
+    */
+    public static function doBindUnBind(ActionsPosts $ap, ArrayObject $post): void
     {
         $action = $ap->getAction();
         if (!in_array($action, [ActionsEvents::BIND_EVENT_ACTION, ActionsEvents::UNBIND_POST_ACTION])) {
             return;
         }
 
-        $posts_ids = $ap->getIDs();
-        if (empty($posts_ids)) {
-            throw new Exception(__('No entry selected'));
-        }
-        $params['sql'] = ' AND P.post_id ' . dcCore::app()->con->in($posts_ids) . ' ';
-        $posts = dcCore::app()->blog->getPosts($params);
-        $events_id = [];
-
         if ($action === ActionsEvents::BIND_EVENT_ACTION) {
-            if (isset($post['events'])) {
-                foreach ($post['events'] as $k => $v) {
-                    $events_id[$k] = (int) $v;
+            $action_redirect = true;
+
+            $numberOfEntries = 0;
+            if (isset($post['from_id'])) {
+                $params = ['post_id' => (int) $post['from_id']];
+                $numberOfEntries = 1;
+                $action_redirect = false;
+            } else {
+                $posts_ids = $ap->getIDs();
+                if (empty($posts_ids)) {
+                    throw new Exception(__('No entry selected'));
                 }
-                $params['sql'] = 'AND P.post_id ' . dcCore::app()->con->in($events_id) . ' ';
+                $numberOfEntries = count($posts_ids);
+                $params = ['sql' => ' AND P.post_id ' . App::con()->in($posts_ids) . ' '];
+            }
+            $posts = App::blog()->getPosts($params);
+
+            if (isset($post['events'])) {
+                $params = ['sql' => 'AND P.post_id ' . App::con()->in(array_values($post['events'])) . ' '];
                 $eventHandler = new EventHandler();
                 $events = $eventHandler->getEvents($params);
                 if ($events->isEmpty()) {
@@ -117,59 +127,66 @@ class ActionsEventsDefault
 
                 while ($posts->fetch()) {
                     foreach ($meta_ids as $meta_id) {
-                        dcCore::app()->meta->delPostMeta($posts->post_id, 'eventhandler', $meta_id);
-                        dcCore::app()->meta->setPostMeta($posts->post_id, 'eventhandler', $meta_id);
+                        App::meta()->delPostMeta($posts->post_id, 'eventhandler', $meta_id);
+                        App::meta()->setPostMeta($posts->post_id, 'eventhandler', $meta_id);
                     }
                 }
+
                 Notices::addSuccessNotice(
                     sprintf(
                         __(
                             '%d entry has been bound %s',
                             '%d entries have been bound %s',
-                            count($posts_ids)
+                            $numberOfEntries
                         ),
-                        count($posts_ids),
-                        __('to the selected event', 'to the selected events', $events->count())
+                        $numberOfEntries,
+                        sprintf(
+                            __('to the selected event', 'to the %d selected events', $events->count()),
+                            $$events->count()
+                        )
                     )
                 );
-                $ap->redirect(true);
+
+                if ($action_redirect) {
+                    $ap->redirect(false);
+                } else {
+                    App::backend()->url()->redirect('admin.post', ['id' => $post['from_id']]);
+                }
             } else {
                 $ap->beginPage(Page::breadcrumb(
                     [
-                        Html::escapeHTML(dcCore::app()->blog->name) => '',
+                        Html::escapeHTML(App::blog()->name()) => '',
                         __('Entries') => $ap->getRedirection(true),
                         __('Select events to link to entries') => '',
                     ]
                 ), AdminBehaviors::adminCss());
                 echo '<h3>' . __('Select events to link to entries') . '</h3>';
-                $eventHandler = new EventHandler();
+
+                // --BEHAVIOR-- adminEventHandlerListCustomize
+                App::behavior()->callBehavior('adminEventHandlerListCustomize', ['params' => $params]);
 
                 $params = [];
                 $params['no_content'] = true;
                 $params['order'] = 'event_startdt DESC';
                 $params['period'] = 'notfinished';
 
-                // --BEHAVIOR-- adminEventHandlerMinilistCustomize
-                dcCore::app()->callBehavior('adminEventHandlerMinilistCustomize', ['params' => $params]);
-
+                $eventHandler = new EventHandler();
                 $events = $eventHandler->getEvents($params);
                 $counter = $eventHandler->getEvents($params, true);
-                $list = new ListingEventsMini($events, $counter->f(0));
+                $list = new ListingEvents($events, $counter->f(0));
+                $list->setEntriesNames('events');
 
-                echo $list->display(
+                $list->display(
                     1,
                     100,
-                    '<form action="posts.php" method="post">' .
-
+                    '<form action="' . App::backend()->url()->get('admin.posts') . '" method="post">' .
                     '%s' .
-
                     '<p>' .
-                    $ap->getHiddenFields() .
                     implode(
                         '',
-                        array_map(fn($id) => (new Hidden('entries[]', (string) $id))->render(), array_keys($ap->getIDs()))
+                        array_map(fn($id) => (new Hidden('entries[]', (string) $id))->render(), array_values($ap->getIDs()))
                     ) .
-                    dcCore::app()->formNonce() .
+                    App::nonce()->getFormNonce() .
                     form::hidden(['action'], ActionsEvents::BIND_EVENT_ACTION) .
                     '<input type="submit" value="' . __('Save') . '" /></p>' .
                     '</form>'
@@ -179,9 +196,16 @@ class ActionsEventsDefault
         }
         // Unbind all posts from selected events
         if ($action === ActionsEvents::UNBIND_POST_ACTION) {
-            if (!$posts->isEmpty()) { //called from posts.php
+            $posts_ids = $ap->getIDs();
+            if (empty($posts_ids)) {
+                throw new Exception(__('No entry selected'));
+            }
+            $params['sql'] = ' AND P.post_id ' . App::con()->in($posts_ids) . ' ';
+            $posts = App::blog()->getPosts($params);
+
+            if (!$posts->isEmpty()) {
                 while ($posts->fetch()) {
-                    dcCore::app()->meta->delPostMeta($posts->post_id, 'eventhandler');
+                    App::meta()->delPostMeta($posts->post_id, 'eventhandler');
                 }
                 Notices::addSuccessNotice(sprintf(
                     __(
@@ -194,34 +218,33 @@ class ActionsEventsDefault
                 $ap->redirect(false);
             } elseif (isset($post['entries'])) {
                 $eventHandler = new EventHandler();
-                foreach ($post['entries'] as $k => $v) {
-                    $params = ['event_id' => $v];
+                foreach ($post['entries'] as $eventId) {
+                    $params = ['event_id' => $eventId];
                     $posts = $eventHandler->getPostsByEvent($params);
                     $event = $eventHandler->getEvents($params);
                     if ($posts->isEmpty()) {
                         Notices::addWarningNotice(sprintf(
                             __('Event #%d (%s) has no related post to be unbound from.'),
-                            $v,
+                            $eventId,
                             $event->post_title
                         ));
                         continue;
                     }
                     while ($posts->fetch()) {
-                        dcCore::app()->meta->delPostMeta($posts->post_id, 'eventhandler', $v);
+                        App::meta()->delPostMeta($posts->post_id, 'eventhandler', $eventId);
                     }
+
                     Notices::addSuccessNotice(sprintf(
                         __(
-                            'Event #%d (%s) unbound from %d related post',
+                            'Event #%d (%s) unbound from one related post',
                             'Event #%d (%s) unbound from %d related posts',
                             $posts->count()
                         ),
-                        $v,
+                        $eventId,
                         $event->post_title,
                         $posts->count()
                     ));
                 }
-            } else {
-                throw new Exception("adminEventhandler::doBindUnBind Should never happen, $action action called with no post nor event specified.");
             }
         }
     }

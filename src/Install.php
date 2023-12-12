@@ -22,7 +22,8 @@ namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\Core\Process;
 use Dotclear\Database\Structure;
-use dcCore;
+use Dotclear\App;
+use Exception;
 
 class Install extends Process
 {
@@ -37,15 +38,15 @@ class Install extends Process
             return false;
         }
 
-        $new_version = dcCore::app()->plugins->moduleInfo(My::id(), 'version');
-        $old_version = dcCore::app()->getVersion(My::id());
+        $new_version = App::plugins()->moduleInfo(My::id(), 'version');
+        $old_version = App::version()->getVersion(My::id());
 
         if (version_compare((string) $old_version, $new_version, '>=')) {
             return true;
         }
 
         try {
-            $t = new Structure(dcCore::app()->con, dcCore::app()->prefix);
+            $t = new Structure(App::con(), App::con()->prefix());
             $t->eventhandler
               ->post_id('bigint', 0, false)
               ->event_startdt('timestamp', 0, false, 'now()')
@@ -61,11 +62,11 @@ class Install extends Process
               ->reference('fk_event_post', 'post_id', 'post', 'post_id', 'cascade', 'cascade');
 
             // Schema installation
-            $ti = new Structure(dcCore::app()->con, dcCore::app()->prefix);
+            $ti = new Structure(App::con(), App::con()->prefix());
             $changes = $ti->synchronize($t);
 
             // Settings options
-            dcCore::app()->blog->settings->addNamespace('eventHandler');
+            App::blog()->settings()->addWorkspace('eventHandler');
 
             $extra_css = file_get_contents(dirname(__DIR__) . '/css/default-eventhandler.css');
 
@@ -83,11 +84,11 @@ class Install extends Process
             My::settings()->put('map_api_key', '', 'string', 'Map API Key', false, true);
 
             // Set version
-            dcCore::app()->setVersion('eventHandler', $new_version);
+            App::version()->setVersion('eventHandler', $new_version);
 
             return true;
-        } catch (\Exception $e) {
-            dcCore::app()->error->add($e->getMessage());
+        } catch (Exception $e) {
+            App::error()->add($e->getMessage());
         }
 
         return true;

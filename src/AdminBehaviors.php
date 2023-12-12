@@ -20,43 +20,45 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\eventHandler;
 
+use Dotclear\Core\Auth;
 use Dotclear\Core\Backend\Action\ActionsPosts;
 use Dotclear\Core\Backend\Favorites;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Html\Html;
-use dcAuth;
-use dcCore;
 use ArrayObject;
+use Dotclear\App;
+use Dotclear\Database\Cursor;
+use Dotclear\Database\MetaRecord;
 use Exception;
 use form;
 
 class AdminBehaviors
 {
-    public static function adminDashboardIcons($name, $icons)
+    public static function adminDashboardFavs(Favorites $favorites): void
     {
-        if ($name === 'eventHandler') {
-            $icons['eventHandler'] = new ArrayObject([
-                __('Event handler'),
-                'plugin.php?p=eventHandler',
-                'index.php?pf=eventHandler/icon.svg',
-            ]);
-        }
-    }
-
-    public static function adminDashboardFavs(Favorites $favorites)
-    {
-        $favorites->register('eventHandler', [
-            'title' => 'Event handler',
-            'url' => 'plugin.php?p=eventHandler',
-            'small-icon' => [Page::getPF('eventHandler/icon.svg'), Page::getPF('eventHandler/icon-dark.svg')],
-            'large-icon' => [Page::getPF('eventHandler/icon.svg'), Page::getPF('eventHandler/icon-dark.svg')],
-            'permissions' => dcCore::app()->auth->makePermissions([
-                dcAuth::PERMISSION_USAGE, dcAuth::PERMISSION_CONTENT_ADMIN,
+        $favorites->register(My::id(), [
+            'title' => My::name(),
+            'url' => My::manageUrl([], '&'),
+            'small-icon' => My::icons(),
+            'large-icon' => My::icons(),
+            'permissions' => App::auth()->makePermissions([
+                Auth::PERMISSION_USAGE, Auth::PERMISSION_CONTENT_ADMIN,
             ]),
+            'dashboard_cb' => function (ArrayObject $icon) {
+                $params = [];
+                $params['post_type'] = 'eventhandler';
+                $events_count = (int) App::blog()->getPosts($params, true)->f(0);
+                if ($events_count > 0) {
+                    $icon['title'] = sprintf($events_count > 1 ? __('%d events') : __('one event'), $events_count);
+                }
+            },
         ]);
     }
 
-    public static function adminPageHTTPHeaderCSP($csp)
+    /**
+     * @param ArrayObject<string, mixed> $csp
+     */
+    public static function adminPageHTTPHeaderCSP(ArrayObject $csp): void
     {
         if (My::settings()->map_provider === 'googlemaps') {
             $host_map_provider = 'csi.gstatic.com maps.google.com maps.googleapis.com';
@@ -94,27 +96,31 @@ class AdminBehaviors
         }
     }
 
-    public static function adminPostHeaders()
+    public static function adminPostHeaders(): string
     {
-        return  self::adminCss() . Page::jsLoad(Page::getPF('eventHandler/js/post.js'));
+        return self::adminCss() . Page::jsLoad(Page::getPF('eventHandler/js/post.js'));
     }
 
-    public static function pluginsToolsHeadersV2()
+    public static function pluginsToolsHeadersV2(): string
     {
         return Page::jsPageTabs();
     }
 
-    public static function adminPostsActions(ActionsPosts $ap)
+    public static function adminPostsActions(ActionsPosts $ap): void
     {
-        if (dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([
-            dcAuth::PERMISSION_CONTENT_ADMIN, dcAuth::PERMISSION_USAGE,
-        ]), dcCore::app()->blog->id)) {
-            $ap->addAction([__('Events') => [__('Bind events') => ActionsEvents::BIND_EVENT_ACTION]], [ActionsEventsDefault::class, 'doBindUnbind']);
-            $ap->addAction([__('Events') => [__('Unbind events') => ActionsEvents::UNBIND_POST_ACTION]], [ActionsEventsDefault::class, 'doBindUnbind']);
+        if (App::auth()->check(App::auth()->makePermissions([
+            Auth::PERMISSION_CONTENT_ADMIN, Auth::PERMISSION_USAGE,
+        ]), App::blog()->id())) {
+            $ap->addAction([__('Events') => [__('Bind events') => ActionsEvents::BIND_EVENT_ACTION]], ActionsEventsDefault::doBindUnbind(...));
+            $ap->addAction([__('Events') => [__('Unbind events') => ActionsEvents::UNBIND_POST_ACTION]], ActionsEventsDefault::doBindUnbind(...));
         }
     }
 
-    public static function adminPostFormItems($main_items, $sidebar_items, $post = null)
+    /**
+     * @param ArrayObject<string, mixed> $main_items
+     * @param ArrayObject<string, mixed> $sidebar_items
+     */
+    public static function adminPostFormItems(ArrayObject $main_items, ArrayObject $sidebar_items, MetaRecord $post = null): void
     {
         if ($post === null) {
             return;
@@ -133,7 +139,7 @@ class AdminBehaviors
                 $events = null;
             }
         } catch (Exception $e) {
-            dcCore::app()->error->add($e->getMessage());
+            App::error()->add($e->getMessage());
         }
 
         $res = '<div>';
@@ -155,12 +161,10 @@ class AdminBehaviors
         }
 
         // Bind a event to this post
-        $res .= '<p><a href="plugin.php?p=eventHandler&amp;part=events&amp;from_id=' . $post->post_id . '">' . __('Bind events') . '</a>';
+        $res .= '<p><a href="' . My::manageUrl(['part' => 'events', 'from_id' => $post->post_id]) . '">' . __('Bind events') . '</a>';
 
-        // Change post into event publish,contenadmin
-        if (dcCore::app()->auth->check('publish,contentadmin', dcCore::app()->blog->id)) {
-            $res .= '<p><a href="plugin.php?p=eventHandler';
-            $res .= '&amp;part=event&amp;from_id=' . $post->post_id;
+        if (App::auth()->check(App::auth()->makePermissions([Auth::PERMISSION_CONTENT_ADMIN, Auth::PERMISSION_PUBLISH]), App::blog()->id())) {
+            $res .= '<p><a href="' . My::manageUrl(['part' => 'event', 'from_id' => $post->post_id]);
             $res .= '" title="' . __('Change this entry into an event') . '">' . __('Change into event') . '</a>';
         }
 
@@ -169,9 +173,8 @@ class AdminBehaviors
         $sidebar_items['metas-box']['items']['eventhandler'] = $res;
     }
 
-    // post.php
     // This delete relation between this post and ckecked related event (without javascript)
-    public static function adminAfterPostSave($cur, $post_id)
+    public static function adminAfterPostSave(Cursor $cur, int $post_id): void
     {
         if (!$post_id) {
             return;
@@ -188,30 +191,30 @@ class AdminBehaviors
                     continue;
                 }
 
-                dcCore::app()->meta->delPostMeta($post_id, 'eventhandler', (string) $event_id);
+                App::meta()->delPostMeta($post_id, 'eventhandler', (string) $event_id);
             }
         } catch (Exception) {
-            //dcCore::app()->error->add($e->getMessage());
+            //App::error()->add($e->getMessage());
         }
     }
 
-    public static function adminBeforePostDelete($post_id)
+    public static function adminBeforePostDelete(int $post_id): void
     {
         if (!$post_id) {
             return;
         }
 
         try {
-            dcCore::app()->meta->delPostMeta($post_id, 'eventhandler');
+            App::meta()->delPostMeta($post_id, 'eventhandler');
         } catch (Exception) {
-            //dcCore::app()->error->add($e->getMessage());
+            //App::error()->add($e->getMessage());
         }
     }
 
-    public static function adminCss()
+    public static function adminCss(): string
     {
         $style = "style.css";
-        if (dcCore::app()->auth->user_prefs->interface->darkmode == 1) {
+        if (App::userPreferences()->interface->darkmode == 1) {
             $style = "dark-style.css";
         }
 

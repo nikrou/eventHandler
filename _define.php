@@ -16,17 +16,20 @@
  *  -- END LICENSE BLOCK ------------------------------------
  */
 
+use Dotclear\App;
+use Dotclear\Core\Auth;
+
 $this->registerModule(
     "EventHandler", // Name
     "Manage events on your blog", // Description
     "JC Denis, Nicolas Roudaire", // Author
-    '2023.10.28', // Version
+    '2023.12.22', // Version
     // Properties
     [
-        'permissions' => dcCore::app()->auth->makePermissions([dcAuth::PERMISSION_CONTENT_ADMIN, dcAuth::PERMISSION_USAGE]),
-        'requires' => [['core', '2.27']],
+        'permissions' => App::auth()->makePermissions([Auth::PERMISSION_CONTENT_ADMIN, Auth::PERMISSION_USAGE]),
+        'dc_min' => '2.28',
+        'requires' => [['core', '2.28']],
         'type' => 'plugin',
-        'settings' => ['self' => '&part=settings'],
         'repository' => 'https://github.com/nikrou/eventHandler',
         'support' => 'http://forum.dotclear.org/viewtopic.php?id=43296',
         'details' => 'http://plugins.dotaddict.org/dc2/details/eventHandler',
