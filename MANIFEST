@@ -1,4 +1,3 @@
-eventHandler/deploy.mk
 eventHandler/CONTRIBUTING.md
 eventHandler/css/leaflet.css
 eventHandler/css/event-hcalendar.css
@@ -38,8 +37,6 @@ eventHandler/js/event.js
 eventHandler/js/googlemaps/event-admin-map.js
 eventHandler/js/googlemaps/event-public-map.js
 eventHandler/tpl/edit_event.tpl
-eventHandler/tpl/settings.tpl
-eventHandler/.php-cs-fixer.cache
 eventHandler/BUGS
 eventHandler/default-templates/mustek/eventhandler-list.html
 eventHandler/default-templates/mustek/eventhandler-eventsofpost.html
@@ -61,7 +58,6 @@ eventHandler/locales/en/resources.php
 eventHandler/locales/fr/help/help.html
 eventHandler/locales/fr/resources.php
 eventHandler/locales/fr/main.po
-eventHandler/src/PublicRest.php
 eventHandler/src/ManageEvent.php
 eventHandler/src/My.php
 eventHandler/src/Widgets.php
@@ -75,13 +71,14 @@ eventHandler/src/Calendar.php
 eventHandler/src/RsExtension.php
 eventHandler/src/UrlHandler.php
 eventHandler/src/Prepend.php
+eventHandler/src/ActionsEventsDefault.php
 eventHandler/src/Template.php
-eventHandler/src/ManageEvents.php
 eventHandler/src/Frontend.php
 eventHandler/src/EventHandler.php
 eventHandler/src/Listing/ListingEvents.php
 eventHandler/src/PublicBehaviors.php
 eventHandler/src/RestMethods.php
+eventHandler/src/Config.php
 eventHandler/src/WidgetsTemplate.php
 eventHandler/exemple-templates/default-basic/eventhandler.css
 eventHandler/exemple-templates/default-basic/tpl/eventhandler-list.html

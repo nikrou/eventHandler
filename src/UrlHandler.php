@@ -28,16 +28,16 @@ use Dotclear\Database\MetaRecord;
 
 class UrlHandler extends Url
 {
-    public static function eventService(string $args): void
+    public static function eventService(?string $args): void
     {
-        App::rest()->addFunction('eventHandlerCalendar', PublicRest::calendar(...));
+        App::rest()->addFunction('eventHandlerCalendar', RestMethods::calendar(...));
         App::rest()->serve();
         exit;
     }
 
     public static function eventSingle(string $args): void
     {
-        if ($args == '' || !App::frontend()->context()->ctx->preview && !My::settings()->active) {
+        if ($args == '' || !App::frontend()->context()->preview && !My::settings()->active) {
             self::p404();
         } else {
             $is_ical = self::isIcalDocument($args);
@@ -48,13 +48,13 @@ class UrlHandler extends Url
 
             /** @var array<string, string> $params */
             $params = new ArrayObject();
-            $params['post_type'] = 'eventhandler';
+            $params['post_type'] = EventHandler::POST_TYPE;
             $params['post_url'] = $args;
 
-            App::frontend()->context()->ctx->eventHandler = new EventHandler();
-            App::frontend()->context()->ctx->posts = App::frontend()->context()->ctx->eventHandler->getEvents($params);
+            App::frontend()->context()->eventHandler = new EventHandler();
+            App::frontend()->context()->posts = App::frontend()->context()->eventHandler->getEvents($params);
 
-            App::frontend()->context()->ctx->comment_preview = [
+            App::frontend()->context()->comment_preview = [
                 'content' => '',
                 'rawcontent' => '',
                 'name' => '',
@@ -66,15 +66,15 @@ class UrlHandler extends Url
 
             App::blog()->withoutPassword(true);
 
-            if (App::frontend()->context()->ctx->posts->isEmpty()) {
+            if (App::frontend()->context()->posts->isEmpty()) {
                 // The specified page does not exist.
                 self::p404();
             } else {
-                $post_id = App::frontend()->context()->ctx->posts->post_id;
-                $post_password = App::frontend()->context()->ctx->posts->post_password;
+                $post_id = App::frontend()->context()->posts->post_id;
+                $post_password = App::frontend()->context()->posts->post_password;
 
                 // Password protected entry
-                if ($post_password != '' && !App::frontend()->context()->ctx->preview) {
+                if ($post_password != '' && !App::frontend()->context()->preview) {
                     // Get passwords cookie
                     if (isset($_COOKIE['dc_passwd'])) {
                         $pwd_cookie = unserialize($_COOKIE['dc_passwd']);
@@ -93,11 +93,11 @@ class UrlHandler extends Url
                 }
 
                 if ($is_ical) {
-                    self::serveIcalDocument(App::frontend()->context()->ctx->posts, $args);
+                    self::serveIcalDocument(App::frontend()->context()->posts, $args);
                 } elseif ($is_hcal) {
-                    self::serveHcalDocument(App::frontend()->context()->ctx->posts, $args);
+                    self::serveHcalDocument(App::frontend()->context()->posts, $args);
                 } elseif ($is_gmap) {
-                    self::serveGmapDocument(App::frontend()->context()->ctx->posts, $args);
+                    self::serveGmapDocument(App::frontend()->context()->posts, $args);
                 } else {
                     self::serveDocument('eventhandler-single.html');
                 }
@@ -119,7 +119,7 @@ class UrlHandler extends Url
                 // The user has no access to the entry.
                 self::p404();
             } else {
-                App::frontend()->context()->ctx->preview = true;
+                App::frontend()->context()->preview = true;
                 self::eventSingle($post_url);
             }
         }
@@ -133,7 +133,7 @@ class UrlHandler extends Url
         $is_hcal = self::isHcalDocument($args);
         $is_gmap = self::isGmapDocument($args);
 
-        App::frontend()->context()->ctx->event_params = self::getEventsParams($args);
+        App::frontend()->context()->event_params = self::getEventsParams($args);
 
         if ($n) {
             $GLOBALS['_page_number'] = $n;
@@ -150,10 +150,10 @@ class UrlHandler extends Url
                 $nbppf = App::blog()->settings()->system->nb_post_per_feed;
                 $params['limit'] = [(($pn - 1) * $nbppf), $nbppf];
             }
-            if (App::frontend()->context()->ctx->exists("categories")) {
-                $params['cat_id'] = App::frontend()->context()->ctx->categories->cat_id;
+            if (App::frontend()->context()->exists("categories")) {
+                $params['cat_id'] = App::frontend()->context()->categories->cat_id;
             }
-            $params = array_merge($params, App::frontend()->context()->ctx->event_params);
+            $params = array_merge($params, App::frontend()->context()->event_params);
 
             $eventHandler = new EventHandler();
             $rs = $eventHandler->getEvents($params);
@@ -184,13 +184,13 @@ class UrlHandler extends Url
             $params['lang'] = $m[1];
             $args = $m[3];
 
-            App::frontend()->context()->ctx->langs = App::blog()->getLangs($params);
+            App::frontend()->context()->langs = App::blog()->getLangs($params);
 
-            if (App::frontend()->context()->ctx->langs->isEmpty()) {
+            if (App::frontend()->context()->langs->isEmpty()) {
                 // The specified language does not exist.
                 self::p404();
             } else {
-                App::frontend()->context()->ctx->cur_lang = $m[1];
+                App::frontend()->context()->cur_lang = $m[1];
             }
         }
 
@@ -210,15 +210,15 @@ class UrlHandler extends Url
 
         if ($cat_url) {
             $params['cat_url'] = $cat_url;
-            $params['post_type'] = 'eventhandler';
-            App::frontend()->context()->ctx->categories = App::blog()->getCategories($params);
+            $params['post_type'] = EventHandler::POST_TYPE;
+            App::frontend()->context()->categories = App::blog()->getCategories($params);
 
-            if (App::frontend()->context()->ctx->categories->isEmpty()) {
+            if (App::frontend()->context()->categories->isEmpty()) {
                 // The specified category does no exist.
                 self::p404();
             }
 
-            $subtitle = ' - ' . App::frontend()->context()->ctx->categories->cat_title;
+            $subtitle = ' - ' . App::frontend()->context()->categories->cat_title;
         }
 
         $tpl = 'eventhandler-' . $type . '.xml';
@@ -227,9 +227,9 @@ class UrlHandler extends Url
             $mime = 'application/atom+xml';
         }
 
-        App::frontend()->context()->ctx->nb_entry_per_page = App::blog()->settings()->system->nb_post_per_feed;
-        App::frontend()->context()->ctx->short_feed_items = App::blog()->settings()->system->short_feed_items;
-        App::frontend()->context()->ctx->feed_subtitle = $subtitle;
+        App::frontend()->context()->nb_entry_per_page = App::blog()->settings()->system->nb_post_per_feed;
+        App::frontend()->context()->short_feed_items = App::blog()->settings()->system->short_feed_items;
+        App::frontend()->context()->feed_subtitle = $subtitle;
 
         header('X-Robots-Tag: ' . App::frontend()->context()->robotsPolicy(App::blog()->settings()->system->robots_policy, ''));
         self::serveDocument($tpl, $mime);
@@ -245,7 +245,7 @@ class UrlHandler extends Url
     public static function getEventsParams(string $args): array
     {
         $params = [];
-        $params['post_type'] = 'eventhandler';
+        $params['post_type'] = EventHandler::POST_TYPE;
 
         // Know period
         $default_period_list = [
@@ -286,10 +286,10 @@ class UrlHandler extends Url
         // Get category
         if (!empty($m[3])) {
             $cat_params['cat_url'] = $m[3];
-            $cat_params['post_type'] = 'eventhandler';
-            App::frontend()->context()->ctx->categories = App::blog()->getCategories($cat_params);
+            $cat_params['post_type'] = EventHandler::POST_TYPE;
+            App::frontend()->context()->categories = App::blog()->getCategories($cat_params);
 
-            if (App::frontend()->context()->ctx->categories->isEmpty()) {
+            if (App::frontend()->context()->categories->isEmpty()) {
                 // The specified category does no exist.
                 self::p404();
             }

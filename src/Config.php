@@ -305,7 +305,7 @@ class Config extends Process
                 echo '</tr>';
                 while (App::backend()->eventhandler_categories->fetch()) {
                     $hidden = in_array(App::backend()->eventhandler_categories->cat_id, App::backend()->eventhandler_public_hidden_categories) || in_array(App::backend()->eventhandler_categories->cat_title, App::backend()->eventhandler_public_hidden_categories);
-                    $nb_events = App::blog()->getPosts(['cat_id' => App::backend()->eventhandler_categories->cat_id, 'post_type' => 'eventhandler'], true)->f(0);
+                    $nb_events = App::blog()->getPosts(['cat_id' => App::backend()->eventhandler_categories->cat_id, 'post_type' => EventHandler::POST_TYPE], true)->f(0);
                     if ($nb_events) {
                         $nb_events = '<a href="' . My::manageUrl(['part' => 'events', 'cat_id' => App::backend()->eventhandler_categories->cat_id]) . '" ' .
                  'title="' . __('List of events related to this category') . '">' . $nb_events . '</a>';

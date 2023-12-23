@@ -1,4 +1,9 @@
-# plugin eventHandler 2023.12.12
+# plugin eventHandler 2023.12.23
+
+- Fix all days page. Close #43.
+- Use json for public rest method
+
+# plugin eventHandler 2023.12.22
 
 - Adapt plugin for dotclear 2.28
 

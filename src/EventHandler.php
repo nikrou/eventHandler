@@ -30,10 +30,12 @@ use Exception;
 
 class EventHandler
 {
+    final public const POST_TYPE = 'eventhandler';
+
     protected string $type;
     protected string $table;
 
-    public function __construct(string $type = 'eventhandler')
+    public function __construct(string $type = self::POST_TYPE)
     {
         $this->type = (string) $type;
         $this->table = App::con()->prefix() . 'eventhandler';

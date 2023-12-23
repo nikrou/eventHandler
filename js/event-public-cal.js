@@ -73,34 +73,34 @@ if (window.jQuery) {
       var startonly = $(target).hasClass('startonly') ? '1' : '0';
       var dt = $(target).find('caption').attr('title');
 
-      $.ajax({
-        timeout: 5000,
-        url: service_url,
-        type: 'GET',
-        data: {
-          f: service_func,
-          blogId: blog_uid,
-          reqDirection: direction,
-          curDate: dt,
-          weekStart: weekstart,
-          startOnly: startonly,
-        },
-        error: function () {
-          return true;
-        },
-        success: function (data) {
-          data = $(data);
-          if (data.find('rsp').attr('status') == 'ok') {
-            $(target)
-              .find('table')
-              .replaceWith($(data).find('calendar').text());
+      fetch(
+        service_url +
+          '&' +
+          new URLSearchParams({
+            f: service_func,
+            blogId: blog_uid,
+            reqDirection: direction,
+            curDate: dt,
+            weekStart: weekstart,
+            startOnly: startonly,
+            json: 1,
+          })
+      )
+        .then((data) => data.json())
+        .then((response) => {
+          console.log(response);
+          if (response.success) {
+            console.log('replace table');
+            $(target).find('table').replaceWith(response.payload.calendar);
             $(target).eventHandlerCalendar();
             return false;
           } else {
             return true;
           }
-        },
-      });
+        })
+        .catch(() => {
+          return false;
+        });
       return false;
     }
 

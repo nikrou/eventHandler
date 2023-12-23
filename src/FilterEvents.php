@@ -31,7 +31,7 @@ use Exception;
 
 class FilterEvents extends Filters
 {
-    public function __construct(private readonly string $post_type = 'eventhandler')
+    public function __construct(private readonly string $post_type = EventHandler::POST_TYPE)
     {
         parent::__construct('posts');
 

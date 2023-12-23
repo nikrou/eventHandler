@@ -31,11 +31,11 @@ class Calendar
     final public const SUNDAY_TS = 1_042_329_600;
 
     /**
-     * @return array<string, mixed>
+     * @return ArrayObject<string, mixed>
      */
-    public static function getArray(?string $year = null, ?string $month = null, bool $weekstart = false): array
+    public static function getArray(?string $year = null, ?string $month = null, bool $weekstart = false): ArrayObject
     {
-        /** @var array<string, string> $calendar */
+        /** @var ArrayObject<string, mixed> $calendar */
         $calendar = new ArrayObject();
 
         // Parse date in
@@ -117,9 +117,9 @@ class Calendar
     }
 
     /**
-     * @param array<string, mixed> $calendar
+     * @param ArrayObject<string, mixed> $calendar
      */
-    public static function parseArray(array $calendar, bool $weekstart, bool $startonly, bool $rest = false): string
+    public static function parseArray(ArrayObject $calendar, bool $weekstart, bool $startonly, bool $rest = false): string
     {
         $eventHandler = new EventHandler();
 

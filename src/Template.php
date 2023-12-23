@@ -359,7 +359,7 @@ class Template
             $lastn = abs((int) $attr['lastn']) + 0;
         }
 
-        $p = 'if (!isset($_page_number)) { $_page_number = 1; }' . "\n";
+        $p = 'if (empty($_page_number)) { $_page_number = 1; }' . "\n";
 
         if ($lastn != 0) {
             if ($lastn > 0) {
@@ -726,7 +726,7 @@ class Template
         $f = App::frontend()->template()->getFilters($attr);
 
         return
-            "<?php \$time = time() + Date::getTimeOffset(App::frontend()->context()->posts->post_tz)*2;\n" .
+            "<?php \$time = time() + Dotclear\Helper\Date::getTimeOffset(App::frontend()->context()->posts->post_tz)*2;\n" .
             "if (App::frontend()->context()->posts->getEventTS('startdt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $scheduled . "'") . "; }\n" .
             "elseif (App::frontend()->context()->posts->getEventTS('startdt') < \$time && App::frontend()->context()->posts->getEventTS('enddt') > \$time) {\n" .
@@ -1032,7 +1032,7 @@ class Template
         $f = App::frontend()->template()->getFilters($attr);
 
         return
-            "<?php \$time = time() + Date::getTimeOffset(App::frontend()->context()->eventsofpost->post_tz)*2;\n" .
+            "<?php \$time = time() + Dotclear\Helper\Date::getTimeOffset(App::frontend()->context()->eventsofpost->post_tz)*2;\n" .
             "if (App::frontend()->context()->eventsofpost->getEventTS('startdt') > \$time) {\n" .
             " echo " . sprintf($f, "'" . $scheduled . "'") . "; }\n" .
             "elseif (App::frontend()->context()->eventsofpost->getEventTS('startdt') < \$time && App::frontend()->context()->eventsofpost->getEventTS('enddt') > \$time) {\n" .

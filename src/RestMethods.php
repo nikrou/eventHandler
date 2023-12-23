@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\App;
+use Dotclear\Helper\Date;
 use Exception;
 
 class RestMethods
@@ -51,5 +52,48 @@ class RestMethods
         }
 
         return ['message' => __('Event removed from post')];
+    }
+
+    /**
+     * @param array<string, mixed> $get
+     *
+     * @return  array<string, mixed>
+     */
+    public static function calendar(array $get): array
+    {
+        $current_ym = $get['curDate'] ?? '';
+        $direction = $get['reqDirection'] ?? 'prev';
+        $weekstart = isset($get['weekStart']) ? (bool) $get['weekStart'] : false;
+        $startonly = isset($get['startOnly']) ? (bool) $get['startOnly'] : true;
+
+        $table = '<p>' . __('An error occured') . '</p>';
+
+        if (!My::settings()->active) {
+            throw new Exception(__('Event is disabled on this blog'));
+        }
+
+        try {
+            $year = $cyear = (int) substr((string) $current_ym, 0, 4);
+            $month = $cmonth = (int) substr((string) $current_ym, 4, 2);
+
+            $prev = date('Y-m-01 00:00:00', mktime(0, 0, 0, $cmonth - 1, 1, $cyear));
+            $next = date('Y-m-01 00:00:00', mktime(0, 0, 0, $cmonth + 1, 1, $cyear));
+
+            if ($direction == 'prev') {
+                $year = Date::str('%Y', strtotime($prev));
+                $month = Date::str('%m', strtotime($prev));
+            } else {
+                $year = Date::str('%Y', strtotime($next));
+                $month = Date::str('%m', strtotime($next));
+            }
+
+            $calendar = Calendar::getArray($year, $month, $weekstart);
+
+            $table = Calendar::parseArray($calendar, $weekstart, $startonly, true);
+        } catch (Exception) {
+            throw new Exception(__('Failed to get calendar'));
+        }
+
+        return ['calendar' => $table];
     }
 }

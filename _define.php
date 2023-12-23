@@ -23,7 +23,7 @@ $this->registerModule(
     "EventHandler", // Name
     "Manage events on your blog", // Description
     "JC Denis, Nicolas Roudaire", // Author
-    '2023.12.22', // Version
+    '2023.12.23', // Version
     // Properties
     [
         'permissions' => App::auth()->makePermissions([Auth::PERMISSION_CONTENT_ADMIN, Auth::PERMISSION_USAGE]),

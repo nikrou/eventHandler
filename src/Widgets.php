@@ -28,7 +28,7 @@ class Widgets
 {
     public static function events(WidgetsStack $w): void
     {
-        $rs = App::blog()->getCategories(['post_type' => 'eventhandler']);
+        $rs = App::blog()->getCategories(['post_type' => EventHandler::POST_TYPE]);
         $combo_categories = ['&nbsp;' => '', __('Uncategorized') => 'null'];
         while ($rs->fetch()) {
             $combo_categories[str_repeat('&nbsp;&nbsp;', $rs->level - 1) . '&bull; ' .
@@ -85,7 +85,7 @@ class Widgets
 
     public static function eventsOfPost(WidgetsStack $w): void
     {
-        $rs = App::blog()->getCategories(['post_type' => 'eventhandler']);
+        $rs = App::blog()->getCategories(['post_type' => EventHandler::POST_TYPE]);
         $combo_categories = ['&nbsp;' => '', __('Uncategorized') => 'null'];
         while ($rs->fetch()) {
             $combo_categories[str_repeat('&nbsp;&nbsp;', $rs->level - 1) . '&bull; ' .

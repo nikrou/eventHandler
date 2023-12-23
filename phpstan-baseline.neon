@@ -1,7 +1,6 @@
 parameters:
   ignoreErrors:
     - '#Access to an undefined property Dotclear\\Core\\Backend\\Utility::\$[alpha]*.#'
-    - '#Access to an undefined property Dotclear\\Helper\\Html\\XmlTag::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Database\\Cursor::\$[alpha]*.#'
     - '#Access to an undefined property Dotclear\\Database\\MetaRecord::\$[alpha]*.#'
     - '#Call to an undefined method Dotclear\\Database\\MetaRecord::(getPeriod|isEditable|getURL)\(\)#'

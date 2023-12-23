@@ -80,7 +80,7 @@ class ActionsEvents extends ActionsPosts
 
     public function process()
     {
-        $this->from['post_type'] = 'eventhandler';
+        $this->from['post_type'] = EventHandler::POST_TYPE;
 
         return parent::process();
     }

@@ -197,7 +197,7 @@ class ManageEvent extends Process
             $post_open_tb = false;
 
             if ($change) {
-                $post_type = 'eventhandler';
+                $post_type = EventHandler::POST_TYPE;
                 $page_title = __('Change entry into event');
             } else {
                 $event_startdt = date('Y-m-d\TH:i', strtotime((string) $post->event_startdt));

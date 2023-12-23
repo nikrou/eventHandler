@@ -81,7 +81,7 @@ class Manage extends Process
         }
 
         $params = App::backend()->eventhandler_events_filter->params();
-        $params['post_type'] = 'eventhandler';
+        $params['post_type'] = EventHandler::POST_TYPE;
         $params['no_content'] = true;
         $params['limit'] = [
             ((App::backend()->eventhandler_events_filter_page - 1) * App::backend()->eventhandler_events_filter_nb_per_page),

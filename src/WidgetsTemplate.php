@@ -56,7 +56,7 @@ class WidgetsTemplate
         }
 
         $params['no_content'] = true;
-        $params['post_type'] = 'eventhandler';
+        $params['post_type'] = EventHandler::POST_TYPE;
 
         if ($w->selectedonly) {
             $params['post_selected'] = 1;
@@ -327,7 +327,7 @@ class WidgetsTemplate
         $res = ($w->content_only ? '' : '<div class="widget eventhandler-categories' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
             ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '');
         // Events categories
-        $rs = App::blog()->getCategories(['post_type' => 'eventhandler']);
+        $rs = App::blog()->getCategories(['post_type' => EventHandler::POST_TYPE]);
         if ($rs->isEmpty()) {
             return '';
         }
@@ -399,7 +399,7 @@ class WidgetsTemplate
         $params['order'] .= $w->sort == 'desc' ? 'desc' : 'asc';
         $params['limit'] = 10;
         $params['no_content'] = true;
-        $params['post_type'] = 'eventhandler';
+        $params['post_type'] = EventHandler::POST_TYPE;
         $params['sql'] .= "AND event_latitude != '' ";
         $params['sql'] .= "AND event_longitude != '' ";
 
@@ -481,14 +481,14 @@ class WidgetsTemplate
         }
 
         // Generic calendar Object
-        $calendar = Calendar::getArray($year, $month, $w->weekstart);
+        $calendar = Calendar::getArray($year, $month, $w->weekstart !== 'O');
 
         return
             // Display
             $res = ($w->content_only ? '' : '<div class="widget eventhandler-calendar' . ($w->class ? ' ' . Html::escapeHTML($w->class) : '') . '">') .
             ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
             // Events calendar
-            Calendar::parseArray($calendar, $w->weekstart, $w->startonly) .
+            Calendar::parseArray($calendar, $w->weekstart !== '0', $w->startonly !== '0') .
             (
                 $w->pagelink ?
              '<p><strong><a href="' .

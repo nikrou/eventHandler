@@ -46,7 +46,7 @@ class AdminBehaviors
             ]),
             'dashboard_cb' => function (ArrayObject $icon) {
                 $params = [];
-                $params['post_type'] = 'eventhandler';
+                $params['post_type'] = EventHandler::POST_TYPE;
                 $events_count = (int) App::blog()->getPosts($params, true)->f(0);
                 if ($events_count > 0) {
                     $icon['title'] = sprintf($events_count > 1 ? __('%d events') : __('one event'), $events_count);
