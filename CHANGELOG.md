@@ -1,3 +1,7 @@
+# plugin eventHandler 2023.12.25
+
+- Fix all days page ; event one. Close #53. Thanks to [end4urip](https://github.com/end4urip)
+
 # plugin eventHandler 2023.12.23
 
 - Fix all days page. Close #43.

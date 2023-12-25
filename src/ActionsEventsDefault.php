@@ -142,7 +142,7 @@ class ActionsEventsDefault
                         $numberOfEntries,
                         sprintf(
                             __('to the selected event', 'to the %d selected events', $events->count()),
-                            $$events->count()
+                            $events->count()
                         )
                     )
                 );

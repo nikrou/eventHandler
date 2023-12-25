@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\eventHandler;
 
 use Dotclear\Helper\Html\Html;
-use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Frontend\Url;
 use Dotclear\Database\MetaRecord;
@@ -46,8 +45,7 @@ class UrlHandler extends Url
 
             App::blog()->withoutPassword(false);
 
-            /** @var array<string, string> $params */
-            $params = new ArrayObject();
+            $params = [];
             $params['post_type'] = EventHandler::POST_TYPE;
             $params['post_url'] = $args;
 

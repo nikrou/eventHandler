@@ -749,7 +749,10 @@ class Template
         $map_type = !empty($attr['map_type']) ? '"' . Html::escapeHTML($attr['map_type']) . '"' : 'Dotclear\\Plugin\\eventHandler\\My::settings()->public_map_type';
         $map_info = isset($attr['map_info']) && $attr['map_info'] == '0' ? '0' : '1';
 
-        return '<?php echo Dotclear\\Plugin\\eventHandler\\EventHandler::getMapContent("","",' . $map_type . ',' . $map_zoom . ',' . $map_info . ',App::frontend()->context()->posts->event_latitude,App::frontend()->context()->posts->event_longitude,App::frontend()->context()->posts->getMapVEvent()); ?>';
+        return '<?php
+            echo Dotclear\\Plugin\\eventHandler\\EventHandler::getMapContent("","",' . $map_type . ',' . $map_zoom . ',' . $map_info . ',
+             (float) App::frontend()->context()->posts->event_latitude, (float) App::frontend()->context()->posts->event_longitude,App::frontend()->context()->posts->getMapVEvent()
+            ); ?>';
     }
 
     /**
