@@ -126,16 +126,17 @@ class UrlHandler extends Url
     // Multiple events page
     public static function eventList(string $args): void
     {
-        $n = self::getPageNumber($args);
+        if ($n = self::getPageNumber($args)) {
+            App::frontend()->setPageNumber($n);
+        } else {
+            App::frontend()->setPageNumber(1);
+        }
+
         $is_ical = self::isIcalDocument($args);
         $is_hcal = self::isHcalDocument($args);
         $is_gmap = self::isGmapDocument($args);
 
         App::frontend()->context()->event_params = self::getEventsParams($args);
-
-        if ($n) {
-            $GLOBALS['_page_number'] = $n;
-        }
 
         // If it is ical do all job here
         if ($is_hcal || $is_ical || $is_gmap) {
@@ -163,7 +164,7 @@ class UrlHandler extends Url
             } elseif ($is_gmap) {
                 self::serveGmapDocument($rs, $args);
             }
-        } else { // Else serve normal document
+        } else {
             self::serveDocument('eventhandler-list.html');
         }
     }

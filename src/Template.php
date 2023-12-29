@@ -359,7 +359,7 @@ class Template
             $lastn = abs((int) $attr['lastn']) + 0;
         }
 
-        $p = 'if (empty($_page_number)) { $_page_number = 1; }' . "\n";
+        $p = '';
 
         if ($lastn != 0) {
             if ($lastn > 0) {
@@ -369,9 +369,9 @@ class Template
             }
 
             if (!isset($attr['ignore_pagination']) || $attr['ignore_pagination'] == "0") {
-                $p .= "\$params['limit'] = array(((\$_page_number-1)*\$params['limit']),\$params['limit']);\n";
+                $p .= "\$params['limit'] = [((App::frontend()->getPageNumber()-1)*\$params['limit']),\$params['limit']];\n";
             } else {
-                $p .= "\$params['limit'] = array(0, \$params['limit']);\n";
+                $p .= "\$params['limit'] = [0, \$params['limit']];\n";
             }
         }
 
@@ -432,9 +432,8 @@ class Template
                 "\$params['search'] = \$_search; " .
                 "}\n";
 
-            $p .=
-                'if (App::frontend()->context()->exists("event_params")) { ' .
-                "\$params = array_merge(\$params,App::frontend()->context()->event_params); " .
+            $p .= 'if (App::frontend()->context()->exists("event_params")) { ' .
+                "\$params = array_merge(\$params, App::frontend()->context()->event_params); " .
                 "}\n";
         }
 
@@ -445,11 +444,13 @@ class Template
             if (My::settings()->public_events_list_sortby && str_contains((string) My::settings()->public_events_list_sortby, ':')) {
                 [$table, $field] = explode(':', (string) My::settings()->public_events_list_sortby);
             }
+
             if (My::settings()->public_events_list_order) {
                 $order = My::settings()->public_events_list_order;
+
+                $special_attr = new ArrayObject($special_attr = ['order' => $order, 'sortby' => $field]);
+                $p .= "\$params['order'] = '" . App::frontend()->template()->getSortByStr($special_attr, $table) . "';\n";
             }
-            $special_attr = new ArrayObject($special_attr = ['order' => $order, 'sortby' => $field]);
-            $p .= "\$params['order'] = '" . App::frontend()->template()->getSortByStr($special_attr, $table) . "';\n";
         }
 
         if (isset($attr['no_content']) && $attr['no_content']) {
@@ -468,7 +469,7 @@ class Template
         return
             "<?php\n" .
             'if(!isset($eventHandler)) { $eventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); } ' . "\n" .
-            '$params = array(); ' . "\n" .
+            '$params = []; ' . "\n" .
             $p .
             'App::frontend()->context()->post_params = $params; ' . "\n" .
             'App::frontend()->context()->posts = $eventHandler->getEvents($params); unset($params); ' . "\n" .
@@ -486,7 +487,7 @@ class Template
         $p =
             "<?php\n" .
             'if(!isset($eventHandler)) { $eventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); } ' . "\n" .
-            '$params = App::frontend()->context()->post_params; ' . "\n" .
+            '$params = App::frontend()->context()->post_params;' . "\n" .
             'App::frontend()->context()->pagination = $eventHandler->getEvents($params,true); unset($params); ' . "\n" .
             "?>\n";
 
@@ -818,7 +819,7 @@ class Template
         return
             "<?php\n" .
             'if(!isset($eventHandler)) { $eventHandler = new Dotclear\\Plugin\\eventHandler\\EventHandler(); } ' . "\n" .
-            '$params = array(); ' . "\n" .
+            '$params = []; ' . "\n" .
             '$public_hidden_categories = @unserialize(Dotclear\\Plugin\\eventHandler\\My::settings()->public_hidden_categories); ' .
             'if (is_array($public_hidden_categories)) { ' .
             ' foreach($public_hidden_categories as $hidden_cat) { ' .

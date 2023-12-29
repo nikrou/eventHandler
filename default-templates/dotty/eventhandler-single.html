@@ -55,8 +55,8 @@
 
     <div class="post-content">{{tpl:EntryContent}}</div>
 
-    {{tpl:EventsEntryMap map_info="0"}}
     <tpl:EventsEntryIf has_geo="1">
+      {{tpl:EventsEntryMap map_info="0"}}
       <ul class="event-info"><li class="event-geo">{{tpl:lang Latitude:}} {{tpl:EventsEntryLatitude}}, {{tpl:lang Longitude:}} {{tpl:EventsEntryLongitude}}</li></ul>
     </tpl:EventsEntryIf>
 

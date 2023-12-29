@@ -1,3 +1,8 @@
+# plugin eventHandler 2023.12.29
+
+- Fix pagination in events list. Thanks to [end4urip](https://github.com/end4urip) for report.
+- Map must be displayed only when gps coordinates are available.
+
 # plugin eventHandler 2023.12.25
 
 - Fix all days page ; event one. Close #53. Thanks to [end4urip](https://github.com/end4urip)

@@ -438,7 +438,7 @@ class WidgetsTemplate
                 $w->map_width,
                 $w->map_height,
                 $w->map_type,
-                $w->map_zoom,
+                (int) $w->map_zoom,
                 ((int) $w->map_info),
                 $lat,
                 $lng,
